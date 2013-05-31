@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <dc_charge_extension translate="label" module="dccharge">
+            <label>Charge Import Duty &amp; Taxes</label>
+            <tab>dutycalculator</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>902</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <dccharge translate="label" module="dccharge">
+                    <label>Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+						<api_key translate="label">
+							<label>API Key</label>
+							<comment><![CDATA[If you do not have a DutyCalculator account, sign up <a href="http://www.dutycalculator.com/compare-plans/" target="_blank">here</a> for your API account.]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</api_key>
+                        <allow-specific-countries translate="label">
+                            <label>Destination countries</label>
+                            <config_path>dc_charge_extension/dccharge/allow-specific-countries</config_path>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+							<comment><![CDATA[<a href="http://www.dutycalculator.com/help_center/what-countries-are-covered-by-the-dutycalculator/" target="_blank">View available countries</a>]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allow-specific-countries>
+                        <specific-countries translate="label">
+                            <label></label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <comment>Please select destination countries for which to show the plug in</comment>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><allow-specific-countries>1</allow-specific-countries></depends>
+                        </specific-countries>
+						<allow-specific-shipping-methods translate="label">
+							<label>Available Shipping Methods</label>
+							<config_path>dc_charge_extension/dccharge/allow-specific-shipping-methods</config_path>
+							<source_model>dccharge/system_config_source_allowspecificshippings</source_model>
+							<frontend_type>select</frontend_type>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</allow-specific-shipping-methods>
+						<specific-shipping-methods translate="label">
+							<label></label>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>dccharge/system_config_source_shippingmethods</source_model>
+							<comment>Please select shipping methods for which to estimate taxes</comment>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><allow-specific-shipping-methods>1</allow-specific-shipping-methods></depends>
+						</specific-shipping-methods>
+						<delivery-type translate="label">
+							<label>Delivery Type</label>
+							<config_path>dc_charge_extension/dccharge/delivery-type</config_path>
+							<source_model>dccharge/system_config_source_deliverytype</source_model>
+							<comment>Please select desired delivery type</comment>
+							<frontend_type>select</frontend_type>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</delivery-type>
+						<weight-unit translate="label">
+							<label>Weight Unit</label>
+							<config_path>dc_charge_extension/dccharge/weight-unit</config_path>
+							<source_model>dccharge/system_config_source_weightunits</source_model>
+							<frontend_type>select</frontend_type>
+							<sort_order>65</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</weight-unit>
+						<allow-override-products-weight translate="label">
+							<label>Override products weight</label>
+							<config_path>dc_charge_extension/dccharge/allow-override-products-weight</config_path>
+							<source_model>dccharge/system_config_source_overrideweights</source_model>
+							<comment>Please select "Override products weight" to use the same weight value for all products</comment>
+							<frontend_type>select</frontend_type>
+							<sort_order>66</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</allow-override-products-weight>
+						<overridden-products-weight translate="label">
+							<label>Weight to be overridden</label>
+							<comment>Please note that weight unit is configured above</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>67</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><allow-override-products-weight>1</allow-override-products-weight></depends>
+						</overridden-products-weight>
+						<additional-attributes-for-rapid-classification translate="label">
+							<label>Additional product attributes for rapid classification tool</label>
+							<config_path>dc_charge_extension/dccharge/additional-attributes-for-rapid-classification</config_path>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>dccharge/system_config_source_attributes_classification</source_model>
+							<comment>It will be included into export file for rapid classification tool.</comment>
+							<sort_order>68</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</additional-attributes-for-rapid-classification>
+						<create-documents>
+							<label>Documents</label>
+							<source_model>dccharge/system_config_source_documents</source_model>
+							<frontend_type>select</frontend_type>
+							<sort_order>70</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</create-documents>
+						<additional-attributes-for-documents translate="label">
+							<label>Additional product attributes for commercial invoice</label>
+							<config_path>dc_charge_extension/dccharge/additional-attributes-for-documents</config_path>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>dccharge/system_config_source_attributes_documents</source_model>
+							<comment>It will be printed on commercial invoice document.</comment>
+							<sort_order>71</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><create-documents>1</create-documents></depends>
+						</additional-attributes-for-documents>
+						<seller-first-name translate="label">
+							<label>Seller First Name</label>
+							<frontend_type>text</frontend_type>
+							<comment>It will be printed on commercial invoice and packing list documents.</comment>
+							<sort_order>80</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><create-documents>1</create-documents></depends>
+						</seller-first-name>
+						<seller-last-name translate="label">
+							<label>Seller Last Name</label>
+							<frontend_type>text</frontend_type>
+							<comment>It will be printed on commercial invoice and packing list documents.</comment>
+							<sort_order>90</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><create-documents>1</create-documents></depends>
+						</seller-last-name>
+						<seller-country translate="label">
+							<label>Seller Country</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_country</source_model>
+							<comment>It will be printed on commercial invoice and packing list documents.</comment>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><create-documents>1</create-documents></depends>
+						</seller-country>
+						<seller-address-line translate="label">
+							<label>Seller Street</label>
+							<frontend_type>text</frontend_type>
+							<comment>It will be printed on commercial invoice and packing list documents.</comment>
+							<sort_order>110</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><create-documents>1</create-documents></depends>
+						</seller-address-line>
+						<seller-city translate="label">
+							<label>Seller City</label>
+							<frontend_type>text</frontend_type>
+							<comment>It will be printed on commercial invoice and packing list documents.</comment>
+							<sort_order>120</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><create-documents>1</create-documents></depends>
+						</seller-city>
+						<seller-postcode translate="label">
+							<label>Seller Postcode</label>
+							<frontend_type>text</frontend_type>
+							<comment>It will be printed on commercial invoice and packing list documents.</comment>
+							<sort_order>130</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><create-documents>1</create-documents></depends>
+						</seller-postcode>
+						<seller-phone translate="label">
+							<label>Seller Telephone</label>
+							<frontend_type>text</frontend_type>
+							<comment>It will be printed on commercial invoice and packing list documents.</comment>
+							<sort_order>140</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><create-documents>1</create-documents></depends>
+						</seller-phone>
+                    </fields>
+                </dccharge>
+            </groups>
+        </dc_charge_extension>
+    </sections>
+</config>

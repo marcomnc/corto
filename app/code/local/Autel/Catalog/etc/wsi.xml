@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:typens="urn:{{var wsdl.name}}"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             name="{{var wsdl.name}}"
+             targetNamespace="urn:{{var wsdl.name}}">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:{{var wsdl.name}}">
+<!-- Definizione della struttura degli Array/object 
+            <xsd:complexType name="storeEntity">                
+                <xsd:sequence>
+                    <xsd:element name="store_id" type="xsd:int" />
+                    <xsd:element name="code" type="xsd:string" />
+                    <xsd:element name="website_id" type="xsd:int" />
+                    <xsd:element name="group_id" type="xsd:int" />
+                    <xsd:element name="name" type="xsd:string" />
+                    <xsd:element name="sort_order" type="xsd:int" />
+                    <xsd:element name="is_active" type="xsd:int" />
+                </xsd:sequence>
+            </xsd:complexType> -->
+<!-- Definizione degli Elementi   Complessi         
+            <xsd:element name="storeListRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>-->     
+            <xsd:complexType name="FTPParams">                
+                <xsd:sequence>
+                    <xsd:element name="user" type="xsd:string" />
+                    <xsd:element name="password" type="xsd:string" />
+                    <xsd:element name="server" type="xsd:string" />
+                    <xsd:element name="port" type="xsd:string" />
+                    <xsd:element name="protocol" type="xsd:string" />
+                    <xsd:element name="folder" type="xsd:string" />
+                    <xsd:element name="sshkey" type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>            
+            <xsd:complexType name="AttributeListFilter">
+                <xsd:sequence>
+                    <xsd:element name="attribute_code" type="xsd:string" />
+                    <xsd:element name="filter_value" type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="AttributeListFilterArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:AttributeListFilter" />
+                </xsd:sequence>
+            </xsd:complexType>
+<!-- Nella dichiarazione i name specificati nell'element della sequence deve essere sempre uguale al 
+     parametro dichiarato nella funzine API. 
+     Va sempre dichiarato, in input, come primo parametro il sessionID-->
+            <xsd:element name="getattributeIdRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>                        
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="attributeCode" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="getattributeIdResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>            
+            <xsd:element name="addOptionIdRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="attributeId" type="xsd:int" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="optionValue" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="addOptionIdResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                        
+            <xsd:element name="addOptionValueRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="attributeId" type="xsd:int" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="optionValue" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="valueTranslation" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="storeId" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="addOptionValueResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                        
+            <xsd:element name="addOptionJSONRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="attributeName" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="storeId" type="xsd:int" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="optionJSON" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="addOptionJSONResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                    
+            <xsd:element name="getOptionJSONRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="attributeName" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="storeId" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="getOptionJSONResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                    
+            <xsd:element name="TestRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="input" type="xsd:string" />                        
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="TestResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="productImportRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="input" type="xsd:string" />                        
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="productImportResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                                            
+            <xsd:element name="GetCardinalityRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="id" type="xsd:string" />                        
+                        <xsd:element minOccurs="1" maxOccurs="1" name="byType" type="xsd:string" />                        
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="GetCardinalityResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                                            
+            <xsd:element name="GetFTPParamsRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="GetFTPParamsResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:FTPParams" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                                                        
+            <xsd:element name="ProcessMediaRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="ProcessMediaResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="UploadImageRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="fileName" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="base64" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="UploadImageResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ListJSONRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="setid" type="xsd:int" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="filter" type="typens:AttributeListFilterArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="ListJSONResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                                                        
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="catalogProductAttributeGetattributeIdRequest">
+        <wsdl:part name="parameters" element="typens:getattributeIdRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeGetattributeIdResponse">
+        <wsdl:part name="parameters" element="typens:getattributeIdResponseParam" />
+    </wsdl:message>    
+    <wsdl:message name="catalogProductAttributeAddOptionRequest">
+        <wsdl:part name="parameters" element="typens:addOptionIdRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeAddOptionResponse">
+        <wsdl:part name="parameters" element="typens:addOptionIdResponseParam" />
+    </wsdl:message>    
+    <wsdl:message name="catalogProductAttributeAddOptionValueRequest">
+        <wsdl:part name="parameters" element="typens:addOptionValueRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeAddOptionValueResponse">
+        <wsdl:part name="parameters" element="typens:addOptionValueResponseParam" />
+    </wsdl:message>    
+    <wsdl:message name="catalogProductAttributeAddOptionJSONRequest">
+        <wsdl:part name="parameters" element="typens:addOptionJSONRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeAddOptionJSONResponse">
+        <wsdl:part name="parameters" element="typens:addOptionJSONResponseParam" />
+    </wsdl:message>    
+    <wsdl:message name="catalogProductAttributeGetOptionJSONRequest">
+        <wsdl:part name="parameters" element="typens:getOptionJSONRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeGetOptionJSONResponse">
+        <wsdl:part name="parameters" element="typens:getOptionJSONResponseParam" />
+    </wsdl:message>    
+    <wsdl:message name="catalogProductTestRequest">
+        <wsdl:part name="parameters" element="typens:TestRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductTestResponse">
+        <wsdl:part name="parameters" element="typens:TestResponseParam" />
+    </wsdl:message>    
+    <wsdl:message name="catalogProductImportRequest">
+        <wsdl:part name="parameters" element="typens:productImportRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductImportResponse">
+        <wsdl:part name="parameters" element="typens:productImportResponseParam" />
+    </wsdl:message>        
+    <wsdl:message name="catalogProductAttributeSetGetCardinalityRequest">
+        <wsdl:part name="parameters" element="typens:GetCardinalityRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeSetGetCardinalityResponse">
+        <wsdl:part name="parameters" element="typens:GetCardinalityResponseParam" />
+    </wsdl:message>        
+    <wsdl:message name="catalogProductMediaGetFTPParamsRequest">
+        <wsdl:part name="parameters" element="typens:GetFTPParamsRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductMediaGetFTPParamsResponse">
+        <wsdl:part name="parameters" element="typens:GetFTPParamsResponseParam" />
+    </wsdl:message>            
+    <wsdl:message name="catalogProductMediaProcessMediaRequest">
+        <wsdl:part name="parameters" element="typens:ProcessMediaRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductMediaProcessMediaResponse">
+        <wsdl:part name="parameters" element="typens:ProcessMediaResponseParam" />
+    </wsdl:message>   
+    <wsdl:message name="catalogProductMediaUploadImageRequest">
+        <wsdl:part name="parameters" element="typens:UploadImageRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductMediaUploadImageResponse">
+        <wsdl:part name="parameters" element="typens:UploadImageResponseParam" />
+    </wsdl:message>   
+    <wsdl:message name="catalogProductAttributeListJSONRequest">
+        <wsdl:part name="parameters" element="typens:ListJSONRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeListJSONResponse">
+        <wsdl:part name="parameters" element="typens:ListJSONResponseParam" />
+    </wsdl:message>
+<!-- Message. E' il metodo evedenziato in request e reponse con il pametro     
+    <wsdl:message name="storeListRequest">
+        <wsdl:part name="parameters" element="typens:storeListRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="storeListResponse">
+        <wsdl:part name="parameters" element="typens:storeListResponseParam" />
+    </wsdl:message>-->
+    <wsdl:portType name="{{var wsdl.handler}}PortType">
+<!-- Definizione dl metodo con descrizione ed i message utilizzati in input ed autput
+        <wsdl:operation name="storeList">
+            <wsdl:documentation>List of stores</wsdl:documentation>
+            <wsdl:input message="typens:storeListRequest" />
+            <wsdl:output message="typens:storeListResponse" />
+        </wsdl:operation>-->
+        <wsdl:operation name="catalogProductAttributeGetattributeId">
+            <wsdl:documentation>Attribute ID</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeGetattributeIdRequest" />
+            <wsdl:output message="typens:catalogProductAttributeGetattributeIdResponse" />
+        </wsdl:operation>        
+        <wsdl:operation name="catalogProductAttributeAddOption">
+            <wsdl:documentation>Attribute ID</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeAddOptionRequest" />
+            <wsdl:output message="typens:catalogProductAttributeAddOptionResponse" />
+        </wsdl:operation>                
+        <wsdl:operation name="catalogProductAttributeAddOptionValue">
+            <wsdl:documentation>Attribute ID</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeAddOptionValueRequest" />
+            <wsdl:output message="typens:catalogProductAttributeAddOptionValueResponse" />
+        </wsdl:operation>                        
+        <wsdl:operation name="catalogProductAttributeAddOptionJSON">
+            <wsdl:documentation>Attribute ID</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeAddOptionJSONRequest" />
+            <wsdl:output message="typens:catalogProductAttributeAddOptionJSONResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeGetOptionJSON">
+            <wsdl:documentation>Attribute ID</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeGetOptionJSONRequest" />
+            <wsdl:output message="typens:catalogProductAttributeGetOptionJSONResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductTestProduct">
+            <wsdl:documentation>Attribute ID</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductTestRequest" />
+            <wsdl:output message="typens:catalogProductTestResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductImportProduct">
+            <wsdl:documentation>Importazione massiva articoli (Riferimento MageConnector.dll)</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductImportRequest" />
+            <wsdl:output message="typens:catalogProductImportResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeSetGetCardinality">
+            <wsdl:documentation>AUTEL Recupero le cardinalità</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeSetGetCardinalityRequest" />
+            <wsdl:output message="typens:catalogProductAttributeSetGetCardinalityResponse" />
+        </wsdl:operation>                
+        <wsdl:operation name="catalogProductMediaGetFTPParams">
+            <wsdl:documentation>AUTEL Recupero le credenziali per l'accesso FTP</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductMediaGetFTPParamsRequest" />
+            <wsdl:output message="typens:catalogProductMediaGetFTPParamsResponse" />
+        </wsdl:operation>                
+        <wsdl:operation name="catalogProductMediaProcessMedia">
+            <wsdl:documentation>AUTEL Elaboro le immagini caricate in FTP</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductMediaProcessMediaRequest" />
+            <wsdl:output message="typens:catalogProductMediaProcessMediaResponse" />
+        </wsdl:operation>                
+        <wsdl:operation name="catalogProductMediaUploadImage">
+            <wsdl:documentation>AUTEL Elaboro le immagini caricate in FTP</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductMediaUploadImageRequest" />
+            <wsdl:output message="typens:catalogProductMediaUploadImageResponse" />
+        </wsdl:operation>                
+        <wsdl:operation name="catalogProductAttributeListJSON">
+            <wsdl:documentation>AUTEL Recupero la lista degli attributi in formato JSON</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeListJSONRequest" />
+            <wsdl:output message="typens:catalogProductAttributeListJSONResponse" />
+        </wsdl:operation>                
+    </wsdl:portType>
+    <wsdl:binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+<!--    Binding da fare
+        <wsdl:operation name="storeList">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>-->
+        <wsdl:operation name="catalogProductAttributeGetattributeId">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeAddOption">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeAddOptionValue">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>        
+        <wsdl:operation name="catalogProductAttributeAddOptionJSON">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>  
+        <wsdl:operation name="catalogProductAttributeGetOptionJSON">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>  
+        <wsdl:operation name="catalogProductImportProduct">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>  
+        <wsdl:operation name="catalogProductTestProduct">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>  
+        <wsdl:operation name="catalogProductAttributeSetGetCardinality">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductMediaGetFTPParams">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>        
+        <wsdl:operation name="catalogProductMediaProcessMedia">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>        
+        <wsdl:operation name="catalogProductMediaUploadImage">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>        
+        <wsdl:operation name="catalogProductAttributeListJSON">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>  
+    </wsdl:binding>
+    <wsdl:service name="{{var wsdl.name}}Service">
+        <wsdl:port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+            <soap:address location="{{var wsdl.url}}" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

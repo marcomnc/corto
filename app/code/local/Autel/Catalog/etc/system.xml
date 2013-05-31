@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Nella sezione conatti -->
+<config>
+    <tabs>
+        <autelsettings>
+            <label>Autel Advanced Settings</label>
+            <sort_order>999</sort_order>
+        </autelsettings>         
+    </tabs>      
+    <sections>
+        <autelconnector>
+            <label>Autel Connector</label>
+            <tab>autelsettings</tab>
+            <sort_order>999</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <global translate="label">
+                <label>Connector settings Definition</label>
+                <!--<help_url><![CDATA[help url]]></help_url>-->
+                <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                <frontend_type>text</frontend_type>
+                <sort_order>1</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+            </global>
+            <groups>
+                <connector translate="label">
+                    <label>Connector - General Settings</label>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>                   
+                        <debug_enable translate="label">
+                            <label>Debug Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_Yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug_enable>
+                    </fields>                    
+                </connector>
+            </groups>            
+            <groups>
+                <connector_product translate="label">
+                    <label>Connector - Product Settings</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>                   
+                        <default_taxclass translate="label">
+                            <label>Default Tax Class</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_shipping_taxclass</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </default_taxclass>
+                        <default_attributesetid translate="label">
+                            <label>Default Attribute Set</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>autelcatalog/adminhtml_system_config_source_catalog_attributeset</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Viene assegnato automaticamente quando l'articolo è creato</comment>
+                        </default_attributesetid>                        
+                        <attribute_all_update translate="label">
+                            <label>Attributi sempre aggiornati</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>autelcatalog/adminhtml_system_config_source_catalog_attribute</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Gli attributi selezionati vengono aggiornati sempre</comment>
+                        </attribute_all_update>                        
+                        <attribute_force_update translate="label">
+                            <label>Attributi aggiornati solo se forzati</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>autelcatalog/adminhtml_system_config_source_catalog_attribute</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Questi attributi selezionati vengono aggiornati sempre</comment>
+                        </attribute_force_update>
+                        <size_separator translate="label">
+                            <label>Carattere di separazione tra Sku e Size</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Dovrebbe essere utilizzato anche nel client</comment>
+                        </size_separator>
+                    </fields>                    
+                </connector_product>
+            </groups>
+            <groups>
+                <connector_product_media translate="label">
+                    <label>Connector - Product Media Settings </label>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>                   
+                        <media_user translate="label">
+                            <label>FTP User Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </media_user>
+                        <media_password translate="label">
+                            <label>FTP User Password</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </media_password>
+                        <media_server translate="label">
+                            <label>FTP Server Address</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </media_server>
+                        <media_port translate="label">
+                            <label>FTP Server Port</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </media_port>
+                        <media_protocol translate="label">
+                            <label>FTP Server Protocol</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>autelcatalog/adminhtml_system_config_source_catalog_FTPProtocol</source_model>                            
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </media_protocol>     
+                        <media_sshkey translate="label">
+                            <label>SSH Security Key</label>
+                            <frontend_type>text</frontend_type>                            
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Only for SFTP</comment>
+                        </media_sshkey>                             
+                        <media_folder>
+                            <label>Upload Dir</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Ex. /media/import</comment>
+                        </media_folder>
+                        <media_replacement>
+                            <label>Replace Character in Image file name </label>
+                            <frontend_model>autelcatalog/adminhtml_product_replacemediachar</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>                            
+                        </media_replacement>
+                        <media_separator translate="label">
+                            <label>Character separator in Image file name </label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>quello che si trova prima di questo carattere viene manipolato ed utilizzato per cercare lo sku dell'articolo.
+                                Quello che si trova dopo viene convertito in numerico per l'ordinamento dell'immagine nella gallery
+                            </comment>
+                        </media_separator>
+                        <image_type_selector>
+                            <label>Image Type Selector</label>
+                            <frontend_model>autelcatalog/adminhtml_product_media_imagetypeselector</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>                            
+                            <comment>Regola per individuare il tipo di immagine (il progressivo e il numero ricavato dalla regola precedente 0 viene considerata solo l'estensione).
+                                Se sull'estensione metto * viene considerato solo il progressivo. i tipi di immagine che posso specificare sono:
+                                SMALL (Small image per il catalogo), BIG (big immage per il dettaglio), THUMB (tutte le altre di default) 
+                            </comment>                            
+                        </image_type_selector>
+                        <exclude_big_gallery>
+                            <label>Esclude Big imgae from gallery</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_Yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>                            
+                            <comment>Indica se l'immagine Principale deve essere inclusa nella galleria</comment>                            
+                        </exclude_big_gallery>
+                    </fields>
+                </connector_product_media>
+            </groups>
+        </autelconnector>                
+    </sections>
+</config>

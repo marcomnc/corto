@@ -1,0 +1,361 @@
+<?php
+
+/**
+ * Catalog product attribute set api V2
+ *
+ * @category   Autel
+ * @package    Autel_Catalog
+ * @author     Marco Mancinelli
+ */
+
+class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_V2 
+{
+ 
+    protected $_dbRead;
+    protected $_dbWrite;
+
+    protected $_attributeRow = array();    
+    protected $_cardinality = array();
+    
+    protected $_allUpdate = Array();
+    protected $_forceUpdate = Array();
+       
+    protected $_hlp;
+    protected $_catHlp;
+    protected $_action;
+
+
+
+    public function __construct() {
+        $this->_dbRead = Mage::getSingleton('core/resource')->getConnection('core_read');
+        $this->_dbWrite = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $this->_allUpdate = explode(",", Mage::getStoreConfig('autelconnector/connector_product/attribute_all_update', 0)); 
+        $this->_forceUpdate = explode(",", Mage::getStoreConfig('autelconnector/connector_product/attribute_force_update', 0)); 
+        $this->_hlp = Mage::helper("autelcatalog/product");
+        $this->_catHlp = Mage::helper("autelcatalog/product_category");
+        $this->_action = Mage::getModel('catalog/product_action');
+    }
+
+    public function test($input){
+        return 0;
+    }
+    
+
+    /**
+     * Importazione prodotti. 
+     * API che si occupa dell'importazione dei prodotti. L'API accetta in input una Lista di oggetti
+     * serializzato dalla Libreria MageService (.NET).
+     * I prodotti vengono creati o aggiornati (se previsto dal falg force full update). In ogni 
+     * caso viene sempre aggiornata la giacenza di magazzino. Se vengono passati i rifermenti necessari 
+     * alla creazione/associazione dei prodtti configurabili gli stessi vengono creati.
+     * 
+     * L'attributeset viene passato come ID. Esiste una API per recuperare la lista degli attribute set
+     * e degli attributi associati
+     * 
+     * Gli attributi vegnono passati come una lista Key/Value dove su Key c'è l'attribute_code, mentre su
+     * value la label dell'attributo legata allo store o allo store di default
+     * 
+     * @todo per le categorie adesso viene passate come ID, sarebbe da fare in modo che sia possibile passare 
+     * la descrizione (mettendo magari nel default store il codice del gestionale
+     * 
+     * @todo implementare la possibiltà di creare l'opzione dell'attributo se non esiste
+     * 
+     * @todo implementare un ritorno (JSON) con eventuali errori rilevati
+     * 
+     * @param JSON $input Stringa JSON con l'oggetto prodotto serializato
+     * @return type 
+     */
+    public function import($input) {
+//        $this->_hlp->debug($input);
+        $this->_hlp->debug(json_decode($input));
+
+        $productList = json_decode($input);
+        $linkArray = array();
+        $cardArray = array();
+        $this->_hlp->debug("Inizio Creazione Prodotti");
+        
+        //Memorizzo  la modalità degli indici
+        $_oriProcessor = array();
+        foreach (Mage::getSingleton('index/indexer')->getProcessesCollection() as $pProcess) {
+            $_oriProcessor[$pProcess->getId()] = $pProcess->getMode();
+            $pProcess->setMode(Mage_Index_Model_Process::MODE_MANUAL)->save();
+        }       
+        //Creo i prodotti        
+        foreach ($productList as &$product) {
+            if ($this->_isDataComplete($product)===true) {                
+                $id = $this->_createProduct($product);
+                if (is_numeric($id)) {
+                    $product->Id == $id;
+                    if ($product->SkuConfigurable."" != "") {                    
+                        $linkArray[$product->SkuConfigurable][] = array('sku' => $product->Sku,
+                                                                        'id'  => $id);
+                    }
+                    //La cardinalità la trovo solo su prodotti configurabili
+                    if (isset($product->Cardinality) && $product->Type=='configurable') {
+                        foreach ($product->Cardinality as $cardinal) {
+                            $cardArray[$product->Sku][] = array("attributeCode" => $cardinal->Code);
+                        }
+                    }
+                } else $product->Error = $id;
+            } else {
+                $product->Error = $this->_isDataComplete($product);
+            }
+        }
+        
+        $this->_hlp->debug("Fine Creazione Prodotti");
+        $this->_hlp->debug("Inizio Associazione Prodotti");       
+        $this->_linkProduct($linkArray, $cardArray);
+        $this->_hlp->debug("Fine Associazione Prodotti");
+        $this->_hlp->debug("Ricostruzione Indici");
+        foreach ($_oriProcessor as $k=>$v) {
+            $pProcess = Mage::getModel('index/process')->Load($k);            
+            $pProcess->setMode($v)->save();
+            $this->_hlp->debug("Ricalcolo " . $pProcess->getIndexerCode());
+            $pProcess->reindexAll();
+        }
+        $this->_hlp->debug("Fine Ricostruzione Indici");
+        
+        return 0;
+    }    
+    
+    /**
+     * Controlla se i dati che provengono dal client sono sufficienti per creare il prodotto
+     * @param object $prod Prodotto che arriva dal client
+     * @return boolean true i dati sono corretti/false i dati non sono corretti
+     */
+    protected function _isDataComplete($prod) {
+        $ret = true;
+        if (is_null($prod->Sku)) {
+            $this->_hlp->debug("Warning - Controllo prodotti: Sku non assegnato");
+        }
+                
+        if ( is_null($prod->Type) || ($prod->Type !='simple' && $prod->Type!== 'configurable')) {              
+            $this->_hlp->debug("Warning - Controllo prodotti: Tipo prodotto (".$prod->Type.") per ".$prod->Sku ."non valido" );
+        }
+        if (is_null($prod->AttributeSetId)) {
+                $ret = "Verfica Prodotto: Set Attributi non Assegnato";
+                $this->_hlp->debug("Error - $ret"); 
+        }
+        return $ret;
+    }
+    
+    /**
+     * Creazione del prodotto che proviene dal client
+     * @param object $prod Prodotto che arriva dal client
+     * @return int Id del prodotto creato/modificato. Se si verifica un errore ritorna l'errore
+     */
+    protected function _createProduct($prod) {
+        
+        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+        
+        //Leggo i prodotti per store
+        $myProduct = $this->_hlp->getProduct4Store($prod->Sku);        
+        
+        $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku);
+        
+        $myProduct[0]->setTypeId($prod->Type);
+        if ($prod->Type == 'simple' && !is_null($prod->SkuConfigurable) && $prod->SkuConfigurable != "")
+            $myProduct[0]->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+        else 
+            $myProduct[0]->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH); 
+
+        $myProduct[0]->setSku($prod->Sku);            
+        $myProduct[0]->setAttributeSetId($prod->AttributeSetId);
+        
+        foreach ($prod->Attribute as $attribute) {
+                        
+//            $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno Attributo " . $attribute->AttributeCode );
+            if ($myProduct[-1] == "insert" || $prod->ForceUpdateAll == 2 ||
+               ($prod->ForceUpdateAll == 1 && array_search($attribute->AttributeCode, $this->_forceUpdate) === false) ||
+               (array_search($attribute->AttributeCode, $this->_allUpdate)) !== false){
+                
+                $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno Attributo " . $attribute->AttributeCode );
+                $attrValue = null;
+
+                $actRow = $this->_getAttributeRow($attribute->AttributeCode);
+                if ($actRow->getIsUserDefined() && 
+                   ($actRow->getFrontendInput() == "select" || $actRow->getFrontendInput() == "multiselect" )) {
+                    //Cerco il valore tra le opzione 
+                     foreach (explode(",", $attribute->AttributeValue) as $_attVal) {
+                         $_attrValue = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                                        ->setStoreFilter($attribute->StoreId)
+                                        ->setAttributeFilter($actRow->getId())
+                                        ->addFieldToFilter(' tdv.value ', $_attVal) 
+                                        ->getFIrstItem()->getId();
+                         if (is_null($_attrValue) || $_attrValue == 0) {
+                             //Creo l'attributo per lo store
+                         }
+                         if (!is_null($attrValue))
+                             $attrValue.=",";
+                         $attrValue.=$_attrValue;
+                     }
+                } else {
+                    $attrValue = $attribute->AttributeValue;
+                }  
+                
+                $myProduct[$attribute->StoreId]->setData($attribute->AttributeCode,$attrValue);
+                if (!$myProduct[0]->hasData($attribute->AttributeCode)) {
+                    //Lo store di default non ha impostato l'attributo. l'aggiorno
+                    $myProduct[0]->setData($attribute->AttributeCode,$attrValue);
+                }
+            }
+        }
+
+        $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno WebSite "); 
+        if ($myProduct[-1] == "insert" || $prod->ForceUpdateAll >= 1 || $prod->ForceWebSites) {
+            $myProduct[0]->setWebsiteIDs($this->_hlp->getWebSite($prod->WebSite));
+        }
+        $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno Category ");
+        //$this->_catHlp = Mage::Helper("autelcatalog/product_category");
+        foreach ($this->_catHlp->getCategory($prod->Category) as $k=>$v) {                
+            $myProduct[$k]->setCategoryIds($v);
+        }
+
+        $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno Stock ");
+        //Aggiorno a priori la quantità
+        foreach ($prod->Stock as $stock) {
+
+            if ($prod->Type == 'simple') {
+                /**
+                 * @todo c'è cmq da verificare correttamente la gestione dell'out of stock
+                 */
+                $myProduct[$stock->StoreId]->setStockData(array(
+                    'is_in_stock' => is_null($stock->OutOfStock || $stock->OutOfStock == 1)?0:1,
+                    'qty' => is_null($stock->Qty)?0:$stock->Qty,
+                    'manage_stock' => 0,
+//                    '' => is_null($stock->QtyMin)?0:$stock->QtyMin,
+//                    '' => is_null($stock->QtyMinSales)?0:$stock->QtyMinSales,
+//                    '' => is_null($stock->QtyMaxSales)?0:$stock->QtyMaxSales,
+                    ));
+
+            } else {
+                $myProduct[$stock->StoreId]->setStockData(array(
+                        'is_in_stock' => is_null($stock->OutOfStock || $stock->OutOfStock == 1)?0:1,
+                        'manage_stock' => 0));
+            }
+        }
+        try {                        
+            $myProduct[0]->setTaxClassId($this->_getTax($myProduct[0]->getTaxClassId()));            
+            
+            $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". tentativo di Salvataggio Store 0 ");
+            $myProduct[0]->Save();            
+            //Salvo solo per gli store previsti dai Web Site         
+            foreach ($this->_hlp->getStoreByWebSite($prod->WebSite) as $store) {
+                $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". tentativo di Salvataggio Store " . $store->getId());
+                
+                foreach ($prod->Attribute as $attr) {
+                    if ($attr->StoreId == 0) {
+                        $myProduct[$store->getId()]->setData($attr->AttributeCode, false);                      
+                    }
+                }
+                
+                
+                //$myProduct[$store->getId()]->setTaxClassId($this->_getTax($myProduct[$store->getId()]->getTaxClassId()));
+                $myProduct[$store->getId()]->Save();
+                //Aggiorno l'associazione con il website
+                //$this->_action->updateWebsites($myProduct[$store->getId()]->getId(), $store->getWebsiteId(), 'add');
+            }            
+        } catch (Exception $e) {
+            $error = "Creazione Prodotto: Errore in salvataggio Sku: " . $prod->Sku . "\n" . $e->getMessage() . "\n" . $e->getTrace();
+            $this->_hlp->debug("Errore - $error");
+            return $error;
+        }
+         
+        return $myProduct[0]->getId();
+    }
+    
+    /**
+     * Effettua l'associazione tra prodotto configurabile e semplice se non esite 
+     * @param type $link 
+     * @param type $card 
+     */
+    protected function _linkProduct($link, $card=array()) {
+                
+        foreach($link as $k=>$v) {
+            $idParent = Mage::getModel('catalog/product')->getIdBySku($k);
+            if ($idParent > 0) {
+                foreach ($v as $l) {
+                    $this->_Associated($idParent, $l['id']);                    
+                }
+                //Piazzo le cardinalità
+                $ii = 0;
+
+                if (sizeof($card) == 0) {
+                    $_card = $this->_getCardinalty(Mage::getModel('catalog/product')->Load($idParent)->getAttributeSetId());
+                } else {
+                    foreach ($card[$k] as $c) {
+                        $_card[] = $this->_getAttributeRow($c["attributeCode"])->getId();
+                        throw new Exception("Errore in fase di Associazione Prodotti! Non esite l'attributo " .$c["attributeCode"] . " usato nella cardinalità!");
+                    }
+                }              
+                foreach ($_card as $idAttr) {
+                    $select = $this->_dbRead->select()
+                                   ->from(Mage::getSingleton('core/resource')->getTableName('catalog_product_super_attribute'))
+                                   ->where('product_id = ?', $idParent)
+                                   ->where('attribute_id = ?', $idAttr);                    
+                    if ($this->_dbRead->fetchOne($select)."" == "") {
+                        $this->_dbWrite->insert(Mage::getSingleton('core/resource')->getTableName('catalog_product_super_attribute'),
+                                            array("product_id"   => $idParent,
+                                                  "attribute_id" => $idAttr,
+                                                  "position"     => $ii++));
+                    }
+                }
+                
+            }
+        }        
+    }
+    
+    protected function _Associated($idParent, $idChild) {
+        
+        //Relazione
+        $select = $this->_dbRead->select()
+                       ->from(Mage::getSingleton('core/resource')->getTableName('catalog_product_relation'))
+                       ->where('parent_id = ?', $idParent)
+                       ->where('child_id = ?', $idChild);
+        if ($this->_dbRead->fetchOne($select)."" == "") {
+            $this->_dbWrite->Insert(Mage::getSingleton('core/resource')->getTableName('catalog_product_relation'),
+                                    array('parent_id' => $idParent,
+                                          'child_id'  => $idChild));
+        }
+        
+        //Super Links
+        $select = $this->_dbRead->select()
+                       ->from(Mage::getSingleton('core/resource')->getTableName('catalog_product_super_link'))
+                       ->where('parent_id = ?', $idParent)
+                       ->where('product_id = ?', $idChild);
+        if ($this->_dbRead->fetchOne($select)."" == "") {
+            $this->_dbWrite->Insert(Mage::getSingleton('core/resource')->getTableName('catalog_product_super_link'),
+                                    array('parent_id' => $idParent,
+                                          'product_id'  => $idChild));
+        }
+        
+    }
+    
+    protected function _getCardinalty($attributeSetId) {
+        if (!isset($this->_cardinality[$attributeSetId])) {
+            foreach($this->_hlp->getCardinalityByAttrSetId($attributeSetId)as $row) {
+                $this->_cardinality[$attributeSetId][] = $row["attributeId"];
+            }
+        }
+
+        return $this->_cardinality[$attributeSetId];
+    }
+        
+    protected function _getAttributeRow($name) {
+        if (!isset($this->_attributeRow[$name])) 
+            $this->_attributeRow[$name] = Mage::getResourceModel('eav/entity_attribute_collection') //Recuper l'id dell'attributo
+                            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+                            ->addFieldToFilter('attribute_code', $name) 
+                            ->load()
+                            ->getFirstItem();                
+
+        return $this->_attributeRow[$name];
+    }
+    
+    private function _getTax($taxId=null) {
+        if (is_null($taxId))
+            $taxId = Mage::getStoreConfig('autelconnector/connector_product/default_taxclass', 0);
+        return $taxId;
+    }
+}
+?>

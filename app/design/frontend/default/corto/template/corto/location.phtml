@@ -1,0 +1,188 @@
+<?php 
+$currentZoneId = "";
+if ($this->getCurrent() instanceof Autel_Corto_Model_Zone):
+    $currentZoneId = $this->getCurrent()->getId();
+endif;
+$isHome = $this->getRequest()->getParam('home');
+if (is_null($isHome)):
+    $isHome = "0";
+endif;
+?>
+<div class="country-select-bg">
+    <div class="country-select-logo">
+        <img alt="Corto Moltedo" src="<?php echo $this->getSkinUrl('images/logo_small_white.png');?> "/>
+    </div>
+<?php if ($this->getWarning() == true): ?>
+    <dvi class="country-select-warning">
+        <?php echo $this->getLayout()->createBlock("cms/block")->setBlockId('country-select-warning')->toHtml();?>
+    </dvi>
+<?php endif;    ?>
+    <div class="country-list" style="visibility: <?php if ($currentZoneId != ""): ?>hidden<?php endif ?>">
+        <div class="title">
+            <?php echo $this->__('Select your shipping country/area'); ?> 
+        </div>
+<?php   $i = 0; 
+        $first = true;
+        $oldGruop = "";
+        $countryList = $this->getCountryList();
+        foreach ($countryList as $country_id => $country):
+            $country_name = $country['description'];
+            $group_name =  $country['group'];
+            if ($i%25 == 0):
+?>
+        <ul class="column <?php if ($first): echo ' first'; endif; ?>"
+            style="visibility: <?php if ($currentZoneId != ""): ?>hidden<?php endif ?>"
+            >
+            <?php if($first): $first = false; endif;?>
+<?php        endif; ?>
+            <li class="<?php echo ($country_id == $currentZoneId)?'current':'';?><?php echo $group_name;?> <?php if ($group_name != $oldGruop): $oldGruop = $group_name;?> first-group<?endif;?>" rel="<?php echo $i;?>">
+                <a href="<?php echo $this->getUrl('autelcorto/location/set/', array('zone'=>$country_id, "home" => $isHome, 'countrycode' => $this->getCountryCode(),'urlref' => $this->getReferrer().''));?>"class="country-row">
+                    <?php echo $country_name ?>
+                </a>
+            </li>
+
+<?php       if (++$i%25 == 0 || $i == count($countryList)):                                
+?>
+        </ul>
+        
+<?php       endif;             
+        endforeach;
+?>  
+        
+    </div>
+    <div class="current-country" style="visibility: <?php if ($currentZoneId == ""): ?>hidden<?php endif ?>">
+        <p><?php echo $this->__('You are surfing from:');?>&nbsp;<strong><?php echo Mage::getModel('directory/country')->Load($this->getCountryCode())->getName();?></strong></p>
+        <p><?php echo $this->__('Do you want the goods be delivered to ');?>&nbsp;<strong><?php echo Mage::getModel('directory/country')->Load($this->getCountryCode())->getName();?></strong></p>
+        <a class="continue-with-country active-link" 
+           href="<?php echo $this->getUrl('autelcorto/location/set/', array('zone'=>$currentZoneId, "home" => $isHome, 'countrycode' => $this->getCountryCode(), 'urlref' => $this->getReferrer().''));?>"
+           title="<?php echo $this->__('Continue');?>">
+           <?php echo $this->__('Continue with this country...')?>
+        </a>
+        </br></br>
+        <?php echo $this->__('or')?>
+        </br></br>
+        <a class="show active-link"><?php echo $this->__('Select a different country...');?></a>
+    </div>
+    
+</div>    
+<script>
+    $j('.column LI').mouseover(function() {
+        $j('.column LI').removeClass('select');
+        $j(this).addClass('select');
+    }).mouseout(function() {
+        $j(this).removeClass('select');
+    });
+
+    var setCountryCookie = function(href) {
+        $j.ajax({
+            url     : href,            
+            success : function(response) {
+                var data = $j.parseJSON(response);
+                if (data.action.toString().toLowerCase() == 'redirect' && data.url != "") {
+                    window.location = data.url;
+                } else {
+                    if (data.action.toString().toLowerCase() == 'reload' ) {
+                        window.location.reload();
+                    } else {
+                        $j.fancybox.close();
+                    }                    
+                }                
+            },
+            error   : function() {
+                alert('General Error');
+                $j.fancybox.close();
+            }
+        })
+    };
+    
+    $j('.country-row, .continue-with-country').click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        setCountryCookie($j(this).attr('href'));
+    });
+    
+    var minLi=0;
+    var maxLi=<?php echo $i-1 ?>;
+    var searchString="";
+    var timer;
+    //Gestione input da tastiera                                
+    $j(window).on('keydown', function(evt) {
+        
+        switch(evt.keyCode) {            
+            case 37: //LEFT
+            case 39: //RIGTH                
+            case 38:    //UP
+            case 40:    //DOWN
+                var col=(evt.keyCode == 37 || evt.keyCode == 39)?25:1;
+                var molt = (evt.keyCode == 38 || evt.keyCode == 37)?-1:1;
+                var pos=getSelect()+(molt*col);
+                if (pos<minLi) 
+                    pos=maxLi;
+                else 
+                    if(pos>maxLi)
+                        pos=minLi;
+                $j('ul.column li').removeClass('select');
+                $j('ul.column li[rel="'+(pos)+'"]').addClass('select');
+                
+                break;
+            case 13:    //ENTER
+                if (getSelect()>=0) {
+                    $j('ul.column li.select').trigger('click');
+                }
+                break;
+            default:
+                var myChar = String.fromCharCode(evt.keyCode);
+                var regEx = /[A-Za-z]/;
+                if (regEx.test(myChar)) {
+                    if (myChar != searchString) {
+                        searchString+=myChar;
+                    }
+
+                    if (timer!=null) {
+                        clearTimeout(timer);
+                    }
+                    timer= setTimeout(function(){
+                                    searchString="";
+                                    timer=null;
+                                },1000);
+
+                    var myStr = searchString;
+                    var cur = getSelect();
+                    for(var i=0; i<=maxLi; i++) {
+                        if (cur >= maxLi) {
+                            cur=0;
+                        } else {
+                            cur++;
+                        }
+                        if ($j('ul.column li[rel="'+cur+'"] a').html().replace(/[^A-Za-z]+ /g,"").toUpperCase().indexOf(myStr.toUpperCase())==0) {                                        
+                            $j('ul.column li').removeClass('select');
+                            $j('ul.column li[rel="'+(cur)+'"]').addClass('select');
+                            break;
+                        }
+                    }
+                }
+                break;
+        }
+        evt.stopPropagation();
+    });
+    
+    var getSelect = function () {
+        if ($j('ul.column li.select').length>0){
+            return parseInt($j('ul.column li.select').attr('rel'));
+        } else {
+            return -1;
+        }
+     }
+    
+    $j('.show').click(function () {
+       $j('.current-country').fadeOut('fast', function() {
+           $j('.country-list').css({'display': 'none', 'visibility': 'visible'}).fadeIn('fast', function () {
+             $j('.column').css({'display': 'none', 'visibility': 'visible'}).fadeIn('slow') ; 
+           })           
+       })        
+       return false;
+    });
+        
+</script>
+    
+    

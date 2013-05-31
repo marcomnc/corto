@@ -1,0 +1,83 @@
+<config>
+    <modules>
+        <Autel_Social>
+            <version>0.1.0</version>
+        </Autel_Social>
+    </modules>
+    <global>
+        <blocks>
+            <autelsocial>
+                    <class>Autel_Social_Block</class>
+            </autelsocial>
+        </blocks>
+        <helpers>
+            <autelsocial>
+                <class>Autel_Social_Helper</class>
+            </autelsocial>
+        </helpers>
+        <!-- ... -->
+        <models>
+            <autelsocial>
+                <class>Autel_Social_Model</class>
+            </autelsocial>
+        </models> 
+        <!-- ... -->
+        <resources>
+        </resources>
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <autelsocial>
+                    <file>autelsocial.xml</file>
+                </autelsocial>
+            </updates>
+        </layout>        
+    </frontend>
+
+    <admin>
+        <routers>
+            <autelsocial>
+                <use>admin</use>
+                <args>
+                    <module>Autel_Social</module>
+                    <frontName>autelsocial</frontName>
+                </args>
+            </autelsocial>
+        </routers>
+    </admin>
+
+    
+    <adminhtml>           
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <autelsocial>
+                                            <title>Autel - Social Plugin</title>
+                                        </autelsocial>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <autelsocial>
+            <settings>
+                <enabled>0</enabled>
+                <refernecedWeb></refernecedWeb>
+            </settings>
+        </autelsocial>
+    </default>
+    
+</config>
+

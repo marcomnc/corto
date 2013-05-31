@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Autel_Report>
+            <version>0.1.1</version>
+        </Autel_Report>
+    </modules>
+    <global>
+
+        <blocks>
+            <autelrpt>
+                <class>Autel_Report_Block</class>
+            </autelrpt>
+        </blocks>
+        <helpers>
+            <autelrpt>
+                <class>Autel_Report_Helper</class>
+            </autelrpt>
+        </helpers>        
+        <models>    
+            <autelrpt> 
+                <class>Autel_Report_Model</class>
+            </autelrpt>
+            <reports_resource>
+                <rewrite>
+                    <order_collection>Autel_Report_Model_Resource_Order_Collection</order_collection>
+                </rewrite>
+            </reports_resource>
+        </models>
+    </global>
+
+    <admin>
+        <routers>
+            <autelrpt>
+                <use>admin</use>
+                <args>
+                    <module>Autel_Report</module>
+                    <frontName>autelrpt</frontName>
+                </args>
+            </autelrpt>
+        </routers>
+    </admin>
+    
+    <adminhtml>         
+        <translate>
+            <modules>
+                <Autel_Report>
+                    <files>
+                        <default>Autel_Report.csv</default>
+                    </files>
+                </Autel_Report>
+            </modules>
+        </translate>  
+        <menu>
+            <report>
+                <children>
+                    <customers>
+                        <children>
+                            <list translate="title" module="autelrpt">
+                                <title>Export Custumer List</title>
+                                <action>autelrpt/customer/list</action>
+                            </list>
+                        </children>
+                    </customers>
+                </children>
+            </report>             
+        </menu> 
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <report>
+                            <children>
+                                <customers>
+                                    <children>
+                                        <list>
+                                            <title>Export Custumer List</title>
+                                        </list>   
+                                    </children>                             
+                                </customers>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>    
+</config>

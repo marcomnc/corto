@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <api>
+        <resources>
+            <catalog_product translate="title" module="catalog">
+                <title>Product API</title>
+                <model>catalog/product_api</model>
+                <acl>catalog/product</acl>
+                <methods>
+                    <createConfigurable translate="title" module="catalog">
+                        <title>Create new configurable product</title>
+                        <acl>catalog/product/create</acl>
+                    </createConfigurable>
+                    <updateConfigurable translate="title" module="catalog">
+                        <title>Update children of configurable product</title>
+                        <acl>catalog/product/create</acl>
+                    </updateConfigurable>
+                    <testProduct translate="title" module="catalog">
+                        <title>Test</title>
+                        <method>test</method>
+                        <acl>catalog/product/test</acl>
+                    </testProduct>                    
+                    <importProduct translate="title" module="catalog">
+                        <title>Import</title>
+                        <method>import</method>
+                        <acl>catalog/product/test</acl>
+                    </importProduct>                                        
+                </methods>
+                <faults module="catalog">
+                    <store_not_exists>
+                        <code>100</code>
+                        <message>Requested store view not found.</message>
+                    </store_not_exists>
+                    <not_exists>
+                        <code>101</code>
+                        <message>Product not exists.</message>
+                    </not_exists>
+                    <data_invalid>
+                        <code>102</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <not_deleted>
+                        <code>103</code>
+                        <message>Product not deleted. Details in error message.</message>
+                    </not_deleted>
+                </faults>
+            </catalog_product>
+            <catalog_product_attribute translate="title" module="catalog">
+                <title>Product attributes API</title>
+                <model>catalog/product_attribute_api</model>
+                <acl>catalog/product</acl>
+                <methods>
+                    <addOption translate="title" module="catalog">
+                        <title>Create attribute options</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </addOption>
+                    <addOptionValue translate="title" module="catalog">
+                        <title>Create attribute options translations (Deprecated)</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </addOptionValue>
+                    <optionDefaults translate="title" module="catalog">
+                        <title>Retrieve attribute options in store 0</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </optionDefaults>
+                    <loadSizeTranslations translate="title" module="catalog">
+                        <title>Load size translations</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </loadSizeTranslations>   
+                    <getattributeId translate="title" module="catalog">
+                        <title>Get Attribute Id from Attribute Code</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </getattributeId>
+                    <listJSON>
+                        <title>Recupera la lista degli attributi in JSON</title>
+                        <method>getItems</method>
+                        <acl>catalog/product/attribute/read</acl>
+                    </listJSON>                    
+                    <addOptionJSON>
+                        <title>Carico gli attributi da uno stream JSON</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </addOptionJSON>
+                    <getOptionJSON>
+                        <title>Recupero gli attributi sotto forma di JSON</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </getOptionJSON>                                        
+                </methods>
+                <faults module="catalog">
+                    <duplicated_value>
+                        <code>150</code>
+                        <message>Duplicated value for attribute</message>
+                    </duplicated_value>
+                </faults>
+            </catalog_product_attribute>            
+            <catalog_product_attribute_set translate="title" module="catalog">
+                <title>Product attribute Set API</title>
+                <model>catalog/product_attribute_set_api</model>
+                <acl>catalog/product_set</acl>
+                <methods>
+                    <getCardinality>
+                        <title>Recupero la cardinalità</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </getCardinality>                    
+                </methods>
+            </catalog_product_attribute_set>            
+            <catalog_product_attribute_media translate="title" module="catalog">
+                <title>Product Images API</title>
+                <model>catalog/product_attribute_media_api</model>
+                <acl>catalog/product/media</acl>
+                <methods>
+                    <getFTPParams>
+                        <title>Recupero i Parametri per la connessione FTP</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </getFTPParams>                    
+                    <ProcessMedia>
+                        <title>Esegue l'elaborazione delle immagini caricate via FTP</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </ProcessMedia>
+                    <uploadImage>
+                        <title>Carica un immagine e l'associa ad un articolo</title>
+                        <acl>catalog/product/attribute/read</acl>
+                    </uploadImage>
+                </methods>
+            </catalog_product_attribute_media>
+        </resources>
+        <resources_alias>
+            <product>catalog_product</product>
+            <product_attribute>catalog_product_attribute</product_attribute>
+            <product_attribute_set>catalog_product_attribute_set</product_attribute_set>
+            <product_attribute_media>catalog_product_attribute_media</product_attribute_media>
+        </resources_alias>
+        <v2>
+            <resources_function_prefix>                
+                <product>catalogProduct</product>
+                <product_attribute>catalogProductAttribute</product_attribute>
+<!-- Devo obbligatoriamente riportarlo perchè quest configurazioni nelle ricerce sono messe in coda.
+     Se non lo metto qui tutto quello che inzia con catalogProductAttributeSet non viene letto -->
+                <product_attribute_set>catalogProductAttributeSet</product_attribute_set>
+                <product_attribute_media>catalogProductMedia</product_attribute_media>
+            </resources_function_prefix>
+        </v2>
+        <acl>
+            <resources>
+                <catalog translate="title" module="catalog">
+                    <title>Catalog</title>
+                    <sort_order>1</sort_order>
+                    <product translate="title" module="catalog">
+                        <title>Product</title>
+                        <create translate="title" module="catalog">
+                            <title>Create Configurable</title>
+                        </create>
+                    </product>
+                </catalog>
+            </resources>
+        </acl>
+    </api>
+</config>
+ 

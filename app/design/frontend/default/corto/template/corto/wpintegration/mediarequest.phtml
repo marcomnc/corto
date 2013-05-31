@@ -1,0 +1,127 @@
+
+<div class="send-friend">
+    <div class="message" style="padding: 10px">
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('mediarequest_message')->toHtml() ?>
+    </div>
+    <form action="<?php echo Mage::getStoreConfig("web/unsecure/wp_url")?>wp-login?action=register" method="post" id="mediarequest_form">
+        <input type="hidden" name="redirect_to" value="<?php echo Mage::getStoreConfig("web/unsecure/wp_url")?>media/">
+        <input id="user_login" type="hidden" name="user_login" value="<?php echo Mage::getStoreConfig("web/unsecure/wp_url")?>media/">
+        <div class="fieldset">
+            <ul class="form-list" id="sender_first_name">
+                <li class="fields">
+                    <div class="field">
+                        <label for="sender_first_name" class="required"><em>*</em><?php echo $this->__('First Name:') ?></label>
+                        <div class="input-box">
+                            <input name="sender_first_name" value="" title="<?php echo $this->__('Your first name') ?>" id="sender_first_name" type="text" class="input-text required-entry" />
+                        </div>
+                    </div>
+                </li>
+                <li class="fields">
+                    <div class="field">
+                        <label for="sender_last_name" class="required"><em>*</em><?php echo $this->__('Last Name:') ?></label>
+                        <div class="input-box">
+                            <input name="sender_last_name" value="" title="<?php echo $this->__('Your last name') ?>" id="sender_last_name" type="text" class="input-text required-entry" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="field" >
+                       <label for="user_email" class="required"><em>*</em><?php echo $this->__('Email address:') ?></label>
+                       <div class="input-box">
+                           <input name="user_email" value="<?php echo $this->htmlEscape($this->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" id="sender_email" type="text" class="input-text required-entry validate-email" />
+                       </div>
+                    </div>
+                </li>
+                <li class="fields">
+                    <div class="field">
+                        <label for="sender_role" class="required"><em>*</em><?php echo $this->__('Role (stylist, editor...):') ?></label>
+                        <div class="input-box">
+                            <input name="sender_role" type="text" class="input-text required-entry" id="sender_role" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="field">
+                        <label for="sender_magazine" class="required"><em>*</em><?php echo $this->__('Magazine:') ?></label>
+                        <div class="input-box">
+                            <input name="sender_magazine" value="" title="<?php echo $this->__('Email Address') ?>" id="sender_magazine" type="text" class="input-text required-entry" />
+                        </div>
+                    </div>
+                </li>                
+                <li class="field">
+                    <label for="sender_message" class="required"><?php echo $this->__('Message:') ?></label>
+                    <div class="input-box">
+                        <textarea name="sender_message" class="input-text" id="sender_message" cols="3" rows="3"><?php echo $this->htmlEscape($this->getMessage())?></textarea>
+                    </div>
+                </li>
+                <li>
+	                <div class="input-box action">
+	                	<div style="width: 90%">
+	                		<div style="float:right">
+	                			<a href="#" onclick="$j.fancybox.close(); return false;">Cancel</a> or 
+	                    		<button id="submit-media-request"type="submit" class="button" style="display:inline"><span><span><?php echo $this->__('Send Request') ?></span></span></button>
+	                		</div>
+	                	</div>
+	                </div>
+                        <div class="general-error" style="display:none">
+                            <ul class="messages">
+                                <li id="request-message" class="">
+                                    <ul>
+                                        <li>
+                                            <span>
+
+                                            </span>                                            
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>    
+                        </div>
+                </li>
+            </ul>
+        </div>        
+    </form>    
+    <script type="text/javascript">
+    //<![CDATA[
+        var mediarequestForm = new VarienForm('mediarequest_form');
+        $j("#submit-media-request").click(function(e) {
+            e.preventDefault();
+            $j('#user_login').val($j('#sender_email').val());
+            if (mediarequestForm.validator.validate()) {
+                var dataString = $j("#mediarequest_form").serialize();
+                $j.fn.layer(true,{waiting:"<?php echo $this->getSkinUrl('images/waiting.gif');?>", bindEsc:false, handle: "mediarequest"});
+                $j.ajax({
+                    type: $j('#mediarequest_form').attr('method').toUpperCase(),
+                    url: '<?php echo $this->getUrl('autelcorto/general/mediarequestpost/') ?>',
+                    data: dataString,
+                    success: function (res) {
+                       var data = $j.parseJSON(res);
+                       $j('.input-box.action').fadeOut("fast",function () {
+                           if (data.status.toUpperCase()=='OK') {
+                               $j('#request-message').addClass('success-msg');
+                           } else {
+                               $j('#request-message').addClass('error-msg');
+                           }
+                           $j('#request-message>UL>LI>SPAN').html(data.message);
+                           $j('#fancybox-content div').css({"overflow": "visible"});
+                           $j('.general-error').fadeIn('fast'); 
+                           $j('#mediarequest_form').trigger('submit');
+                       });
+                    },
+                    error: function () {
+                        $j('.input-box.action').fadeOut("fast",function () {
+                           $j('#request-message').addClass('error-msg');
+                           $j('#request-message>UL>LI>SPAN').html("<?php echo $this->__('There was an error during the request!')?>");
+                           $j('#fancybox-content div').css({"overflow": "visible"});
+                           $j('.general-error').fadeIn('fast');                           
+                       });
+                    },
+                    complete: function (){
+                        $j.fn.layer(false,{handle: "mediarequest"});
+                    }
+                })
+            }
+        })
+        
+    //]]>
+    </script>
+</div>

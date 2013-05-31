@@ -1,0 +1,115 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Top menu for store
+ *
+ * @see Mage_Catalog_Block_Navigation
+ */
+?>
+<?php
+/**
+ * Recupero l'albero delle categorie e lo diesgno come accordion
+ */
+?>
+<?php
+
+//    $storeCategory = Mage::getModel("catalog/category")
+//                        ->getCollection()
+//                        ->addIsActiveFilter()
+//                        ->addLevelFilter(Mage::app()->getStore()->getRootCategoryId());
+
+    $storeCategory = Mage::getModel("catalog/category_api")->tree(null, Mage::app()->getStore()->getId());    
+    if (isset($storeCategory["children"]) &&  sizeof($storeCategory["children"]) > 0):
+?>
+<div id="menu">
+    <div class="container">
+<?php         
+        foreach ($storeCategory["children"] as $parentCategory):
+            $category = Mage::getModel("catalog/category")->Load($parentCategory["category_id"]);
+            if (isset($parentCategory["children"]) && sizeof($parentCategory["children"]) > 0 && $category->getIsActive() && $category->getIncludeInMenu()):                
+                $allUrl = $category->getUrl();
+                
+?>            
+        <div class="module">
+            <div class="title">
+                <a href="" title="<?php echo htmlspecialchars($category->getDescription());?>" 
+                   rel="<?php echo $category->getId();?>" sel=""><?php echo htmlspecialchars($category->getName());?></a>
+            </div>
+                <ul class="item" style="display: none;">
+
+            <?php foreach ($parentCategory["children"] as $childCategory):
+                
+                     $category = Mage::getModel("catalog/category")->Load($childCategory["category_id"]);
+                     if ($category->getIsActive() && $category->getIncludeInMenu()):
+            ?>
+                    <li rel ="<?php echo $category->getId();?>">
+                        <a href="<?php echo $category->getUrl();?>" title="<?php echo htmlspecialchars($category->getDescription());?>">
+                            <?php echo htmlspecialchars($category->getName());?>
+                        </a> 
+                    </li>
+            <?php
+                    endif;
+                  endforeach;
+            ?>
+                    <li rel ="<?php echo $parentCategory["category_id"]?>">
+                        <a href="<?php echo $allUrl;?>" title="<?php echo $this->__("All");?>">
+                            <?php echo $this->__("All");?>
+                        </a> 
+                    </li>
+                </ul>            
+        </div>
+<?php            
+            endif;
+        endforeach;
+?>    
+        <div class="module">
+            <div class="title">
+                <a href="<?php echo $this->getUrl("autelcorto/impulse/");?>" title="<?php echo $this->__("Impulse Buy");?>" 
+                   rel="IB"><?php echo $this->__("Impulse Buy");?></a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<?php
+    endif;
+    
+    $currentCategory = Mage::registry('current_category');
+    $myCategory="";
+    if (!is_null($currentCategory)):
+       $myCategory=$currentCategory->getId();
+    endif;
+?>
+
+<script>
+	
+    $j("document").ready(function() {
+        $j("#menu").crmMenu("<?php echo $myCategory?>",{speed:"slow"});
+    });
+
+</script>

@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Autel_Corto>
+            <version>0.1.2</version>
+        </Autel_Corto>
+    </modules>
+    <global>
+
+<!--http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_development_in_magento/customizing_magento_using_event-observer_method#list_of_events-->        
+        <events>
+<!-- Evento in fase di aggiunta prodotto sul carrello -->
+            <checkout_cart_add_product_complete>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Observer</class>
+                        <method>cart_add_product_complete</method>
+                    </autel_corto_observer>
+                </observers>
+            </checkout_cart_add_product_complete>    
+            <controller_front_init_routers>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Core_Dispatch</class>
+                        <method>pre_dispatch</method>
+                    </autel_corto_observer>
+                </observers>
+            </controller_front_init_routers>
+<!-- Evento prima della creazione dell'ordine 
+            <checkout_type_onepage_save_order>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Observer</class>
+                        <method>checkout_onepage_save_order</method>
+                    </autel_corto_observer>
+                </observers>
+            </checkout_type_onepage_save_order> -->
+<!-- Evento dopo la creazione dell'ordine 
+            <checkout_submit_all_after>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Observer</class>
+                        <method>checkout_onepage_submit</method>
+                    </autel_corto_observer>
+                </observers>
+            </checkout_submit_all_after>-->
+<!-- Evento per la gestione della formattazione del jpy -->            
+            <currency_display_options_forming>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Observer</class>
+                        <method>format_currency</method>
+                    </autel_corto_observer>
+                </observers>
+            </currency_display_options_forming>
+        </events>  
+
+
+<!--
+Overload controller per gestire add to cart in Ajax (Deprecato)
+http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_development_in_magento/how_to_overload_a_controller
+             
+        <rewrite>
+            <autel_corto_checkout_cart>
+                <from><![CDATA[#^/checkout/cart/#]]></from>
+                <to>/autel/checkout_cart/</to> 
+            </autel_corto_checkout_cart>
+        </rewrite>
+-->
+<!--
+Overload controller del Check out per gestire il checkout in 3 step
+http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_development_in_magento/how_to_overload_a_controller             
+-->
+        <rewrite>
+            <autel_corto_checkout_onepage>
+                <from><![CDATA[#^/checkout/onepage/#]]></from>
+                <to>/autelcorto/checkout_onepage/</to> 
+            </autel_corto_checkout_onepage>
+        </rewrite>
+
+        <blocks>
+            <autelcorto>
+                <class>Autel_Corto_Block</class>
+            </autelcorto>
+            <!-- Deprecato
+            <catalog>
+                <rewrite>
+                    <breadcrumbs>Autel_Corto_Block_Catalog_Breadcrumbs</breadcrumbs>
+                </rewrite>
+            </catalog> -->
+            <page>
+                <rewrite>
+                    <html_breadcrumbs>Autel_Corto_Block_Page_Breadcrumbs</html_breadcrumbs>
+                </rewrite>
+            </page>
+        </blocks>
+        <helpers>
+            <autelcorto>
+                <class>Autel_Corto_Helper</class>
+            </autelcorto>            
+        </helpers>        
+        <models>    
+            <autelcorto> 
+                <class>Autel_Corto_Model</class>
+                <resourceModel>autelcorto_mysql4</resourceModel>
+            </autelcorto>
+            <autelcorto_mysql4>
+                <class>Autel_Corto_Model_Mysql4</class>
+                <entities>
+                    <zone>
+                        <table>autel_corto_zone</table>
+                    </zone>
+                    <zonelabel>
+                        <table>autel_corto_zone_label</table>
+                    </zonelabel>   
+                    <zonegroup>
+                        <table>autel_corto_zone_group</table>
+                    </zonegroup>           
+                    <faq>
+                        <table>autel_corto_faq</table>
+                    </faq>                          
+                    <faq_store>
+                        <table>autel_corto_faq_store</table>
+                    </faq_store>           
+                    <!-- other entity -->
+                </entities>
+            </autelcorto_mysql4>
+            <catalogsearch_resource>
+                <rewrite>
+                    <fulltext>Autel_Corto_Model_Catalogsearch_Resource_Fulltext</fulltext>
+                </rewrite>
+            </catalogsearch_resource>            
+        </models>
+        <resources>
+            <autelcorto_setup>
+                <setup>
+                    <module>Autel_Corto</module>
+                    <!--<class>Mage_Core_Model_Resource_Setup</class>-->
+                </setup>                
+                <connection>
+                    <use>core_setup</use>
+                </connection>                
+            </autelcorto_setup>            
+            <autelcorto_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </autelcorto_write>
+            <autelcorto_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </autelcorto_read>            
+        </resources>
+
+<!-- Template per la gestione dei popup
+http://www.magentocommerce.com/wiki/4_-_themes_and_template_customization/0_-_theming_in_magento/adding_cms_layout_templates
+-->        
+        <page>
+            <layouts>
+                <simple_popup translate="label">
+                    <label>Simple Popup</label>
+                    <template>page/popup-simple.phtml</template>   
+                    <layout_handle>page_simple_popup</layout_handle>                 
+                </simple_popup>          
+                <popup_corto translate="label">
+                    <label>Popup Corto</label>
+                    <template>page/popup-corto.phtml</template>                    
+                    <layout_handle>page_popup_corto</layout_handle>                 
+                </popup_corto>          
+            </layouts>
+        </page>
+    </global>
+    <frontend> 
+        <routers>
+            <autelcorto>
+                <use>standard</use>
+                    <args>
+                        <module>Autel_Corto</module>
+                        <frontName>autelcorto</frontName>
+                    </args>
+            </autelcorto>
+        </routers>    
+        <layout>
+            <updates>
+                <autelcorto>
+                    <file>corto.xml</file>
+                </autelcorto>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <autelcorto>
+                <use>admin</use>
+                <args>
+                    <module>Autel_Corto</module>
+                    <frontName>autelcorto</frontName>
+                </args>
+            </autelcorto>
+        </routers>
+    </admin>
+    
+    <adminhtml>           
+        <menu>
+             <CORTO translate="title">
+                <title>Corto</title>
+                <sort_order>99</sort_order>  
+                <!--Piazzato in fondo -->
+                <children>
+                    <duty_classification  translate="title" module="mpspayment">                                            
+                        <title>Classificazioni per Duty Calculator</title>
+                        <sort_order>30</sort_order>
+                        <action>autelcorto/adminhtml_duty</action>                           
+                    </duty_classification>
+                    <autel_zone translate="title" module="autelcorto">
+                        <title>Store Zone Manager</title>
+                        <sort_order>60</sort_order>
+                        <children>
+                            <zonegroup>
+                                <title>Store Zone Group</title>
+                                <sort_order>10</sort_order>
+                                <action>autelcorto/adminhtml_zone_group</action>                        
+                            </zonegroup>
+                            <zone>
+                                <title>Store Zone Definition</title>
+                                <sort_order>30</sort_order>
+                                <action>autelcorto/adminhtml_zone</action>                        
+                            </zone>                            
+                        </children>                        
+                    </autel_zone>                    
+                    <autel_faq_manager translate="title" module="autelcorto">
+                        <title>Gestione FAQ</title>
+                        <sort_order>80</sort_order>
+                        <action>autelcorto/adminhtml_faqmanager</action>                        
+                    </autel_faq_manager>
+                    <get_harmonized_code translate="title" module="autelcorto">
+                        <title>Calcolo Harmonized Code</title>
+                        <sort_order>100</sort_order>
+                        <action>autelcorto/adminhtml_duty_harmonized</action>                                                
+                    </get_harmonized_code>
+                </children> 
+             </CORTO>
+        </menu> 
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <autelcorto>
+                                            <title>Corto Moltedo Custom</title>
+                                        </autelcorto>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+		    </children>
+                </admin>
+            </resources>
+        </acl>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <CORTO>
+                            <title>Corto</title>
+                            <children>
+                                <duty_classification>
+                                    <title>Classificazioni per Duty Calculator</title>
+                                </duty_classification>
+                                <autel_zone>
+                                    <title>Gestione Zone/WebSite</title>
+                                </autel_zone>
+                                <autel_faq_manager>
+                                    <title>Gestione FAQ</title>
+                                </autel_faq_manager>
+                                <get_harmonized_code>
+                                    <title>Calcolo Harmonized Code</title>
+                                </get_harmonized_code>
+                            </children>
+                        </CORTO>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>    
+</config>

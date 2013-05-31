@@ -1,0 +1,239 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of ZoneController
+ *
+ * @author marcoma
+ */
+class Autel_Corto_Adminhtml_ZoneController extends Mage_Adminhtml_Controller_Action 
+{     
+
+    
+    private function _setTitle() {
+        $this->_title($this->__('Autel Corto'))->_title($this->__('Gestione Zone'));        
+        $this->loadLayout()
+            ->_setActiveMenu('Corto')
+            ->_addBreadcrumb(Mage::helper('autelcorto')->__('Autel Corto'),
+                             Mage::helper('autelcorto')->__('Gestione Zone'));     
+        return $this;
+    }
+    
+    public function indexAction() {
+        $this->_setTitle();   
+        
+//        Se si implementa un parametro di controllo
+//        if (mage::getStoreConfig('path configurazine /enabled') != 1) {
+//            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('mpspricezone')->__('Modulo non abiltato o non correttamente configurato!'));
+//            $this->_redirect('*/*/');
+//        } else {
+            // load layout, set active menu and breadcrumbs
+            $priceZoneBlock = $this->getLayout()->createBlock('autelcorto/adminhtml_zone_zone');
+            $this->_addContent($priceZoneBlock);
+            
+            $this->renderLayout();
+//        }
+    }      
+    
+    public function newAction() {
+        $this->_forward('edit');
+    }
+
+    public function editAction() {
+        $this->_setTitle();  
+        
+        $id     = $this->getRequest()->getParam('entity_id');
+        $model  = Mage::getModel('autelcorto/zone');
+
+        if ($id) {  
+            $model->load($id);
+            if (!$model->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('autelcorto')->__('La zona selezionata non esiste'));
+                $this->_redirect('*/*/');
+                return;
+            }
+        }
+        
+        $this->_title($model->getId() ? $model->getDescription() : $this->__('Nuova Zona'));
+        
+        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);        
+        if (! empty($data)) {
+            $model->setData($data);
+        }
+
+        Mage::register('autelcorto_zone', $model);
+        
+
+        $this->_addContent($this->getLayout()->createBlock('autelcorto/adminhtml_zone_edit'))
+             ->_addLeft($this->getLayout()->createBlock('autelcorto/adminhtml_zone_edit_tabs'));
+
+        $this->renderLayout();
+
+    }
+    
+    /**
+     * Validate post data
+     *
+     * @param array $data
+     * @return bool     Return FALSE if someone item is invalid
+     */
+    protected function _validatePostData($data)
+    {
+        $errorNo = true;
+        $e = "";
+        foreach ($data['state_list'] as $state) {
+            $store = Mage::Helper('autelcorto')->getStoreFromState($state);   
+            if (is_null($store)) {
+                $errorNo = false;
+                $e .= "Stato " . Mage::getModel('directory/country')->load($state)->getName() ." non assegnato a nessun Website<br>";
+            }elseif ($data['website_id'][0] != $store->getWebsiteId()) {
+                $errorNo = false;
+                $e .= "Stato " .  $state . "-" . Mage::getModel('directory/country')->load($state)->getName() ." appartiene al Web Site " ;
+                $e .= Mage::getModel('core/website')->Load($store->getWebsiteId())->getName()."<br>";
+            }
+        }
+        if (!$errorNo) {
+            Mage::getSingleton('adminhtml/session')->addError($e);
+        }
+       
+        return $errorNo;
+    }
+    
+    
+    /**
+     * Save action
+     */
+    public function saveAction()
+    {
+        // check if data sent
+        if ($data = $this->getRequest()->getPost()) {
+            // Da utilizare per eventuali conversioni valuta date ecc....
+            //$data = $this->_filterPostData($data);
+            //init model and set data
+            $model = Mage::getModel('autelcorto/zone');
+
+            if ($id = $this->getRequest()->getParam('entity_id')) {
+                $model->load($id);
+            }
+
+            $model->setData($data);
+
+            //validating
+            if (!$this->_validatePostData($data)) {
+                $this->_redirect('*/*/edit', array('entity_id' => $this->getRequest()->getParam('entity_id')));
+                //$this->_redirect('*/*/');
+                return;
+            }
+
+            // try to save it
+            try {
+                // save the data
+                $model->save();
+
+                // display success message
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('autelcorto')->__('The page has been saved.'));
+                // clear previously saved data from session
+                Mage::getSingleton('adminhtml/session')->setFormData(false);
+                // go to grid
+                $this->_redirect('*/*/');
+                return;
+
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addException($e,
+                    Mage::helper('autelcorto')->__('An error occurred while saving the page.'));
+            }
+
+            $this->_getSession()->setFormData($data);
+            $this->_redirect('*/*/edit', array('entity_id' => $this->getRequest()->getParam('entity_id')));
+            return;
+        }
+        $this->_redirect('*/*/');
+    }
+
+    
+    public function deleteAction()
+    {
+        if ($id = $this->getRequest()->getParam('entity_id')) {
+            $zone = Mage::getModel('autelcorto/zone')->load($id);
+            $description = $zone->getDescription();
+            try {
+                $zone->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The Zone '. $description . ' has been deleted.'));
+            }
+            catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::LogException($e);
+            }
+        }
+        $this->_redirect('*/*/');
+    }    
+    
+    /**
+     * Export grid to CSV/XML format
+     */
+    public function exportAction()
+    {
+        $typeExport    = $this->getRequest()->getParam("exp_type");
+        $fileName      = 'Size_request.' . $typeExport;
+        $grid          = $this->getLayout()->createBlock('autelcorto/adminhtml_zone_grid');
+        
+        switch ($typeExport) {
+            case 'csv':
+                    $gridResultSet = $grid->getCsvFile();
+                break;
+            default:
+                    $gridResultSet = $grid->getExcelFile($fileName);
+                break;
+        }
+        $this->_prepareDownloadResponse($fileName, $gridResultSet);
+    }     
+
+    public function masschangegroupAction() {
+        
+        $entities = $this->getRequest()->getParam('entity_id', array());
+        $groupId = $this->getRequest()->getParam('group_id', 0);
+
+        if (is_array($entities) && $groupId > 0 ) {
+            if (sizeof($entities) == 0) {
+                $this->_getSession()->addError(
+                    Mage::helper('autelcorto')->__('Nessuna Zona selezionata'));
+            } else {
+                $group = Mage::getModel('autelcorto/zonegroup')->Load($groupId);
+                if (!is_null($group)) {
+                    try {
+                        foreach ($entities as $entity) {
+                            $zone = Mage::getModel('autelcorto/zone')->Load($entity);
+                            if (!is_null($zone)) {
+                                $zone->setGroupId($groupId);
+                                $zone->save();
+                            }
+                            
+                        }
+                        $this->_getSession()->addSuccess(
+                                        Mage::Helper('autelcorto')->__('Zone Aggiornate correttametne'));
+                    } catch (Exception $e) {
+                        $this->_getSession()->addError( $e->getMessage());
+                        Mage::LogException($e);
+                    }
+
+                } else {
+                    $this->_getSession()->addError(
+                        Mage::helper('autelcorto')->__('Il gruppo selezionato non esiste'));
+                }
+            }
+        }        
+        
+        $this->_redirect('*/*/index');
+        
+    }
+}
+
+?>

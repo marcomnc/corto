@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Autel_Sales>
+            <version>0.1.0</version>
+        </Autel_Sales>
+    </modules>
+      <depends>
+        <Mage_Sales/>
+      </depends>    
+    <global>
+        <blocks>
+<!--            <autelsales>
+                <class>Autel_Sales_Block</class>
+            </autelsales>-->
+        </blocks>
+        <helpers>
+            <autelsales>
+                <class>Autel_Sales_Helper</class>
+            </autelsales>
+        </helpers>        
+        <models>    
+            <autelsales> 
+                <class>Autel_Sales_Model</class>
+            </autelsales>
+            <sales>
+                <rewrite>
+                    <order_api_v2>Autel_Sales_Model_Order_Api_V2</order_api_v2> 
+              	</rewrite>
+            </sales>
+        </models>
+    </global>
+    
+    <adminhtml>           
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <autelconnector>
+                                            <title>Autel Connector</title>
+                                        </autelconnector>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    
+</config>

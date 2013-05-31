@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <import namespace="http://schemas.xmlsoap.org/soap/encoding/"
+                    schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
+<!-- Definizione di eventuali tipi complessi like array                    
+            <complexType name="catalogProductEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogProductEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="catalogProductEntity">
+                <all>
+                    <element name="product_id" type="xsd:string"/>
+                    <element name="sku" type="xsd:string"/>
+                    <element name="name" type="xsd:string"/>
+                    <element name="set" type="xsd:string"/>
+                    <element name="type" type="xsd:string"/>
+                    <element name="category_ids" type="typens:ArrayOfString"/>
+                    <element name="website_ids" type="typens:ArrayOfString"/>
+                </all>
+            </complexType>
+-->            
+            <complexType name="catalogProductMediaFTPParams">
+                <complexContent>                    
+                    <all>
+                        <element name="user" type="xsd:string"/>
+                        <element name="password" type="xsd:string"/>
+                        <element name="server" type="xsd:string"/>
+                        <element name="port" type="xsd:string"/>
+                        <element name="protocol" type="xsd:string"/>
+                        <element name="folder" type="xsd:string"/>
+                        <element name="sshkey" type="xsd:string"/>
+                    </all>
+                </complexContent>
+            </complexType>
+            <complexType name="AttributeListFilter">
+                <all>
+                    <element name="attribute_code" type="xsd:string" />
+                    <element name="filter_value" type="xsd:string" />                    
+                </all>
+            </complexType>            
+            <complexType name="AttributeListFilterArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:AttributeListFilter[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+
+        </schema>
+    </types>
+<!-- definizione dei message di input ed output per ogni API esposta 
+     il name impostato sulla part deve essere lo stesso del parametro 
+     (magento fa un match dei parametri)
+     Il parmetro sessionId va dichiarato come parametro anche se sulla API non esiste
+     -->    
+    <message name="catalogProductAttributeAddOptionJSONequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="attributeName" type="xsd:string"/>
+        <part name="storeId" type="xsd:int"/>
+        <part name="optionJSON" type="xsd:string"/>
+    </message>
+    <message name="catalogProductAttributeAddOptionJSONResponse">
+        <part name="result" type="xsd:int" />
+    </message>    
+    <message name="catalogProductAttributeGetOptionJSONequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="attributeName" type="xsd:string"/>
+        <part name="storeId" type="xsd:int"/>
+    </message>
+    <message name="catalogProductAttributeGetOptionJSONResponse">
+        <part name="result" type="xsd:string" />
+    </message>    
+    <message name="catalogProductAttributeGetattributeIdRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="attributeCode" type="xsd:string"/>
+    </message>
+    <message name="catalogProductAttributeGetattributeIdResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="catalogProductAttributeAddOptionRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="attributeId" type="xsd:int"/>
+        <part name="optionValue" type="xsd:String"/>
+    </message>
+    <message name="catalogProductAttributeAddOptionResponse">
+        <part name="result" type="xsd:int" />
+    </message>    
+    <message name="catalogProductAttributeAddOptionValueRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="attributeId" type="xsd:int"/>
+        <part name="optionValue" type="xsd:String"/>
+        <part name="valueTranslation" type="xsd:String"/>
+        <part name="storeId" type="xsd:int"/>
+    </message>
+    <message name="catalogProductAttributeAddOptionValueResponse">
+        <part name="result" type="xsd:int" />
+    </message> 
+    <message name="catalogProductTestRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="input" type="xsd:String"/>
+    </message>
+    <message name="catalogProductTestResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="catalogProductImportRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="input" type="xsd:String"/>
+    </message>
+    <message name="catalogProductImportResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="catalogProductAttributeSetGetCardinalityRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="id" type="xsd:String"/>
+        <part name="byType" type="xsd:String"/>
+    </message>
+    <message name="catalogProductAttributeSetGetCardinalityResponse">
+        <part name="result" type="xsd:String" />
+    </message>
+    <message name="catalogProductMediaGetFTPParamsRequest">
+        <part name="sessionId" type="xsd:string"/>
+    </message>
+    <message name="catalogProductMediaGetFTPParamsResponse">
+        <part name="result" type="xsd:catalogProductMediaFTPParams" />
+    </message>
+    <message name="catalogProductMediaProcessMediaRequest">
+        <part name="sessionId" type="xsd:string"/>
+    </message>
+    <message name="catalogProductMediaProcessMediaResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="catalogProductMediaUploadImageRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="fileName" type="xsd:string"/>
+        <part name="base64" type="xsd:string"/>
+    </message>
+    <message name="catalogProductMediaUploadImageResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="catalogProductAttributeListJSONRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="setid" type="xsd:int"/>
+        <part name="filter" type="typens:AttributeListFilterArray"/>
+    </message>
+    <message name="catalogProductAttributeListJSONResponse">
+        <part name="result" type="xsd:string" />
+    </message>
+    <portType name="{{var wsdl.handler}}PortType">
+<!-- dichiarazione degli operation. il nome dell'operation è dato dal nome dell'API
+     più come suffisso il valore dichiarato nella chiave >resources_function_prefix>
+     dichiarato nel file API.XML-->
+        <operation name="catalogProductAttributeGetattributeId">
+            <documentation>Return Attribute Id</documentation>
+            <input message="typens:catalogProductAttributeGetattributeIdRequest"/>
+            <output message="typens:catalogProductAttributeGetattributeIdResponse"/>
+        </operation>
+        <operation name="catalogProductAttributeAddOption">
+            <documentation>Add or Update default Store Option Value</documentation>
+            <input message="typens:catalogProductAttributeAddOptionRequest"/>
+            <output message="typens:catalogProductAttributeAddOptionResponse"/>
+        </operation>        
+        <operation name="catalogProductAttributeAddOptionValue">
+            <documentation>Add or Update default Store Option Value</documentation>
+            <input message="typens:catalogProductAttributeAddOptionValueRequest"/>
+            <output message="typens:catalogProductAttributeAddOptionValueResponse"/>
+        </operation>        
+        <operation name="catalogProductAttributeAddOptionJSON">
+            <documentation>Add or Update default Store Option Value</documentation>
+            <input message="typens:catalogProductAttributeAddOptionJSONRequest"/>
+            <output message="typens:catalogProductAttributeAddOptionJSONResponse"/>
+        </operation>        
+        <operation name="catalogProductAttributeGetOptionJSON">
+            <documentation>Add or Update default Store Option Value</documentation>
+            <input message="typens:catalogProductAttributeGetOptionJSONRequest"/>
+            <output message="typens:catalogProductAttributeGetOptionJSONResponse"/>
+        </operation>        
+        <operation name="catalogProductTestProduct">
+            <documentation>Add or Update default Store Option Value</documentation>
+            <input message="typens:catalogProductTestRequest"/>
+            <output message="typens:catalogProductTestResponse"/>
+        </operation>                
+        <operation name="catalogProductImportProduct">
+            <documentation>AUTEL Add or Update Product</documentation>
+            <input message="typens:catalogProductImportRequest"/>
+            <output message="typens:catalogProductImportResponse"/>
+        </operation>             
+        <operation name="catalogProductAttributeSetGetCardinality">
+            <documentation>AUTEL Get Product Cardinality</documentation>
+            <input message="typens:catalogProductAttributeSetGetCardinalityRequest"/>
+            <output message="typens:catalogProductAttributeSetGetCardinalityResponse"/>
+        </operation>             
+        <operation name="catalogProductMediaGetFTParams">
+            <documentation>AUTEL Get FTP Credential</documentation>
+            <input message="typens:catalogProductMediaGetFTPParamsRequest"/>
+            <output message="typens:catalogProductMediaGetFTPParamsResponse"/>
+        </operation>             
+        <operation name="catalogProductMediaProcessMedia">
+            <documentation>AUTEL Process images uploaded via FTP</documentation>
+            <input message="typens:catalogProductProcessMediaRequest"/>
+            <output message="typens:catalogProductProcessMediaResponse"/>
+        </operation>             
+        <operation name="catalogProductMediaUploadImage">
+            <documentation>AUTEL Uploading Image File</documentation>
+            <input message="typens:catalogProductUploadImageRequest"/>
+            <output message="typens:catalogProductUploadImageResponse"/>
+        </operation>             
+        <operation name="catalogProductAttributeListJSON">
+            <documentation>AUTEL Get Attribute List in JSON format</documentation>
+            <input message="typens:catalogProductAttributeListJSONRequest"/>
+            <output message="typens:catalogProductAttributeListJSONResponse"/>
+        </operation>             
+    </portType>
+    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+<!-- Dichiarazione del binding dell'operation. Copiare una dichiarazione già fatta -->        
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="catalogProductAttributeGetattributeId">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="catalogProductAttributeAddOption">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>        
+        <operation name="catalogProductAttributeAddOptionValue">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>        
+        <operation name="catalogProductAttributeAddOptionJSON">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>        
+        <operation name="catalogProductAttributeGetOptionJSON">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>        
+        <operation name="catalogProductTestProduct">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="catalogProductImportProduct">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>        
+        <operation name="catalogProductAttributeSetGetCardinality">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>        
+        <operation name="catalogProductMediaGetFTPParams">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="catalogProductMediaProcessMedia">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+                <operation name="catalogProductMediaUploadImage">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="catalogProductAttributeListJSON">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="{{var wsdl.name}}Service">
+        <port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+            <soap:address location="{{var wsdl.url}}"/>
+        </port>
+    </service>
+</definitions>

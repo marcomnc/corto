@@ -1,0 +1,121 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link href='http://fonts.googleapis.com/css?family=Oswald&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<!--<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />-->
+
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('') ?>js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var $j = jQuery.noConflict();
+    var totImgBkg = '<?php echo Mage::getStoreConfig("autelcorto/autelcatalog/total_background_image")?>';
+    var pathImgBkg= '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);?>';
+</script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('') ?>js/jCortoApi.js?v<?php echo filemtime(Mage::getDesign()->getSkinBaseDir() .DS. 'js'.DS.'jCortoApi.js');?>"></script>
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+<!--[if lt IE 7]>
+<div style=' clear: both; text-align:center; position: relative;'>
+<a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+<img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+</a>
+</div>
+<![endif]-->
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-35861735-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+<?php 
+$_myStore = Mage::Registry(Autel_Corto_Model_Core_Dispatch::REGISTER_NAME);
+if ($_myStore->getAction() != Autel_Corto_Model_Core_Dispatch::ACTION_NO_ACTIONO):
+    //uso la stessa funzione al login. se Passo di qa non passo di la....
+?>    
+<script type="text/javascript" language="Javascript" src="http://api.easyjquery.com/easyjquery.js"></script>
+<script>
+    function clientLocalize(json) {                    
+        var countryCode = "";
+        if (typeof(json.IP) != 'undefined' && json.IP != "") {
+            if (typeof(json.CountryName) && json.CountryName != "")
+            $j.ajax( {
+                url: '<?php echo $this->getUrl("autelcorto/general/setcountry");?>',
+                type: 'GET',
+                data: {'country' : json.CountryName }
+            });
+            if (typeof(json.CountryCode3) && json.CountryCode3 != "") {
+                countryCode = json.CountryCode3;
+            }
+        }
+        $j(document).ready(function() {
+            $j.fn.selectCountry({'url': '<?php echo $this->getUrl("autelcorto/location/select", array("action" => $_myStore->getAction())); ?>',
+                                 'countryCode': countryCode,
+                                 'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
+                                 'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>'});
+        })
+     }
+     try {
+        jQuery.getScript("http://api.easyjquery.com/ips/?callback=clientLocalize");         
+    } catch (e) {
+        $j(document).ready(function() {
+            $j.fn.selectCountry({'url': '<?php echo $this->getUrl("autelcorto/location/select", array("action" => $_myStore->getAction())) ?>',
+                             'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
+                             'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>'});
+                         });
+    }
+        
+</script>
+<?endif;   ?>
+

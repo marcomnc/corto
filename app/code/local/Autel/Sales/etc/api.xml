@@ -1,0 +1,19 @@
+<config>
+    <api>
+        <resources>
+            <sales_order translate="title" module="sales">
+                <model>sales/order_api</model>
+                <title>Order API</title>
+                <acl>sales/order</acl>
+                <methods>
+                    <getOrderAdditionalInfo translate="title" module="sales">
+                        <title>Retrieve order additional information</title>
+                        <acl>sales/order/info</acl>
+                        <method>getOrderAdditionalInfo</method>
+                    </getOrderAdditionalInfo>
+                </methods>
+            </sales_order>
+        </resources>
+    </api>
+</config>
+ 

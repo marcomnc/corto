@@ -1,0 +1,25 @@
+<?php if (count($this->getGalleryImages()) > 0): ?>
+<div class="more-views">
+    <a><?php echo $this->__('More Views') ?></a>
+    <ul>
+    <?php foreach ($this->getGalleryImages() as $_image): ?>
+        <li>
+            <a href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(700); ?>" rel="more-views" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(60); ?>" width="60" height="60" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</div>
+<script>
+    
+    $j(document).ready(function() {
+        $j(".more-views ul li a").fancybox({
+            autoScale   : true,
+            showCloseButton : true
+        });
+        $j(".more-views").moreViews();
+        $j("#image").css({"cursor":"pointer"}).click(function() {
+            $j(".more-views ul li::first-child a").trigger("click");
+        })
+    });
+</script>
+<?php endif; ?>

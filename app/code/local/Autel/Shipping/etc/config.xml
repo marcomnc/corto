@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Autel_Shipping>
+      <version>0.1.0</version>
+    </Autel_Shipping>
+  </modules>
+
+  <global>
+    <models>
+      <autelshipping>
+        <class>Autel_Shipping_Model</class>
+        <resourceModel>autelshipping_mysql4</resourceModel>
+      </autelshipping>
+      <autelshipping_mysql4>
+        <class>Autel_Shipping_Model_Mysql4</class>
+        <entities>
+            <auteltablerate>
+                <table>autel_shipping_tablerate</table>
+            </auteltablerate>
+        </entities>
+      </autelshipping_mysql4>
+    </models>
+    <helpers>
+      <autelshipping>
+        <class>Autel_Shipping_Helper</class>
+      </autelshipping>
+    </helpers>
+    <blocks>
+        <autelshipping>
+            <class>Autel_Shipping_Block</class>
+        </autelshipping>
+    </blocks>
+
+<!-- declare resource setup for new module -->
+    <resources>
+<!-- resource identifier -->
+      <autelshipping_setup>
+<!-- specify that this resource is a setup resource and used for upgrades -->
+        <setup>
+<!-- which module to look for install/upgrade files in -->
+          <module>Autel_Shipping</module>
+          <class>Mage_Core_Model_Resource_Setup</class>
+        </setup>
+<!-- specify database connection for this resource -->
+        <connection>
+<!-- do not create new connection, use predefined core setup connection -->
+          <use>core_setup</use>
+        </connection>
+      </autelshipping_setup>
+    </resources>
+  </global>
+    <admin>
+        <routers>
+            <autelshipping>
+                <use>admin</use>
+                    <args>
+                        <module>Autel_Shipping</module>
+                        <frontName>autelshipping</frontName>
+                    </args>
+            </autelshipping>
+        </routers>        
+    </admin>  
+    <default>
+        <carriers>
+            <autel_dhl_shipping>
+                <model>autelshipping/carrier_DHLInternational</model>
+            </autel_dhl_shipping>
+            <autel_tnt_shipping>
+                <model>autelshipping/carrier_TNTInternational</model>
+            </autel_tnt_shipping>
+            <autel_pikup_in_paris>
+                <model>autelshipping/carrier_pickup_paris</model>
+                <is_pikup>1</is_pikup>
+                <firstname>Corto Moltedo</firstname>
+                <lastname>Paris</lastname>
+                <street>Jardins Du Palais Royal Col.146-148</street>
+                <city>Galerie de Valois</city>
+                <region_id></region_id>
+                <region>Paris</region>
+                <postcode>75001</postcode>
+                <country_id>FR</country_id>
+                <telephone>+33(0)149279791</telephone>
+            </autel_pikup_in_paris>
+            <autel_pikup_in_milan>
+                <model>autelshipping/carrier_pickup_milan</model>
+                <is_pikup>1</is_pikup>
+                <firstname>Corto Moltedo</firstname>
+                <lastname>Milano</lastname>
+                <street> Via Santo Spirito 14</street>
+                <city>Galerie de Valois</city>
+                <region_id></region_id>
+                <region>MI</region>
+                <postcode>20121</postcode>
+                <country_id>IT</country_id>
+                <telephone>+39(0)236683713</telephone>
+            </autel_pikup_in_milan>
+        </carriers>
+    </default>
+</config>

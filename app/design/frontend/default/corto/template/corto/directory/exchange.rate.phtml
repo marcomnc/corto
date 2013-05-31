@@ -1,0 +1,66 @@
+<?php
+
+$helperCurrency = Mage::Helper('autelcorto/currency');
+$viewCurrency = $helperCurrency->getCustomCurrencyToView();
+$comeFrom = ($this->hasPrintDataFrom()) ? $this->getPrintDataFrom() : "";
+?>
+
+<?php if ($helperCurrency->isExchangeRateVisible()): ?>
+<div class="block block-currency">
+<?php $toViewCurrency = false;
+      foreach ($helperCurrency->getListAvailableCurrency() as $_code => $_currency): ?>
+    <div class="currency-code">
+        <a href="#" rel="currency-rate-<?php echo $_code;?>" <?php if ($_code == $viewCurrency): $toViewCurrency=true;?>class="hover"<?php endif;?>>
+            <span><?php echo Mage::app()->getLocale()->currency($_code)->getSymbol();?></span>
+        </a>      
+    </div>                                        
+<?php endforeach;?>
+</div>
+<div id="exchange-rate" <?php if (!$toViewCurrency): ?>style="display: none"<?php endif; ?>>
+    <span>
+        <?php echo $this->__('exchange rate');?>
+    </span>
+    <?php foreach ($helperCurrency->getListAvailableCurrency() as $_code => $_currency): ?>
+    <div id="currency-rate-<?php echo $_code;?>" <?php if ($_code != $viewCurrency): ?>style="display:none"<?php endif; ?>>
+        <?php   $currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+                Mage::app()->getStore()->setData('current_currency',$_currency);
+                if ($comeFrom == ''):
+                    echo $this->getLayout()
+                          ->createBlock('catalog/product_view')
+                          ->setTemplate('catalog/product/view/price_clone.phtml')
+                          ->toHtml();  
+                elseif ($comeFrom == 'checkout' || $comeFrom == 'order_total'): 
+                    //Se vengo dal checkout o dal totale ordini ho assegnato il valore da stampare
+                    echo Mage::helper('core')->currency($this->getTotal());
+                endif;
+
+                Mage::app()->getStore()->setData('current_currency',Mage::getModel('directory/currency')->load($currentCurrencyCode));
+        ?>
+    </div>
+    <?php endforeach;?>
+
+</div>
+
+<script type="text/javascript">           
+    //<![CDATA[
+    
+        var exchangeRate=false;
+        jQuery('.currency-code a').click(function(evt) {
+           evt.stopPropagation();
+           evt.preventDefault();
+           if (!jQuery(this).hasClass('hover')) {
+                var currency=jQuery(this).attr('rel');
+                jQuery('#exchange-rate>DIV').fadeOut('slow');
+                jQuery('#exchange-rate').slideDown('fast', function() {
+                    exchangeRate=true;
+                    jQuery('#'+currency).fadeIn('fast');
+                });
+                jQuery('.currency-code a').removeClass('hover');
+                jQuery(this).addClass('hover');
+                jQuery.ajax('<?php echo $this->getUrl("autelcorto/location/setcustomcurrencyview/");?>code/'+currency+'/')
+           }
+            
+        });
+    
+</script>
+<?php endif;  ?>
