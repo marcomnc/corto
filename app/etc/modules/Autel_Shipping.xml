@@ -1,0 +1,8 @@
+<config>
+  <modules>
+    <Autel_Shipping>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Autel_Shipping>
+  </modules>
+</config>

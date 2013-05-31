@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Autel_Social>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Autel_Social>
+    </modules>
+</config> 

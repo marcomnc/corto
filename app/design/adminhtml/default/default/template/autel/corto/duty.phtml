@@ -1,0 +1,34 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td><h3 class="head-dashboard"><?php echo $this->__('Get HS Code for the specified category') ?></h3></td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+<?php 
+Mage::register('current_product', new Varien_Object);
+$model = Mage::getModel('dccharge/categories');
+$result = $model->getCategories();
+$categories = $result['categories'];
+$categoriesBlock = Mage::app()->getLayout()->createBlock('adminhtml/template')
+                        ->setTemplate('dccharge/categories.phtml');
+$categoriesBlock->setCategories($categories);
+$categoriesBlock->setName("hiho");
+echo $categoriesBlock->toHtml();
+Mage::unregister('current_product');
+?>
+    <br/>
+    <div id="duty-classification" class="duty-classification" style="font-size: 20px; display: none">
+        <span>
+            You have selected the category Duty Id <span style="font-size: 26px; font-weight: bold" id="selected-category"></span>
+        </span>        
+    </div>
+</div>
+
+<script>
+    Event.observe('dc_product_item', 'change', function () {
+        $('selected-category').update(this.value);
+        $('duty-classification').setStyle({"display": "block"});        
+    })
+</script>

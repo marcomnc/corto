@@ -1,0 +1,22 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td><h3 class="head-dashboard"><?php echo $this->__('Get Harmonized Code') ?></h3></td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <p class="switcher"><label for="country_switcher"><?php echo $this->__('Seleziona paese di spedizione:') ?></label>
+    <select name="country_switcher" id="country_switcher">
+    <?php if ($this->hasDefaultOption()): ?>
+        <option value=""><?php echo $this->getDefaultCountryName() ?></option>
+    <?php endif; ?>
+        <?php foreach (Mage::getModel('directory/country')->getCollection() as $country): ?>
+                <option value="<?php echo $this->escapeHtml($country->getIso2Code()) ?>"><?php echo $this->escapeHtml($country->getName()) ?></option>
+        <?php endforeach; ?>
+    </select>
+    <?php echo $this->getHintHtml() ?>
+    </p>
+    <?php echo $this->getChildHtml('grid');?>
+</div>
+

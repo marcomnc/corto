@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Autel_Sales>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Autel_Sales>
+        <depends>
+            <Mage_Sales/>
+            <Autel_catalog/>
+        </depends> 
+    </modules>
+</config> 
