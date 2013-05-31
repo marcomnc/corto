@@ -213,7 +213,7 @@ http://www.magentocommerce.com/wiki/4_-_themes_and_template_customization/0_-_th
                 <sort_order>99</sort_order>  
                 <!--Piazzato in fondo -->
                 <children>
-                    <duty_classification  translate="title" module="mpspayment">                                            
+                    <duty_classification  translate="title" module="autelcorto">                                            
                         <title>Classificazioni per Duty Calculator</title>
                         <sort_order>30</sort_order>
                         <action>autelcorto/adminhtml_duty</action>                           
