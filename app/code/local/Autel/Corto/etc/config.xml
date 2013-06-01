@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Autel_Corto>
-            <version>0.1.2</version>
+            <version>0.1.3</version>
         </Autel_Corto>
     </modules>
     <global>
