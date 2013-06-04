@@ -64,6 +64,12 @@ class  Autel_Corto_Model_Zone extends Mage_Core_Model_Abstract
             $this->setStateList($zoneList);
         } 
         
+        $storeList = $this->getStoreId();
+        if (is_array($this->getStoreId())) {
+            $storeList = implode($this->getStoreId(),',');
+            $this->setStoreId($storeList);
+        }
+        
         $ws = $this->getWebsiteId();
         $this->setWebsiteId($ws[0]);
         

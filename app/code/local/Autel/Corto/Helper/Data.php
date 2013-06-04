@@ -40,6 +40,7 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function getStoreFromZone($zone) {
         $store = $this->getStoreEnabledForZone($zone);
+        
         if (sizeof($store) > 0 ) {
             return $store[0];
         } 
@@ -52,6 +53,7 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
         $enabledStore = array();
         
         if ($zone instanceof Autel_Corto_Model_Zone) {
+            $myZone = $zone;
             $wsId = $zone->getWebsiteId();
         }elseif(is_int($zone+0)) {
             $myZone = Mage::getModel('autelcorto/zone')->Load($zone);
@@ -65,26 +67,17 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
             }            
         }
         
-        $myZoneStoreList = explode(",", $myZone->getStateList());
-        
         if ($wsId > 0) {
+            
             $store = mage::getModel('core/store')->getCollection();
             $store->getSelect()
-                  ->where('website_id = ?', $wsId)
+                  ->where('store_id in (?)', explode(',', $myZone->getStoreId()))
                   ->order('sort_order');
             foreach ($store as $s) {
-                
-                //Controllo che almeno un paese abilitato per la zona matchi con 
-                //almento un paese abilitato per lo stato
-                $storeCountry = "," .  (string)Mage::getStoreConfig('general/country/allow', $s) .",";
-                foreach ($myZoneStoreList as $myZoneStore) {
-                    if (strpos($storeCountry , "," . $myZoneStore . ",") !== false) {
-                        $enabledStore[] =  $s;
-                    }
-                }
-
+                $enabledStore[] =  $s;
             }
         }
+        
         return $enabledStore;
     }
     
@@ -170,6 +163,70 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
     
     public function getNewsLetterUrl() {
         return Mage::getUrl('newsletter/manage/');
+    }
+    
+    /**
+     * Verifica se le zone sono coerenti per procedere all'aggiornamento
+     * @param type $zoneId
+     */
+    public function checkZone() {
+        $stateWsId = array();
+       
+        foreach (Mage::getModel('autelcorto/zone')->getCollection() as $z) {
+      
+            foreach (explode(',', $z->getStateList()) as $state) {
+                $stateWsId[$state][$z->getWebsiteId()] = $z->getDescription();
+            }            
+            
+        }
+ 
+        $errorMsg = "";
+         
+        foreach ($stateWsId as $k=>$v) {
+        
+            if (sizeof($v) > 1) {
+                $country = Mage::getModel('directory/country')->Load($k);
+                $errorMsg .= $country->getName() . " presente in:<br>";
+                foreach ($v as $ws => $zd) {
+                    $errorMsg .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                    $errorMsg .= MAge::getModel('core/website')->Load($ws)->getName() . " (Zona . " . $zd . ")<br>";
+                }
+            }
+        
+        }
+        
+        if ($errorMsg != "") {
+            Mage::getSingleton('adminhtml/session')->addError($errorMsg);
+        }
+        
+        return $errorMsg == "";
+    }
+    
+    public function refreshZone() {
+        
+        $stateWsId = array();
+       
+        foreach (Mage::getModel('autelcorto/zone')->getCollection() as $z) {
+            if (isset($stateWsId[$z->getWebsiteId()])) {
+                $stateWsId[$z->getWebsiteId()] .= ",";
+            }
+            $stateWsId[$z->getWebsiteId()] .= $z->getStateList();
+        }
+
+        $config = new Mage_Core_Model_Config();
+        
+        foreach ($stateWsId as $k=>$v) {
+            $stateList = implode(array_unique(explode(',', $v)), ',');            
+            //Azzero la configurazione per store
+            foreach (Mage::app()->getStores() as $store) {
+                if ($store->getWebsiteId() == $k) {
+                    $config->deleteConfig('general/country/allow', 'store', $store->getId());
+                }
+            }
+            
+            $config->saveConfig('general/country/allow', $stateList, 'websites', $k);
+            
+        }       
     }
 }
 ?>

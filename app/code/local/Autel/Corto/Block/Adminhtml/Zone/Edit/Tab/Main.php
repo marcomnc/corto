@@ -37,6 +37,10 @@ class Autel_Corto_Block_Adminhtml_Zone_Edit_Tab_Main
             $fieldset->addField('entity_id', 
                                 'hidden', array('name' => 'entity_id',));
         }
+        
+        // Per ricalcolo automatico
+        $fieldset->addField('refresh_config', 
+                                'hidden', array('name' => 'refresh_config', value => 0));
 
         $fieldset->addField('group_id', 'select', array(
                 'name'      => 'group_id',
@@ -70,12 +74,24 @@ class Autel_Corto_Block_Adminhtml_Zone_Edit_Tab_Main
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('website_id', 'select', array(
                 'name'      => 'website_id[]',
-                'label'     => Mage::helper('autelcorto')->__('Store View'),
-                'title'     => Mage::helper('autelcorto')->__('Store View'),
+                'label'     => Mage::helper('autelcorto')->__('Attivo nel Website'),
+                'title'     => Mage::helper('autelcorto')->__('Attivo nel Website'),
                 'required'  => true,
                 'values'    => Mage::getModel('autelcorto/adminhtml_system_website')->toOptionArray(),
                 'disabled'  => $isElementDisabled
             ));
+            
+            $field = $fieldset->addField('store_id', 'multiselect', array(
+                'name'      => 'store_id[]',
+                'label'     => Mage::helper('autelcorto')->__('Lingue disponibili'),
+                'title'     => Mage::helper('autelcorto')->__('Lingue disponibili'),
+                'required'  => true,
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'disabled'  => $isElementDisabled,
+            ));
+            $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+            $field->setRenderer($renderer);
+            
         }
         else {
             $fieldset->addField('website_id', 'hidden', array(
@@ -83,6 +99,17 @@ class Autel_Corto_Block_Adminhtml_Zone_Edit_Tab_Main
                 'value'     => Mage::app()->getStore(true)->getWebsiteId()
             ));
             $model->setWebsiteId(Mage::app()->getStore(true)->getWebsiteId());
+            $storeId = "";
+            foreach (Mage::app()->getStores() as $store) {
+                if ($store->getWebsiteId() == Mage::app()->getStore(true)->getWebsiteId()) {
+                    $storeId .= (($storeId == "") ? "" : "," ) . $storeId;
+                }
+            }
+            $fieldset->addField('store_id', 'hidden', array(
+                'name'      => 'store_id[]',
+                'value'     => $storeId,
+            ));
+            $model->setStoreId(Mage::app()->getStore(true)->getStoreId());
         }
 
         $fieldset->addField('sort_order', 'text', array(
@@ -101,8 +128,6 @@ class Autel_Corto_Block_Adminhtml_Zone_Edit_Tab_Main
             'values'    => Mage::getSingleton('Adminhtml/System_Config_Source_Country_full')->toOptionArray(),
             'disabled'  => $isElementDisabled
         ));
-        
-        Mage::dispatchEvent('mpspricezone_adminhtml_pricezone_edit_tab_main_prepare_form', array('form' => $form));
         
         $form->setValues($model->getData());
         $this->setForm($form);

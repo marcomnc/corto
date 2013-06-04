@@ -85,17 +85,35 @@ class Autel_Corto_Adminhtml_ZoneController extends Mage_Adminhtml_Controller_Act
     {
         $errorNo = true;
         $e = "";
-        foreach ($data['state_list'] as $state) {
-            $store = Mage::Helper('autelcorto')->getStoreFromState($state);   
-            if (is_null($store)) {
-                $errorNo = false;
-                $e .= "Stato " . Mage::getModel('directory/country')->load($state)->getName() ." non assegnato a nessun Website<br>";
-            }elseif ($data['website_id'][0] != $store->getWebsiteId()) {
-                $errorNo = false;
-                $e .= "Stato " .  $state . "-" . Mage::getModel('directory/country')->load($state)->getName() ." appartiene al Web Site " ;
-                $e .= Mage::getModel('core/website')->Load($store->getWebsiteId())->getName()."<br>";
-            }
+        
+        //Controllo che ci sia il website
+        if ($data['website_id'] == "") {
+            $errorNo = false;
+            $e = "Web site non selezionato";
         }
+        
+        //Verifico se a lingua è coerente
+        if ($errorNo)
+            foreach (Mage::app()->getStores() as $store) {
+                if (array_search($store->getId(), $data['store_id']) !== false && $store->getWebsiteId() != $data["website_id"][0]) {
+                    $errorNo = false;
+                    $e .= $store->getName() . " Non appartiene al Web Site Selezionato<br>";
+                }
+            }
+        if ($errorNo && 1==0) //Lo faccio in fase di refresh dei dati 
+            foreach ($data['state_list'] as $state) {
+                $store = Mage::Helper('autelcorto')->getStoreFromState($state);   
+                if (is_null($store)) {
+                    $errorNo = false;
+                    $e .= "Stato " . Mage::getModel('directory/country')->load($state)->getName() ." non assegnato a nessun Website<br>";
+                }elseif ($data['website_id'][0] != $store->getWebsiteId()) {
+                    $errorNo = false;
+                    $e .= "Stato " .  $state . "-" . Mage::getModel('directory/country')->load($state)->getName() ." appartiene al Web Site " ;
+                    $e .= Mage::getModel('core/website')->Load($store->getWebsiteId())->getName()."<br>";
+                }
+            }
+            
+            
         if (!$errorNo) {
             Mage::getSingleton('adminhtml/session')->addError($e);
         }
@@ -140,6 +158,9 @@ class Autel_Corto_Adminhtml_ZoneController extends Mage_Adminhtml_Controller_Act
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 // go to grid
+                if ($data['refresh_config'] == 1) {
+                    $this->_refresh();
+                }
                 $this->_redirect('*/*/');
                 return;
 
@@ -233,6 +254,30 @@ class Autel_Corto_Adminhtml_ZoneController extends Mage_Adminhtml_Controller_Act
         
         $this->_redirect('*/*/index');
         
+    }
+    
+    /**
+     * Eseguo l'aggiornamento della configurazione degli store in base alle zone.
+     * Lo faccio sempre in Maniera globale
+     */
+    public function refreshAction() {
+        
+        $toEdit = $this->getRequest()->getParam('entity_id',0);
+        $this->_refresh();
+        $this->_redirect(($toEdit > 0) ? '*/*/edit' : '*/*/index');
+    }
+    
+    private function _refresh() {
+        
+        if (Mage::Helper('autelcorto')->checkZone()) {
+            try {
+                Mage::Helper('autelcorto')->refreshZone();
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::Helper('autelcorto')->__('Configurazione paesi ricalcolata. AZZERARE LA CACHE!'));
+            } catch (Exception $e) {
+                $this->_getSession()->addError( $e->getMessage());
+                        Mage::LogException($e);
+            }
+        }
     }
 }
 

@@ -22,6 +22,19 @@ class Autel_Corto_Block_Adminhtml_Zone_Edit extends Mage_Adminhtml_Block_Widget_
 
         if ($this->_isAllowedAction('save')) {
             $this->_updateButton('save', 'label', Mage::helper('autelcorto')->__('Salva Zona'));
+
+            if (Mage::registry('autelcorto_zone')->getEntityId()) {
+                $this->_addButton('refresh', array(
+                                'label'     => Mage::helper('autelcorto')->__('Refresh Config'),
+                                'onclick'   => 'setLocation(\'' . $this->_getRefreshUrl() . '\')',
+                                'class'     => 'save',
+                               ), 2);
+            }
+            $this->_addButton('save_refresh', array(
+                              'label'     => Mage::helper('autelcorto')->__('Save / Refresh'),
+                              'onclick'   => "$('entity_refresh_config').value=1;editForm.submit();",
+                              'class'     => 'save',
+                             ), 3);
         } else {
             $this->_removeButton('save');
         }
@@ -59,6 +72,10 @@ class Autel_Corto_Block_Adminhtml_Zone_Edit extends Mage_Adminhtml_Block_Widget_
     {
         //return Mage::getSingleton('admin/session')->isAllowed('mps/mpspricezone/' . $action);
         return true;
+    }
+    
+    private function _getRefreshUrl() {
+        return $this->getUrl('*/*/refresh', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
     }
 
 }
