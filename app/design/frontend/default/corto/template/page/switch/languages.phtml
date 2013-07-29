@@ -53,8 +53,7 @@ if ($enableStore != "") {
 
 <div class="form-language" rel="top-link-account" style="display: none">    
     <div id="btn-remove"><a class="btn-remove"></a></div>
-    <?php foreach (MAge::app()->getStores() as $_lang):          
-echo "<!--$enableStore  " . $_lang->getCode() . " " . $_lang->getWebSiteId() .  "-->  " ;            
+    <?php foreach (MAge::app()->getStores() as $_lang):                      
             if ($this->getCurrentWebsiteId() == $_lang->getWebSiteId() && $_lang->getIsActive()): 
 
                 if ($enableStore == "" || strpos($enableStore, "," . $_lang->getCode() . ",") !== false):

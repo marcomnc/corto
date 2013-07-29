@@ -101,7 +101,7 @@
                 <?php if (Mage::getSingleton("customer/session")->isLoggedIn() && $_myCountry == ""): ?>
 <script type="text/javascript" language="Javascript" src="http://api.easyjquery.com/easyjquery.js"></script>
 <script>	
-    function loginLocalize(json) {                    
+/*    function loginLocalize(json) {                    
         if (typeof(json.IP) != 'undefined' && json.IP != "") {
             if (typeof(json.CountryName) && json.CountryName != "")
                                     $j("#your-location").append("<?php echo $this->__("You are in");?> " + json.CountryName + " ");
@@ -116,6 +116,7 @@
     try {
         jQuery.getScript("http://api.easyjquery.com/ips/?callback=loginLocalize");         
         } catch (e) {}
+*/
 </script>
                 <?php endif; ?>
                 <?php echo $this->getChildHtml('topSearch') ?>
