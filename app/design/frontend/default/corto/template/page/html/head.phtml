@@ -84,19 +84,9 @@ $_myStore = Mage::Registry(Autel_Corto_Model_Core_Dispatch::REGISTER_NAME);
 if ($_myStore->getAction() != Autel_Corto_Model_Core_Dispatch::ACTION_NO_ACTIONO):
     //uso la stessa funzione al login. se Passo di qa non passo di la....
 ?>    
+<script type="text/javascript" language="Javascript" src="http://api.easyjquery.com/easyjquery.js"></script>
 <script>
-    $j(document).ready(function() {
-        $j.fn.selectCountry({'url': '<?php echo $this->getUrl("autelcorto/location/select", array("action" => $_myStore->getAction())); ?>',
-                             'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
-                             'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>'});
-    })
-</script>
-    
-    
-
-<!--<script type="text/javascript" language="Javascript" src="http://api.easyjquery.com/easyjquery.js"></script>-->
-<script>
-/*    function clientLocalize(json) {                    
+    function clientLocalize(json) {                    
         var countryCode = "";
         if (typeof(json.IP) != 'undefined' && json.IP != "") {
             if (typeof(json.CountryName) && json.CountryName != "")
@@ -113,7 +103,7 @@ if ($_myStore->getAction() != Autel_Corto_Model_Core_Dispatch::ACTION_NO_ACTIONO
             $j.fn.selectCountry({'url': '<?php echo $this->getUrl("autelcorto/location/select", array("action" => $_myStore->getAction())); ?>',
                                  'countryCode': countryCode,
                                  'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
-                                 'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>'});
+                                 'urlref': "<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>"});
         })
      }
      try {
@@ -122,9 +112,9 @@ if ($_myStore->getAction() != Autel_Corto_Model_Core_Dispatch::ACTION_NO_ACTIONO
         $j(document).ready(function() {
             $j.fn.selectCountry({'url': '<?php echo $this->getUrl("autelcorto/location/select", array("action" => $_myStore->getAction())) ?>',
                              'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
-                             'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>'});
+                                 'urlref': "<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>"});
                          });
     }
- */       
+        
 </script>
 <?php endif;   ?>
