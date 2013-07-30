@@ -24,25 +24,34 @@ endif;
 <?php   $i = 0; 
         $first = true;
         $oldGruop = "";
-        $countryList = $this->getCountryList();
+        $open = false;
+        $countryList = $this->getCountryList();        
         foreach ($countryList as $country_id => $country):
             $country_name = $country['description'];
             $group_name =  $country['group'];
-            if ($i%25 == 0):
+            if ($i == 0 || $group_name != $oldGruop):    
+                if ($group_name != $oldGruop): 
+                    $oldGruop = $group_name;
+                    if ($open):
+                        $i = 0;
+                        echo "</ul>";                        
+                    endif;
+                endif;                
 ?>
         <ul class="column <?php if ($first): echo ' first'; endif; ?>"
             style="visibility: <?php if ($currentZoneId != ""): ?>hidden<?php endif ?>"
             >
-            <?php if($first): $first = false; endif;?>
+            <?php $open = true; if($first): $first = false; endif;?>
 <?php        endif; ?>
-            <li class="<?php echo ($country_id == $currentZoneId)?'current':'';?><?php echo $group_name;?> <?php if ($group_name != $oldGruop): $oldGruop = $group_name;?> first-group<?php endif;?>" rel="<?php echo $i;?>">
+            <li class="<?php echo ($country_id == $currentZoneId)?'current':'';?> <?php echo $group_name;?>" rel="<?php echo $i;?>">
                 <a href="<?php echo $this->getUrl('autelcorto/location/set/', array('zone'=>$country_id, "home" => $isHome, 'countrycode' => $this->getCountryCode(),'urlref' => $this->getReferrer().''));?>"class="country-row">
                     <?php echo $country_name ?>
                 </a>
             </li>
 
-<?php       if (++$i%25 == 0 || $i == count($countryList)):                                
-?>
+<?php       if (++$i == 25 || $i == count($countryList)):
+                $open = false;
+                $i = 0;?>
         </ul>
         
 <?php       endif;             

@@ -17,6 +17,9 @@ class Autel_Corto_Model_Core_Dispatch {
 
     public function pre_dispatch($observer) {
  
+        if (Mage::app()->getStore()->getId() == 0)
+                return $observer;
+        
         $cookie = self::getCookie();
         //$front = $observer->getFront();
         if ((Mage::Registry('_from_wp') !== true && !$cookie->getNoRequest()) || $cookie->getWebsiteId() != Mage::app()->getStore()->getWebSiteId()) {
@@ -25,7 +28,10 @@ class Autel_Corto_Model_Core_Dispatch {
 
                 if (Mage::app()->getStore()->getCode() != $cookie->getStore()) {
 
-                   $cookie->setAction(self::ACTION_WARNING_SELECT); 
+                   //Ricacolo il nome del paese in base allo store
+                    $store = Mage::getModel('core/store')->Load($cookie->getStore());
+                    Header("location: " . $store->getBaseUrl());
+                    die();
                 }            
             } else {
                 $cookie->setAction(self::ACTION_SELECT); 
