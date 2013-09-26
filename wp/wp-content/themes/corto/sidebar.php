@@ -32,26 +32,7 @@
         </div><!-- .container -->
     </div><!-- #menu -->
           
-    <div class="twitter-outer">
-        <div class="twitter-inner">
-            <div class="twitter-content" id="twitter-content"></div>
-        </div>
-    </div>
-    <div id="twitter-<?php echo $suf; ?>" class="twitter"></div>
-    <script>
-        jQuery(document).ready(function() {
-            jQuery("#twitter-content").getTwitter({
-                userName: "cortomoltedo",
-                numTweets: 7,
-                loaderText: "Loading tweets...",
-                slideIn: false,
-                showHeading: true,
-                headingText: "TWEET BITS",
-                id:"#twitter-content",
-                showProfileLink: true
-            });
-        });
-    </script>
+<?php the_block("twitter.timeline"); ?>
               
 </div><!-- #secondary .widget-area -->
 

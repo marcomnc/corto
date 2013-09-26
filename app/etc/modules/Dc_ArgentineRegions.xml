@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Dc_ArgentineRegions>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Dc_ArgentineRegions>
+    </modules>
+</config> 

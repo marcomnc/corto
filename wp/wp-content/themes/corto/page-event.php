@@ -45,10 +45,9 @@ get_header(); ?>
 ?>
     <?php if ( ! have_posts() ) : ?>
     <div>
-      <span>No events scheduled. Please <a href="#">subscribe</a> to our newsletter.</span>
+        <span>We are currently preparing our upcoming  events, to find out more and to be notified in advance  please <a class="class-popuplogin" href="#">subscribe</a> to our newsletter.</span>
     </div><!-- #post-0 -->
   <?php endif; ?>
-
 
   <?php 
     if (have_posts()) : 
@@ -72,7 +71,7 @@ get_header(); ?>
       <img src="<?php echo get_field('image_'.$post_count.'_column') ?>" />
       <div class="event-title">
         <?php the_title(); ?><br />
-        <?php echo date_i18n('d F Y', $dbDate); ?>
+        <?php #echo date_i18n('d F Y', $dbDate); ?>
       </div>
       
       <div class="event-content">

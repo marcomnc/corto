@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *
+ * @category    Core
+ * @package     PrivateSales   
+ * @copyright   Copyright (c) 2013 Mps Sistemi (http://www.mps-sistemi.it)
+ * @author      MPS Sistemi S.a.s - Marco Mancinelli <marco.mancinelli@mps-sistemi.it>
+ *
+ */
+-->
+
+
+<config>
+    <tabs>
+        <mpssistemi translate="label" module="mpstwitter">
+            <label>Mps Sistemi</label>
+            <sort_order>999</sort_order>
+        </mpssistemi>
+    </tabs>  
+    <sections>
+        <mpstwitter translate="label" module="mpstwitter">
+            <label>Twitter Configuration</label>
+            <tab>mpssistemi</tab>
+            <sort_order>999</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <groups>
+                <key translate="label" module="mpstwitter">
+                    <label>Twitter Key</label>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>        
+                    <comment>Get this information from twitter Application</comment>            
+                    <fields>
+                        <consumer_key translate="label" module="mpstwitter">
+                            <label>Consumer key</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </consumer_key>                        
+                        <consumer_secret>
+                            <label>Consumer secret</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </consumer_secret>
+                    </fields>
+                </key>
+                <url>
+                    <label>Twitter oAuth Url</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>                    
+                    <comment>Get this information from twitter Application</comment>       
+                    <fields>
+                        <token translate="label" module="mpstwitter">
+                            <label>Token URL</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                        </token>
+                        <request_token translate="label" module="mpstwitter">
+                            <label>Request token URL</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                        </request_token>
+                        <authorize translate="label" module="mpstwitter">
+                            <label>Authorize  URL</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                        </authorize>
+                        <access_token translate="label" module="mpstwitter">
+                            <label>Access Token URL</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                        </access_token>
+                        <timeout>
+                            <label>Request Time Out (milliseconds)</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                        </timeout>
+                    </fields>
+                </url>
+                <api_time_line>
+                    <label>API Settings - Time Line</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>                    
+                    <fields>
+                        <url translate="label" module="mpstwitter">
+                            <label>Api Url</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                        </url>
+                        <user translate="label" module="mpstwitter">
+                            <label>Time Line User</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </user>
+                        <count translate="label" module="mpstwitter">
+                            <label>Time Line Count</label>
+                            <frontend_type>Text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </count>
+                        <rts translate="label" module="mpstwitter">
+                            <label>Include Refollow</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_Yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                        </rts>
+                        <replay translate="label" module="mpstwitter">
+                            <label>Include Replay</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_Yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                        </replay>
+                    </fields>
+                </api_time_line>
+            </groups>
+        </mpstwitter>
+    </sections>
+</config>

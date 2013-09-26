@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *
+ * @category    Core
+ * @package     PrivateSales   
+ * @copyright   Copyright (c) 2013 Mps Sistemi (http://www.mps-sistemi.it)
+ * @author      MPS Sistemi S.a.s - Marco Mancinelli <marco.mancinelli@mps-sistemi.it>
+ *
+ */
+-->
+
+
+<config>
+    <modules>
+        <MpsSistemi_Twitter>
+            <version>0.1.0</version>
+        </MpsSistemi_Twitter>
+    </modules>
+    
+    <global>
+        <helpers>
+            <mpstwitter>
+                <class>MpsSistemi_Twitter_Helper</class>
+            </mpstwitter>
+        </helpers>        
+        <blocks>
+            <mpstwitter>
+                <class>MpsSistemi_Twitter_Block</class>
+            </mpstwitter>
+        </blocks> 
+        <models>
+            <mpstwitter>
+                <class>MpsSistemi_Twitter_Model</class>
+            </mpstwitter>
+        </models>
+        
+        <events>
+        </events>
+        
+        <template>
+        </template>
+    </global>
+    
+    <frontend>
+        <layout>
+            <updates>
+                <autelsocial>
+                    <file>mpstwitter.xml</file>
+                </autelsocial>
+            </updates>
+        </layout>  
+    </frontend>
+    
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mpstwitter>
+                                            <title>Mps Twitter</title>
+                                        </mpstwitter>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    
+    <default>
+        <mpstwitter>
+            <url>
+                <token>https://api.twitter.com/oauth/token</token>
+                <request_token>https://api.twitter.com/oauth/request_token</request_token>
+                <authorize>https://api.twitter.com/oauth/authorize</authorize>
+                <access_token>https://api.twitter.com/oauth/access_token</access_token>
+                <timeout>5000</timeout>
+            </url>
+            <api_time_line>
+                <url>https://api.twitter.com/1.1/statuses/user_timeline.json</url>
+            </api_time_line>
+        </mpstwitter>
+    </default>
+</config>

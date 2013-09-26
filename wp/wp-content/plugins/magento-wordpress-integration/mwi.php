@@ -173,6 +173,21 @@ class jck_mwi
 		
 		if ( !empty( $magepath ) && file_exists( $magepath ) && !is_dir( $magepath )) {
 			
+		/*	require_once($magepath);
+			umask(0);
+			
+			if(class_exists( 'Mage' ) && !is_admin()) {
+				global $app;
+				$app = Mage::app($sv); // Use $sv variable from above as Magento Store View Code
+				//$app = Mage::app("it"); // Use $sv variable from above as Magento Store View Code
+				
+				// Session setup
+				Mage::getSingleton('core/session', array('name'=>'frontend'));
+				Mage::getSingleton("checkout/session");
+				// End session setups
+				
+				Mage::getDesign()->setPackageName($package)->setTheme($theme); // Set theme so Magento gets blocks from the right place.
+			}*/
 			require_once($magepath);
 			umask(0);
 
@@ -180,8 +195,10 @@ class jck_mwi
 				global $app;
 
 				$storeCoockie = unserialize(base64_decode($_COOKIE['storeLocator']));
-				if (isset($storeCoockie['store']) && $storeCoockie['store'] != "") {
+				if (isset($storeCoockie['store']) && $storeCoockie['store'] != "" ) {
 					$sv = $storeCoockie['store'];
+					if ($sv == 'en_us')  
+						$sv = 'en';
 				}
 				$app = Mage::app($sv); // Use $sv variable from above as Magento Store View Code
 				//$app = Mage::app("it"); // Use $sv variable from above as Magento Store View Code

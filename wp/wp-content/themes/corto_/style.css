@@ -1,0 +1,519 @@
+/*
+Theme Name: Corto
+Theme URI: http://wordpress.org/extend/themes/corto
+Author: Automattic
+Author URI: http://automattic.com/
+Description: A semantic, HTML5, canvas for CSS artists and an ultra-minimal set of super-clean templates for your own WordPress theme development.
+Version: 1.4
+License: GNU General Public License
+License URI: license.txt
+Tags: custom-menu, sticky-post, microformats, rtl-language-support, translation-ready, full-width-template, post-formats
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
+/* =Structure
+-------------------------------------------------------------- */
+
+#page { }
+#primary { }
+#content { }
+#main .widget-area { }
+#colophon { clear: both; display: block; width: 100%; }
+
+/* Increase the size of the content area for templates without sidebars */
+.full-width #content,
+.image-attachment #content,
+.error404 #content { margin: 0; }
+
+/* Text meant only for screen readers */
+.screen-reader-text,
+.assistive-text {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+	clip: rect(1px, 1px, 1px, 1px);
+}
+
+/* Alignment */
+.alignleft { display: inline; float: left; }
+.alignright { display: inline; float: right; }
+.aligncenter { clear: both; display: block; margin-left: auto; margin-right: auto; }
+
+/* =Header
+-------------------------------------------------------------- */
+
+#site-title { }
+#site-description { }
+
+/* =Menu
+-------------------------------------------------------------- */
+
+#access {
+	background: #eee;
+	display: block;
+	float: left;
+	margin: 0 auto 1em;
+	width: 100%;
+}
+#access ul {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+}
+#access li {
+	float: left;
+	position: relative;
+}
+#access a {
+	display: block;
+	line-height: 2em;
+	padding: 0 1em;
+	text-decoration: none;
+}
+#access ul ul {
+	box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+	display: none;
+	float: left;
+	position: absolute;
+	top: 2em;
+	left: 0;
+	z-index: 99999;
+}
+#access ul ul ul {
+	left: 100%;
+	top: 0;
+}
+#access ul ul a {
+	background: #dedede;
+	line-height: 1em;
+	padding: .5em .5em .5em 1em;
+	width: 10em;
+	height: auto;
+}
+#access li:hover > a,
+#access ul ul :hover > a {
+	background: #dedede;
+}
+#access ul ul a:hover {
+	background: #cecece;
+}
+#access ul li:hover > ul {
+	display: block;
+}
+
+
+/* =Content
+-------------------------------------------------------------- */
+
+
+.sticky {
+}
+.entry-meta {
+	display: block;
+}
+.single-author .entry-meta .byline {
+	display: none;
+}
+.wp-page nav,
+#content nav {
+	display: block;
+	overflow: hidden;
+}
+.wp-page nav .nav-previous,
+#content nav .nav-previous {
+	float: left;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 10px;
+}
+.wp-page nav .nav-next,
+#content nav .nav-next {
+	float: right;
+	text-align: right;
+    padding-left: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-left: 5px solid white;
+}
+#content #nav-above {
+	/*display: none;*/
+}
+.paged #content #nav-above,
+.single #content #nav-above {
+	display: block;
+}
+#nav-below {
+	margin: 1em 0 0;
+}
+.page-link {
+	clear: both;
+	margin: 0 0 1em;
+}
+.page .edit-link {
+	clear: both;
+	display: block;
+}
+
+/* 404 page */
+.error404 .widget {
+	float: left;
+	width: 33%;
+}
+.error404 .widget .widgettitle,
+.error404 .widget ul {
+	margin-right: 1em;
+}
+.error404 .widget_tag_cloud {
+	clear: both;
+	float: none;
+	width: 100%;
+}
+
+/* Notices */
+.post .notice,
+.error404 #searchform {
+	background: #eee;
+	display: block;
+	padding: 1em;
+}
+
+/* Image Attachments */
+.image-attachment div.entry-meta {
+	float: left;
+}
+.image-attachment nav {
+	float: right;
+	margin: 0 0 1em 0;
+}
+.image-attachment .entry-content {
+	clear: both;
+}
+.image-attachment .entry-content .entry-attachment {
+	background: #eee;
+	margin: 0 0 1em;
+	padding: 1em;
+	text-align: center;
+}
+.image-attachment .entry-content .attachment {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+
+/* Aside Posts */
+.format-aside .entry-header {
+	display: none;
+}
+.single .format-aside .entry-header {
+	display: block;
+}
+.format-aside .entry-content,
+.format-aside .entry-summary {
+	padding-top: 1em;
+}
+.single .format-aside .entry-content,
+.single .format-aside .entry-summary {
+	padding-top: 0;
+}
+
+/* Gallery Posts */
+.format-gallery .gallery-thumb {
+	float: left;
+	margin: 0 1em 0 0;
+}
+
+/* Image Posts */
+.format-image .entry-header {
+	display: none;
+}
+.single .format-image .entry-header {
+	display: block;
+}
+.format-image .entry-content,
+.format-image .entry-summary {
+	padding-top: 1em;
+}
+.single .format-image .entry-content,
+.single .format-image .entry-summary {
+	padding-top: 0;
+}
+
+.wrapper-page-blog,
+.wrapper-page { background-color: white; padding: 30px 0 0; position: relative; }
+
+
+/* =Images
+-------------------------------------------------------------- */
+
+a img {
+	border: none;
+}
+p img {
+	margin-bottom: 0.5em; /* a small bottom margin prevents content floating under images */
+}
+/*
+Resize images to fit the main content area.
+- Applies only to images uploaded via WordPress by targeting size-* classes.
+- Other images will be left alone. Use "size-auto" class to apply to other images.
+*/
+img.size-auto,
+img.size-full,
+img.size-large,
+img.size-medium,
+.attachment img,
+.widget-area img,
+.wp-caption {
+	max-width: 100%; /* When images are too wide for containing element, force them to fit. */
+	height: auto; /* Override height to match resized width for correct aspect ratio. */
+}
+img.alignleft {
+	margin-right: 1em;
+}
+img.alignright {
+	margin-left: 1em;
+}
+.wp-caption {
+	padding: .5em;
+	text-align: center;
+}
+.wp-caption img {
+	margin: .25em;
+}
+.wp-caption .wp-caption-text {
+	margin: .5em;
+}
+.gallery-caption {
+}
+.wp-smiley {
+	margin: 0;
+}
+
+
+/* =Forms
+-------------------------------------------------------------- */
+
+#searchform label {
+	display: none;
+}
+#searchform input#s {
+	width: 60%;
+}
+input[type=text],
+input#s {
+	margin: 0 1em 0 0;
+	width: 60%;
+}
+textarea {
+	width: 80%;
+}
+
+/* Class for labelling required form items */
+.required {
+	color: #cc0033;
+}
+
+
+/* =Comments
+-------------------------------------------------------------- */
+
+article.comment {
+	display: block;
+}
+#respond input[type=text] {
+	display: block;
+	width: 60%;
+}
+#respond textarea {
+	display: block;
+	margin: 0 0 1em;
+	width: 80%;
+}
+#respond .form-allowed-tags {
+	clear: both;
+	width: 80%;
+}
+#respond .form-allowed-tags code {
+	display: block;
+}
+
+
+/* =Widgets
+-------------------------------------------------------------- */
+
+.widget {
+	display: block;
+}
+.widget-area .widget_search {
+	overflow: hidden;
+}
+.widget-area .widget_search input {
+	float: left;
+}
+
+.widget-title
+{
+  background: none repeat scroll 0 0 black;
+  color: white;
+  margin: 1px 0!important;
+  padding: 2px 15px!important;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: normal!important;
+}
+
+.widget-title a:hover { color: white!important; }
+
+/* =Footer
+-------------------------------------------------------------- */
+
+#colophon {
+	padding: 1em 0 0;
+}
+
+.blog .col-main {
+    border: 0 none;
+    padding: 0;
+    width: 725px;
+}
+
+
+h1.entry-title 
+{
+  font-weight: bold;
+  text-transform: uppercase;
+  float: left;
+  line-height: normal;
+  font-size: 12px;
+  width: 500px;
+  padding: 0 0 0 15px;
+}
+
+.single h1.entry-title 
+{
+  float: none;
+  line-height: normal;
+  font-size: 16px;
+  padding: 0;
+  width: auto;
+}
+
+
+h1.entry-title a { text-decoration: none; }
+.entry-header { margin-top: 35px; }
+.entry-header .entry-meta { float: right; }
+.single .entry-header { margin-top: 15px; }
+footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align: right; }
+.entry-meta a { text-decoration: none; }
+.entry-content { padding-left: 15px; padding-right: 15px; padding-top: 15px; }
+.entry-nav { float:right; background: black; padding: 0px 15px; text-transform: uppercase; color: white; font-weight: bold;}
+.entry-nav a { color: white; text-decoration: none; }
+
+.wp-page .col-main,
+.archive .col-main,
+.category .col-main,
+.single .col-main {
+    border: 0 none;
+    padding: 0;
+    width: 725px;
+}
+
+.wp-page .page { min-height: 0; }
+
+.single .breadcrumbs { float:left; width: auto; }
+.single .entry-header { padding: 0 15px; }
+.breadcrumbs .last { font-weight:bold; }
+
+/* MEDIA */
+
+.media-content { margin: 40px auto 0 auto; width: 540px; clear: both; }
+.media-left { margin: 5px; float:left; text-align: right; }
+.media-center { margin: 5px; float:left; }
+.media-right { margin: 5px; float:left; }
+.media-content h2 {  margin-top: 20px; text-transform: uppercase; font-weight: bold; font-size: 12px; padding-bottom: 5px; }
+.media-content a { color: #999; }
+
+.media-center h2 { margin-top: 20px; }
+
+.media-content .text-input-label { position: absolute; font-size: 12px; color: #999; padding: 2px 0px 0 3px }
+.media-content .text-input { margin: 0 0 5px 0; font-size: 12px; display: block; width: 180px; border: 1px solid #999; padding: 2px; }
+.media-content .btn { color: white; background: black; padding: 2px 10px; font-weight: bold; font-size: 12px; border: 0; }
+
+/* EVENTS */
+
+.events-1-column .event-item { width: 950px; }
+.events-2-column .event-item { width: 470px; }
+.events-3-column .event-item { width: 310px; }
+.event-item { float: left; margin-right: 10px; padding-top: 8px; }
+.event-item-last { float: left; margin-right: 0!important; }
+.event-title { background: black; font-weight: bold; text-transform: uppercase; color: white; padding: 5px; margin: 10px 0; text-align: center; }
+.event-content { padding: 15px 5px; text-align: center; }
+
+/* CUTTINGS */
+
+.cuttings-wrapper { background: white; padding-bottom: 50px; }
+.cuttings { background: black; }
+.cuttings-inner { width: 952px; padding: 10px 0 0px 0; margin: 0 auto; text-align: left; }
+.cuttings-item { float: left; margin-right: 4px; padding-bottom: 10px; }
+.cuttings-dialog { z-index: 30; background: black; color: white; height: 510px; width: 375px; position: absolute; }
+.cuttings-gallery-item { padding: 5px; position: relative; }
+.cuttings-dialog .btn-remove { margin: 5px 5px 0 5px; }
+.page-template-page-cuttings-php .main-container { padding: 0; }
+.page-template-page-cuttings-php .wrapper-page { padding-bottom: 5px; }
+.page-template-page-cuttings-php .wrapper-page-blog { padding-bottom: 5px; }
+.nav-arrow-prev,
+.nav-arrow-next { background-color: black; text-decoration: none; position: absolute; top: 240px; padding: 4px 8px; display: block; font-weight: bold; color: white; font-size: 11px; }
+.nav-arrow-prev { left: 0; }
+.nav-arrow-next { right: 0; }
+.cuttings-download-link { display: block; position: absolute; font-size: 10px; color: white; text-decoration: none; padding: 5px 10px; background: black; left: 0; bottom: 0; font-weight: bold; }
+
+/* TWITTER */
+.twitter-outer { background: white url('images/twitter_box_top.png') no-repeat; padding-top: 30px; width: 220px; margin-top: 20px; }
+.twitter-inner {  background: white url('images/twitter_box_bottom.png') no-repeat left bottom; }
+.twitter-content { padding: 10px; color: black; }
+.twitter-content h3 { text-align: center; }
+.twitter_update_list li { padding-bottom: 10px; margin-top: 10px; border-bottom: 1px solid #DDD; }
+.twitter_update_list li a { color: #666; text-decoration: none; }
+
+/* RELEASES */
+.page-template-page-press-list-php article { clear: both; display: block; background: #E6E7E8; padding: 5px; margin-top: 10px; }
+.release-image { float: left; width: 200px; }
+.release-list-content { float:right; width: 500px; font-size: 12px; }
+.release-title { float: left; font-weight: bold; text-transform: uppercase; }
+.release-excerpt { padding-top: 10px; float: left; }
+.release-date { float:right; }
+.release-more { float:right; padding-top: 10px; }
+.release-more a { font-weight: bold; }
+.release-title a { text-decoration: none; }
+
+/* COLLECTIONS */
+.page-template-page-collection-list-php article { clear: both; display: block; background: black; color: white; padding: 5px; margin-top: 10px; }
+.collection-image { float: left; width: 200px; }
+.collection-list-content { float:right; width: 500px; font-size: 12px; }
+.collection-title { float: left; font-weight: bold; text-transform: uppercase; }
+.collection-excerpt { padding-top: 10px; float: left; }
+.collection-date { float:right; }
+.collection-more { float:right; padding-top: 10px; }
+.collection-more a { font-weight: bold; color: white; }
+.collection-title a { text-decoration: none; color: white; }
+.collection-items .last { margin-right: 0px!important; }
+.collection-item { float: left; padding-bottom: 10px; margin-right: 5px; }
+.collection-item-footer { padding-top: 5px; }
+.collection-high { display: block; float: right; }
+.collection-low { display: block; float: left; }
+.collection-files { margin-top: 10px; }
+.collection-files-title { margin-top: 20px; }
+
+/* ASSETS */
+
+/* SOCIAL LINKS */
+.social-link { height: 16px }
+.social-link .btn-social {float: right; height: 50px; margin: 0 3px 0 0; width: 16px; position: relative; }
+.social-link .social-set { height: 16px }
+.social-link .facebook .social-set { background: url('images/add_fb.png') no-repeat 0 0 ; }
+.social-link .twitter .social-set { background: url('images/add_twitter.png') no-repeat 0 0 ; }
+.social-link .pintrest .social-set { background: url('images/add_pin.png') no-repeat 0 0 ; }
+.social-link .facebook .social-real { position: absolute; left: 0px; }

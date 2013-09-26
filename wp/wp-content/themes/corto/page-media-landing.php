@@ -94,7 +94,7 @@ $uam = new UserAccessManager();
                 <div class="media-right">
                   <h2>Register</h2>
                   <p>
-                    <a class="popup-request media-request" href="<?php echo Mage::getUrl("autelcorto/general/mediarequest");?>">Not yet registered for Media access?</a><br />
+                    <a class="popup-request media-request" href="<?php echo Mage::getUrl("autelcorto/general/mediarequest");?>">Click here to register!</a><br />
                     <a class="popup-request password-request" href="<?php echo Mage::getUrl("autelcorto/general/forgotpassword");?>">Forgot your Media password?</a><br />                    
                   </p>
                 </div>

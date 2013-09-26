@@ -1995,10 +1995,6 @@ class UserAccessManager
                 $object = get_post($this->get_ID_by_page_name($pageParams->query_vars['pagename']));
                 $objectType = $object->post_type;
                 $objectId = $object->ID;
-            } elseif (isset($pageParams->query_vars['post_type']) && isset($pageParams->query_vars['name'])) {
-                $object = get_post($this->get_ID_by_post_type($pageParams->query_vars['post_type'], $pageParams->query_vars['name']));
-                $objectType = $object->post_type;
-                $objectId = $object->ID;
             }
             
             //echo 'oggetto';
@@ -2009,13 +2005,13 @@ class UserAccessManager
                 ||$object !== null
                 && !$this->getAccessHandler()->checkObjectAccess($objectType, $objectId)
             ) {
-//            	echo 'oggetto';
-//            	print_r($object);
-//            	echo '<br />params';
-//	        print_r($pageParams);
-//                echo '<br />headers';
-//	        print_r($headers);
-//   		die();
+            	//echo 'oggetto';
+            	//print_r($object);
+            	//echo '<br />params';
+	            //print_r($pageParams);
+                //echo '<br />headers';
+	            //print_r($headers);
+   		        //die();
                 $this->redirectUser($object);
             }
         }
@@ -2026,14 +2022,6 @@ class UserAccessManager
       $page_name_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_name = '".$page_name."' AND post_type = 'page'");
       return $page_name_id;
     }
-    
-    
-    function get_ID_by_post_type($post_type, $post_name) {
-      global $wpdb;
-      $page_name_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_name = '".$post_name."' AND post_type = '$post_type'");
-      return $page_name_id;
-    }
-    
     
     /**
      * Returns the current url.

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : system.xml
+    Created on : 22 agosto 2012, 16.13
+    Author     : Marco Mancinelli
+    Description:
+        Purpose of the document follows.
+-->
+
+<config>
+    <sections>
+        <payment>
+            <groups>
+                <key_client translate="label" module="mpspayment">
+                    <label><![CDATA[MPS - Payment Service - CIM - Key Client card & solution]]></label>
+                    <sort_order>670</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <url translate="label">
+                            <label>Url of the payment gateway</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>                            
+                        </url>
+                        <alias translate="label">
+                            <label>User for gateway</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </alias>
+                        <mac translate="label">
+                            <label>Mac for calculate secret key</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>                            
+                        </mac>
+                        <order_status translate="label">
+                            <label>New Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>mpspayment/adminhtml_system_config_source_order_status</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                        <order_status_after translate="label">
+                            <label>Order Status after processing OK</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>mpspayment/adminhtml_system_config_source_order_status</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status_after>
+                        <generate_invoice_after translate="label">
+                            <label>Generate Invoice after processing OK</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </generate_invoice_after>
+                        <allowspecific translate="label">
+                            <label>Payment Applicable From</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </allowspecific>
+                        <specificcountry translate="label">
+                            <label>Countries Payment Applicable From</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends><allowspecific>1</allowspecific></depends>
+                        </specificcountry>
+                        <transaction_mode translate="label">
+                            <label>Transaction Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>mpspayment/adminhtml_system_config_source_payment_transactionmode</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </transaction_mode>
+                        <bank_logo translate="label">
+                            <label>Logo</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">mps/payment/logo</upload_dir>
+                            <base_url type="media" scope_info="1">mps/payment/logo</base_url>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </bank_logo>
+                        <bank_description translate="label">
+                            <label>Description Text on Frontend</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </bank_description>
+                        <language traslate="label">
+                            <label>Language for HOSTED PAYMENT PAGE</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>mpspayment/adminhtml_system_config_source_payment_language_keyc</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </language>
+                        <complete_payment traslate="label">
+                            <label>Reward if order is pending</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </complete_payment>
+                        <debug translate="label">
+                            <label>Debug Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </debug>
+                    </fields>
+                </key_client>
+            </groups>
+        </payment>
+    </sections>
+</config>

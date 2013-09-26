@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : config.xml
+    Created on : 22 agosto 2012, 14.44
+    Author     : marcoma
+    Description:
+        Configurazione modulo pagamento.
+-->
+
+<config>
+    <modules>
+        <Mps_Payment>
+            <version>0.1.0</version>
+        </Mps_Payment>
+    </modules>
+    <global>
+        <models>
+            <mpspayment>
+                <class>Mps_Payment_Model</class>
+                <resourceModel>mpspayment_Mysql4</resourceModel>
+            </mpspayment>
+            <mpspayment_Mysql4>
+                <class>Mage_Payment_Model_Mysql4</class>
+                <entities>
+                    <transactionlog>
+                        <table>mps_payment</table>
+                    </transactionlog>
+                    <transactionstatus>
+                        <table>mps_payment_status</table>
+                    </transactionstatus>
+                </entities>
+            </mpspayment_Mysql4>
+        </models>
+        <helpers>
+          <mpspayment>
+            <class>Mps_Payment_Helper</class>
+          </mpspayment>
+        </helpers>
+        <resources>
+            <mpspayment_setup>
+                <setup>
+                    <module>Mps_Payment</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mpspayment_setup>
+        </resources>
+        <blocks>
+            <mpspayment><class>Mps_Payment_Block</class></mpspayment>
+        </blocks>
+    </global>
+    <frontend>
+        <routers>
+            <mpspayment>
+                <use>standard</use>
+                <args>
+                    <module>Mps_Payment</module>
+                    <frontName>mpspaygate</frontName>
+                </args>
+            </mpspayment>
+        </routers>
+        <translate>
+            <modules>
+                <Mps_Payment>
+                    <files>
+                        <default>Mps_Payment.csv</default>
+                    </files>
+                </Mps_Payment>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <mpspayment>
+                    <file>mpspayment.xml</file>
+                </mpspayment>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mps_Payment>
+                    <files>
+                        <default>Mps_Payment.csv</default>
+                    </files>
+                </Mps_Payment>
+            </modules>
+        </translate>
+        <menu>
+<!--             <CORTO translate="title">
+                <title>CORTO</title>
+                <sort_order>99</sort_order>  
+                <children>
+                    <payment_transaction  translate="title" module="mpspayment">                                            
+                        <title>Tansazioni di pagamento</title>
+                        <sort_order>10</sort_order>
+                        <children>                            
+                            <key_client translate="title" module="mpspayment">
+                                <title><![CDATA[CIM - Key Client card & solution]]></title>
+                                <sort_order>2</sort_order>
+                                <depends><config>payment/key_client/active</config></depends>
+                                <action>mpspyment/adminhtml_paytran/trantype/key_client/</action>   
+                            </key_client>
+                        </children> 
+                    </payment_transaction>
+                </children> 
+             </CORTO>-->
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>                        
+<!--                        <CORTO>
+                            <title>Corto</title>
+                            <children>
+                                <payment_transaction>
+                                    <title>Tansazioni di pagamento</title>
+                                    <children>
+                                    	<key_client>
+                                    		<title><![CDATA[CIM - Key Client card & solution]]></title>
+                                    	</key_client>
+                                    </children>
+                                </payment_transaction>
+                            </children>
+                        </CORTO>-->
+                    </children>
+                </admin>
+            </resources>
+        </acl> 
+    </adminhtml>
+    <default>
+<!-- 
+<redirect_block></redirect_block> 
+Permette di specificare un eventuale blocco custom da utilizzare in fase di redirect verso la banca...
+-->
+        <payment>        
+            <xpay_cartasi>
+                <active>0</active>
+                <model>mpspayment/method_xpay</model>
+                <order_status>1</order_status>
+                <title>Servizio X-Pay (Carta Si)</title>
+                <allowspecific>0</allowspecific>
+                <transaction_mode>0</transaction_mode>
+                <order_status>pending_payment</order_status>
+                <order_status_after>processing</order_status_after>
+                <redirect_block></redirect_block>
+                <complete_payment>0</complete_payment>
+            </xpay_cartasi>
+            <key_client>
+                <active>0</active>
+                <model>mpspayment/method_keyc</model>
+                <order_status>1</order_status>
+                <title><![CDATA[CIM - Key Client card & solution]]></title>
+                <allowspecific>0</allowspecific>
+                <transaction_mode>0</transaction_mode>
+                <order_status>pending_payment</order_status>
+                <order_status_after>processing</order_status_after>
+                <redirect_block></redirect_block>
+                <complete_payment>0</complete_payment>
+            </key_client>
+            <consorzio_triveneto>
+                <active>0</active>
+                <model>mpspayment/method_triveneto</model>
+                <order_status>1</order_status>
+                <title>Consorzio triveneto</title>
+                <allowspecific>0</allowspecific>
+                <transaction_mode>0</transaction_mode>
+                <order_status>pending_payment</order_status>
+                <order_status_after>processing</order_status_after>
+                <redirect_block></redirect_block>
+                <complete_payment>0</complete_payment>
+            </consorzio_triveneto>
+        </payment>
+    </default> 
+</config>
+

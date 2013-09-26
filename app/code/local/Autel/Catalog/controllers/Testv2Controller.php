@@ -236,7 +236,9 @@ class Autel_Catalog_Testv2Controller extends Mage_Core_Controller_Front_Action {
                 
             }
         }
-        die();                
+        die();
+        
+        
     }
             
 }

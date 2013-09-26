@@ -80,6 +80,7 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
             $_oriProcessor[$pProcess->getId()] = $pProcess->getMode();
             $pProcess->setMode(Mage_Index_Model_Process::MODE_MANUAL)->save();
         }       
+
         //Creo i prodotti        
         foreach ($productList as &$product) {
             if ($this->_isDataComplete($product)===true) {                
@@ -112,8 +113,9 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
             $pProcess->setMode($v)->save();
             $this->_hlp->debug("Ricalcolo " . $pProcess->getIndexerCode());
             $pProcess->reindexAll();
+            $this->_hlp->debug("Ricalcolo " . $pProcess->getIndexerCode() . " Completato");
         }
-        $this->_hlp->debug("Fine Ricostruzione Indici");
+        $this->_hlp->debug("Fine Ricostruzione Indici"); 
         
         return 0;
     }    
@@ -192,11 +194,18 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
                 } else {
                     $attrValue = $attribute->AttributeValue;
                 }  
+
+//$this->_hlp->debug(($attribute->StoreId == 0) ? "vero" : "Falso");
+//$this->_hlp->debug((!$myProduct[0]->hasData($attribute->AttributeCode)) ? 'Vero' : 'Falso');
+//$this->_hlp->debug((($myProduct[0]->getData($attribute->AttributeCode) .'') == "") ? "Vero" : "Falso");
                 
                 $myProduct[$attribute->StoreId]->setData($attribute->AttributeCode,$attrValue);
-                if (!$myProduct[0]->hasData($attribute->AttributeCode)) {
-                    //Lo store di default non ha impostato l'attributo. l'aggiorno
+                if ($attribute->StoreId == 0 || !$myProduct[0]->hasData($attribute->AttributeCode) || ($myProduct[0]->getData($attribute->AttributeCode) .'') == '') {
+                    //Lo store di default non ha impostato l'attributo o
+                    //l'attributo è per lo store di default o  
+                    // lo store di default ha impostato l'attributo vuoto
                     $myProduct[0]->setData($attribute->AttributeCode,$attrValue);
+//$this->_hlp->debug('Imposto store 0 - ' . $attrValue);
                 }
             }
         }
@@ -239,19 +248,30 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
             
             $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". tentativo di Salvataggio Store 0 ");
             $myProduct[0]->Save();            
+
+//$this->_hlp->debug(MAge::GetModel('catalog/product')->Load( $myProduct[0]->getId())->getData('c_weight_gr'));
             //Salvo solo per gli store previsti dai Web Site         
             foreach ($this->_hlp->getStoreByWebSite($prod->WebSite) as $store) {
+
                 $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". tentativo di Salvataggio Store " . $store->getId());
                 
-                foreach ($prod->Attribute as $attr) {
+
+		foreach ($prod->Attribute as $attr) {
                     if ($attr->StoreId == 0) {
-                        $myProduct[$store->getId()]->setData($attr->AttributeCode, false);                      
+                    		$attrRow = $this->_getAttributeRow($attr->AttributeCode);
+//$this->_hlp->debug($attrRow->getData());
+                    		if ($attrRow->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL) {
+                    			$myProduct[$store->getId()]->setData($attr->AttributeCode, $myProduct[0]->getData($attr->AttributeCode));
+                    		} else {
+                    			$myProduct[$store->getId()]->setData($attr->AttributeCode, false);                      
+                    		}                        
                     }
-                }
-                
+                }                
                 
                 //$myProduct[$store->getId()]->setTaxClassId($this->_getTax($myProduct[$store->getId()]->getTaxClassId()));
                 $myProduct[$store->getId()]->Save();
+
+//$this->_hlp->debug(MAge::GetModel('catalog/product')->Load( $myProduct[0]->getId())->getData('c_weight_gr'));
                 //Aggiorno l'associazione con il website
                 //$this->_action->updateWebsites($myProduct[$store->getId()]->getId(), $store->getWebsiteId(), 'add');
             }            

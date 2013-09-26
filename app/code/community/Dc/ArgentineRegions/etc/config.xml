@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Dc_ArgentineRegions>
+            <version>0.2.0</version>
+        </Dc_ArgentineRegions>
+    </modules>
+    <global>
+        <resources>
+            <argentineregions_setup>
+                <setup>
+                    <module>Dc_ArgentineRegions</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </argentineregions_setup>
+            <argentineregions_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </argentineregions_write>
+            <argentineregions_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </argentineregions_read>
+        </resources>
+    </global>
+</config>

@@ -16,28 +16,42 @@ class Autel_Corto_Model_Core_Dispatch {
     const ACTION_SELECT         = 'AS';
 
     public function pre_dispatch($observer) {
+
+	if (Mage::app()->getStore()->getId() == 0)
+		return $observer;
  
-        if (Mage::app()->getStore()->getId() == 0)
-                return $observer;
-        
         $cookie = self::getCookie();
-        //$front = $observer->getFront();
+        $front = $observer->getFront()->getRequest()->getParams();
+
+	//Se non sono su wordpress è il mio cookie non corrisponde allo store dell'url e non ho forzato che non devo richiedere
         if ((Mage::Registry('_from_wp') !== true && !$cookie->getNoRequest()) || $cookie->getWebsiteId() != Mage::app()->getStore()->getWebSiteId()) {
+		
 
+	    //SE ho già uno store importato 
             if ($cookie->getStore() != "") {
-
+		
+		//il mio store non corrisponde con quello dell'url ti reindirizzo alla home del tuo store
                 if (Mage::app()->getStore()->getCode() != $cookie->getStore()) {
 
                    //Ricacolo il nome del paese in base allo store
                     $store = Mage::getModel('core/store')->Load($cookie->getStore());
+
                     Header("location: " . $store->getBaseUrl());
                     die();
                 }            
             } else {
+		//Non ho uno store impostato, e non ho forzato che non devo fare richieste quandi faccio la richiesta
                 $cookie->setAction(self::ACTION_SELECT); 
             }   
         } else {
-            //SE vengo
+
+		//Se lo store  e diverso da quello del cookie (ma appartengono allo stesso WS) ed ho impostato il ___from_store quindi vengo dalla language selector
+		if (Mage::app()->getStore()->getCode() != $cookie->getStore() && isset($front['___from_store']))  {
+			//Imposto  il nuovo store come store base per le volte successive
+			$cookie->setStore(Mage::app()->getStore()->getCode());
+			self::setCookie($cookie);
+		}
+            //SE sono qui dignifica che non ho bisogno di chiederti lo store
             $cookie->setAction(self::ACTION_NO_ACTIONO); 
         }
         self::RegisterCountry($cookie);
@@ -48,7 +62,7 @@ class Autel_Corto_Model_Core_Dispatch {
         $ret = new Varien_Object();        
             
         $cookie =  unserialize(base64_decode(Mage::getModel("core/cookie")->get(self::COOKIE_NAME)));
-        
+
         if (!is_null($cookie) &&  is_array($cookie)) {
             foreach ($cookie as $k=>$v) {
                 $ret->setData($k, $v);

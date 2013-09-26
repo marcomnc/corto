@@ -56,9 +56,9 @@ $totals = $this->getTotals();
     
             <div class="summary">
             <?php if ($_cartQty==1): ?>
-                <p class="amount"><?php echo $this->__('There is <a id="item-count" href="%s">1 item</a> in your shopping bag.', "#") ?></p>
+                <p class="amount"><?php echo $this->__('There is <a id="item-count" href="%s">1 item</a> in your shopping bag.', '#') ?></p>
             <?php else: ?>
-                <p class="amount"><?php echo $this->__('There are <a id="item-count" href="%s">%s items</a> in your shopping bag.', "#", $_cartQty) ?></p>
+                <p class="amount"><?php echo $this->__('There are <a id="item-count" href="%s">%s items</a> in your shopping bag.', '#', $_cartQty) ?></p>
             <?php endif ?>
             <?php if ($this->canApplyMsrp()): ?>
             <p class="subtotal">
@@ -104,7 +104,7 @@ $totals = $this->getTotals();
         // Inizializzo al primo avvio
         jQuery.fn.initializeLightCart();
 <?php if ($this->getRequest()->getParam('_show_cart', 0) == 1): ?>
-        jQuery('.top-link-cart').trigger('click');
+	jQuery('.top-link-cart').trigger('click');
 <?php endif; ?>
     });
 </script>

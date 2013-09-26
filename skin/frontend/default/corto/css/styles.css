@@ -1509,6 +1509,7 @@ button.btn-checkout span span,
 .footer ul li { float:left; padding:0 5px 0 5px; font-size:13px; border-left: 1px solid #FFF }
 .footer ul li a { color:white; text-decoration:none; }
 .footer a[href^=tel]:link {color:white;text-decoration:none}
+
 .footer ul li a:hover { text-decoration:none; }
 .footer ul li a:visited { text-decoration:none; }
 .footer-container { text-align:center; background: black;
@@ -1753,7 +1754,7 @@ button.btn-checkout span span,
 .block-cart .block-content li.item { padding:0 0 15px 0; }
 .block-cart .block-content li.last { padding:0 !important; }
 
-.light { width: 280px; position: absolute; background-color: black; z-index: 15; left:800px; margin: 10px 0 0; padding: 10px}
+.light { width: 300px; position: absolute; background-color: black; z-index: 15; left:800px; margin: 10px 0 0; padding: 10px}
 .light.block-cart {z-index: 1000}
 .light .product-details {float: left }
 .light .product-remove { bottom: 22px; color: white; float: right; position: absolute; right: 0; }  
