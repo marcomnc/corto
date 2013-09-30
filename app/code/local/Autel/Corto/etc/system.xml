@@ -100,7 +100,20 @@
                         </warehouse_email_template>                        
                     </fields>
                 </emailavailability>
-            </groups>                    
+            </groups>  
+            <groups>
+                <store_zone>
+                    <label>Corto Moltedo - Parametri gestione zone</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>          
+                    <infodb_key>
+                        <label>InfodDB Key</label>
+                        <frontend_type>text</frontend_type>                        
+                        <sort_order>10</sort_order>
+                        <show_in_default>1</show_in_default>
+                    </infodb_key>          
+                </store_zone>
+            </groups>                  
         </autelcorto>
     </sections>
 </config>

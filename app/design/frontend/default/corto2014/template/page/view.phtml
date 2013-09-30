@@ -1,0 +1,259 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); 
+       Mage::unregister("ajax_cart_product");
+       Mage::register('ajax_cart_product',$_product);?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div class="product-view">
+    <div class="product-essential">
+        <div class="product-step">
+            <a href="#"><?php echo $this->__("Prev");?></a> / <a herf="#"><?php echo $this->__("Next");?></a>
+        </div>
+    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
+
+        <div class="product-shop">
+            
+            <div class="p-black p-box">
+                <div class="product-name">
+                    <h1><?php echo  $_helper->productAttribute($_product, $_product->getSku(), 'sku');?> <br/>
+                        <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                </div>
+                <?php echo $this->getLayout()
+                            ->createBlock('catalog/product_view')
+                            ->setTemplate('catalog/product/view/price_clone.phtml')
+                            ->toHtml();  ?>
+            </div>
+                
+            <div class="p-white p-box product-detail">
+                <?php echo $this->__("DETAIL");?>
+            </div>
+            
+            <div class="p-trasparency p-box product-detail-body">
+                <div class="short-description">
+                    <div class="std">
+                        <?php echo $_helper->productAttribute($_product, nl2br($_product->getDescription()), 'description') ?>
+                    </div>
+                </div>
+                <?php echo $this->getLayout()
+                            ->createBlock('catalog/product_view_attributes')
+                            ->setTemplate('catalog/product/view/attributes.phtml')
+                            ->toHtml();  ?>
+            </div>
+            <div class="p-black p-box"><!-- style="position: absolute; width: 190px; z-index: 100;">-->
+                <?php echo $this->getLayout()
+                            ->createBlock('catalog/product_view_media')
+                            ->setTemplate('catalog/product/view/more-views.phtml')
+                            ->toHtml();  ?>
+            </div>
+            
+            <div class="p-black p-box">
+                <ul  class="social-view">
+                <li>
+                    <a href="<?php $this->getUrl('contacts');?>" onclick="return false" title="<?php echo $this->__("Live Help"); ?>">                        
+                        <img src="<?php echo $this->getSkinUrl("images/live-help.gif");?>" alt="<?php echo $this->__("Live Help"); ?>"
+                             title="<?php echo $this->__("Live Help"); ?>"/>
+                        <div><?php echo $this->__("Help"); ?></div>
+                    </a>
+                </li>
+                <?php if ($this->canEmailToFriend()): ?>
+                    <li>
+                        <a class ="email-to-friend"href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>">                        
+                            <img src="<?php echo $this->getSkinUrl("images/email-friend.gif");?>" alt="<?php echo $this->__('Email to a Friend') ?>"
+                                 title="<?php echo $this->__('Email to a Friend') ?>"/>
+                            <div><?php echo $this->__('Email<br/>Friend') ?></div>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <li>
+                    <a id="playVideo" href="#" onclick="return false">                        
+                        <img src="<?php echo $this->getSkinUrl("images/play-video.gif");?>" alt="<?php echo $this->__("Video Demo"); ?>"
+                             title="<?php echo $this->__("Video Demo"); ?>"/>
+                        <div><?php echo $this->__("Video<br/>Demo"); ?></div>
+                    </a>
+                </li>
+                </ul>
+            </div>
+            
+            
+            <?php //definire eventuale controllo per prodotto configurabile
+                   // if ($_product->getTypeId() != Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE):
+                   //endif;
+            ?>
+            <?php if( $this->helper('wishlist')->isAllow()):?>
+            <div class="p-black p-box">
+                <?php $_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product); ?>
+                <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a>
+            </div>
+            <?php endif;?>
+            
+            <?php if($_product->isSaleable()): ?>
+            <div class="p-black p-box">
+                <?php echo $this->getChildHtml('addtocart'); ?>
+            </div>
+            <?php endif;?>
+
+        </div>
+
+        <div class="product-img-box">
+            <?php echo $this->getChildHtml('media') ?>
+        </div>
+
+        <div class="clearer"></div>
+    </form>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jwplayer.js') ?>"></script>    
+    <script type="text/javascript">        
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function(button, url) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    var initcolor=jQuery("#add-to-cart").css("color");
+                    var color = initcolor;
+                    var timer = setInterval(function() {
+                        if (color!="#333") { color="#333"; }
+                        else { color="#FFF" }
+                        jQuery("#add-to-cart").css({"color": color});
+                    }, 100);
+                    url = form.action                    
+                    jQuery.ajax({
+                        url: url,
+                        dataType: 'json',
+                        type : 'post',
+                        data: { "ajax":1},
+                        success: function(data){                            
+                            if (jQuery(".light").length>0 && typeof(data.lightCart)!="undefined") jQuery(".light").replaceWith(data.lightCart); 
+                            if(jQuery('.header .links').length>0 && typeof(data.topLink)!="undefined") jQuery('.links:first').replaceWith(data.topLink);
+                            jQuery.fn.lightCart('.top-link-cart', '.light');
+                            jQuery(".top-link-cart").trigger("click");
+                            clearInterval(timer);
+                            var color=jQuery("#add-to-cart").css({"color":initcolor});;
+                        },
+                        error: function (data) {
+                            setLocation("error/");
+                        }
+                    });
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+        
+      $j(window).load(function() {
+        $j("a#playVideo").fancybox({
+           'content':'<div style="width: 720px; height:430px" id="mediaspace">&nbsp;</div>',
+            autoScale   : true,
+            padding     : "0",
+            margin      : "0",
+            showCloseButton : false,
+            onComplete  : function() {                
+                jwplayer('mediaspace').setup({
+                    //'flashplayer': '<?php echo $this->getSkinUrl("js/player.swf") ?>',                   
+                    'players': {type:"html5"},
+                    'id': 'playerID',
+                    'height': 380,
+                    'width':  720,
+                    'file': 'http://youtu.be/TAr7HxMIPzk',
+                    'controlbar.position': 'bottom',
+                    'autostart': true
+                    });
+            }     
+        })
+        
+        $j(".email-to-friend").fancybox({
+            autoScale   : true,
+            padding     : "0",
+            margin      : "0",
+            showCloseButton : false,          
+            onComplete: function () {
+                $j.fn.fancyTitle("<?php echo $this->__('Email a friend!');?>");
+            }  
+        });
+                        
+        //$j(".wrapper-background").append('<img class="wrapper-background-img" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'layout/sfondi/IMMAGINE-SFONDO-DETTAGLIO.jpg' ;?>"/>');
+        $j(".wrapper-background").css('background-image', "url(<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'layout/sfondi/IMMAGINE-SFONDO-DETTAGLIO.jpg' ;?>)");
+        jQuery(window).trigger('resize');
+        
+<?php 
+if (Mage::getSingleton("customer/session")->getAddProductToCart() == 1): 
+            Mage::getSingleton("customer/session")->unsAddProductToCart()?>
+        $j(".top-link-cart").trigger("click");
+<?php endif;?>
+      })
+            
+    </script>
+    </div>
+
+    <div class="product-collateral">        
+        <?php echo $this->getChildHtml('upsell_products') ?>
+    </div>
+    
+</div>

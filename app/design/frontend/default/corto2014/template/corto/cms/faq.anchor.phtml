@@ -1,0 +1,64 @@
+<?php
+
+$_list = $this->getFaqHeader() ;
+if (sizeof($_list) > 0) :   
+?>
+
+<div class="page-title">
+    <h1><?php echo $this->__('Questions') ?></h1>
+</div>
+
+<?php foreach ($_list as $_l): ?>
+<div class="page-title">
+    <h2><?php echo $_l->getTitle() ?></h2>
+</div>
+
+<?php 
+    $_faq = $this->getFaq($_l->getId());
+    if (sizeof($_faq) > 0):?>
+
+<ul class="faq-list faq-questions">
+<?php       foreach ($_faq as $k => $v): ?>
+    <li>
+        <a href="#faq<?php echo $k?>">
+            <?php echo $v['ask']; ?>
+        </a>        
+    </li>
+        
+<?php        endforeach; ?>
+</ul>        
+<?php    endif; ?>
+
+<?php endforeach; ?>
+
+<div class="page-title">
+    <h1><?php echo $this->__('Answers') ?></h1>
+</div>
+
+<ul class="faq-list faq-answers">
+<?php foreach ($_list as $_l): 
+    $_faq = $this->getFaq($_l->getId());
+    if (sizeof($_faq) > 0):?>
+
+
+<?php       foreach ($_faq as $k => $v): ?>
+    <li>
+        <p>
+            <strong>
+                <a name="faq<?php echo $k?>"></a>        
+                <?php echo $v['ask']; ?>
+            </strong>
+        </p>
+        <p>
+            <?php echo $v['response']; ?>
+        </p>
+    </li>
+        
+<?php        endforeach; ?>
+<?php    endif; ?>
+<?php endforeach; ?>
+</ul>        
+
+<?php 
+endif;
+?>

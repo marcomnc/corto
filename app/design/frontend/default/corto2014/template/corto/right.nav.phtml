@@ -1,0 +1,56 @@
+<?php if (Mage::Helper("autelcorto")->getIsHomePage()): ?>  
+<div class="home-bg-navigator invisible right">
+    <a id="navigator" href="#" class="right" title="<?php echo $this->__("next")?>" onclick="return false;">
+        <img src="<?php echo $this->getSkinUrl('images/nav_right.png');?>"/>
+    </a>
+</div>
+<div class="home-bg-navigator invisible left">
+    <a id="navigator" href="#" class="left" title="<?php echo $this->__("next")?>" onclick="return false;">
+        <img src="<?php echo $this->getSkinUrl('images/nav_left.png');?>"/>
+    </a>    
+</div>
+<?php endif;?>
+
+<div class="right-nav">    
+<?php if (Mage::Helper("autelcorto")->getIsHomePage()): ?>        
+    <div class="top">
+        <a id="home-navigator" href="#" rel="down">
+            <?php $_arr = array("up"=>$this->getSkinUrl('images/nav_top.png'), "down"=>$this->getSkinUrl('images/nav_down.png')); ?>
+            <img rel="<?php echo str_replace('"', '\\\'', json_encode($_arr)); ?>" src="<?php echo $this->getSkinUrl('images/nav_down.png'); ?>"/>
+        </a>      
+    </div>
+<?php endif; ?>     
+    <div class="top">
+        <a href onClick="return false;" style="cursor: default">
+            <img src="<?php echo $this->getSkinUrl('images/ico_follow.png'); ?>"/>
+        </a>             
+    </div>
+    <div class="social fb">
+        <a title="<?php echo $this->__('Follw us on Facebook');?>" 
+           href="<?php echo Mage::getStoreConfig('autelsocial/facebook/fb_page');?>"
+           target="_blank">
+            <img src="<?php echo $this->getSkinUrl('images/side_ico_facebook.png'); ?>"/>
+        </a>        
+    </div>
+    <div class="social tw">
+        <a title="<?php echo $this->__('Follw us on Twitter');?>" 
+           href="<?php echo Mage::getStoreConfig('autelsocial/twitter/tw_page');?>"
+           target="_blank">
+            <img src="<?php echo $this->getSkinUrl('images/side_ico_twitter.png'); ?>"/>
+        </a>        
+    </div>
+    <div class="social pin">
+        <a title="<?php echo $this->__('Follw us on Pinterest');?>" 
+           href="<?php echo Mage::getStoreConfig('autelsocial/pinterest/pin_page');?>"
+           target="_blank">
+            <img src="<?php echo $this->getSkinUrl('images/side_ico_pinterest.png'); ?>"/>
+        </a>        
+    </div>
+    <div class="social pin">
+        <a title="<?php echo $this->__('Follw us on Weibo');?>" 
+           href="<?php echo Mage::getStoreConfig('autelsocial/weibo/pin_page');?>"
+           target="_blank">
+            <img src="<?php echo $this->getSkinUrl('images/side_ico_weibo.png'); ?>"/>
+        </a>        
+    </div>
+</div>

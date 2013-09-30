@@ -23,22 +23,22 @@ class Autel_Corto_Model_Core_Dispatch {
         $cookie = self::getCookie();
         $front = $observer->getFront()->getRequest()->getParams();
         
-//        if (!$cookie->hasData()) {
-//            //Tento la geolocalizzazione e creo il cookie di base
-//            $country = Mage::helper('autelcorto')->getCountryFromIp();
-//            if ($country !== false) {
-//                // PAese Geolocalizzato
-//                $cookie->setData('country_code', $country);
-//                $cookie->setData('country_name', Mage::getModel('directory/country')->load($country)->getName());
-//                //Info store default del ws selezionato      
-//                $myStore = Mage::helper('autelcorto')->getStoreFromState($country);
-//                $cookie->setData('store', $myStore->getCode());
-//                $cookie->setData('website_id', $myStore->getWebsiteId());
-//            
-//                //self::setCookie($cookie);
-//                
-//            }
-//        }
+        if (!$cookie->hasData()) {
+            //Tento la geolocalizzazione e creo il cookie di base
+            $country = Mage::helper('autelcorto')->getCountryFromIp();
+            if ($country !== false) {
+                // PAese Geolocalizzato
+                $cookie->setData('country_code', $country);
+                $cookie->setData('country_name', Mage::getModel('directory/country')->load($country)->getName());
+                //Info store default del ws selezionato      
+                $myStore = Mage::helper('autelcorto')->getStoreFromState($country);
+                $cookie->setData('store', $myStore->getCode());
+                $cookie->setData('website_id', $myStore->getWebsiteId());
+            
+                self::setCookie($cookie);
+                
+            }
+        }
         
 //echo Mage::app()->getStore()->getWebSiteId() . " - <pre>";
 //print_r( $observer->getFront()->getRequest());

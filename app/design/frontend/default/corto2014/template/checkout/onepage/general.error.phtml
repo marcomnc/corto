@@ -1,0 +1,16 @@
+<div class="general-error">
+    <ul class="messages">
+        <li class="error-msg">
+            <ul>
+                <li>
+                    <span>
+                        <?php echo $this->getCustomMessage();?>
+                    </span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="content">
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('checkout-error-block')->toHtml() ?>  
+    </div>
+</div>

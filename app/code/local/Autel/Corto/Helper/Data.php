@@ -234,30 +234,36 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
      * @param type $ip
      * @param type $debug
      */
-    protected function _getGeoIpState($ip = "", $debug = false) {
+    protected function _getGeoIpState($ip = "", $debug = false ) {
         //Verifico se ho in sessione la country
         if ($debug) {
             Mage::Log("ip to check $ip", null, '', true);
             Mage::Log($_SERVER, null, '', true);
         }
-        if ($ip == "") {
-            $ip = $_SERVER["REMOTE_ADDR"];
+        
+        if ($ip === true) {
+            $ip = $_SERVER['REMOTE_ADDR'];
         }
+        
         if ($ip != "") {
+            $ip = "&ip=$ip";
+        }        
+        
+        $key = Mage::getConfig('autelcorto/store_zone/infodb_key');
+        
+        if ($key != "") {
+        
             try {
-                $ms = new SoapClient('http://www.webservicex.net/geoipservice.asmx?WSDL');
-                $myIp = new myIp();
-                $myIp->IPAddress = $ip;
-                $wsCountry = $ms->GetGeoIP($myIp);
-                if ($debug) {
-                    Mage::Log($myIp, null, '', true);
-                    Mage::Log($wsCountry, null, '', true);
+                $xml = file_get_contents("http://api.ipinfodb.com/v3/ip-city/?key=$key&format=XML$ip");
+                
+                $xmlLocation = new SimpleXMLElement($xml);
+                
+                if ($xmlLoaction->statusCode == "OK") {
+                    
+                    return $xmlLoaction->countryCode;
+                    
                 }
-                if ($wsCountry->GetGeoIPResult->ReturnCodeDetails == "Success") {
-                        if ($wsCountry->GetGeoIPResult->CountryName != "Reserved") {
-                            return $wsCountry->GetGeoIPResult->CountryCode;
-                        }
-                }
+                
             } catch (Exception $e) {
                 Mage::LogException($e);
             }
@@ -268,17 +274,17 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
     
         public function getCountryFromIp($ip = "") {
         $country = false;
-        $stateIso3 = $this->_getGeoIpState($ip,true);
-        if ($stateIso3 !== false) {
-            $country = Mage::getModel('directory/country')->Load($stateIso3, 'iso3_code');
+        $stateIso2 = $this->_getGeoIpState($ip,true);
+        if ($stateIso !== false) {
+            $country = Mage::getModel('directory/country')->Load($stateIso2, 'iso2_code');
         }
 
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        if ($country === false && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             foreach (explode(",", strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE'])) as $accept) {
                 if (preg_match("!([a-z-]+)(;q=([0-9.]+))?!", trim($accept), $found)) {
                     $langs[] = $found[1];
                     $quality[] = (isset($found[3]) ? (float) $found[3] : 1.0);
-                    Mage::log("Found language in request: ".$langs." with quality ".$quality);
+                    //Mage::log("Found language in request: ".$langs." with quality ".$quality);
                 }
             }
             // Order the codes by quality

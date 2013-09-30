@@ -1,0 +1,116 @@
+/* Ticker Styling */
+/* ====== custom corto========= */
+#news-home { height: 35px; background-color: black; position: absolute; top: 0px; width: 100%; z-index: 10 }
+#news-home .news-home { width: 950px; margin: auto; font-size: 18px; font-weight: bold; text-transform: uppercase; position: relative;}
+#news-home .news-home p { padding: 5px 0 0; }
+
+.ticker-wrapper.has-js {
+
+}
+.ticker {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 950px;
+
+}
+.ticker-title {    
+    text-transform: uppercase;
+    padding: 5px 0 0;
+}
+.ticker-content {
+	margin: 0px;
+	position: absolute;
+	overflow: hidden;
+	white-space: nowrap;
+	line-height: 1.2em;
+        color: white;
+}
+.ticker-content:focus {
+	none;
+}
+.ticker-content a {
+	text-decoration: none;	
+        color: white;
+}
+.ticker-content a:hover {
+	text-decoration: underline;	
+}
+.ticker-swipe {
+	padding-top: 9px;
+	position: absolute;
+	top: 0px;
+	background-color: #000;
+	display: block;
+	width: 800px;
+	height: 23px; 
+}
+.ticker-swipe span {
+	margin-left: 1px;
+	border-bottom: 1px solid #000;
+	height: 12px;
+	width: 7px;
+	display: block;
+}
+.ticker-controls {
+	padding: 8px 0px 0px 0px;
+	list-style-type: none;
+	float: left;
+}
+.ticker-controls li {
+	padding: 0px;
+	margin-left: 5px;
+	float: left;
+	cursor: pointer;
+	height: 16px;
+	width: 16px;
+	display: block;
+}
+.ticker-controls li.jnt-play-pause {
+}
+.ticker-controls li.jnt-play-pause.over {
+}
+.ticker-controls li.jnt-play-pause.down {
+}
+.ticker-controls li.jnt-play-pause.paused {
+}
+.ticker-controls li.jnt-play-pause.paused.over {
+}
+.ticker-controls li.jnt-play-pause.paused.down {
+}
+.ticker-controls li.jnt-prev {
+}
+.ticker-controls li.jnt-prev.over {
+}
+.ticker-controls li.jnt-prev.down {
+}
+.ticker-controls li.jnt-next {
+}
+.ticker-controls li.jnt-next.over {
+}
+.ticker-controls li.jnt-next.down {	
+}
+.js-hidden {
+	display: none;
+}
+.no-js-news {
+	padding: 10px 0px 0px 45px; 
+}
+.left .ticker-swipe {
+	/*left: 80px;*/
+}
+.left .ticker-controls, .left .ticker-content, .left .ticker-title, .left .ticker {
+    float: left;
+}
+.left .ticker-controls {
+    padding-left: 6px;
+}
+.right .ticker-swipe {
+	/*right: 80px;*/
+}
+.right .ticker-controls, .right .ticker-content, .right .ticker-title, .right .ticker {
+    float: right;
+}
+.right .ticker-controls {
+    padding-right: 6px;
+}

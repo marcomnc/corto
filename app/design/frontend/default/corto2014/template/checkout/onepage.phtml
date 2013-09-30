@@ -1,0 +1,82 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout.js') ?>"></script>
+<div class="checkout-left">
+    <div class="page-title">
+        <h1><?php echo $this->__('Checkout') ?></h1>
+    </div>
+    <?php  $_steps = $this->getSteps();
+           if ((isset($_steps["login"]["allow"]) &&  $_steps["login"]["allow"] == 1) || !isset($_steps["login"])):               
+                echo $this->getLayout()
+                    ->createBlock("checkout/onepage_progress")
+                    ->setTemplate("checkout/onepage/progress.phtml")
+                    ->toHtml();
+           endif;?>
+    <ol class="opc" id="checkoutSteps">
+    <?php $i=0; foreach($_steps as $_stepId => $_stepInfo): ?>
+    <?php if (!$this->getChild($_stepId) || !$this->getChild($_stepId)->isShow()): continue; endif; $i++ ?>
+        <li id="opc-<?php echo $_stepId ?>" 
+            class="section<?php echo !empty($_stepInfo['allow'])?' allow':'' ?><?php echo !empty($_stepInfo['complete'])?' saved':'' ?><?php echo ($i==1)?' active':''?>">
+            <?php if ($_stepId != "review"): ?>
+            <div id="checkout-step-<?php echo $_stepId ?>" class="step a-item">
+                <?php echo $this->getChildHtml($_stepId) ?>
+            </div>            
+            <?php endif; ?>
+        </li>
+    <?php endforeach ?>
+    </ol>
+</div>
+<div class="checkout-right">
+    <?php echo $this->getChildHtml("review") ?>
+</div>
+<script type="text/javascript">
+//<![CDATA[    
+    var checkout = new Checkout({
+        progress: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
+        review: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
+        saveMethod: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>',
+        failure: '<?php echo $this->getUrl('checkout/cart') ?>'}
+    );
+    if ($('billing-address-select')!=null) {
+        billing.newAddress($('billing-address-select').value);
+    } else {
+        billing.newAddress(null);
+    }
+    if ($('change-billing-adress-a')!=null) {
+        $('change-billing-adress-a').observe("click", function(event){
+            checkout.showSelect(true, "billing");
+            event.stop();
+        });
+    }
+    if ($('change-billing-adress-a')!=null) {
+        $('change-shipping-adress-a').observe("click", function(event){
+            checkout.showSelect(true, "shipping");
+            event.stop();
+        });
+    }
+//]]>
+</script>

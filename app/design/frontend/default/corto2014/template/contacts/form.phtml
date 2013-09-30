@@ -1,0 +1,112 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+$headerBlock = $this->getLayout()->createBlock('cms/block')->setBlockId('contacts')->toHtml() . '';
+?>
+<div class="contactus">
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<p class="contact-header" style="padding: 10px;">
+<?php if ($headerBlock == ''): ?>
+<?php echo $this->__('Please contact us for any question you may have regarding products and finishings, as well as styling tips.');?><br /><br />
+<?php echo $this->__('If you have more general questions regarding shipments and payments and all general matters, you may also refer to our FAQ section where the question might have already been answered by our specialists.');?><br /><br />
+<?php echo $this->__('Either way we will be happy to answer you. Please allow 48 hours for one of our team to get back to you, of course we will do our best to answer in a shorter period of time.');?>
+<?php else: 
+	echo $headerBlock;
+endif; ?>
+</p>
+<form action="<?php echo $this->getFormAction(); ?>" id="contactForm" method="post">
+    <div class="fieldset">        
+        <ul class="form-list">
+            <li>
+                    <label for="name" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Name') ?></label>
+                    <div class="input-box">
+                        <input name="name" id="name" title="<?php echo Mage::helper('contacts')->__('Name') ?>" value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserName()) ?>" class="input-text required-entry" type="text" />
+                    </div>
+
+            </li>
+            <li>
+	            <label for="email" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Email') ?></label>
+	            <div class="input-box">
+	                <input name="email" id="email" title="<?php echo Mage::helper('contacts')->__('Email') ?>" value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserEmail()) ?>" class="input-text required-entry validate-email" type="text" />
+	            </div>
+            </li>
+            <li>
+                <label for="telephone"><?php echo Mage::helper('contacts')->__('Telephone') ?></label>
+                <div class="input-box">
+                    <input name="telephone" id="telephone" title="<?php echo Mage::helper('contacts')->__('Telephone') ?>" value="" class="input-text" type="text" />
+                </div>
+            </li>
+            <li>
+                <label for="comment" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Comment') ?></label>
+                <div class="input-box">
+                    <textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>" class="required-entry input-text" cols="3" rows="3"></textarea>
+                </div>
+            </li>
+            <li>
+            	<div class="input-box">
+            		<div style="width: 90%">
+	            		<div style="float:right">
+	            			<a href="#" onclick="$j.fancybox.close(); return false;"><?php echo $this->__('Cancel');?></a> <?php echo $this->__('or');?> 
+		            		<button type="button" style="display:inline" title="<?php echo Mage::helper('contacts')->__('Send') ?>" 
+						class="button"
+						onClick="contactForm.submit(this);"><span><span><?php echo Mage::helper('contacts')->__('Send') ?></span></span></button>
+            			</div>
+            		</div>
+            	</div>
+            </li>
+        </ul>
+    </div>
+
+</form>
+</div>
+
+<script type="text/javascript">
+	var contactForm = new VarienForm('contactForm', true);
+
+	contactForm.submit = function(url) {
+		if (this.validator.validate()) {
+			new Ajax.Request(this.form.action, {
+				method: 'POST', 
+  				parameters: {
+					name: $('name').getValue(), 
+					email: $('email').getValue(),
+					telephone: $('telephone').getValue(),
+					comment: $F('comment') 
+				},
+				onSuccess: function(response) {
+				  // Handle the response content...
+			  	},
+				onComplete: function() {
+					$j.fancybox.close();
+					alert("<?php echo $this->__("Your request has been sent");?>");
+				}
+			});
+		}
+		return false;
+	}.bind(contactForm);
+
+</script>
+
+<?php // ?? echo $this->getLayout()->createBlock("catalog/product_list")->setTemplate("corto/home.list.phtml")->toHtml(); ?>

@@ -1,0 +1,57 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Mage_Checkout_Block_Onepage_Progress */
+    $_steps = $this->getCheckout()->getSteps(); 
+    if (isset($_steps["review"]["allow"]) &&  $_steps["review"]["allow"] == 1):
+        $_step = "review"; 
+    elseif (isset($_steps["payment"]["allow"]) &&  $_steps["payment"]["allow"] == 1):
+        $_step = "review"; 
+    elseif (isset($_steps["shipping_method"]["allow"]) &&  $_steps["shipping_method"]["allow"] == 1):
+        $_step = "shipping"; 
+    elseif (isset($_steps["shipping"]["allow"]) &&  $_steps["shipping"]["allow"] == 1):
+        $_step = "shipping"; 
+    elseif (isset($_steps["billing"]["allow"]) &&  $_steps["billing"]["allow"] == 1):
+        $_step = "billing"; 
+    elseif (isset($_steps["login"]["allow"]) &&  $_steps["login"]["allow"] == 1):
+        $_step = "billing"; 
+    else:
+        $_step = "billing";
+    endif;
+
+?>
+
+<div class="block block-progress opc-block-progress">
+    
+    <div id="opc-progr-billing" class="opc-billing<?php if ($_step == 'billing'): echo " selected"; endif; ?>" rel="billing">
+        <span><?php echo $this->__("billing");?></span>
+    </div>
+    <div id="opc-progr-shipping" class="opc-shipping<?php if ($_step == 'shipping'): echo " selected"; endif; ?>"" rel="shipping">
+        <span><?php echo $this->__("shipping");?></span>
+    </div>
+    <div id="opc-progr-review" class="opc-review<?php if ($_step == 'review'): echo " selected"; endif; ?>" rel="review">
+        <span><?php echo $this->__("review");?></span>
+    </div>
+</div>    
