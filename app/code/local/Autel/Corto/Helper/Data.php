@@ -228,5 +228,76 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
             
         }       
     }
+    
+    /**
+     * Recupero la country in base all'IP utilizzando i WS di webservicex.net
+     * @param type $ip
+     * @param type $debug
+     */
+    protected function _getGeoIpState($ip = "", $debug = false) {
+        //Verifico se ho in sessione la country
+        if ($debug) {
+            Mage::Log("ip to check $ip", null, '', true);
+            Mage::Log($_SERVER, null, '', true);
+        }
+        if ($ip == "") {
+            $ip = $_SERVER["REMOTE_ADDR"];
+        }
+        if ($ip != "") {
+            try {
+                $ms = new SoapClient('http://www.webservicex.net/geoipservice.asmx?WSDL');
+                $myIp = new myIp();
+                $myIp->IPAddress = $ip;
+                $wsCountry = $ms->GetGeoIP($myIp);
+                if ($debug) {
+                    Mage::Log($myIp, null, '', true);
+                    Mage::Log($wsCountry, null, '', true);
+                }
+                if ($wsCountry->GetGeoIPResult->ReturnCodeDetails == "Success") {
+                        if ($wsCountry->GetGeoIPResult->CountryName != "Reserved") {
+                            return $wsCountry->GetGeoIPResult->CountryCode;
+                        }
+                }
+            } catch (Exception $e) {
+                Mage::LogException($e);
+            }
+        }
+        return false;
+    }
+    
+    
+        public function getCountryFromIp($ip = "") {
+        $country = false;
+        $stateIso3 = $this->_getGeoIpState($ip,true);
+        if ($stateIso3 !== false) {
+            $country = Mage::getModel('directory/country')->Load($stateIso3, 'iso3_code');
+        }
+
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            foreach (explode(",", strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE'])) as $accept) {
+                if (preg_match("!([a-z-]+)(;q=([0-9.]+))?!", trim($accept), $found)) {
+                    $langs[] = $found[1];
+                    $quality[] = (isset($found[3]) ? (float) $found[3] : 1.0);
+                    Mage::log("Found language in request: ".$langs." with quality ".$quality);
+                }
+            }
+            // Order the codes by quality
+            array_multisort($quality, SORT_NUMERIC, SORT_DESC, $langs);
+            // iterate through languages found in the accept-language header
+            foreach ($langs as $lang) {
+                $lang = substr($lang,0,2);
+                foreach (Mage::getModel('core/store')->getCollection() as $_store) {
+                    if ((strtolower(Mage::getStoreConfig('general/country/default', $_store)) == strtolower($lang) ||
+                        ( strtolower($lang) == "en" && strtolower(Mage::getStoreConfig('general/country/default', $_store)) == 'gb' )) &&
+                        $_store->getIsActive()) {
+                            $country = Mage::getModel('directory/country')->Load(Mage::getStoreConfig('general/country/default', $_store), 'country_id');
+                            return $country;
+                    }
+                }
+            }
+        }
+
+        return $country;
+    }
 }
 ?>
