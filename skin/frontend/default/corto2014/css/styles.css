@@ -553,15 +553,15 @@ tr.summary-details-excluded { font-style:italic; }
 #facebook img{width:15px;padding-bottom:3px;padding-right:3px;}
 .header-container { color: #6D6E71; height:auto; }
 .cms-index-index .header-container { border-bottom:0; margin-bottom:0; }
-.header { height: 77px; background-color: black; }
-.header .row { width: 100%; margin: auto}
+.header { height: 97px; background-color: black; }
+.header .row { width: 100%; margin: auto; position: relative}
 .header .row .row-links { margin: 0px 30px}
 .header .head_row1 {padding-top: 13px}
 .header .head_row2 {padding-top: 40px; text-transform: uppercase;}
 .header .head_row2 .header-links { float: left;}
 .header .head_row2 .header-links li { display: inline; border-color: white}
 .header .head_row2 .header-links a { text-decoration: none; color: white }
-.header .logo { position:absolute; margin:32px 0 0 10px; text-decoration:none !important; }
+.header .logo { position:absolute; margin:30px 0 0 30px; text-decoration:none !important; top:0px; left:0px }
 .header .logo strong { position:absolute; top:-999em; left:-999em; width:0; height:0; font-size:0; line-height:0; text-indent:-999em; overflow:hidden; }
 .header .welcome-msg { float:left; font-size:13px; color:#fff;  }
 .header .welcome-msg a { color:#FFF; }
@@ -569,7 +569,7 @@ tr.summary-details-excluded { font-style:italic; }
 .header  li { padding:5px 5px 5px 0; margin:0 2px 0 0; font-size:13px; }
 .header  ol li { border-right: none; }
 .header  li.last { margin:0 !important;}
-.header .links li a { color:#FFFFFF; text-decoration:none; }
+.header .links li a { color:#FFFFFF; text-decoration:none; text-transform: uppercase; font-size: 10px }
 .header  li a:hover { text-decoration:underline; }
 .header .form-search { float:right; border:1px solid #333; width:234px; height:33px; position: absolute; display: none; z-index: 1001}
 .header .form-search .input-text { float:left; background-color: white; border:0; width:196px; height: 29px; color:#B5B5B5; margin:0px}

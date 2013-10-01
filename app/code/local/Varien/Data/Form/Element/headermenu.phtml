@@ -1,0 +1,219 @@
+<div class="entry-edit custom-options product-custom-options">
+    <div class="entry-edit-head">
+        <h4><?php echo Mage::helper('autelcorto')->__('Link Header Menù') ?></h4>
+        <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
+    </div>
+
+    <div class="box">
+        <div class="hor-scroll">
+            <table class="dynamic-grid" cellspacing="0"  cellpadding="0">
+                <tr id="header-menu-table">
+                    <th><?php echo Mage::helper('autelcorto')->__('Ord.');?></th>
+                    <th><?php echo Mage::helper('autelcorto')->__('Nome');?></th>
+                    <th><?php echo Mage::helper('autelcorto')->__('Tipo');?></th>
+                    <th><?php echo Mage::helper('autelcorto')->__('Url') ?></th>
+                    <th><?php echo Mage::helper('autelcorto')->__('Identificatore') ?></th>
+                    <th>
+                        <?php echo $this->getData('add_button')->toHtml(); ?>
+                
+                    </th>
+                </tr>
+                <tr class="template header-menu-row" id="header-menu-row-template">                    
+                    <td>
+                        <input name="headermenu[{{id}}][order]"
+                               id="headermenu-{{id}}-order"
+                               value="{{order}}"
+                               style="width: 30px!important"
+                               class="required table-row-field"
+                               rel="rowID : {{id}}"
+                               type="text"/>
+                    </td>
+                    
+                    <td>
+                        <input name="headermenu[{{id}}][name]"
+                               id="headermenu-{{id}}-name"
+                               value="{{name}}"
+                               style="width: 100px!important"
+                               class="input-text required table-row-field"
+                               rel="rowID : {{id}}"
+                               type="text"/>
+                    </td>
+                    <td>
+                        <select name="headermenu[{{id}}][type]"
+                                id="headermenu-{{id}}-type"
+                                value="{{type}}"
+                                class="select required table-row-field"                                    
+                                rel="rowID : {{id}}"
+                                style="width: 125px">
+                            <option value="eshop">E-Shop Link</option>
+                            <option value="home">Home Page Link</option>
+                            <option value="cms">Generic Page</option>
+                            <option value="wp">Word Press Page</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input name="headermenu[{{id}}][url]"
+                               id="headermenu-{{id}}-url"
+                                value="{{url}}"
+                                class="input-text required table-row-field"
+                                type="text"
+                                rel="rowID : {{id}}"
+                                style="width: 250px!important" />                                
+                    </td>
+                    <td>
+                        <input name="headermenu[{{id}}][identify]"
+                               id="headermenu-{{id}}-identify"
+                               value="{{identify}}"
+                               class="input-text table-row-field"
+                               rel="rowID : {{id}}"
+                               type="text"/>
+                    </td>
+
+
+                    <td class="a-left">
+                        <input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="" />
+                            <?php echo $this->getData('delete_button')->toHtml(); ?>
+                    </td>
+                </tr>
+            </table>
+            <br><br><br>
+            <div class="right">
+                <?php echo $this->getData('confirm_button')->toHtml(); ?>
+            </div>
+        </div>
+        <input type="hidden" id="option-count-check" value="" />
+        <input type="hidden" name="parameters[menu]" id="parameters-menu" value="<?php echo $this->getValue(); ?> " />
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+var HeaderMenu = {
+    table : $('header-menu-table'),
+    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+    templateText : '<tr class="header-menu-row" rel="rowID : {{id}}">'+ $('header-menu-row-template').innerHTML + '</tr>',
+    itemCount : 0,
+    totalItems : 0,
+    add : function(data) {
+        this.template = new Template(this.templateText, this.templateSyntax);
+        
+        if(typeof(data.id) == "undefined"){
+            data = {};
+            data.id  = this.itemCount;
+        }
+        Element.insert(this.table, {after: this.template.evaluate(data)});
+        this.bindRemoveButtons();        
+        this.itemCount++;
+        this.totalItems++;        
+        this.updateItemsCountField();
+        
+    },
+    remove : function(event){
+        var element = $(Event.findElement(event, 'tr')); // !!! Button already
+                                                         // have table parent in safari
+        // Safari workaround
+        element.ancestors().each(function(parentItem){
+           if (parentItem.hasClassName('header-menu-row')) {
+               element = parentItem;
+               throw $break;
+           } else if (parentItem.hasClassName('box')) {
+               throw $break;
+           }
+        });
+
+
+        if(element){
+            var elementFlags = element.getElementsByClassName('delete-flag');
+            if(elementFlags[0]){
+                elementFlags[0].value=1;
+            }
+
+            element.addClassName('no-display');
+            element.addClassName('template');
+            element.hide();
+            this.totalItems--;
+            this.updateItemsCountField();
+        }
+    },
+    updateItemsCountField: function() {
+        if (this.totalItems > 0) {
+            $('option-count-check').value = '1';
+            $('save_link').show();
+        } else {
+            $('option-count-check').value = '';
+            $('save_link').hide();
+        }        
+    },
+    bindRemoveButtons : function(){
+        var buttons = $$('.delete-header-menu');
+        for(var i=0;i<buttons.length;i++){
+            if(!$(buttons[i]).binded){
+                $(buttons[i]).binded = true;
+                Event.observe(buttons[i], 'click', this.remove.bind(this));
+            }
+        }
+    },
+    save : function() {
+        var row = $$('.header-menu-row')
+        var str = "";
+        for (var i = 0; i < row.length; i++) {
+            eval ("var rel = {" + $(row[i]).readAttribute('rel') + "}");
+            str += (str!="") ? "-" : "";
+            str += encode64($('headermenu-' + rel.rowID + "-name").value) + "#";
+            str += encode64($('headermenu-' + rel.rowID + "-type").value) + "#";
+            str += encode64($('headermenu-' + rel.rowID + "-url").value) + "#";
+            str += encode64($('headermenu-' + rel.rowID + "-identify").value) + "#";
+            str += encode64($('headermenu-' + rel.rowID + "-order").value);
+        }
+        
+        $('parameters-menu').value = str;
+        if (wWidget) {
+            wWidget.insertWidget();
+        }
+    },
+    updateSelect : function() {
+        //Aggiorno eventuali select precaricate
+        var select = $$('.header-menu-row .select');
+        for (var i = 0; i < select.length; i++) {
+            var value = $(select[i]).readAttribute("value");
+console.log("value : " + value);
+            for (var optIx=0; optIx < $(select[i]).select("option").length; optIx++) {
+console.log("opt Value :" + $($(select[i]).select("option")[optIx]).value );
+                if ($($(select[i]).select("option")[optIx]).value == value) {
+                    $($(select[i]).select("option")[optIx]).setAttribute("selected","selected");
+                    break;
+                }
+            }
+        }
+    }
+}
+if($('header-menu-row-template')){
+    $('header-menu-row-template').remove();
+}
+HeaderMenu.bindRemoveButtons();
+
+if($('add_new_header_menu')){
+    Event.observe('add_new_header_menu', 'click', HeaderMenu.add.bind(HeaderMenu));
+}
+//Validation.addAllThese([
+//    ['required-pricezone', '<?php echo Mage::helper('autelcorto')->__('Required Field') ?>', function(v) {
+//        return !Validation.get('IsEmpty').test(v);
+//}]]);
+
+<?php foreach ($this->_getHeaderData() as $_value): ?>
+    HeaderMenu.add(<?php echo Mage::helper('core')->jsonEncode($_value) ?>);
+<?php endforeach; ?>
+    
+    HeaderMenu.updateSelect();
+    
+if ($('save_link')) {
+    if (HeaderMenu.itemCount == 0) {
+        $('save_link').hide();
+    }
+    
+    Event.observe('save_link', 'click', HeaderMenu.save.bind(HeaderMenu));
+}
+
+//]]>
+</script>

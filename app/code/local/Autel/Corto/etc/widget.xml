@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<widgets>
+    <corto_widget_menu type="autelcorto/widget_menu">
+        <name>header Menù</name>
+        <description type="desc">Permette di inserire il menu di testata</description>
+        
+        <parameters>
+            <menu>
+                <label>Link del menù</label>
+                <required>1</required>
+                <visible>1</visible>
+                <type>headermenu</type>                
+                <show_in_store>0</show_in_store>
+                <description>Inserire il link della home page</description>                
+            </menu>
+
+        </parameters>
+    </corto_widget_menu>
+</widgets> 

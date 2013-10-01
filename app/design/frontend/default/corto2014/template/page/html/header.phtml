@@ -89,7 +89,7 @@ else:
 //adjustHeights();
 </script>      
     <?php endif; ?>    
-    <div class="header"
+    <div class="header">    
 <?php if ($_isHomePage) :?>
 	style="position:absolute; bottom:0; width:100%"
 <?php endif; ?>
@@ -106,8 +106,13 @@ else:
             </div>
         </div>
         <div class="head_row2 row">        	
-            <div class="header-links row-links">
-                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-links')->toHtml() ?> 
+            <div class="row-links">
+                <div class="left">
+                    <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+                </div>
+                <div class="header-links right">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-links')->toHtml() ?> 
+                </div>            
             </div>            
         </div>
     <?php if ($_isHomePage): ?>    
