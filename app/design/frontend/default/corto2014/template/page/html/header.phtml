@@ -37,12 +37,8 @@
 
 
 <?php $_isHomePage = Mage::Helper("autelcorto")->getIsHomePage();?>
-<div class="header-container"
-<?php if ($_isHomePage) :?>
-	style="position:relative; background-color:#000;"
-<?php endif; ?>
->    
-    <?php if ($_isHomePage): ?>
+<div class="header-container">    
+<?php if ($_isHomePage): ?>
     <div id="news-home">        
         <div class="news-home">
 <?php 
@@ -75,25 +71,9 @@ else:
     endif;
 ?>
         </div>
-    </div>
-    <div id="img-home-a" style="width: 100%; position:relative;" >
-    	<img style="display:none" id="scroll-down" src="<?php echo $this->getSkinUrl('images/btn_home_scroll.png');?>"/>
-        <img id="img-home-img" style="width:100%; visibility: hidden;"
-             src = "<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . "corto/home/header/" . Mage::getStoreConfig('autelcorto/autelcatalog/home_header_image'); ?> "/>        
-<!--        <div id="mediaplayer">        	
-        	...
-       	</div>-->
     </div>      
-<script>
-//Primo giro di sistemazione
-//adjustHeights();
-</script>      
     <?php endif; ?>    
-    <div class="header">    
-<?php if ($_isHomePage) :?>
-	style="position:absolute; bottom:0; width:100%"
-<?php endif; ?>
-    >               
+    <div class="header">               
         <div class="head_row1 row">
             <div class="top-links row-links">     
                 <div class="left">
@@ -111,7 +91,7 @@ else:
                     <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
                 </div>
                 <div class="header-links right">
-                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-links')->toHtml() ?> 
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId(MAge::getStoreConfig('autelcorto/autelpage/header-block-id'))->toHtml() ?> 
                 </div>            
             </div>            
         </div>

@@ -48,10 +48,14 @@ class Varien_Data_Form_Element_Headermenu extends Varien_Data_Form_Element_Abstr
     
     protected function _getHeaderData() {
         
+        return self::DecodeData($this->getValue());
+    }
+    
+    public static function DecodeData($value) {
         $data = array();
-        if ($this->getValue() != "") {
+        if ($value != "") {
             $i=0;
-            $rows = preg_split("/-/", $this->getValue());
+            $rows = preg_split("/-/", $value);
             if (!is_array($rows)) {
                 $rows[] = $row;
             }
@@ -68,8 +72,9 @@ class Varien_Data_Form_Element_Headermenu extends Varien_Data_Form_Element_Abstr
                 );
             }
         }
-
+        
         return $data;
+
     }
 }
 

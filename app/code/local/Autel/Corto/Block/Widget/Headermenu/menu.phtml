@@ -1,0 +1,14 @@
+<?php if (sizeof($this->_menu) > 0): ?>
+<ul>
+    <?php foreach ($this->_menu as $menu):?>
+    <?php if ($this->isToPrint($menu)): ?>
+        <li class="<?php if ($this->isSelectMenu($menu)):?>is-menu-select<?php endif; ?>">
+            <a mps-type="async-link" class="rainbow-link" href="<?php echo $this->getLink($menu);?>" title="<?php echo $menu['name'];?>">
+                <?php echo $this->htmlEscape($menu['name']);?>
+            </a>
+        </li>
+    <?php endif;?>
+    <?php endforeach; ?>        
+</ul>
+<?php endif; ?>
+

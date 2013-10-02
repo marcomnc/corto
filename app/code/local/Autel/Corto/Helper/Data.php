@@ -2,6 +2,12 @@
 
 class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
 
+    protected $_catalogModule = array ( 'Catalog' => 1,
+                                        'CatalogIndex' => 1,
+                                        'CatalogInventory' => 1,
+                                        'CatalogRule' => 1,
+                                        'CatalogSearch' => 1);
+    
     public function getIsHomePage()
     {
         $page = Mage::app()->getFrontController()->getRequest()->getRouteName();
@@ -17,6 +23,14 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
 
         return $homePage;
     }    
+    
+    public function getIsCatalogPage()
+    {
+        $module = Mage::app()->getFrontController()->getRequest()->getModuleName();
+        $catalogPage = false;
+
+        return isset($this->_catalogModule[$module]);
+    }  
     
     /**
      * Recupero lo store partendo da uno stato

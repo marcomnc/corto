@@ -556,7 +556,7 @@ tr.summary-details-excluded { font-style:italic; }
 .header { height: 97px; background-color: black; }
 .header .row { width: 100%; margin: auto; position: relative}
 .header .row .row-links { margin: 0px 30px}
-.header .head_row1 {padding-top: 13px}
+.header .head_row1 {padding-top: 5px}
 .header .head_row2 {padding-top: 40px; text-transform: uppercase;}
 .header .head_row2 .header-links { float: left;}
 .header .head_row2 .header-links li { display: inline; border-color: white}

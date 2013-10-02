@@ -45,10 +45,11 @@
                                 class="select required table-row-field"                                    
                                 rel="rowID : {{id}}"
                                 style="width: 125px">
-                            <option value="eshop">E-Shop Link</option>
-                            <option value="home">Home Page Link</option>
-                            <option value="cms">Generic Page</option>
-                            <option value="wp">Word Press Page</option>
+                            <option value="<?php echo Autel_Corto_Block_Widget_Headermenu_Menu::MENU_ESHOP_LINK;?>">E-Shop Link</option>
+                            <option value="<?php echo Autel_Corto_Block_Widget_Headermenu_Menu::MENU_HOME_LINK;?>">Home Page Link</option>
+                            <option value="<?php echo Autel_Corto_Block_Widget_Headermenu_Menu::MENU_CMS_LINK;?>">Magetno cms Page</option>
+                            <option value="<?php echo Autel_Corto_Block_Widget_Headermenu_Menu::MENU_WP_LINK;?>">Word Press Page</option>
+                            <option value="<?php echo Autel_Corto_Block_Widget_Headermenu_Menu::MENU_GENERIC_LINK;?>">Generic Page</option>
                         </select>
                     </td>
                     <td>
@@ -71,7 +72,7 @@
 
 
                     <td class="a-left">
-                        <input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="" />
+                        <input type="hidden" class="delete-flag" id="option-delete-{{id}}" name="option[delete][{{id}}]" value="" />
                             <?php echo $this->getData('delete_button')->toHtml(); ?>
                     </td>
                 </tr>
@@ -158,13 +159,19 @@ var HeaderMenu = {
         var row = $$('.header-menu-row')
         var str = "";
         for (var i = 0; i < row.length; i++) {
+            
             eval ("var rel = {" + $(row[i]).readAttribute('rel') + "}");
+
+            if ($('option-delete-' + rel.rowID).value == '1') 
+                continue;
+            
             str += (str!="") ? "-" : "";
-            str += encode64($('headermenu-' + rel.rowID + "-name").value) + "#";
-            str += encode64($('headermenu-' + rel.rowID + "-type").value) + "#";
-            str += encode64($('headermenu-' + rel.rowID + "-url").value) + "#";
-            str += encode64($('headermenu-' + rel.rowID + "-identify").value) + "#";
-            str += encode64($('headermenu-' + rel.rowID + "-order").value);
+
+            str += (($('headermenu-' + rel.rowID + "-name").value != "") ? encode64($('headermenu-' + rel.rowID + "-name").value) : "") + "#";
+            str += (($('headermenu-' + rel.rowID + "-type").value != "") ? encode64($('headermenu-' + rel.rowID + "-type").value) : "") + "#";
+            str += (($('headermenu-' + rel.rowID + "-url").value != "") ? encode64($('headermenu-' + rel.rowID + "-url").value) : "") + "#";
+            str += (($('headermenu-' + rel.rowID + "-identify").value != "") ? encode64($('headermenu-' + rel.rowID + "-identify").value) : "") + "#";
+            str += (($('headermenu-' + rel.rowID + "-order").value != "") ? encode64($('headermenu-' + rel.rowID + "-order").value) : "") + "#";
         }
         
         $('parameters-menu').value = str;
@@ -177,9 +184,9 @@ var HeaderMenu = {
         var select = $$('.header-menu-row .select');
         for (var i = 0; i < select.length; i++) {
             var value = $(select[i]).readAttribute("value");
-console.log("value : " + value);
+
             for (var optIx=0; optIx < $(select[i]).select("option").length; optIx++) {
-console.log("opt Value :" + $($(select[i]).select("option")[optIx]).value );
+
                 if ($($(select[i]).select("option")[optIx]).value == value) {
                     $($(select[i]).select("option")[optIx]).setAttribute("selected","selected");
                     break;

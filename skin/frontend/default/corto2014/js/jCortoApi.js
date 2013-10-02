@@ -64,7 +64,7 @@ var hH=0;
         $('a[mps-type="async-link"]').on('click', function(evt) {
             evt.preventDefault();
             evt.stopPropagation();
-            if ($(this).attr('href') != '') {
+            if ($(this).attr('href') != '' && $(this).attr('href') != '#') {
                 $.fn.AsyncRedirect($(this).attr('href'));
             }
         });
