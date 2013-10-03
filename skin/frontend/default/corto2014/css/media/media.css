@@ -7,7 +7,9 @@
 
 @media only screen and (min-width: 1680px) {
 
-    .header .row { max-width: 1920px; margin: auto}
+    .header .row ,
+    .footer ,
+    .home-slider-container { max-width: 1920px; margin: auto}
     	
 }
 
@@ -93,6 +95,7 @@
 	.hide-below-960 { display:none !important; }
 	.hide-below-768 { display:none !important; }
 	.hide-below-480 { display:none !important; }
+        .max-width-below-480 {width: 100%!important}
 }
 
 
@@ -105,11 +108,16 @@
 
 /* width < 320px */
 @media only screen and (max-width: 319px) {
-
 		
 	/* Hide */
 	.hide-below-960 { display:none !important; }
 	.hide-below-768 { display:none !important; }
 	.hide-below-480 { display:none !important; }
 	.hide-below-320 { display:none !important; }
+        .max-width-below-480 {width: 100%!important}
+        .max-width-below-320 {width: 100%!important}
+        .no-float-below-320 {float: none!important; clear: both}
+        
+        .social-link {margin: 10px auto; width: 100%}
+        .social-link .social {float: none; margin: 10px auto}
 }

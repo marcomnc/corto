@@ -6,14 +6,53 @@
         
         <parameters>
             <menu>
-                <!--<label>Link del menù</label>-->
+                <label>Link del menù</label>
                 <required>1</required>
                 <visible>1</visible>
                 <type>headermenu</type>                
                 <show_in_store>0</show_in_store>
-                <!--<description>Inserire il link della home page</description>                -->
+                <description>Inserire il link della home page</description>                
             </menu>
-
-        </parameters>
+        </parameters>        
     </corto_widget_menu>
+    <corto_widget_catalog_category_list type="autelcorto/widget_catalog_category_list">
+        <name>Lista Automatica Categorie</name>
+        <description type="desc">Genera una lista di categoorie</description>        
+        <is_email_compatible>1</is_email_compatible>
+        <parameters>
+            <id_path translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Category</label>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_category_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Category...</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>10</sort_order>
+            </id_path>
+            <class_ul translate="label description">
+                <visible>1</visible>
+                <label>Calsse UL</label>
+                <description>Classe assegnata al tag UL</description>
+                <type>text</type>
+            </class_ul>
+            <class_li translate="label description">
+                <visible>1</visible>
+                <label>Calsse LI</label>
+                <description>Classe assegnata al tag LI</description>
+                <type>text</type>
+            </class_li>
+            <class_link translate="label description">
+                <visible>1</visible>
+                <label>Calsse Link</label>
+                <description>Classe assegnata al tag A </description>
+                <type>text</type>
+            </class_link>
+        </parameters>        
+    </corto_widget_catalog_category_list>
 </widgets> 

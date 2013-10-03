@@ -116,8 +116,8 @@ Default layout, loads most of the pages
                     <action method="setElementClass"><value>bottom-container</value></action>
                 </block>                
                 <block type="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
-                <block type="cms/block" name="footer_block">
-                    <action method="setBlockId"><block_id>footer_block</block_id></action>																	
+                <block type="cms/block" name="cms_footer_social_links" as="cms_footer_social_links">
+                    <action method="setBlockId"><block_id>footer_block_bottom</block_id></action>																	
                 </block>
             </block>
 
