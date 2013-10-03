@@ -2,33 +2,40 @@
 
 class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
 
-    protected $_catalogModule = array ( 'Catalog' => 1,
-                                        'CatalogIndex' => 1,
-                                        'CatalogInventory' => 1,
-                                        'CatalogRule' => 1,
-                                        'CatalogSearch' => 1);
+    protected $_catalogModule = array ( 'catalog' => 1,
+                                        'catalogIndex' => 1,
+                                        'catalogInventory' => 1,
+                                        'catalogRule' => 1,
+                                        'catalogSearch' => 1);
     
-    public function getIsHomePage()
+    public function getIsHomePage() {
+        return $this->getIsSpecifyCMSPage(Mage::app()->getStore()->getConfig('web/default/cms_home_page'));
+    }
+    
+    public function getIsShopPage() {
+        return $this->getIsSpecifyCMSPage(Mage::app()->getStore()->getConfig('autelcorto/autelpage/cms_shop_page'));
+    }
+
+
+    public function getIsSpecifyCMSPage($idPage)
     {
         $page = Mage::app()->getFrontController()->getRequest()->getRouteName();
-        $homePage = false;
+        $specPage = false;
 
         if($page =='cms'){
             $cmsSingletonIdentifier = Mage::getSingleton('cms/page')->getIdentifier();
-            $homeIdentifier = Mage::app()->getStore()->getConfig('web/default/cms_home_page');
-            if($cmsSingletonIdentifier === $homeIdentifier){
-                $homePage = true;
+            if($cmsSingletonIdentifier == $idPage){
+                $specPage = true;
             }
         }
 
-        return $homePage;
-    }    
+        return $specPage;
+    }  
     
     public function getIsCatalogPage()
     {
         $module = Mage::app()->getFrontController()->getRequest()->getModuleName();
         $catalogPage = false;
-
         return isset($this->_catalogModule[$module]);
     }  
     

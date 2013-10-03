@@ -483,61 +483,7 @@ function readyHomePage(idx) {
       
 
 $j(window).bind("scroll", function() {
-  if (!no_scroll) {            
-    if (($j(window).scrollTop()-$j('.header-container').height())>-80) {
-        $j('.header').removeAttr("style").css({"position":"fixed", "top":0, "left":0, "z-index":999, "width":"100%"});
-        if (isHomePage===true) {
-            $j('#home-navigator').attr("rel","up").css({"display":"block"});
-            $j('#home-navigator>img').attr("src",homeNavigator.up);
-            jQuery(".home-bg-navigator").removeClass("invisible").addClass("visible");
-        }        
-    } else {
-        $j('.header').removeAttr("style").css({"position":"absolute", "bottom":0, "left":0, "width":"100%"});        
-        if (isHomePage===true) {
-            $j('#home-navigator').attr("rel","down")
-            $j('#home-navigator>img').attr("src",homeNavigator.down);            
-            if (($j(window).scrollTop()-$j('.header-container').height())>-1*($j('.header-container').height()/2)) {
-                $j('#home-navigator').attr("rel","up").css({"display":"block"});
-                $j('#home-navigator>img').attr("src",homeNavigator.up);
-                jQuery(".home-bg-navigator").removeClass("invisible").addClass("visible");
-                //if (jwplayer('mediaplayer').getState()!="PAUSED" && jwplayer('mediaplayer').getState()!="IDLE") {
-                //   jwplayer('mediaplayer').pause(true);
-                //}
-            } else {                
-                $j('#home-navigator').css({"display":"block"});
-                jQuery(".home-bg-navigator").removeClass("visible").addClass("invisible");
-            }
-        }
-    }
-    
-    if (($j(window).scrollTop()-$j('.header-container').height())>0) {
-        $j(".outfit-container li:first-child").css({"background-position": "center 60px"});
-    } else {
-    	if (!isiPad) {
-        	$j(".outfit-container li:first-child").css({"background-position": "center "+(60+$j('.header-container').height()-$j(window).scrollTop())+"px"});
-        } else {
-        	$j(".outfit-container li:first-child").css({"background-position": "center center"});
-        }
-    } 
-    if (isHomePage===true) {
-        var diff=$j(document).height()-$j(window).scrollTop();
-        var pg=parseInt($j('.slider-logo').css("top"),0)+$j('.slider-logo').height()+$j('.footer-container').outerHeight(true);        
-        if ((diff-pg)<0) {
-            $j('.slider-logo>div').css({"overflow":"hidden", "height":parseInt($j('.slider-logo').height(),0)+(diff-pg)+"px"});
-            if (-(diff-pg)>=$j('.slider-logo').height()){
-                $j('.slider-logo>div').css({"overflow":"hidden", "height": "0px"});
-                jQuery(".home-bg-navigator").removeClass("visible").addClass("invisible");
-            }            
-        } else {
-            $j('.slider-logo>div').css({"overflow":"hidden", "height":$j('.slider-logo').height()+"px"})
-        }
-/*
-        if ($j(window).scrollTop()>0 && jwplayer('mediaplayer').getState()!="PAUSED" && jwplayer('mediaplayer').getState()!="IDLE")
-            jwplayer('mediaplayer').pause(true);
-        if ($j(window).scrollTop()==0 && (jwplayer('mediaplayer').getState()=="PAUSED" || jwplayer('mediaplayer').getState()=="IDLE"))
-            jwplayer('mediaplayer').play(true);*/
-      }
-  }
+  
 });
 
 /* Inizializzione link di testa */

@@ -38,7 +38,7 @@
     src: url("../fonts/Georgia Italic.ttf") 
 }
 
-body          { background:#FFF; font:13px/1.35 "Helvetica Neue", Helvetica, Arial,  sans-serif; color:#000; text-align:center; }
+body          { background:#000; font:13px/1.35 "Helvetica Neue", Helvetica, Arial,  sans-serif; color:#000; text-align:center; }
 
 img           { border:0; vertical-align:top; }
 
@@ -103,7 +103,7 @@ ul,ol         { list-style:none; }
 .wrapper { padding:37px 0 0; padding-top:0px; width:100%; position: relative; }
 .wrapper-page {background-color: white; padding: 30px 0 0 0 ; position: relative}
 .cms-home .wrapper-page { padding: 0px}
-.page {padding-top: 50px; background-image: url(../images/logo_alpha.png); background-repeat: no-repeat;}
+.page {}
 .cms-home .page { padding: 0px; background-image: none; width: 100%}
 .page { width:950px; margin:0 auto; text-align:left; min-height: 400px }
 .page-print { background:#fff; padding:20px; text-align:left; }
@@ -572,14 +572,6 @@ tr.summary-details-excluded { font-style:italic; }
 .header  li.last { margin:0 !important;}
 .header .links li a { color:#FFFFFF; text-decoration:none; text-transform: uppercase; font-size: 10px }
 .header  li a:hover { text-decoration:underline; }
-.header .form-search { float:right; border:1px solid #333; width:234px; height:33px; position: absolute; display: none; z-index: 1001}
-.header .form-search .input-text { float:left; background-color: white; border:0; width:196px; height: 29px; color:#B5B5B5; margin:0px}
-.header .form-search .btn_search { float:right; background:url(../images/SearchSubmit.png) no-repeat; border:0; width:33px; height:33px; cursor:pointer; }
-.header .form-search .search-autocomplete { z-index:999; }
-.header .form-search .search-autocomplete ul { border:1px solid #ddd; background-color:#fff; }
-.header .form-search .search-autocomplete li { padding:3px; border-bottom:1px solid #ddd; cursor:pointer; }
-.header .form-search .search-autocomplete li .amount { float:right; font-weight:bold; }
-.header .form-search .search-autocomplete li.selected {}
 .header-container .top-container { clear:both; text-align:right; }
 .header .search { margin-left: 5px; }
 
@@ -1504,7 +1496,7 @@ button.btn-checkout span span,
 
 
 /* Footer ================================================================================ */
-.footer { padding:12px 0 0 0; width: 100%; color: white; margin: auto;}
+.footer { padding:12px 0 20px 0; width: 100%; color: white; margin: auto;}
 .footer p {  }
 .footer address { display:block; padding:24px 0 0 0; color:#A6A6A6; }
 .footer ul { float:left; text-align: left }
@@ -1697,7 +1689,7 @@ button.btn-checkout span span,
 /* =======================================================================================
 
 /* ============ Custom Menu =============== */
-#menu { font-size: 13px}
+#menu { font-size: 13px; margin-bottom: 15px}
 #menu a { color: white; text-decoration: none; text-transform: uppercase; }
 #menu a:hover {text-decoration: none; color: black} 
 #menu a:visited {text-decoration: none}
@@ -1711,6 +1703,19 @@ button.btn-checkout span span,
 #menu .module .title a:hover {text-decoration: none; color: white} 
 #menu ul {list-style: none !important;padding: 0px 15px; background-image: url('../images/menu-bk-31.png');}
 #menu ul li { padding: 5px 0 }
+
+.left-menu {padding: 12px 10px 10px; background-color: #000; margin-bottom: 2px}
+.left-menu.large {padding: 17px 10px 16px}
+.left-menu a {color: #fff; text-decoration: none}
+.left-menu .form-search { border:1px solid #333; width:200px; height:23px; z-index: 1001}
+.left-menu .form-search .input-text { float:left; background-color: white; border:0; width:162px; height: 19px; color:#B5B5B5; margin:0px}
+.left-menu .form-search .btn_search { float:right; background:url(../images/SearchSubmit.png) no-repeat; border:0; width:33px; height:23px; cursor:pointer; background-position-y: -5px  }
+.left-menu .form-search .search-autocomplete { z-index:999; }
+.left-menu .form-search .search-autocomplete ul { border:1px solid #ddd; background-color:#fff; }
+.left-menu .form-search .search-autocomplete li { padding:3px; border-bottom:1px solid #ddd; cursor:pointer; }
+.left-menu .form-search .search-autocomplete li .amount { float:right; font-weight:bold; }
+.left-menu .form-search .search-autocomplete li.selected {}
+.left-menu .search-by-color {font-family: 'Cookie', cursive;}
 
 /* ========= Custom product view ============*/
 .product-essential { font-size: 13px }
@@ -1848,6 +1853,7 @@ button.btn-checkout span span,
 
 
 /* IMPULSE BUY */
+.impulsebuy-title { font-family: 'Great Vibes', cursive; }
 .impulsebuy { display: block; padding-top: 90px; }
 .impulsebuy label { padding: 8px 0; display: block; font-family: 'Oswald', sans-serif; font-size: 26px; text-transform: uppercase; }
 .impulsebuy h1 { display: block; font-family: 'Oswald', sans-serif; font-size: 56px; text-transform: uppercase; font-weight: normal; padding-bottom: 20px; }

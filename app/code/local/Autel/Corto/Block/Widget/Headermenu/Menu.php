@@ -25,7 +25,7 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
     implements Mage_Widget_Block_Interface 
 {
     
-    const MENU_ESHOP_LINK = "eshop";
+    const MENU_ESHOP_LINK = 'shop';
     const MENU_HOME_LINK = "home";
     const MENU_CMS_LINK = "cms";
     const MENU_WP_LINK = "wp";
@@ -102,16 +102,21 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
      * //non è ne E-shop ne Home    
      * //è Shop e sono in homepage
      * é home e non sono in homepage
+     * é shop e non sono in e-shop
      * @param type $menu
      */
     public function isToPrint($menu) {
         $isHome = Mage::Helper('autelcorto')->getIsHomePage();
+        $isShop = Mage::Helper('autelcorto')->getIsShopPage();
         $isCatalog = Mage::helper('autelcorto')->getIsCatalogPage();
-        return (
-            //($menu['type'] != self::MENU_ESHOP_LINK && $menu['type'] != self::MENU_HOME_LINK) ||
-            //($menu['type'] != self::MENU_ESHOP_LINK && $isHome) ||
-            ($menu['type'] != self::MENU_HOME_LINK || !$isHome)
-        );
+
+        if ($menu['type'] == self::MENU_HOME_LINK && $isHome)
+            return false;
+        
+        if ($menu['type'] == self::MENU_ESHOP_LINK && ($isShop || $isCatalog))
+            return false;
+        
+        return true;
     }
 }
 ?>
