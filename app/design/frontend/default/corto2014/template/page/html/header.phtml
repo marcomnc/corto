@@ -94,21 +94,8 @@ else:
                     <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId(MAge::getStoreConfig('autelcorto/autelpage/header-block-id'))->toHtml() ?> 
                 </div>            
             </div>            
-        </div>
-    <?php if ($_isHomePage): ?>    
-    <div class="slider-logo">
-        <div>
-            <img src="<?php echo $this->getSkinUrl('images/logo_alpha.png');?>"/>
-        </div>
-    </div>
-    <?php endif; ?>
+        </div>    
     </div>       
-<?php if ($_isHomePage): ?>
-<script>
-//Primo giro di sistemazione
-adjustHeights();
-</script>      
-<?php endif; ?>	
 </div>
     
 <?php if ($_isHomePage): ?>
@@ -117,7 +104,6 @@ adjustHeights();
       var isHomePage=true;
       var baseUrl="<?php echo $this->getBaseUrl();?>";
       
-      //'flashplayer': '<?php echo $this->getSkinUrl("js/player.swf") ?>',
     </script>        
 <?php else: ?>
     <script>

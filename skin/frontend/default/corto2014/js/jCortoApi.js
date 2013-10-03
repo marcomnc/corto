@@ -425,39 +425,6 @@ var hH=0;
  * Binding del trigger di resize
  */
 
-jQuery(window).resize(function() {    
-    
-    if (isHomePage===true) {        
-        adjustHeights();
-    }
-    var w=jQuery(window).height();
-    var d=jQuery(document).height();
-    var wh=jQuery(".page").height();
-    var paddingTop=parseInt(jQuery(".wrapper-page").css("paddingTop"));
-    var paddingBottom=parseInt(jQuery(".wrapper-page").css("paddingBottom"));
-    var hv=d+(w-d)-jQuery(".header-container").height()-jQuery(".footer-container").height()-paddingBottom-paddingTop;    
-    if (hv>0 && wh<hv && typeof(checkout)=="undefined") {jQuery(".wrapper-page").css({"height":hv+"px"});}
-    
-    //$j("#my").val("Width:" + jQuery(window).width()+"\nright width:"+$j('.right-nav').outerWidth(true));
-    
-    if (jQuery(window).width()<=1018) {
-        if (jQuery(".right-nav").width()!=0) {
-            jQuery(".right-nav").css({"width":"0px", "padding": "0px"});
-        }
-    } else {
-        if (jQuery(".right-nav").width()==0) {
-            jQuery(".right-nav").css({"width":"58px", "padding": "5px"});
-        }
-    }
-    //$j("#my").val($j("#my").val()+"\n-----\nWidth:" + jQuery(window).width()+"\nright width:"+$j('.right-nav').outerWidth(true));
-    if (w>=jQuery(".right-nav").height()) {
-        var rnp=w/2-jQuery(".right-nav").outerHeight(true)/2;        
-        rnp=Math.round(rnp);
-        jQuery(".right-nav").css({"top": (rnp+$j('.home-bg-navigator').outerHeight(true))+"px"});
-        jQuery(".home-bg-navigator").css({"top": rnp+"px"});
-    }
-});
-
 function setImgData() {
 	if (imageHomeLoaded) {
 		//if (imageHome.height > $j('#img-home-a').outerHeight()) {
@@ -509,89 +476,9 @@ function adjustHeights() {
     $j(".outfit-container li").css({"background-size": "auto "+$j(window).height()+"px", "height": $j(window).height()+"px"})
 }
 
-function postCreateOf (idx, liEle, class2add, last) {
-    //console.log("Carico: " + liEle);
-    //console.log("Conto: "+ $j(".outfit-container li").length);
-    $j(".outfit-container").append($j("<li>", {"id": "outfit"+idx, "class":"outfit"})
-                                    .css({"display": "none", "background-color": "trasparent", 
-                                           "background-image": "url('"+liEle.src+"')",
-                                           "background-repeat": "no-repeat",  
-                                           "background-attachment": (!isiPad)?"fixed":"none", 
-                                           "background-position": "center 60px",
-                                           "background-size": "auto "+$j(window).height()+"px", 
-                                           "-moz-background-size": "auto "+$j(window).height()+"px", 
-                                           "-webkit-background-size": "auto "+$j(window).height()+"px", 
-                                           "height": $j(window).height()+"px",
-				           "cursor" : (liEle.url != "")?"pointer":"default"})
-				    .attr('rel', liEle.url)
-                                    .addClass(class2add)
-                                    .append("<div class=\"slider-divider\"><div></div></div>"));    
-
-   if (last) {
-        $j.fn.layer(false, { bindEsc:false});
-        $j(".outfit-container li").fadeOut();                
-        $j(".outfit-container li.remove").remove()
-        $j(".outfit-container li").fadeIn(); 
-        if ($j(window).scrollTop() < 100) {
-        	var pl = ($j("#img-home-a").outerWidth()/2 - $j("#scroll-down").outerWidth()/2);
-        	$j("#scroll-down").css({'position':'absolute','bottom' : '60px', 'left': pl+'px', 'z-index': 10, 'cursor':'pointer' });
-        	$j("#scroll-down").fadeIn("fast");
-        	$j("#scroll-down").click(function() {
-        			$j('#home-navigator').trigger("click");
-        			$j(this).fadeOut("fast");
-        		});
-       		window.setTimeout(function(){
-       				$j("#scroll-down").fadeOut("slow");
-       			},5000);
-        }
-        //$j("body").css({'overflow-y' : 'scroll'});   
-        no_scroll=false; 
-        adjustHeights();
-    }
- }
-function createOf(imgList) {
-                 
-    no_scroll=true;
-    if (imgList.length>0) {    	
-    	if (imgList.length==1) {
-    		jQuery(".home-bg-navigator").css({"display": "none"});
-    	}
-        if ($j(".outfit-container li").length>0) {
-            $j(".outfit-container li").addClass("remove");            
-        }        
-        imgList.each(function (liEle, idx) {
-            var ac = "";
-            if (idx==0) ac="first-outfit";
-            if (idx==(imgList.length-1)) ac="last-outfit";
-            //console.log("precarico: " + liEle + " len " + $j(".outfit-container").length);
-            var myImage=new Image();
-            $j(myImage).attr('src', liEle.src).load(function() {postCreateOf(idx,liEle,ac,idx==(imgList.length-1))});
-            
-            if (idx==(imgList.length-1)) {
-//                $j(".outfit-container li").fadeOut();                
-//                $j(".outfit-container li.remove").remove()
-//                $j(".outfit-container li").fadeIn();    
-//                no_scroll=false;
-            }
-        });    
-	$j(document).on('click', '.outfit', function () {
-			var url=$j(this).attr('rel')+'';
-			if ( url != '') {
-				window.location =url;
-			}
-		});
-    }    
-}
-
 function readyHomePage(idx) {
-    $j("body").css({"background-color":"#FFF"})  
-    //$j('.header-container').css({"position":"relative", "background-color":"#000"});
-    $j('.footer-container').css({"background-color":"#000"});
-    //$j(".header").css({"position":"absolute", "bottom":"0","width":"100%"});        
-    idx=(idx==null)?0:idx;
-    createOf(ofList[ofPos]);
     
-    adjustHeights();
+    //adjustHeights();
 }
       
 
@@ -673,7 +560,6 @@ $j(window).bind("scroll", function() {
 jQuery(document).ready(function(){  
 
     if (isHomePage===true) {        
-        homeNavigator=jQuery.parseJSON(jQuery('#home-navigator>img').attr("rel").replace(/\\\'/g, "\""));
         readyHomePage();
     }
     jQuery(window).trigger('resize');
@@ -704,26 +590,7 @@ jQuery(document).ready(function(){
             return false;
         });
     }
-    
-    if ($j(".home-bg-navigator").length>0) {
-    	if (ofList.length<=1) {
-    		$j(".home-bg-navigator").css({ "display":"none" });
-    	}
-        $j(".home-bg-navigator a").bind("click", function () {
-            if($j(this).attr("class").toUpperCase()=="RIGHT") {
-                if (ofPos>=(ofList.length-1)) {
-                    ofPos=0;
-                } else {ofPos++}
-            } else {
-                if (ofPos==0) {
-                    ofPos=ofList.length-1;
-                } else {ofPos--}
-            }
-            $j.fn.layer(true, {waiting: "../images/waiting.gif", bindEsc:false});
-            createOf(ofList[ofPos]);                        
-            return false;
-        })
-    }
+       
 
     if ($j(".product-detail").length>0) {
        /* Lunghezza della barra laterale del prodotto per evitare che scretcha quando implodo esplodo view e detail

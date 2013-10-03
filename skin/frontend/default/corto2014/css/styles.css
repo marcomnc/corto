@@ -38,7 +38,7 @@
     src: url("../fonts/Georgia Italic.ttf") 
 }
 
-body          { background:#000; font:13px/1.35 "Helvetica Neue", Helvetica, Arial,  sans-serif; color:#000; text-align:center; }
+body          { background:#FFF; font:13px/1.35 "Helvetica Neue", Helvetica, Arial,  sans-serif; color:#000; text-align:center; }
 
 img           { border:0; vertical-align:top; }
 
@@ -552,6 +552,7 @@ tr.summary-details-excluded { font-style:italic; }
 #facebook{padding-right:630px;}
 #facebook img{width:15px;padding-bottom:3px;padding-right:3px;}
 .header-container { color: #6D6E71; height:auto; }
+.cms-home .header-container { position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1}
 .cms-index-index .header-container { border-bottom:0; margin-bottom:0; }
 .header { height: 97px; background-color: black; }
 .header .row { width: 100%; margin: auto; position: relative}
@@ -1851,17 +1852,9 @@ button.btn-checkout span span,
 .impulse-badge { display: block; position: absolute; right: 0; top: 0; }
 
 .product-detail-body { width: 190px; height: 235px!important;}
-.right-nav { position: fixed; right: 0px; top: 0px; z-index: 99999; width: 68px;
-             background-image: url('../images/menu-bk-31.png'); text-align: center; padding-bottom: 7px}
 .catalog-product-view .right-nav { background-image: url('../images/menu-bk-70.png'); }
 .right-nav .top { height: 55px; padding: 17px 0;}
 .right-nav .social { height: 25px; padding: 10px 0; }
-.home-bg-navigator {position: fixed; top: 0px; z-index: 99999; width: 68px;
-                      background:transparent; text-align: center; padding: 5px 0; height: 50px}
-.home-bg-navigator.left {left:13px}
-.home-bg-navigator.right {right:13px}
-.home-bg-navigator.visible {display: block}
-.home-bg-navigator.invisible {display: none}
 .store-language li, .search li {border-right: 0px }
 
 .pop-up-login {width: 722px; height: 525px; font-size: 13px;
