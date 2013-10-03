@@ -43,7 +43,6 @@ app/design/adminhtml/default/default/template/notification/
 app/design/adminhtml/default/default/template/oauth/
 app/design/adminhtml/default/default/template/overlay_popup.phtml
 app/design/adminhtml/default/default/template/page/
-app/design/adminhtml/default/default/template/page.phtml
 app/design/adminhtml/default/default/template/pagecache/
 app/design/adminhtml/default/default/template/paygate/
 app/design/adminhtml/default/default/template/payment/
