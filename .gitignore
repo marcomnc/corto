@@ -1,4 +1,5 @@
 .modgit/
+app/code/community/Cm/
 app/code/community/Find/
 app/code/community/Phoenix/
 app/code/core/
@@ -78,6 +79,7 @@ app/etc/enterprise.xml
 app/etc/local.xml.additional
 app/etc/local.xml.template
 app/etc/local.xml
+app/etc/modules/Cm_RedisSession.xml
 app/etc/modules/Mage_All.xml
 app/etc/modules/Mage_Api.xml
 app/etc/modules/Mage_Api2.xml
@@ -98,6 +100,7 @@ app/etc/modules/Mage_Widget.xml
 app/etc/modules/Mage_XmlConnect.xml
 app/etc/modules/Phoenix_Moneybookers.xml
 app/etc/modules/Pol_Attributemanager.xml
+app/locale/
 app/shell/
 app/.htaccess
 app/Mage.php
@@ -129,12 +132,15 @@ js/spacer.gif
 js/tiny_mce/
 js/varien/
 lib/3Dsecure/
+lib/Cm/
+lib/Credis/
 lib/Apache/
 lib/flex/
 lib/googlecheckout/
 lib/.htaccess
 lib/LinLibertineFont/
 lib/Mage/
+lib/Magento/
 lib/PEAR/
 lib/phpseclib/
 lib/Varien/
