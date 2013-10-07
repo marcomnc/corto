@@ -72,7 +72,7 @@ var hH=0;
     
     $.fn.AsyncRedirect = function(url) {
         if (typeof(url) != 'undefined' && url != '') {
-            $.fn.layer(true, {waiting: "../images/waiting.gif", bindEsc:false})
+            $.fn.layer(true, {waiting: Translator.translate('waitingImage'), bindEsc:false})
             window.location = url;
         }
     }; 

@@ -137,7 +137,7 @@ echo "</pre>"?>
 	//		</script>
 ?>            
 			
-            <?php the_block("right_nav");?>
+            <?php //the_block("right_nav");?>
 <?php // Fine Marco 
 ?>            
             <?php /*

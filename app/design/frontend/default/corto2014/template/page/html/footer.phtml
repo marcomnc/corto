@@ -52,7 +52,8 @@ if(Mage::Helper("autelcorto")->getIsHomePage() && $blockTop != ''):?>
         <div class="clearer"></div>
         <div class="footer_row bottom">  
             <div class="home-slider-container">
-                <?php echo $this->getChildHtml('cms_footer_social_links') ?>            
+                <?php //echo $this->getChildHtml('cms_footer_social_links') 
+                echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer_block_bottom')->toHtml();?>            
             </div>            
         </div>
     </div>
