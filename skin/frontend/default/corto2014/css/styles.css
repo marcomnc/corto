@@ -129,8 +129,8 @@ ul,ol         { list-style:none; }
 .cms-home .main-container { padding:0; }
 .main {  }
 
-.catalog-product-view .wrapper-page,
-.cms-shop .wrapper-page { background-color: transparent; }
+/*.catalog-product-view .wrapper-page,
+.cms-shop .wrapper-page { background-color: transparent; }*/
 
 /*.catalog-product-view .page { background-image: url(../images/logo_small_white.png); }*/
 
@@ -772,12 +772,15 @@ tr.summary-details-excluded { font-style:italic; }
 /* View Type: Grid */
 .products-grid { margin:0 -10px 14px 0; position:relative; }
 .products-grid.last {  }
-.products-grid li.item { float:left; width:230px; padding:0; height: 295px}
+.products-grid>div.item,
+.products-grid li.item { float:left; width:230px; padding:0; height: 295px; background: #FFFFFF; margin: 0px 10px 10px 0;}
 .products-grid li.last { margin:0 10px; }
 .products-grid li.first { margin:0 10px; }
-.products-grid li a { position: relative }
+.products-grid>div a,
+.products-grid li a{ position: relative }
+.products-grid>div a img,
 .products-grid li a img { position: absolute; top:0px; left: 0px; background-color: white}
-.products-grid .product-image { display:block; width:200px; height:200px; margin:auto; }
+.products-grid .product-image { display:block; width:200px; height:200px; margin:auto; margin: 10px auto 30px;}
 .products-grid .product-name { font-size: 13px; font-weight: bold; padding:0; text-transform:uppercase; text-align: center; }
 .products-grid .product-short-description { font-size: 13px; text-align: center; font-weight: normal; font-family: Georgia, serif; font-style: italic; text-transform: none; }
 .products-grid .product-short-description a { }
@@ -1957,3 +1960,11 @@ button.btn-checkout span span,
 .social-link {margin: 10px auto; width: 320px}
 .social-link .social {float: left}
 .social-link .social a {margin: 0px 20px}
+
+.color-search .container {margin-top: 30px}
+.color-search .container>div {height: 100px; width: 150px; float: left; border: 1px solid; position: relative;
+                            margin: 0px 10px 10px 0px}
+.color-search .container .color {width: 100%; height: 100%}
+.color-search .container .label {background: black url('../images/ico_corto_star.png') 0 8px no-repeat ; position: absolute; bottom: 0; left: 0;
+                                width: 100%; height: 30px;}
+.color-search .container .label a {width: 100%; color: white; font-size: 13px; font-weight: bold; position: absolute; padding: 8px 0 0 50px;}

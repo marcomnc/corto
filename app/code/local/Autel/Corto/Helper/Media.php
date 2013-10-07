@@ -141,5 +141,50 @@ class Autel_Corto_Helper_Media extends Autel_Corto_Helper_Data {
 
         return Mage::Helper("core")->jsonEncode($_ret);
     }
+    
+    public function GetAttributeArray($type) {
+        if (Mage::getStoreConfig("autelcorto/autelcatalog/attribute_$type") != "") {
+            return preg_split('/,/', Mage::getStoreConfig("autelcorto/autelcatalog/attribute_$type"));
+        } else {
+           return false;
+        }
+    }
+    
+    /**
+     * Ritorna la lista delle opzioni di un attriubuto
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @return type
+     */
+    public function getAttributeOptions($attribute) {
+        
+        $ret = array();
+        if ($attribute instanceof Mage_Catalog_Model_Resource_Eav_Attribute) {
+            
+            $ret = $attribute->getSource()->getAllOptions(false);
+        }
+        return $ret;
+    }
+    
+
+    public function getBackgroudStyle($block) {
+
+        $style= "";
+        if ($block instanceof Mage_Page_Block_Html && $block->getData('show_background')) {
+            $imgList = Mage::Helper("autelcorto/media")->getListImage("layout/sfondi/catalog");
+            if (is_array($imgList) && sizeof($imgList)) {
+                shuffle($imgList);
+                $style  = "background-size: cover;background-position:right bottom;";
+                if(preg_match('/(?i)msie [1-8]/',$_SERVER['HTTP_USER_AGENT'])) {
+                    $style .= "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='$imgList[0]',sizingMethod='scale')";
+                } else {
+                    $style .= "background-image: url('$imgList[0]')";                
+                }
+            }
+        }
+        
+        return $style;    
+     }
+    
+        
 }
 ?>

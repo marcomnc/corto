@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Autel_Corto>
-            <version>0.1.3</version>
+            <version>0.2.0</version>
         </Autel_Corto>
     </modules>
     <global>
@@ -58,6 +58,16 @@
                     </autel_corto_observer>
                 </observers>
             </currency_display_options_forming>
+<!-- Memorizzazione Attributi (per gestire le immagini) -->            
+            <catalog_entity_attribute_save_after>
+                <observers>
+                    <veredus_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Adminhtml_Observer</class>
+                        <method>on_attribute_after_save</method>
+                    </veredus_observer>
+                </observers>
+            </catalog_entity_attribute_save_after>
         </events>  
 
 
@@ -87,17 +97,19 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
             <autelcorto>
                 <class>Autel_Corto_Block</class>
             </autelcorto>
-            <!-- Deprecato
-            <catalog>
-                <rewrite>
-                    <breadcrumbs>Autel_Corto_Block_Catalog_Breadcrumbs</breadcrumbs>
-                </rewrite>
-            </catalog> -->
             <page>
                 <rewrite>
                     <html_breadcrumbs>Autel_Corto_Block_Page_Breadcrumbs</html_breadcrumbs>
                 </rewrite>
             </page>
+            <adminhtml>
+                <rewrite>
+                    <!-- Aggiungo la tab manage colors -->
+                    <catalog_product_attribute_edit_tabs>Autel_Corto_Block_Adminhtml_Catalog_Attribute_Edit_Tabs</catalog_product_attribute_edit_tabs>
+                    <!-- Aggiungo l'encrypt type sul form -->
+                    <catalog_product_attribute_edit_form>Autel_Corto_Block_Adminhtml_Catalog_Attribute_Edit_Form</catalog_product_attribute_edit_form>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <helpers>
             <autelcorto>
@@ -126,7 +138,10 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                     </faq>                          
                     <faq_store>
                         <table>autel_corto_faq_store</table>
-                    </faq_store>           
+                    </faq_store>      
+                    <coloroptions>
+                        <table>autel_corto_color_options</table>
+                    </coloroptions>     
                     <!-- other entity -->
                 </entities>
             </autelcorto_mysql4>

@@ -1,0 +1,53 @@
+
+<div style="position: relative" class="color-search">
+<?php 
+$breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
+//Il redirect ad e-shop del breadcrumbs viene fatto in automatico
+$breadcrumbs->addCrumb('home', array('label'=>Mage::helper('cms')->__('Home'), 'title'=>Mage::helper('cms')->__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+$breadcrumbs->addCrumb('searchbycolor', array('label'=>$this->__("Search By Color"), 'title'=>$this->__("Search By Color")));
+echo $this->getLayout()->getBlock('breadcrumbs')->toHtml();
+
+$headerBlock = $this->getLayout()->createBlock('cms/block')->setBlockId('search-color-header')->toHtml() . '';
+$footerBlock = $this->getLayout()->createBlock('cms/block')->setBlockId('search-color-footer')->toHtml() . '';
+if ($headerBlock != ""):
+?>
+    <div class="cms-search-by-color">
+        <?php echo $headerBlock; ?>
+    </div>
+<?php endif; ?>
+
+<?php 
+$colorAttribute = Mage::helper('autelcorto/media')->GetAttributeArray('color');
+if (isset($colorAttribute[0])):
+    $attribute = Mage::getSingleton('eav/config')->getAttribute('catalog_product', $colorAttribute[0]);
+    if ($attribute->usesSource()):?>
+    <div class="container">
+    <?php foreach ($attribute->getSource()->getAllOptions(false) as $colors):
+        
+        $colorOptions = Mage::getModel('autelcorto/coloroptions')->Load($colors['value'], 'option_id'); ?>
+        
+        <div>
+            <div class="color" <?php if($colorOptions->getColorHex() != ""): ?> style="background-color: #<?php echo $colorOptions->getColorHex()?>" <?php endif;?>>
+                <?php if($colorOptions->getColorHex() == "" && $colorOptions->getImageColorUrl() != ""): ?>     
+                <img src="<?php echo $colorOptions->getImageColorUrl(); ?>" style="width: 100%; height: 100%"/>
+                <?php endif; ?>
+            </div>        
+            <div class="label">
+                <a href="#"><?php echo $colors['label'];?></a>
+            </div>
+        </div>
+<?php        
+        endforeach;
+?>
+    </div>
+    
+<?php 
+    endif;
+endif;
+
+if ($footerBlock != ""):?>
+    <div class="cms-search-by-color">
+        <?php echo $footerBlock; ?>
+    </div>
+<?php endif; ?>
+</div>

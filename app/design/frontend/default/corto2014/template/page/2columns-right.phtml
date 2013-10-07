@@ -40,7 +40,7 @@
     <?php echo $this->getChildHtml('global_notices') ?>
     <?php echo $this->getChildHtml('header') ?>    
     <div class="wrapper-page">
-        <div class="page">        
+        <div class="wrapper-page" style="<?php echo Mage::Helper('autelcorto/media')->getBackgroudStyle($this);?>">              
             <div class="main-container col2-right-layout">
                 <div class="main">                    
                     <div class="col-main">
@@ -52,7 +52,6 @@
                 </div>
             </div>
         </div>
-        <div class="wrapper-background"></div>
     </div>
     <?php echo $this->getChildHtml('footer') ?>
     <?php echo $this->getChildHtml('before_body_end') ?>    

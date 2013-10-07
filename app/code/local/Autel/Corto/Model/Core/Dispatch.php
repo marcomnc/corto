@@ -87,6 +87,17 @@ class Autel_Corto_Model_Core_Dispatch {
                        break;
                     }
                     
+                    if ($newPathInfo == "" ) {
+                        //Non ho trovato un rewite valido, verifico se è un router standard
+                        $modules = preg_split("/\//", $requestInfo);
+                        
+                        $module = ($modules[0] == "" && isset($modules[1])) ? $modules[1] : "";
+                        if (is_array($observer->getFront()->getRouter("standard")->getModuleByFrontName($module     ))) {
+                            //l'url fa capo ad un modulo standard ... provo a cambiare lo store
+                            $newPathInfo = $requestInfo;
+                        }                                                
+                    }
+                    
                     $newUrl = $store->getUrl() . $newPathInfo .  (($newPathInfo != "") ? $additionaParameters : "");
                 
                     Header("location: " . $newUrl);

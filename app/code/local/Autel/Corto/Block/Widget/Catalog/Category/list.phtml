@@ -4,7 +4,7 @@
     <?php for ($ii = 0; $ii < sizeof($_category); $ii++): 
             $_child = $_category[$ii];
     ?>
-    <li class="<?php echo $this->getClassLi(); ?><?php if ($ii == 0): echo ' first'; endif;?><?php if ($$ii == sizeof($_category)): echo ' last'; endif;?>">
+    <li class="<?php echo $this->getClassLi(); ?><?php if ($ii == 0): echo ' first'; endif;?><?php if ($ii == (sizeof($_category)-1)): echo ' last'; endif;?>">
         <a class="<?php echo $this->getClassLink(); ?>" title="<?php echo $_child->getName();?>"
            href="<?php echo Mage::helper('catalog/category')->getCategoryUrl($_child);?>">
             <?php echo $_child->getName();?>

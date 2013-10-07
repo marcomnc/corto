@@ -10,6 +10,8 @@
     .header .row ,
     .footer ,
     .home-slider-container { max-width: 1920px; margin: auto}
+    .page { width: 1640px!important } 
+    .col2-left-layout .col-main { width: 1400px!important }
     	
 }
 
@@ -21,6 +23,7 @@
 
 @media only screen and (min-width: 1440px) and (max-width: 1679px) {
     
+/*    .page { width: 1300px!important; }    */
 }
 
 /* Desktop - design for a width of 1366px and 1360px
@@ -30,7 +33,8 @@
 /* 1360px <= width */
 
 @media only screen and (min-width: 1360px) and (max-width: 1439px) {
-    
+ 
+/*    .page { width: 1200px!important; }    */
 }
 
 
@@ -40,7 +44,7 @@
 
 /* 1280px <= width */
 
-@media only screen and (min-width: 1280px) and (max-width: 1359px) {
+@media only screen and (min-width: 1280px) and (max-width: 1359px) {        
     
 }
 
@@ -58,7 +62,7 @@
 
 /* width < 768px */
 @media only screen and (max-width: 767px) {
-    
+/*    .page { width: 100%!important; }    */
 }
 
 /* Mobile (Landscape) - design for a width of 480px
@@ -67,7 +71,7 @@
 
 /* 480px <= width < 768px */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-    
+/*    .page { width: 100%!important; }    */
 }
 
 
@@ -76,7 +80,7 @@
 */
 /* 640px <= width < 768px */
 @media only screen and (min-width: 640px) and (max-width: 767px) {
-
+/*    .page { width: 100%!important; }    */
 }
 
 
@@ -96,6 +100,7 @@
 	.hide-below-768 { display:none !important; }
 	.hide-below-480 { display:none !important; }
         .max-width-below-480 {width: 100%!important}
+/*        .page { width: 100%!important; }    */
 }
 
 
@@ -120,4 +125,6 @@
         
         .social-link {margin: 10px auto; width: 100%}
         .social-link .social {float: none; margin: 10px auto}
+        
+/*        .page { width: 100%!important; }    */
 }
