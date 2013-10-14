@@ -107,7 +107,7 @@
 <!--        <ul class="products-grid">-->
         <?php endif ?>            
             <div class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">                				
-                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                <a mps-type="async-link" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
                     <?php $_imgBack = Mage::Helper("autelcorto/media_gallery")->getCatalogBackImage($_product);
                            if ($_imgBack !== null): ?>
                                 <img class="back" 
@@ -122,12 +122,12 @@
                 <?php //echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                 <?php //endif; ?>
                 <h2 class="product-name">
-                	<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+                	<a mps-type="async-link" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                 		<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
                 	</a>
                 </h2>
                 <h3 class="product-short-description">
-                	<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+                	<a mps-type="async-link" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                 		<?php echo $this->stripTags(ucfirst(strtolower($_product->getShortDescription()))) ?>
                 	</a>
                 </h3>
@@ -139,7 +139,7 @@
                     $_collectionSize++?>
             <div class="item img-catalog <?php if($i == 3): echo 'last'; endif;?>">
 
-                <a <?php if ($_imageCollection[$_imgCount]["pop"]): echo 'id="myId'.$_imgCount.'"'; endif;?> 
+                <a mps-type="async-link" <?php if ($_imageCollection[$_imgCount]["pop"]): echo 'id="myId'.$_imgCount.'"'; endif;?> 
                     class="custom-catalog-image" 
                     href="<?php echo $_imageCollection[$_imgCount]["href"]; ?>">
                 <img src="<?php echo $_cortoHelper->getDir('catalog',true).'/'.$_imageCollection[$_imgCount]["src"];?>"/>

@@ -30,6 +30,7 @@ $blockTop = Mage::getStoreConfig('autelcorto/autelpage/footer-block-top-id');
 $blockLeft = Mage::getStoreConfig('autelcorto/autelpage/footer-block-left-id');
 $blockRight = Mage::getStoreConfig('autelcorto/autelpage/footer-block-right-id');
 
+
 if(Mage::Helper("autelcorto")->getIsHomePage() && $blockTop != ''):?>
     
 <div class="home-slider-container">
@@ -37,24 +38,31 @@ if(Mage::Helper("autelcorto")->getIsHomePage() && $blockTop != ''):?>
 </div>
 <?php endif;    ?>
     <div class="footer">
+	<div class="footer_row bottom">
+            <div class="home-slider-container">
+                <?php //echo $this->getChildHtml('cms_footer_social_links')
+                echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer_block_bottom')->toHtml();?>
+            </div>
+        </div>
+<div class="clearer"></div>
         <div class="footer_row custom top">
-            <?php if ($blockLeft != ""): ?>
-            <div class="left hide-below-480">
+            <?php if (trim($blockLeft) != ""): ?>
+            <div class="<?php if ($blockRight."" != ""): ?>left hide-below-480 <?php endif; ?>">
                 <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($blockLeft)->tohtml(); ?>
             </div>  
             <?php endif; ?>
-            <?php if ($blockRight != ""): ?>
-            <div class="right max-width-below-480">                
+            <?php if ($blockRight."" != ""): ?>
+            <div class="<?php if (trim($blockLeft) != ""): ?>right <?php endif; ?>max-width-below-480">                
                 <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($blockRight)->tohtml(); ?>
             </div>
             <?php endif; ?>
         </div>          
         <div class="clearer"></div>
-        <div class="footer_row bottom">  
+<!--        <div class="footer_row bottom">  
             <div class="home-slider-container">
                 <?php //echo $this->getChildHtml('cms_footer_social_links') 
                 echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer_block_bottom')->toHtml();?>            
             </div>            
-        </div>
+        </div>-->
     </div>
 </div>

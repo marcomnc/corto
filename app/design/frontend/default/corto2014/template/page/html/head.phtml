@@ -34,7 +34,7 @@
 <link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
 <link href='http://fonts.googleapis.com/css?family=Oswald&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Great+Vibes|Cookie' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
 <!--<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />-->
@@ -63,6 +63,8 @@
 
 <script type="text/javascript">
 
+    Translator.add('waitingImage', "<?php echo $this->getSkinUrl('images/waiting.gif');?>");
+    
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-35861735-1']);
   _gaq.push(['_trackPageview']);
@@ -88,6 +90,6 @@ if ($_myStore->getAction() != Autel_Corto_Model_Core_Dispatch::ACTION_NO_ACTIONO
                              'countryCode': '',
                              'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
                              'urlref': "<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>"});
-    })        
+    })      
 </script>
 <?php endif;   ?>

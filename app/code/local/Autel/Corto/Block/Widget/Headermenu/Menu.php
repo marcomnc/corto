@@ -113,6 +113,9 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
         if ($menu['type'] == self::MENU_HOME_LINK && $isHome)
             return false;
         
+        if ($menu['type'] == self::MENU_HOME_LINK && !$isShop) 
+            return false;
+        
         if ($menu['type'] == self::MENU_ESHOP_LINK && ($isShop || $isCatalog))
             return false;
         

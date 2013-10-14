@@ -542,7 +542,7 @@ tr.summary-details-excluded { font-style:italic; }
 .noscript p { margin:0; }
 
 /* Demo Notice */
-.demo-notice { margin: 0; padding: 6px 10px; background: #d75f07; font-size: 12px; line-height: 1.15; text-align: center; color: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000000; }
+.demo-notice { margin: 0; padding: 6px 10px; background: #d75f07; font-size: 12px; line-height: 1.15; text-align: center; color: #fff; top: 0; left: 0; width: 100%; z-index: 1000000; }
 /* ======================================================================================= */
 
 
@@ -780,7 +780,7 @@ tr.summary-details-excluded { font-style:italic; }
 .products-grid li a{ position: relative }
 .products-grid>div a img,
 .products-grid li a img { position: absolute; top:0px; left: 0px; background-color: white}
-.products-grid .product-image { display:block; width:200px; height:200px; margin:auto; margin: 10px auto 30px;}
+.products-grid .product-image { display:block; width:200px; height:200px; margin: 10px auto 15px;}
 .products-grid .product-name { font-size: 13px; font-weight: bold; padding:0; text-transform:uppercase; text-align: center; }
 .products-grid .product-short-description { font-size: 13px; text-align: center; font-weight: normal; font-family: Georgia, serif; font-style: italic; text-transform: none; }
 .products-grid .product-short-description a { }
@@ -1710,7 +1710,7 @@ button.btn-checkout span span,
 .left-menu {padding: 12px 10px 10px; background-color: #000; margin-bottom: 2px}
 .left-menu.large {padding: 17px 10px 16px}
 .left-menu a {color: #fff; text-decoration: none}
-.left-menu .form-search { border:1px solid #333; width:200px; height:23px; z-index: 1001}
+.left-menu .form-search {  width:200px; height:23px; z-index: 1001}
 .left-menu .form-search .input-text { float:left; background-color: white; border:0; width:162px; height: 19px; color:#B5B5B5; margin:0px}
 .left-menu .form-search .btn_search { float:right; background:url(../images/SearchSubmit.png) no-repeat; border:0; width:33px; height:23px; cursor:pointer; background-position-y: -5px  }
 .left-menu .form-search .search-autocomplete { z-index:999; }
@@ -1718,7 +1718,7 @@ button.btn-checkout span span,
 .left-menu .form-search .search-autocomplete li { padding:3px; border-bottom:1px solid #ddd; cursor:pointer; }
 .left-menu .form-search .search-autocomplete li .amount { float:right; font-weight:bold; }
 .left-menu .form-search .search-autocomplete li.selected {}
-.left-menu .search-by-color {font-family: 'Cookie', cursive;}
+.left-menu .search-by-color { }
 
 /* ========= Custom product view ============*/
 .product-essential { font-size: 13px }
@@ -1856,7 +1856,8 @@ button.btn-checkout span span,
 
 
 /* IMPULSE BUY */
-.impulsebuy-title { font-family: 'Great Vibes', cursive; }
+.impulsebuy-title { font-family: 'Cookie', cursive; }
+.impulsebuy-title h1 a {text-transform: none!important; font-size: 29px!important }
 .impulsebuy { display: block; padding-top: 90px; }
 .impulsebuy label { padding: 8px 0; display: block; font-family: 'Oswald', sans-serif; font-size: 26px; text-transform: uppercase; }
 .impulsebuy h1 { display: block; font-family: 'Oswald', sans-serif; font-size: 56px; text-transform: uppercase; font-weight: normal; padding-bottom: 20px; }
