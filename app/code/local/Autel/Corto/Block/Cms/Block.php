@@ -1,0 +1,58 @@
+<?php
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *
+ * @category    
+ * @package        
+ * @copyright   Copyright (c) 2013 Mps Sistemi (http://www.mps-sistemi.it)
+ * @author      MPS Sistemi S.a.s - Marco Mancinelli <marco.mancinelli@mps-sistemi.it>
+ *
+ */
+
+class Autel_Corto_Block_Cms_Block extends Mage_Cms_Block_Block {
+
+    /**
+     * Riscritta cosi leggo il blocco una volta sola....
+     * ATTENZIONE!!! Non funzina se il blocco viene inserito come widget standard!!!
+     * @return type
+     */
+    protected function _toHtml() {
+        
+        $blockId = $this->getBlockId();
+        $html = '';
+        if ($blockId) {
+            $block = Mage::getModel('cms/block')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($blockId);
+            if ($block->getIsActive()) {
+                /* @var $helper Mage_Cms_Helper_Data */
+                $helper = Mage::helper('cms');
+                $processor = $helper->getBlockTemplateProcessor();
+                $html = $processor->filter($block->getContent());
+                $this->addModelTags($block);
+
+                if ($block->hasBackgroundImage() && $block->getBackgroundImage() != "") {
+
+                    $html = "<div class=\"mps-block-background\" style=\"background-position:right bottom;background-image: url('" . $block->getBackgroundImageUrl(). "')\">"
+                            .$html . "</div>";                        
+                }
+                
+            }            
+        }        
+        return $html;
+    }
+}
+
+?>
