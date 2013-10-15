@@ -66,15 +66,19 @@ Load this update on every page when customer is logged in
                 <prepare/>
                 <urlParams/>
                 <position>10</position>
+                <liParams/>
+                <aParams>
+                    <mps-type>async-link</mps-type>
+                </aParams>
             </action>
-            <action method="addLink" translate="label title" module="customer">
+<!--            <action method="addLink" translate="label title" module="customer">
                 <label>Log Out</label>
                 <url helper="customer/getLogoutUrl"/>
                 <title>Log Out</title>
                 <prepare/>
                 <urlParams/>
                 <position>20</position>
-            </action>
+            </action>-->
         </reference>
     </customer_logged_in>
 
@@ -97,7 +101,7 @@ Load this update on every page when customer is logged out
                 <liParams/>
                 <aParams>
                     <class>class-popuplogin</class>
-                </aParams>
+                </aParams>                
             </action>
         </reference>
         <remove name="reorder"></remove>

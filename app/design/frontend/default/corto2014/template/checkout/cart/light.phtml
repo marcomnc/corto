@@ -30,6 +30,8 @@
  * @see Mage_Checkout_Block_Cart_Sidebar
  */
 
+if (!Mage::Helper('autelcorto')->getIsCheckout()):
+
 ?>
 <?php 
 $_cartQty = $this->getSummaryCount() ;
@@ -107,4 +109,6 @@ $totals = $this->getTotals();
 <?php endif; ?>
     });
 </script>
+
+<?php endif;?>
 

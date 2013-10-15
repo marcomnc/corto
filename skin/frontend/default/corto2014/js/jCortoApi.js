@@ -98,8 +98,11 @@ var hH=0;
                           "width":"100%", "height":"110%", "opacity": 0.2})
                     );
             }
-            if (opts.waiting!="") {
-                $('#'+myHandle).append($("<img>", {src: opts.waiting}).css({position: "absolute", margin: "50% auto"}));
+            if (opts.waiting) {
+                if (typeof($.fn.fancybox) != 'undefined')
+                    $.fancybox.showActivity();
+                else 
+                    $('#'+myHandle).append($("<img>", {src: opts.waiting}).css({position: "absolute", margin: "50% auto"}));
             }
             $('#'+myHandle).show();
             if (opts.bindEsc){

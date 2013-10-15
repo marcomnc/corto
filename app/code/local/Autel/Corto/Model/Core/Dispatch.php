@@ -26,22 +26,35 @@ class Autel_Corto_Model_Core_Dispatch {
         if (!$cookie->hasData()) {
             //Tento la geolocalizzazione e creo il cookie di base
             $country = Mage::helper('autelcorto')->getCountryFromIp();
-            if ($country !== false) {
+            if ($country !== false && $country instanceof Mage_Directory_Model_Country) {
+               
                 // PAese Geolocalizzato
-                $cookie->setData('country_code', $country);
-                $cookie->setData('country_name', Mage::getModel('directory/country')->load($country)->getName());
+                $cookie->setData('country_code', $country->getCountryId());
+                $cookie->setData('country_name', $country->getName());
                 //Info store default del ws selezionato      
-                $myStore = Mage::helper('autelcorto')->getStoreFromState($country);
-                $cookie->setData('store', $myStore->getCode());
-                $cookie->setData('website_id', $myStore->getWebsiteId());
+                $myStore = Mage::helper('autelcorto')->getStoreFromState($country->getCountryId());
+                if (!is_null($myStore)) {
+                    $cookie->setData('store', $myStore->getCode());
+                    $cookie->setData('website_id', $myStore->getWebsiteId());
+                    $cookie->setData('action', self::ACTION_NO_ACTIONO);
+                    
+                    $zone = Mage::Helper('autelcorto')->getZoneFromCountry($country);
+                    $cookie->setData('zone_id', $zone);
+                    $enabledStore = array();
+                    foreach (Mage::Helper('autelcorto')->getStoreEnabledForZone($zone) as $enStore) {
+                        $enabledStore[] = $enStore->getCode();
+                    }
             
-                self::setCookie($cookie);
+                    $cookie->setData('enabled_store', $enabledStore);
+                    
+                    self::setCookie($cookie);
+                }
                 
             }
         }
         
 //echo Mage::app()->getStore()->getWebSiteId() . " - <pre>";
-//print_r( $observer->getFront()->getRequest());
+//print_r( $cookie);
 //
 //die();
 //echo "</pre>";

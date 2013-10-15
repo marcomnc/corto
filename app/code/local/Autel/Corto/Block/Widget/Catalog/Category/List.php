@@ -35,12 +35,13 @@ class Autel_Corto_Block_Widget_Catalog_Category_List extends Mage_Core_Block_Tem
         
         $categoryIds = preg_split("/\//", $this->getIdPath());
         if (isset($categoryIds[1])) {
-            $cat = preg_split("/,/", Mage::getModel('catalog/category')->Load($categoryIds[1])->getAllChildren());
+            //$cat = preg_split("/,/", Mage::getModel('catalog/category')->Load($categoryIds[1])->getChildrenCategories());
+            $cat = Mage::getModel('catalog/category')->Load($categoryIds[1])->getChildrenCategories();
             foreach ($cat as $children) {
-                $category[] = Mage::getModel('catalog/category')->Load($children);
+                $category[] = $children;
             }
         }
-        
+
         $this->setChilds($category);
         
         parent::_beforeToHtml();

@@ -50,19 +50,16 @@ if(Mage::Helper("autelcorto")->getIsHomePage() && $blockTop != ''):?>
             <div class="<?php if ($blockRight."" != ""): ?>left hide-below-480 <?php endif; ?>">
                 <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($blockLeft)->tohtml(); ?>
             </div>  
+            <div class="footer-div hide-below-480 "></div>
             <?php endif; ?>
             <?php if ($blockRight."" != ""): ?>
             <div class="<?php if (trim($blockLeft) != ""): ?>right <?php endif; ?>max-width-below-480">                
                 <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($blockRight)->tohtml(); ?>
             </div>
             <?php endif; ?>
+            <div class="clearer"></div>
         </div>          
         <div class="clearer"></div>
-<!--        <div class="footer_row bottom">  
-            <div class="home-slider-container">
-                <?php //echo $this->getChildHtml('cms_footer_social_links') 
-                echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer_block_bottom')->toHtml();?>            
-            </div>            
-        </div>-->
+<address><?php echo $this->getCopyright() ?></address>
     </div>
 </div>

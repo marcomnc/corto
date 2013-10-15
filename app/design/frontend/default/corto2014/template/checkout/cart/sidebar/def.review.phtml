@@ -32,8 +32,7 @@
     $_retUrl = $this->helper('core/url')->getEncodedUrl();    
     if ($this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED).""!=""):       
         $_retUrl = $this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
-    endif;
-    $_prod=Mage::getModel('catalog/product')->Load($_item->getProductId());
+    endif;    
 ?>
 <li class="item">
     <?php if ($this->hasProductUrl()): ?>
@@ -43,7 +42,7 @@
     <?php endif; ?>
     <div class="product-details">        
         <p class="product-name"><?php if ($this->hasProductUrl()): ?><a href="<?php echo $this->getProductUrl() ?>"><?php endif; ?><?php echo $this->htmlEscape($this->getProductName()) ?><?php if ($this->hasProductUrl()): ?></a><?php endif; ?></p>                
-        <p class="product-short-description"><?php echo $this->htmlEscape($_prod->getShortDescription()) ?></p>                
+        <p class="product-short-description"><?php echo $this->htmlEscape($_product->getShortDescription()) ?></p>                
         <p class="product-price">
     <?php if ($canApplyMsrp): ?>
 

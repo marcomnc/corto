@@ -137,7 +137,7 @@ ul,ol         { list-style:none; }
 /* Base Columns */
 .col-left { float:left; width:220px; }
 .col-main { float:left; width:700px; padding:0px 24px 24px 0; }
-.col-right { float:right; width:226px; }
+.col-right { float:right; width:220px; }
 
 .cms-index-index .col-main, 
 .catalog-category-view .col-main, 
@@ -160,7 +160,7 @@ ul,ol         { list-style:none; }
 
 /* 2 Columns Layout */
 .col2-left-layout .col-main { float:right; }
-.col2-right-layout .col-main {}
+.col2-right-layout .col-main { float: left;}
 
 /* 3 Columns Layout */
 .col3-layout .col-main { width:484px; margin-left:10px; }
@@ -567,7 +567,7 @@ tr.summary-details-excluded { font-style:italic; }
 .header .welcome-msg { float:left; font-size:13px; color:#fff;  }
 .header .welcome-msg a { color:#FFF; }
 .header .links { float:right; }
-.header  li { padding:5px 5px 5px 0; margin:0 2px 0 0; font-size:13px; }
+.header  li { padding:5px 20px 5px 0; margin:0 2px 0 0; font-size:13px; }
 .header  ol li { border-right: none; }
 .header  li.last { margin:0 !important;}
 .header .links li a { color:#FFFFFF; text-decoration:none; text-transform: uppercase; font-size: 10px }
@@ -642,6 +642,9 @@ tr.summary-details-excluded { font-style:italic; }
 .col-right .block { border: none; padding: 0; }
 .col-right .block .block-title { padding: 2px 15px; background: #000; margin-bottom: 0; }
 .col-right .block .block-title strong { color: white; float: none; }
+.col-right .block .block-title.log-out { text-align: right} 
+.col-right .block .block-title.log-out a { color: #FFF}
+
 
 .block li.odd {}
 .block li.even {  }
@@ -1514,8 +1517,10 @@ button.btn-checkout span span,
 .footer-container { text-align:center; background: black;
                        margin: auto; }
 .cms-home .footer-container { padding-bottom: 0px; border-top:1px solid #AAA }
-.footer_row { padding:12px 0 0 0; }
-.footer_row .left {margin-right: -2px; border-right: 2px solid}
+.footer_row { padding:12px 0 12px 0; position: relative }
+.footer_row .left {margin-right: -1px; }
+.footer_row .right {margin-left: -1px; }
+.footer_row .footer-div {width: 0px; height: 100%; position: absolute; left: 50%; top:0px; border: 1px solid #ffffff}
 .footer_row .left, .footer_row .right  { width: 50% }
 .carts { float:right; }
 .footer_block { background:#000; padding:8px 0 8px 36px; margin:0 0 14px 0; overflow:hidden; }

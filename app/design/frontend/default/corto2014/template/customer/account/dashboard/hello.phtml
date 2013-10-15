@@ -1,6 +1,11 @@
+<?php
+$headerBlock = $this->getLayout()->createBlock('cms/block')->setBlockId('customer-dashboard-hello')->toHtml() . '';
+?>
+
 <div class="welcome-msg">
     <p class="hello"><strong><?php echo $this->__('Hello, %s!', $this->htmlEscape($this->getCustomerName())) ?></strong></p>
-    
+
+<?php if ($headerBlock == ''): ?>
     <!--<p><?php echo $this->__('From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.') ?></p>-->
     <p><?php echo $this->__('Thank you for registering with Corto.com. This is you private area, here you can:');?>
     <ul>
@@ -10,6 +15,9 @@
     	<li style="list-style:none inside; padding:0 0 0 10px;">- <?php echo $this->__('Change your password');?></li>
     	<li style="list-style:none inside; padding:0 0 0 10px;">- <?php echo $this->__('Store alternative addresses');?></li>
     </ul</p>
+<?php else: ?>
+    <?php echo $headerBlock; ?>
+<?php endif;?>
     
 </div>
 

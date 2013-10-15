@@ -39,6 +39,12 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
         return isset($this->_catalogModule[$module]);
     }  
     
+    public function getIsCheckout() {
+        $request = Mage::app()->getFrontController()->getRequest();
+        // non controllo il modulo causa redirect
+        return ($request->getControllerName() == 'checkout_onepage');
+    }
+     
     /**
      * Recupero lo store partendo da uno stato
      * @param string $state
@@ -66,6 +72,41 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
             return $store[0];
         } 
         return null;
+    }
+    
+    /**
+     * Data una country recupera la zona corrispondente
+     * @param Mage_Direcotry_Model_Country|string $country
+     */
+    public function getZoneFromCountry($country) {
+        
+        if (is_string($country)) {
+            $country = Mage::getModel('directory/country')->Load($country);
+        }
+        $zone = null;
+        if ($country instanceof Mage_Directory_Model_Country && $country->getId() != "") {
+            $select = Mage::getModel('autelcorto/zone')->getCollection()
+                        ->getByGroup()
+                        ->sort();
+            $select->getSelect()                   
+                   ->where("CONCAT(  ',', state_list,  ',' ) LIKE  '%," . $country->getCountryId() .",%'")
+                   ->order();
+            foreach ($select as $z) {
+                $zone = $z->getZoneCode();
+                break;
+            }
+        }
+        
+        return $zone;
+    }
+    
+    public function getStoreEnableForCountry($country) {
+        $zone = $this->getZoneFromCountry($country);
+        $enabledStore = array();
+        if (!is_null($zone)) {
+            $enabledStore = $this->getStoreEnabledForZone($zone);
+        }
+        return $enabledStore;
     }
     
     
@@ -262,31 +303,32 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
             Mage::Log($_SERVER, null, '', true);
         }
         
-        if ($ip === true) {
+        if ($ip == "" && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
-        
+       
         if ($ip != "") {
             $ip = "&ip=$ip";
         }        
-        
-        $key = Mage::getConfig('autelcorto/store_zone/infodb_key');
+
+        $key = Mage::getStoreConfig('autelcorto/store_zone/infodb_key');
         
         if ($key != "") {
-        
             try {
-                $xml = file_get_contents("http://api.ipinfodb.com/v3/ip-city/?key=$key&format=XML$ip");
-                
+
+                $xml = file_get_contents("http://api.ipinfodb.com/v3/ip-city/?key=$key&format=xml$ip");
+              
                 $xmlLocation = new SimpleXMLElement($xml);
-                
-                if ($xmlLoaction->statusCode == "OK") {
-                    
-                    return $xmlLoaction->countryCode;
+
+                if ($xmlLocation->statusCode == "OK") {
+                               
+                    return $xmlLocation->countryCode;
                     
                 }
                 
             } catch (Exception $e) {
                 Mage::LogException($e);
+                return false;
             }
         }
         return false;
@@ -296,8 +338,8 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
         public function getCountryFromIp($ip = "") {
         $country = false;
         $stateIso2 = $this->_getGeoIpState($ip,true);
-        if ($stateIso !== false) {
-            $country = Mage::getModel('directory/country')->Load($stateIso2, 'iso2_code');
+        if ($stateIso2 !== false) {
+            $country = Mage::getModel('directory/country')->Load($stateIso2);
         }
 
         if ($country === false && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {

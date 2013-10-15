@@ -1,5 +1,5 @@
 <?php if (sizeof($this->_menu) > 0): ?>
-<ul>
+<ul id="menu-header-list">
     <?php foreach ($this->_menu as $menu):?>
     <?php if ($this->isToPrint($menu)): ?>
         <li class="<?php if ($this->isSelectMenu($menu)):?>is-menu-select<?php endif; ?>">
@@ -10,5 +10,6 @@
     <?php endif;?>
     <?php endforeach; ?>        
 </ul>
+<script type="text/javascript">decorateList('menu-header-list', 'none-recursive')</script>
 <?php endif; ?>
 

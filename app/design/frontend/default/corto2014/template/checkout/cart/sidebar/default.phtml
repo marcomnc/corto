@@ -42,6 +42,7 @@
     <?php endif; ?>
     <div class="product-details">        
         <p class="product-name"><?php if ($this->hasProductUrl()): ?><a href="<?php echo $this->getProductUrl() ?>"><?php endif; ?><?php echo $this->htmlEscape($this->getProductName()) ?><?php if ($this->hasProductUrl()): ?></a><?php endif; ?></p>        
+        <p class="product-short-description"><?php echo $this->htmlEscape($_product->getShortDescription()) ?></p>                
         <p class="product-name"> <?php echo $this->__("quantity:") . " " .$this->getQty() ?>
         <p class="product-name">
     <?php if ($canApplyMsrp): ?>

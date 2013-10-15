@@ -42,7 +42,6 @@ if ($enableStore != "") {
     $enableStore = "," . $enableStore;
 }
 ?>
-
 <ul class="links store-language">
     <li class="first">
         <a href="#" id="shipping-selector" title="<?php echo $this->__('Select your Shipping Country');?>"
@@ -52,6 +51,9 @@ if ($enableStore != "") {
                                                  'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
                                                  'enableEsc': true});return false;">
             <?php echo $this->__("Shipping Country");?>
+            <?php if ($cookie->hasCountryName() && $cookie->getCountryName() != ""): ?>
+            &nbsp;(&nbsp;<?php echo $cookie->getCountryName() ?>&nbsp;)
+            <?php endif; ?>
         </a>
     </li>
     <li class="last">
