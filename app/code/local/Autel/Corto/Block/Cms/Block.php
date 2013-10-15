@@ -43,9 +43,14 @@ class Autel_Corto_Block_Cms_Block extends Mage_Cms_Block_Block {
                 $html = $processor->filter($block->getContent());
                 $this->addModelTags($block);
 
-                if ($block->hasBackgroundImage() && $block->getBackgroundImage() != "") {
+                
+                $customClass = $this->getCustomClass();
+                $customStyle = $this->getCustomStyle();
+                $imgBackground = $block->getBackgroundImageUrl();
+                        
+                if ($customClass || $customStyle || $imgBackground) {
 
-                    $html = "<div class=\"mps-block-background\" style=\"background-position:right bottom;background-image: url('" . $block->getBackgroundImageUrl(). "')\">"
+                    $html = "<div class=\"mps-block-background $customClass\" style=\"$customStyle background-image: url('$imgBackground')\">"
                             .$html . "</div>";                        
                 }
                 
