@@ -55,4 +55,17 @@
             </class_link>
         </parameters>        
     </corto_widget_catalog_category_list>
+    <cms_magic_block type="utelcorto/widget_cms_block_magic" translate="name description" module="autelcorto">
+        <name>Lista blocchi multipla</name>
+        <description>Contents of a Static Block</description>
+        <parameters>
+            <block_id type="complex" translate="label">
+                <visible>1</visible>
+                <required></required>
+                <label>Blocchi</label>
+                <type>label</type>                
+                <sort_order>20</sort_order>
+            </block_id>
+        </parameters>
+    </cms_magic_block>
 </widgets> 

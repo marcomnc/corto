@@ -1,0 +1,15 @@
+<div class="entity-edit block-list">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('autelcorto')->__('Lista Blocchi') ?></h4>
+    </div>
+    <div class="box">
+        <div class="hor-scroll">
+            <?php echo $this->__('I blocchi selezionati in questa griglia verranno visualizzati durante il render della pagina nel punto in cui viene inserito il widget "lista Blocchi"');?>
+        </div>
+    </div>
+    <div class="box">
+        <div class="hor-scroll">
+            <?php echo $this->getBlockGridHtml(); ?>
+        </div>
+    </div>
+</div>

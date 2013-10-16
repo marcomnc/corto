@@ -86,5 +86,29 @@ class Autel_Corto_Model_Adminhtml_Observer {
         }
                 
     }
+    
+    /**
+     * Preparazione dati per il salvataggio della pagina cms
+     * @param type $observer
+     */
+    public function on_page_prepare_save ($observer) {
+        $page = $observer->getPage();
+        $request = $observer->getRequest();
+        
+        echo "<pre>";
+        print_r($request->getPost());
+        die();
+        return $observer;
+    }
+    
+    /**
+     * Salvataggio della pagina CMS
+     * @param type $observer
+     */
+    public function on_page_after_save ($observer) {
+        $page = $observer->getObject();
+        
+        Mage::Log($data);
+    }
 }
 ?>

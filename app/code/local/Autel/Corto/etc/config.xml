@@ -68,6 +68,25 @@
                     </autel_corto_observer>
                 </observers>
             </catalog_entity_attribute_save_after>
+<!-- preparo i dati per la memorizzazione della pagina cms e li salvo -->
+            <cms_page_prepare_save>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Adminhtml_Observer</class>
+                        <method>on_page_prepare_save</method>
+                    </autel_corto_observer>
+                </observers>
+            </cms_page_prepare_save>
+            <cms_page_save_after>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Adminhtml_Observer</class>
+                        <method>on_page_after_save</method>
+                    </autel_corto_observer>
+                </observers>
+            </cms_page_save_after>
         </events>  
 
 
@@ -108,8 +127,10 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                     <catalog_product_attribute_edit_tabs>Autel_Corto_Block_Adminhtml_Catalog_Attribute_Edit_Tabs</catalog_product_attribute_edit_tabs>
                     <!-- Aggiungo l'encrypt type sul form -->
                     <catalog_product_attribute_edit_form>Autel_Corto_Block_Adminhtml_Catalog_Attribute_Edit_Form</catalog_product_attribute_edit_form>
-                    <!-- Rewrite della gestione dei block -->
+                    <!-- Rewrite della gestione dei block per immagine di background-->
                     <cms_block_edit_form>Autel_Corto_Block_Adminhtml_Cms_Block_Edit_Form</cms_block_edit_form>
+                    <!-- Rewrite della gestione delle page per la gestione dei blocchi multipli -->
+                    <cms_page_edit_tabs>Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tabs</cms_page_edit_tabs>
                 </rewrite>
             </adminhtml>
             <cms>
