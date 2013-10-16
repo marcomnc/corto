@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class  Autel_Corto_Block_Adminhtml_Widget_Grid_Column_Renderer_Submit_Input extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Input {
+class  Autel_Corto_Block_Adminhtml_Widget_Grid_Column_Renderer_Input extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Input {
     
     
     /**
@@ -56,7 +56,7 @@ class  Autel_Corto_Block_Adminhtml_Widget_Grid_Column_Renderer_Submit_Input exte
         }
         
         $html = '<input type="text" ';
-        $html .= 'name="' . $this->getColumn()->getGrid()->getId() . '[' . $this->getColumn()->getId() . ']['. $row->getId() .']" ';
+        $html .= 'name="' . $this->getColumn()->getId() . '" ';
         $html .= 'value="' . $row->getData($this->getColumn()->getIndex()) . '"';
         $html .= 'class="input-text ' . $this->getColumn()->getInlineCss() . '" ';
         $html .= 'style="' . $width .'"/>';

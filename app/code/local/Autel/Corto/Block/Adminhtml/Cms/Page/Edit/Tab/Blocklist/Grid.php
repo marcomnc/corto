@@ -29,7 +29,7 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tab_Blocklist_Grid extends Mage_
         $this->setId('blocklist_grid');
         $this->setDefaultSort('block_id');
         $this->setSkipGenerateContent(true);
-        $this->setUseAjax(true);
+        $this->setUseAjax(true);        
         if ($this->_getPage()->getId()) {
             $this->setDefaultFilter(array('in_page'=>1));
         }
@@ -49,7 +49,13 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tab_Blocklist_Grid extends Mage_
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('cms/block')->getCollection();
-        /* @var $collection Mage_Cms_Model_Mysql4_Block_Collection */
+        $pageId = $this->_getPage()->getId();
+        if ($pageId)
+            $collection->getSelect()
+                       ->JoinLeft(array('_rel' => Mage::getSingleton('core/resource')->getTableName('autelcorto/cms_pageblocks')),
+                                  "_rel.block_id = main_table.block_id and _rel.page_id = $pageId",
+                                  array('_rel.position', '_rel.fill', '_rel.width', '_rel.height', '_rel.style', '_rel.class'));
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -62,8 +68,7 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tab_Blocklist_Grid extends Mage_
             'name'      => 'in_page',
             'values'    => $this->_getSelectedBlocks(),
             'align'     => 'center',
-            'index'     => 'block_id',
-            'renderer'  => 'autelcorto/adminhtml_widget_grid_column_renderer_submit_checkbox'
+            'index'     => 'block_id',            
         ));
         
         $this->addColumn('block_title', array(
@@ -83,22 +88,68 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tab_Blocklist_Grid extends Mage_
             'header'    => Mage::helper('cms')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
+            'width'     => '120',
             'options'   => array(
                 0 => Mage::helper('cms')->__('Disabled'),
                 1 => Mage::helper('cms')->__('Enabled')
             ),
         ));
         
-        $this->addColumn('block_position', array(
+        $this->addColumn('position', array(
             'header'    => Mage::helper('autelcorto')->__('Position'),
             'name'      => 'position',
-            'type'      => 'input',
             'validate_class' => 'validate-number',
-            'index'     => 'position',
-            'width'     => '1',
+            'index'     => 'position',        
             'editable'  => true,
-            'edit_only' => !$this->_getPage()->getId(),
-            'renderer'  => 'autelcorto/adminhtml_widget_grid_column_renderer_submit_input'
+            'edit_only' => true,
+            'renderer'  => 'autelcorto/adminhtml_widget_grid_column_renderer_input'
+        ));
+        $this->addColumn('fill', array(
+            'header_css_class' => 'a-center',
+            'type'      => 'select',
+            'header'    => Mage::helper('autelcorto')->__('Fill'),
+            'options'   => array(
+                0 => Mage::helper('autelcorto')->__('No'),
+                1 => Mage::helper('autelcorto')->__('Si')
+            ),
+            'name'      => 'fill',
+            'index'     => 'fill',            
+        ));
+        $this->addColumn('width', array(
+            'header'    => Mage::helper('autelcorto')->__('Width'),
+            'name'      => 'width',
+            'validate_class' => 'validate-number',
+            'index'     => 'width',
+            'editable'  => true,
+            'edit_only' => true,
+            'renderer'  => 'autelcorto/adminhtml_widget_grid_column_renderer_input'
+        ));
+        $this->addColumn('height', array(
+            'header'    => Mage::helper('autelcorto')->__('Height'),
+            'name'      => 'height',
+            'validate_class' => 'validate-number',
+            'index'     => 'height',
+            'editable'  => true,
+            'edit_only' => true,
+            'renderer'  => 'autelcorto/adminhtml_widget_grid_column_renderer_input'
+        ));
+        $this->addColumn('style', array(
+            'header'    => Mage::helper('autelcorto')->__('Style'),
+            'name'      => 'style',
+            'index'     => 'style',
+            'width'     => '200',
+            'editable'  => true,
+            'edit_only' => true,
+            'renderer'  => 'autelcorto/adminhtml_widget_grid_column_renderer_input'
+        ));
+        $this->addColumn('class', array(
+            'header'    => Mage::helper('autelcorto')->__('Class'),
+            'name'      => 'class',
+            'index'     => 'class',
+            'width'     => '200',
+            'editable'  => true,
+            'edit_only' => true,
+            'renderer'  => 'autelcorto/adminhtml_widget_grid_column_renderer_input'
         ));
     }
     
@@ -107,7 +158,43 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tab_Blocklist_Grid extends Mage_
     }
     
     private function _getSelectedBlocks() {
-        return array();
+        if ($this->_getPage())
+            return Mage::getModel('autelcorto/cms_pageblocks')->getSelectBlockForPageArray($this->_getPage()->getId());
+        else 
+            return array();
+    }
+    
+    private function _getSelectedFills() {
+        
+    }
+    
+    /**
+     * Callback che recupera i valori
+     */
+    public function getBlocksList() {
+
+        $blockList = array();
+        $page = $this->_getPage();
+       
+        if ($page && $page->getId() > 0 ){
+            
+            $lists = Mage::getModel('autelcorto/cms_pageblocks')
+                    ->getCollection()
+                    ->addPageFilter($page->getId());
+            foreach ($lists as $list) {
+                $blockList[$list->getBlockId()] = array(
+                    'position'  => $list->getPosition(),
+                    'fill'      => $list->getFill(),
+                    'width'     => $list->getWidth(),
+                    'height'    => $list->getHeight(),
+                    'style'     => $list->getStyle(),
+                    'class'     => $list->getClass(),                    
+                );
+            }
+        }
+        
+        return $blockList;
+        
     }
 }
 

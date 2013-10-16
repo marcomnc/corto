@@ -27,12 +27,15 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tabs extends Mage_Adminhtml_Bloc
         
         parent::_beforeToHtml();
 
-        
-        $this->addTab('colors', array(
-            'label'     => Mage::helper('autelcorto')->__('CORTO - Blocchi Associati'),
-            'title'     => Mage::helper('autelcorto')->__('CORTO - Blocchi Associati'),
-            'content'   => $this->getLayout()->createBlock('autelcorto/adminhtml_cms_page_edit_tab_blocklist')->toHtml(),
-        ));
+        $page = Mage::registry('cms_page');
+
+        if ($page && $page->getId() > 0) {
+            $this->addTab('colors', array(
+                'label'     => Mage::helper('autelcorto')->__('CORTO - Blocchi Associati'),
+                'title'     => Mage::helper('autelcorto')->__('CORTO - Blocchi Associati'),
+                'content'   => $this->getLayout()->createBlock('autelcorto/adminhtml_cms_page_edit_tab_blocklist')->toHtml(),
+            ));
+        }
         
         Mage_Adminhtml_Block_Widget_Tabs::_beforeToHtml();
         

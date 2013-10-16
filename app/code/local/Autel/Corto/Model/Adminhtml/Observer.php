@@ -95,9 +95,8 @@ class Autel_Corto_Model_Adminhtml_Observer {
         $page = $observer->getPage();
         $request = $observer->getRequest();
         
-        echo "<pre>";
-        print_r($request->getPost());
-        die();
+        $page->setBlockList($request->getPost('block_list'));
+        
         return $observer;
     }
     
@@ -108,7 +107,48 @@ class Autel_Corto_Model_Adminhtml_Observer {
     public function on_page_after_save ($observer) {
         $page = $observer->getObject();
         
-        Mage::Log($data);
+        //Cancello e reinserisco sempre
+        
+        $pageblocks = Mage::getModel('autelcorto/cms_pageblocks');
+        $blocks = preg_replace("/%3d/i", "", $page->getBlockList());
+
+        //$transaction = Mage::getSingleton('core/resource')->getConnection('core_write');
+        try {
+            // Non se pò fa
+            //$transaction->beginTransaction();
+            
+            $pageblocks->deleteForPage($page->getId());
+            
+            foreach (preg_split("/&/", $blocks) as $value64) {
+                if (preg_match("/=/", $value64)) {
+                    $value64 = preg_split("/=/", $value64);                    
+//                    $value64[0] = Id del blocco
+//                    $value64[1] = Campi decodificati 
+                    $fields = preg_split("/&/", base64_decode($value64[1]));
+                    
+                    $pageblocks = Mage::getModel('autelcorto/cms_pageblocks');
+                    $pageblocks->setData('page_id', $page->getId());
+                    $pageblocks->setData('block_id', $value64[0]);
+                    foreach ($fields as $field) {
+                        $keyValue = preg_split("/=/", $field); 
+                        $pageblocks->setData($keyValue[0], $keyValue[1]);
+                    }
+
+                    $pageblocks->save();
+                }
+            }
+
+            //$transaction->commit();
+        } catch (Exception $e) {
+            //$transaction->rollback();            
+            Mage::getSingleton('adminhtml/session')->addWarning(
+                    Mage::helper('autelcorto')->__('Si sono verificati errori in fase di memorizzazione della squenza blocchi')
+            );
+        }        
+        
+        return $observer;
     }
+    
+    
 }
 ?>

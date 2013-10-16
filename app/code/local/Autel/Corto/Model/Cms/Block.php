@@ -20,7 +20,9 @@
  * @author      MPS Sistemi S.a.s - Marco Mancinelli <marco.mancinelli@mps-sistemi.it>
  *
  */
-
+/**
+ * Rewrite necessario per la gestione delle immagini
+ */
 class Autel_Corto_Model_Cms_Block extends Mage_Cms_Model_Block {
     
     public function getUploadDir() {

@@ -42,6 +42,10 @@ class  Autel_Corto_Block_Adminhtml_Widget_Grid_Column_Renderer_Submit_Checkbox e
      */
     protected function _getCheckboxHtml($value, $checked)
     {
+        if ($this->getColumn()->getAlwaysEnable()) {
+            $this->setDisabled('');
+        }
+        
         $html = '<input type="checkbox" ';
         $html .= 'name="' . $this->getColumn()->getGrid()->getId() . '[' . $this->getColumn()->getName() . ']['. $value . ']" ';
         $html .= 'value="' . $this->escapeHtml($value) . '" ';

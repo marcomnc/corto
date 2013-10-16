@@ -32,6 +32,13 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tab_Blocklist extends Mage_Admin
         
         $this->setChild('blocks.grid', $block );
         
+        $blockSerialize = $this->getLayout()->createBlock('adminhtml/widget_grid_serializer',
+                'autel.corto.blocks.serialize');
+        $blockSerialize->initSerializerBlock('autelcorto.adminhtml.cms.page.edit.tab.blocklist.grid', 
+                                             'getBlocksList', 'block_list', 'block_list');
+        $blockSerialize->addColumnInputName(array('position', 'fill', 'width', 'height', 'style', 'class', 'in_page'));
+        $this->setChild('blocks.serialized', $blockSerialize );
+        
         return parent::_prepareForm();
     }
     
@@ -44,6 +51,10 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tab_Blocklist extends Mage_Admin
     
     protected function getBlockGridHtml() {        
         return $this->getChildHtml('blocks.grid');
+    }
+    
+    protected function getBlockGridSerializeHtml() {        
+        return $this->getChildHtml('blocks.serialized');
     }
     
     /**

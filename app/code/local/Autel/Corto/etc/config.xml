@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Autel_Corto>
-            <version>0.2.1</version>
+            <version>0.2.2</version>
         </Autel_Corto>
     </modules>
     <global>
@@ -170,6 +170,9 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                     <coloroptions>
                         <table>autel_corto_color_options</table>
                     </coloroptions>     
+                    <cms_pageblocks>
+                        <table>autel_corto_page_block_list</table>
+                    </cms_pageblocks>     
                     <!-- other entity -->
                 </entities>
             </autelcorto_mysql4>
