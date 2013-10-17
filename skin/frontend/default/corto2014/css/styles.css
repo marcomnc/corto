@@ -129,6 +129,14 @@ ul,ol         { list-style:none; }
 .cms-home .main-container { padding:0; }
 .main {  }
 
+.cms-home .std,
+.cms-home .std div {
+    transition:             all 3000ms ease-in-out;
+    -moz-transition:        all 3000ms ease-in-out;
+    -webkit-transition:     all 3000ms ease-in-out;
+    -o-transition:          all 3000ms ease-in-out;
+}
+
 /*.catalog-product-view .wrapper-page,
 .cms-shop .wrapper-page { background-color: transparent; }*/
 

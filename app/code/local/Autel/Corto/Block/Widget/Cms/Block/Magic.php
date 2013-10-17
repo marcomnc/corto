@@ -24,13 +24,23 @@
 class Autel_Corto_Block_Widget_Cms_Block_Magic extends Mage_Core_Block_Template
     implements Mage_Widget_Block_Interface 
 {
+    private $_cacheID = "AUTEL_CORTO";    
     
     protected function _construct() {
+        $this->_cacheId .= "_" . Mage::app()->getStore()->getId();
         parent::_construct();
         
     }
 
     protected function _beforeToHtml() {                         
+ 
+        $htmlBlocks = $this->_loadFromCache();
+        if (!is_array($htmlBlocks)) {
+            $htmlBlocks = $this->getBlockLists();
+            $this->_saveInCache($htmlBlocks);
+        }
+
+        $this->setHtmlBlockLists($htmlBlocks);
         
         parent::_beforeToHtml();
     }
@@ -38,7 +48,66 @@ class Autel_Corto_Block_Widget_Cms_Block_Magic extends Mage_Core_Block_Template
 
     protected function _toHtml() {
         
-        return parent::_toHtml();
+        $html = "";
+        foreach ($this->getHtmlBlockLists() as $block) {
+            $html .= $block;
+            $html .= '<div class="clearer"></div>';
+        }
+        
+        return $html;
+    }
+    
+    protected function getBlockLists() {
+        
+        $pageId = Mage::getBlockSingleton('cms/page')->getPage()->getPageId();
+        
+        $blockList = Mage::getModel('autelcorto/cms_pageblocks')->getCollection()
+                        ->addPageFilter($pageId)->sort();
+        
+        $blocksHTML = array();
+
+        foreach ($blockList as $block) {
+
+            $htmlBlock = $this->getLayout()->createBlock('cms/block')->setBlockId($block->getBlockId());
+            $style = "";
+            $class = "";
+            if ($block->getFill()) {
+                $class .= "mps-force-fill";
+                $style .= "width: 100%!important;";
+            } else {
+                if ($block->getWidth() > 0) {
+                  $style .= "width: " . $block->getWidth() . "px!important;";
+                }
+                if ($block->getHeight() > 0) {
+                  $style .= "height: " . $block->getHeight() . "px!important;";
+                }
+            }
+            
+            if ($block->getStyle()) {
+                $style .= $block->getStyle();
+            }
+            
+            if ($block->getClass()) {
+                $class .= " " . $block->getClass();
+            }
+            
+            $htmlBlock->setCustomClass($class);
+            $htmlBlock->setCustomStyle($style);
+
+            $blocksHTML[] = $htmlBlock->toHtml();
+        }
+        
+        return $blocksHTML;
+    }
+    
+    private function _loadFromCache() {
+        $cache = Mage::getModel("core/cache");
+        return unserialize($cache->Load($this->_cacheID));
+    }
+    
+    private function _saveInCache($htmlArray) {
+        $cache = Mage::getModel("core/cache");
+        $cache->save(serialize($htmlArray),$this->_cacheID, array($this->_cacheID), null);
     }
 }
 

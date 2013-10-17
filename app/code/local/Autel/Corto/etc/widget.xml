@@ -55,9 +55,9 @@
             </class_link>
         </parameters>        
     </corto_widget_catalog_category_list>
-    <cms_magic_block type="utelcorto/widget_cms_block_magic" translate="name description" module="autelcorto">
-        <name>Lista blocchi multipla</name>
-        <description>Contents of a Static Block</description>
+    <cms_magic_block type="autelcorto/widget_cms_block_magic" translate="name description" module="autelcorto">
+        <name>Lista blocchi Multipla</name>
+        <description>Nel punto dove è inserito questo widget vengono inseriti i blocchi selezionati</description>
         <parameters>
             <block_id type="complex" translate="label">
                 <visible>1</visible>

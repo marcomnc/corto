@@ -27,8 +27,7 @@ class Autel_Corto_Model_Mysql4_Cms_Pageblocks_Collection extends Mage_Core_Model
     /**
      * Add filter by store
      *
-     * @param int|Mage_Core_Model_Store $store
-     * @param bool $withAdmin
+     * @param int|array $page
      * @return Mage_Cms_Model_Resource_Page_Collection
      */
     public function addPageFilter($page)
@@ -37,9 +36,8 @@ class Autel_Corto_Model_Mysql4_Cms_Pageblocks_Collection extends Mage_Core_Model
             $page = array($page);
         }
         
-        $this->addFilter('page_id', array('in' => $page));
-        
-        
+        $this->addFieldToFilter('page_id', array('in' => $page));
+
         return $this;
     }
     

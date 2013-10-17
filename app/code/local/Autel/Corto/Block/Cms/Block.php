@@ -50,7 +50,7 @@ class Autel_Corto_Block_Cms_Block extends Mage_Cms_Block_Block {
                         
                 if ($customClass || $customStyle || $imgBackground) {
 
-                    $html = "<div class=\"mps-block-background $customClass\" style=\"$customStyle background-image: url('$imgBackground')\">"
+                    $html = "<div class=\"mps-block-background $customClass\" style=\"$customStyle background: transparent url('$imgBackground') 50% 50% no-repeat\">"
                             .$html . "</div>";                        
                 }
                 

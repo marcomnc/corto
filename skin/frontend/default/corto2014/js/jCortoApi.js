@@ -30,15 +30,14 @@ if (typeof(baseUrl)=="undefined") {
     var baseUrl = "";
 }
 
+var sizeTimer = null;
+
 var isiPad = navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/);      
 
 
 var imageHome = new Image();
 var imageHomeLoaded = false;
 
-
-var nH=0;
-var hH=0;
 
 
 (function($) {
@@ -450,38 +449,19 @@ function setImgData() {
 
 
 function adjustHeights() {
-    //if (nH==0) nH=$j('#news-home').outerHeight()+$j('.header').outerHeight();
-    if (nH==0) nH=$j('#news-home').outerHeight();
-    if (hH==0) hH=$j('.header').outerHeight();
-    $j('.header-container').height($j(window).height());
-    $j('.header-container').width($j(window).width()); 
-    $j('#img-home-a').height($j('.header-container').height()-nH);
-    $j('#img-home-a').css({'padding-top':$j('#news-home').outerHeight()+'px'});
-
-	if ($j(imageHome).attr('src') != "" && typeof($j(imageHome).attr('src')) != 'undefined') {
-		setImgData();
-	} else {
-		$j(imageHome).attr({'src' : $j('#img-home-a #img-home-img').attr('src')}).load(function() {
-			imageHomeLoaded = true;
-			//i think the page is ok			
-			setImgData();
-		});	
-	}		
-    
-
-    $j('.home-slider-container').height($j(window).height()-$j('.header').height()-$j('.footer').outerHeight(true)+1);
-    //$j('.footer-container').width($j(window).width()); 
-    var w_p_s=($j('.home-slider-container').height()-$j(".background").height())/2;
-    if (w_p_s>0) {
-		$j(".shop-footer").css({"padding-top": w_p_s+"px"});
-	}     
-    $j(window).trigger("scroll");
-    $j(".outfit-container li").css({"background-size": "auto "+$j(window).height()+"px", "height": $j(window).height()+"px"})
-}
-
-function readyHomePage(idx) {
-    
-    //adjustHeights();
+    if (sizeTimer != null) {
+        clearInterval(sizeTimer);
+    }
+    var hH=$j('.header').outerHeight();
+    var hF=$j('.footer_row bottom').outerHeight();
+    var hW=$j(window).height();
+    var h = hW-hH-hF;    
+    if (h>0) {
+        for (var i=0; i < $j('.mps-force-fill').length; i++) { 
+            $j($j('.mps-force-fill')[i]).css({'height' : h+'px'});
+        }
+    }
+        
 }
       
 
@@ -505,11 +485,22 @@ $j(window).bind("scroll", function() {
     }
 })(jQuery);
 
+
+jQuery(window).resize(function() {
+    if (sizeTimer != null) {
+        clearInterval(sizeTimer);
+    }
+    
+    sizeTimer = setInterval(function(){adjustHeights()},1000);
+
+})
+    
+
 /* Getstione funzione a fine pagina */
 jQuery(document).ready(function(){  
 
     if (isHomePage===true) {        
-        readyHomePage();
+        adjustHeights();
     }
     jQuery(window).trigger('resize');
     
