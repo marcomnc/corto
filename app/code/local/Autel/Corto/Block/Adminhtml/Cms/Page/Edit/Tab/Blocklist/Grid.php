@@ -110,7 +110,8 @@ class Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tab_Blocklist_Grid extends Mage_
             'header'    => Mage::helper('autelcorto')->__('Fill'),
             'options'   => array(
                 0 => Mage::helper('autelcorto')->__('No'),
-                1 => Mage::helper('autelcorto')->__('Si')
+                1 => Mage::helper('autelcorto')->__('Si'),
+                2 => Mage::helper('autelcorto')->__('Page')
             ),
             'name'      => 'fill',
             'index'     => 'fill',            

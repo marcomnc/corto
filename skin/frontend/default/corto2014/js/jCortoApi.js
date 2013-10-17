@@ -461,11 +461,33 @@ function adjustHeights() {
             $j($j('.mps-force-fill')[i]).css({'height' : h+'px'});
         }
     }
-        
+    
+    $j(window).trigger('scroll');
 }
       
 
 $j(window).bind("scroll", function() {
+  
+    if (isHomePage) {  
+//        var dbg = $j('.footer_row.bottom').position().top;
+//        dbg += "#";
+//        dbg += $j(window).scrollTop();
+//        dbg += "#" + $j(window).height();
+//        dbg += "#" + $j(window).height();
+//        dbg += "#" + $j('.footer-block-bottom').outerHeight();
+//        
+//        dbg += "#" + ref;
+//        console.log(dbg);
+//        $j('#dbg').val(dbg);
+        
+        var ref = $j(window).scrollTop() + $j(window).height() - $j('.footer-block-bottom').outerHeight();
+        
+        if ($j('.footer_row.bottom').offset().top <= ref) {
+            $j('.footer-block-bottom').css({'position' : 'relative'});            
+        } else {
+            $j('.footer-block-bottom').css({'position' : 'fixed'});            
+        }
+    }
   
 });
 
@@ -502,7 +524,7 @@ jQuery(document).ready(function(){
     if (isHomePage===true) {        
         adjustHeights();
     }
-    jQuery(window).trigger('resize');
+    //jQuery(window).trigger('resize');
     
     /* Link Arcobaleno */
     jQuery.fn.RainbowLink();
@@ -815,7 +837,7 @@ jQuery(document).ready(function(){
 
 /* Getstione funzione a fine pagina */
 jQuery(window).load(function(){  
-    
+    $j(window).trigger('scroll');
 })
 
       

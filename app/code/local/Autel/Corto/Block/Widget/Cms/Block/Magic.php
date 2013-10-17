@@ -60,28 +60,36 @@ class Autel_Corto_Block_Widget_Cms_Block_Magic extends Mage_Core_Block_Template
     protected function getBlockLists() {
         
         $pageId = Mage::getBlockSingleton('cms/page')->getPage()->getPageId();
-        
+        $pageIdentifier = Mage::getBlockSingleton('cms/page')->getPage()->getIdentifier();
         $blockList = Mage::getModel('autelcorto/cms_pageblocks')->getCollection()
                         ->addPageFilter($pageId)->sort();
         
         $blocksHTML = array();
+        
+        $isFirst = true;
 
         foreach ($blockList as $block) {
 
             $htmlBlock = $this->getLayout()->createBlock('cms/block')->setBlockId($block->getBlockId());
             $style = "";
+            $styleWidth = "";
+            $styleHeight = "";
             $class = "";
             if ($block->getFill()) {
-                $class .= "mps-force-fill";
-                $style .= "width: 100%!important;";
-            } else {
-                if ($block->getWidth() > 0) {
-                  $style .= "width: " . $block->getWidth() . "px!important;";
+                if ($block->getFill() == 2) {
+                    $class .= "mps-force-fill";
+                } else {
+                    $styleHeight .= "width: 100%!important;";
                 }
-                if ($block->getHeight() > 0) {
-                  $style .= "height: " . $block->getHeight() . "px!important;";
-                }
+                $styleWidth  .= "width: 100%!important;";                
+            } 
+            if ($block->getWidth() > 0) {
+              $styleWidth .= "width: " . $block->getWidth() . "px!important;";
             }
+            if ($block->getHeight() > 0) {
+              $styleHeight .= "height: " . $block->getHeight() . "px!important;";
+            }
+            
             
             if ($block->getStyle()) {
                 $style .= $block->getStyle();
@@ -92,9 +100,14 @@ class Autel_Corto_Block_Widget_Cms_Block_Magic extends Mage_Core_Block_Template
             }
             
             $htmlBlock->setCustomClass($class);
-            $htmlBlock->setCustomStyle($style);
+            $htmlBlock->setCustomStyle("$style $styleHeight $styleWidth");
 
-            $blocksHTML[] = $htmlBlock->toHtml();
+            $html = $htmlBlock->toHtml();
+            if ($isFirst && $pageIdentifier == Mage::app()->getStore()->getConfig('web/default/cms_home_page')){
+                $html = '<div class="clearer" style="width: 100%; height: 97px"></div>' . $html;
+            }
+            
+            $blocksHTML[] = $html;
         }
         
         return $blocksHTML;
