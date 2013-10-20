@@ -35,17 +35,60 @@
     $_helper = $this->helper('catalog/output');
 ?>
 <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-<p class="product-image product-image-zoom">
+<div class="product-image product-image-zoom">
     <?php
         $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(450).'" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" />';
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
-</p>
 <?php else: ?>
-<div class="product-image">
+<div class="product-image product-image-zoom">
     <?php
         $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(450).'" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" />';
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
-</div>
 <?php endif; ?>
+    
+
+    <div class="linkSocial">
+        <ol>
+            <li>
+                <div class="facebook" href="#" onclick="fbs_click('<?php echo $this->getUrl();?>', '<?php echo $this->getLayout()->getBlock('head')->getTitle(); ?>');">
+                    &nbsp;
+                </div>
+            </li>
+            <li>
+                <div class="twitter" href="#" onclick="tws_click('<?php echo $this->getUrl();?>', '<?php echo $this->getLayout()->getBlock('head')->getTitle(); ?>');">
+                    &nbsp;
+                </div>
+            </li>
+            <li>
+                <div class="pintrest" href="#" onclick="pin_click('<?php echo $this->getUrl();?>', '<?php echo $this->getLayout()->getBlock('head')->getTitle(); ?>', '<?php echo Mage::getModel('catalog/product_media_config')->getMediaUrl( $_product->getImage() );?>');">
+                    &nbsp;
+                </div>
+            </li>
+            <?php if (Mage::helper('sendfriend')->isEnabled()): ?>
+            <li>
+                <div class="email-to-friend" onclick="email_click()">
+                    &nbsp;
+                </div>            
+            </li>
+            <?php endif; ?>
+        </ol>
+    </div>
+    
+</div>
+    
+<script>
+    $j(".email-to-friend").fancybox({
+            autoScale   : true,
+            padding     : "0",
+            margin      : "0",
+            href        : "<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>",
+            showCloseButton : false,          
+            onComplete: function () {
+                $j.fn.fancyTitle("<?php echo $this->__('Email a friend!');?>");
+            }  
+        });
+</script>
+    
+        

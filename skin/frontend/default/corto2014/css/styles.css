@@ -1016,6 +1016,14 @@ tr.summary-details-excluded { font-style:italic; }
 .product-view .product-img-box .product-image { text-align:center; margin:0 0 7px 0; }
 .product-view .product-img-box .product-image-zoom { position:relative; width:460px; height:440px; overflow:hidden; z-index:9; }
 .product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0;  }
+.product-view .product-img-box .product-image-zoom .linkSocial { position: absolute; right: 5px; bottom: 0px; width: 100%; height: 25px}
+.product-view .product-img-box .product-image-zoom .linkSocial ol { float: right }
+.product-view .product-img-box .product-image-zoom .linkSocial li>div {height: 25px; width: 41px; cursor: pointer;}
+.product-view .product-img-box .product-image-zoom .linkSocial .facebook { background: transparent url('../images/social/side_ico_facebook.png'); }
+.product-view .product-img-box .product-image-zoom .linkSocial .twitter { background: transparent url('../images/social/side_ico_pinterest.png'); }
+.product-view .product-img-box .product-image-zoom .linkSocial .pintrest { background: transparent url('../images/social/side_ico_twitter.png'); }
+.product-view .product-img-box .product-image-zoom .linkSocial .email-to-friend { background: transparent url('../images/social/side_ico_mail.png'); }
+.product-view .product-img-box .product-image-zoom .linkSocial li { float: left }
 .product-view .product-img-box .zoom-notice { text-align:center; font-size:13px; color:#000; margin-bottom:16px; }
 .product-view .product-img-box .zoom { position:relative; z-index:9; height:18px; margin:0 auto 13px; padding:0 28px; background:url(../images/slider_bg.gif) 50% 50% no-repeat; cursor:pointer; }
 .product-view .product-img-box .zoom.disabled { -moz-opacity:.3; -webkit-opacity:.3; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";/*IE8*/ opacity:.3; }

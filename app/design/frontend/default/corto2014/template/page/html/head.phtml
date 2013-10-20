@@ -90,6 +90,6 @@ if ($_myStore->getAction() != Autel_Corto_Model_Core_Dispatch::ACTION_NO_ACTIONO
                              'countryCode': '',
                              'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
                              'urlref': "<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>"});
-    })      
+    });      
 </script>
 <?php endif;   ?>
