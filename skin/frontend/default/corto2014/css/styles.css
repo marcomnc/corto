@@ -1762,6 +1762,9 @@ button.btn-checkout span span,
 .product-essential .p-box a { font-size:13px; text-decoration:none; color: white; text-transform: uppercase; cursor: pointer}
 .product-essential .p-box a:hover { text-decoration:none; }
 .product-essential .p-box.p-button { padding: 10px 15px; }
+.product-essential .p-box.p-color { position:  relative}
+.product-essential .p-box.p-color p { position: absolute; top:20px; left: 85px }
+.product-essential .p-box.p-color p a { margin-right: 10px }
 .product-view-bottom .p-black,
 .product-essential .p-black { background-color: black; color: white; }
 .product-essential .p-white { background-color: white;  color: black; border: 1px solid #000}
