@@ -23,17 +23,18 @@ if (isset($colorAttribute[0])):
     if ($attribute->usesSource()):?>
     <div class="container">
     <?php foreach ($attribute->getSource()->getAllOptions(false) as $colors):
-        
+
         $colorOptions = Mage::getModel('autelcorto/coloroptions')->Load($colors['value'], 'option_id'); ?>
         
         <div>
-            <div class="color" <?php if($colorOptions->getColorHex() != ""): ?> style="background-color: #<?php echo $colorOptions->getColorHex()?>" <?php endif;?>>
+            <div class="color" <?php if($colorOptions->getColorHex() != ""): ?> style="background-color: #<?php echo $colorOptions->getColorHex()?>" <?php endif;?>
+                 onclick="$j.fn.AsyncRedirect('<?php  echo Mage::getBaseUrl() ."catalogsearch/advanced/result/?color=" . $colors['value'];  ?>');">
                 <?php if($colorOptions->getColorHex() == "" && $colorOptions->getImageColorUrl() != ""): ?>     
                 <img src="<?php echo $colorOptions->getImageColorUrl(); ?>" style="width: 100%; height: 100%"/>
                 <?php endif; ?>
             </div>        
             <div class="label">
-                <a href="#"><?php echo $colors['label'];?></a>
+                <a mps-type="async-link" href="<?php  echo Mage::getBaseUrl() ."catalogsearch/advanced/result/?color=" . $colors['value'];  ?>"><?php echo $colors['label'];?></a>
             </div>
         </div>
 <?php        
