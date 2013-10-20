@@ -88,7 +88,10 @@ var imageHomeLoaded = false;
         }
         var hideEle= function() {
                         $("#"+myHandle).fadeOut(100);
-                        $("#"+myHandle).remove();}
+                        $("#"+myHandle).remove();
+                        if (typeof($.fn.fancybox) != 'undefined')
+                            $.fancybox.hideActivity();
+                    };
         if (show){
             if ($("#"+myHandle).length<=0) {
                 $("body").append($("<DIV>", {id: myHandle}).addClass("popup-layer")
@@ -124,6 +127,8 @@ var imageHomeLoaded = false;
             $("#"+myHandle).remove();
             if (opts.bindEsc) {
                 $(window).off('keydown');
+            if (typeof($.fn.fancybox) != 'undefined')
+                            $.fancybox.hideActivity();
             }
         }
     }
@@ -553,24 +558,6 @@ jQuery(document).ready(function(){
         });
     }
        
-
-    if ($j(".product-detail").length>0) {
-       /* Lunghezza della barra laterale del prodotto per evitare che scretcha quando implodo esplodo view e detail
-       if ($j(".product-shop").length>0) {
-           var h=$j(".product-shop").height()+0;
-           if (h>0) $j(".product-shop").css({"min-height": h+"px"});
-       }*/
-       $j(".product-detail").css({"cursor":"pointer"})
-       $j(".product-detail").bind("click", function() {
-            if ($j(".product-detail-body").css("display")!="none") {
-                $j(".product-detail-body").slideUp("fast");
-            } else {
-            	$j(".more-views").data("mview").ShowMoreViews(false);
-                $j(".product-detail-body").slideDown("fast");
-            }
-        })
-    }
-
 	// Social per WP
 	jQuery('.social-link > div').each(function() {
             if (jQuery(this).children('.social-set').length>0) {
@@ -838,7 +825,7 @@ jQuery(document).ready(function(){
 /* Getstione funzione a fine pagina */
 jQuery(window).load(function(){  
     $j(window).trigger('scroll');
-})
+});
 
       
       

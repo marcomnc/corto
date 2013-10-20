@@ -26,56 +26,48 @@
 ?>
 <?php if(count($this->getItemCollection()->getItems())): 
     $_helper = $this->helper('catalog/output');?>
+
+<?php 
+$items = $this->getItems();
+if (sizeof($items) > 0): ?>
+
 <div class="box-collateral">
-    <h2><?php echo $this->__('You may also be interested in the following product(s)') ?></h2>
-    <ul class="products-grid" id="upsell-product-table">
-    <?php $this->resetItemsIterator() ?>
-    <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
-        <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
-        <li class="item">
-            <?php 
-                $_link=$this->getIterableItem();
-                $_product = Mage::getModel("catalog/product")->Load($_link->getId());?>
-            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
-                <?php $_imgBack = Mage::Helper("autelcorto/media_gallery")->getCatalogBackImage($_product);
-                       if ($_imgBack !== null): ?>
-                            <img class="back" style=""  src="<?php echo $_imgBack; ?>" width="200" height="200" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
-                <?php endif; ?>
-                <img class="front" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(200); ?>" width="200" height="200" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />                    
-            </a>                
-            <h2 class="product-name">
-                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
-                            <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
-                    </a>
-            </h2>
-            <h3 class="product-short-description">
-                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
-                            <?php echo $_helper->productAttribute($_product, ucfirst(strtolower($_product->getShortDescription())), 'short_description') ?>
-                    </a>
-            </h3>
-            <?php echo $this->getPriceHtml($_product, true) ?>
-        </li>
-        <?php endfor; ?>
-    <?php endfor; ?>
-    </ul>
-    <script type="text/javascript">
-        
-        decorateTable('upsell-product-table')
+    <h2><?php echo $this->__('Suggestions') ?></h2>
     
-        jQuery(document).bind('ready', function(){
-        
-            jQuery('.item a').bind('mouseover touchstart', function () {
-                if (jQuery(this).find(".back").length != 0) {
-                    jQuery(this).find(".front").animate({'opacity': '0'}, 50);
-                }
-            }).bind('mouseout touchend', function () {
-                if (jQuery(this).find(".back").length != 0) {
-                    jQuery(this).find(".front").animate({'opacity': '1'}, 50);
-                }
+        <div class="products-grid" id="upsell-product-table">        
+        <?php foreach ($this->getItems() as $_link): ?>
+            <div class="item">
+                <?php 
+                    $_product = Mage::getModel("catalog/product")->Load($_link->getId());?>
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                    <?php $_imgBack = Mage::Helper("autelcorto/media_gallery")->getCatalogBackImage($_product);
+                    if ($_imgBack !== null): ?>
+                        <img class="back" style=""  src="<?php echo $_imgBack; ?>" width="80" height="80" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                    <?php endif; ?>
+                    <img class="front" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80); ?>" width="80" height="80" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />                    
+                </a>                
+
+            </div>
+        <?php endforeach; ?>
+        </div>
+        <script type="text/javascript">
+
+            jQuery(document).bind('ready', function(){
+
+                jQuery('.item a').bind('mouseover touchstart', function () {
+                    if (jQuery(this).find(".back").length != 0) {
+                        jQuery(this).find(".front").animate({'opacity': '0'}, 50);
+                    }
+                }).bind('mouseout touchend', function () {
+                    if (jQuery(this).find(".back").length != 0) {
+                        jQuery(this).find(".front").animate({'opacity': '1'}, 50);
+                    }
+                });
+
             });
 
-        });
-        
-    </script>
+        </script>
+
 </div>
-<?php endif ?>
+<?php endif; ?>
+<?php endif;?>

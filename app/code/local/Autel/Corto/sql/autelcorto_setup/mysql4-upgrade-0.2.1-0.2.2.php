@@ -7,7 +7,7 @@ $installer = $this;
 // Per ora il controlo di integrita viene fatto a mano
 
 $table_color_attribute = $installer->getConnection()
-    ->newTable($installer->getTable('autelcorto/pageblocks'))
+    ->newTable($installer->getTable('autelcorto/cms_pageblocks'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'auto_increment' => true,
@@ -40,7 +40,7 @@ $table_color_attribute = $installer->getConnection()
         ), 'Eventuali calssi impostatate al div esterno')
     ->addIndex(
         $installer->getIdxName(
-            'autelcorto/pageblocks',
+            'autelcorto/cms_pageblocks',
             array('page_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX
         ),

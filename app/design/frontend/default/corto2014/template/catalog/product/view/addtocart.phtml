@@ -26,14 +26,20 @@
 ?>
 <?php $_product = $this->getProduct(); ?>
 <?php $buttonTitle = $this->__('Add to Cart'); ?>
+<?php if(!$_product->isGrouped()): ?>
+    <input type="hidden" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+<?php endif; ?>
 <?php if($_product->isSaleable()): ?>
-    <div class="add-to-cart">
-        <?php if(!$_product->isGrouped()): ?>
-        <input type="hidden" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
-        <?php endif; ?>
+    <div class="add-to-cart">        
         <a id="add-to-cart" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)">
-        	<img class=".rainbow-img" src="<?php echo $this->getSkinUrl('images/btn_add_to_cart.png');?>" 
-                     style="background-color: white"/>
+            <div class="add-to" style="float: left;">
+                <p><?php echo $this->__('Add to');?></p>
+                <p class="add-to-shopping"><?php echo $this->__('Shopping Bag');?></p>
+            </div>            
+            <div class="add-to-image" style="float: right">
+                <img class=".rainbow-img" src="<?php echo $this->getSkinUrl('images/btn_add_to_cart_min.png');?>" 
+                 style="background-color: white"/>
+            </div>            
        	</a>
         <?php echo $this->getChildHtml('', true, true) ?>
     </div>

@@ -123,7 +123,7 @@ class Autel_Corto_Model_Adminhtml_Observer {
                 if (preg_match("/=/", $value64)) {
                     $value64 = preg_split("/=/", $value64);                    
 //                    $value64[0] = Id del blocco
-//                    $value64[1] = Campi decodificati 
+//                    $value64[1] = Campi decodificati                     
                     $fields = preg_split("/&/", base64_decode($value64[1]));
                     
                     $pageblocks = Mage::getModel('autelcorto/cms_pageblocks');
@@ -131,7 +131,7 @@ class Autel_Corto_Model_Adminhtml_Observer {
                     $pageblocks->setData('block_id', $value64[0]);
                     foreach ($fields as $field) {
                         $keyValue = preg_split("/=/", $field); 
-                        $pageblocks->setData($keyValue[0], $keyValue[1]);
+                        $pageblocks->setData($keyValue[0], urldecode($keyValue[1]));
                     }
 
                     $pageblocks->save();

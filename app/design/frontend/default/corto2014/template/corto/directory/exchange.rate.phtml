@@ -16,7 +16,7 @@ $comeFrom = ($this->hasPrintDataFrom()) ? $this->getPrintDataFrom() : "";
     </div>                                        
 <?php endforeach;?>
 </div>
-<div id="exchange-rate" <?php if (!$toViewCurrency): ?>style="display: none"<?php endif; ?>>
+<div id="exchange-rate" <?php if (!$toViewCurrency && 1==0): ?>style="display: none"<?php endif; ?>>
     <span>
         <?php echo $this->__('exchange rate');?>
     </span>

@@ -100,11 +100,12 @@ class Autel_Corto_Block_Widget_Cms_Block_Magic extends Mage_Core_Block_Template
             }
             
             $htmlBlock->setCustomClass($class);
-            $htmlBlock->setCustomStyle("$style $styleHeight $styleWidth");
+            $htmlBlock->setCustomStyle("$styleHeight $styleWidth $style");
 
             $html = $htmlBlock->toHtml();
             if ($isFirst && $pageIdentifier == Mage::app()->getStore()->getConfig('web/default/cms_home_page')){
                 $html = '<div class="clearer" style="width: 100%; height: 97px"></div>' . $html;
+                $isFirst = false;
             }
             
             $blocksHTML[] = $html;

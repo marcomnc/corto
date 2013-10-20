@@ -179,6 +179,10 @@ Product view
         <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setData">
+                <key>show_background</key>
+                <value>1</value>
+            </action>
         </reference>
         <reference name="head">
             <action method="addJs"><script>varien/product.js</script></action>
@@ -207,6 +211,9 @@ Product view
                     <action method="setColumnCount"><columns>4</columns></action>
                     <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
                 </block>
+                
+                <block type="catalog/product_list_related" name="catalog.product.related" as="catalog_product_related" template="catalog/product/list/related.phtml"/>
+                
 
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
                 <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml">
@@ -257,9 +264,7 @@ Product view
                 <action method="unsetCallChild"><child>container2</child><call>ifEquals</call><if>0</if><key>alias_in_layout</key><key>options_container</key></action>
             </block>
         </reference>
-        <reference name="right">
-            <block type="catalog/product_list_related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"/>
-        </reference>
+        
     </catalog_product_view>
 
 <!--

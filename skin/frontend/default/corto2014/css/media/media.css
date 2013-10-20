@@ -11,6 +11,7 @@
     .footer ,
     .home-slider-container { max-width: 1920px; margin: auto}
     .page { width: 1640px!important } 
+    .col1-layout .col-main,
     .col2-left-layout .col-main,
     .col2-right-layout .col-main { width: 1380px!important }
     	
