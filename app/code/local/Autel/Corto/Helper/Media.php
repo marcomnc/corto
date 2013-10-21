@@ -155,11 +155,13 @@ class Autel_Corto_Helper_Media extends Autel_Corto_Helper_Data {
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @return type
      */
-    public function getAttributeOptions($attribute) {
+    public function getAttributeOptions($attribute, $storeId = null) {
         
         $ret = array();
         if ($attribute instanceof Mage_Catalog_Model_Resource_Eav_Attribute) {
-            
+            if (!is_null($storeId)) {
+                $attribute->setStoreId($storeId);
+            }
             $ret = $attribute->getSource()->getAllOptions(false);
         }
         return $ret;
