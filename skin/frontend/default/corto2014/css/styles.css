@@ -1073,7 +1073,7 @@ tr.summary-details-excluded { font-style:italic; }
 .product-view-bottom .box-collateral { background-color: #fff; border: 1px solid #000 ; margin:-1px}
 .product-view-bottom .products-grid { margin:0; position:relative; }
 .product-view-bottom .products-grid li.item { float:left; padding:0; background: #FFFFFF; margin: 0px 10px 10px 0;}
-.product-view-bottom .products-grid .product-image { display:block; width:80px; height:80px; margin: 10px 10px 5px 10px;}
+.product-view-bottom .products-grid .product-image { display:block; width:80px; height:80px; margin: 5px 10px 5px 5px;}
 .product-view-bottom .products-grid>div.item { width: auto; height: auto; }
 .product-view-bottom .description {padding: 10px 15px;}
 

@@ -30,7 +30,12 @@
     <input type="hidden" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
 <?php endif; ?>
 <?php if($_product->isSaleable()): ?>
-    <div class="add-to-cart">        
+    <div class="add-to-cart">           
+        <div id="cart-animation" style="width:35px; height: 35px;display: none;
+             background: transparent url('<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(35); ?>'); 
+             border-radius: 50%; position: absolute;">
+            
+        </div>
         <a id="add-to-cart" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)">
             <div class="add-to" style="float: left;">
                 <p><?php echo $this->__('Add to');?></p>
@@ -44,3 +49,4 @@
         <?php echo $this->getChildHtml('', true, true) ?>
     </div>
 <?php endif; ?>
+

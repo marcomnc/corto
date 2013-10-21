@@ -45,7 +45,10 @@ if (sizeof($items) > 0): ?>
                         <img class="back" style=""  src="<?php echo $_imgBack; ?>" width="80" height="80" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
                     <?php endif; ?>
                     <img class="front" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80); ?>" width="80" height="80" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />                    
-                </a>                
+                </a>       
+                <a mps-type="async-link" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+                        <?php echo $this->stripTags(ucfirst(strtolower($_product->getShortDescription()))) ?>
+                </a>
 
             </div>
         <?php endforeach; ?>
