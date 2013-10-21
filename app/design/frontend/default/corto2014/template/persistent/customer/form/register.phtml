@@ -32,6 +32,9 @@
  */
 /** @var $this Mage_Customer_Block_Form_Register */
 ?>
+<?php
+$_urlPrivacy = Mage::helper('autelcorto')->getPrivacyUrl();
+?>
 <div class="account-create">
     <div class="page-title">
         <h1><?php echo $this->__('Create an Account') ?></h1>
@@ -169,6 +172,21 @@
                 </li>
                 <?php echo $this->getChildHtml('form.additional.info'); ?>
                 <?php echo $this->getChildHtml('persistent.remember.me'); ?>
+                <?php if ($_urlPrivacy):?>
+                <li class="control">
+                    <div class="input-box">
+                        <input type="checkbox" name="privacy_accept" class="checkbox required-entry" title="<?php $this->__('Privacy Policy');?>">
+                    </div>
+                    <label style="float: none" for="is_privacy_accept">
+                        <?php echo $this->__("Autorizzo il trattamento dei miei dati in base a sensi dell'art 13 D.L. 196/2003");?>
+                    </label>
+                    <a href="<?php echo $_urlPrivacy; ?>" title="<?php $this->__('Privacy Policy');?>" 
+                       onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,');return false;">
+                        <?php echo $this->__('Clicca qui per leggere le condizioni'); ?>
+                    </a>
+
+                </li>
+                <?php endif; ?>
             </ul>
             <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
         </div>

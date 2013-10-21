@@ -94,6 +94,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </cms_shop_page>
+                        <privacy_url>
+                            <label>Link pagina privacy</label>
+                            <frontend_type>text</frontend_type>                            
+                            <sort_order>999</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Possono essere utilizzate le variabili CMS di Magento</comment>
+                        </privacy_url>
                     </fields>
                 </autelpage>
                 <autelcatalog translate="label">

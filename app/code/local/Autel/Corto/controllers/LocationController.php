@@ -73,7 +73,7 @@ class Autel_Corto_LocationController extends Mage_Core_Controller_Front_Action
                 $enabledStore[] = $enStore->getCode();
             }
             
-            $cookie->setData('enabled_store', $enabledStore);
+            $cookie->setData('enabled_store', $enabledStore);            
 
             // Imposta anche il register
             Autel_Corto_Model_Core_Dispatch::setCookie($cookie); 

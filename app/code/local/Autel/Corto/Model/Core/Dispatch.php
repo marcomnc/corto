@@ -14,6 +14,8 @@ class Autel_Corto_Model_Core_Dispatch {
     const ACTION_WARNING_SELECT = 'AWS';
     const ACTION_WARNING        = 'AW';
     const ACTION_SELECT         = 'AS';
+    
+    const COOKIE_VERSION        = '2.0';
 
     public function pre_dispatch($observer) {
 
@@ -23,7 +25,7 @@ class Autel_Corto_Model_Core_Dispatch {
         $cookie = self::getCookie();
         $front = $observer->getFront()->getRequest()->getParams();
         
-        if (!$cookie->hasData()) {
+        if (!$cookie->hasData() || !$cookie->hasData('version') || $cookie->getData('version') != self::COOKIE_VERSION) {
             //Tento la geolocalizzazione e creo il cookie di base
             $country = Mage::helper('autelcorto')->getCountryFromIp();
             if ($country !== false && $country instanceof Mage_Directory_Model_Country) {
@@ -165,6 +167,8 @@ class Autel_Corto_Model_Core_Dispatch {
         if (!key_exists('lan', $cookie) || $cookie["lan"] == "") {
             $cookie["lan"] = self::_getLanguage();
         }
+        
+        $cookie["version"] = self::COOKIE_VERSION;
 
         if (is_null($time)) {
             $time = 60*60*24*30; // 1 mese

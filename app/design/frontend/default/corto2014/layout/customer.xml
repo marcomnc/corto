@@ -50,6 +50,18 @@ Default layout, loads most of the pages
         <!-- Mage_Customer -->
         <reference name="top.links">
 <!--            <action method="addLink" translate="label title" module="customer"><label>My Account</label><url helper="customer/getAccountUrl"/><title>My Account</title><prepare/><urlParams/><position>10</position></action>-->
+            <action method="addLink" translate="label title" module="customer">
+                <label>Media Access</label>
+                <url helper="autelcorto/getMediaAccessUrl"/>
+                <title>Media Access</title>
+                <prepare/>
+                <urlParams/>
+                <position>0</position>
+                <liParams/>
+                <aParams>
+                    <mps-type>async-link</mps-type>
+                </aParams>
+            </action>
         </reference>
     </default>
 

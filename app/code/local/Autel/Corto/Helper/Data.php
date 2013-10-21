@@ -117,7 +117,7 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
         if ($zone instanceof Autel_Corto_Model_Zone) {
             $myZone = $zone;
             $wsId = $zone->getWebsiteId();
-        }elseif(is_int($zone+0)) {
+        }elseif(is_int($zone)) {
             $myZone = Mage::getModel('autelcorto/zone')->Load($zone);
             if (!is_null($myZone)) {
                 $wsId = $myZone->getWebsiteId();
@@ -128,7 +128,7 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
                 $wsId = $myZone->getWebsiteId();
             }            
         }
-        
+    
         if ($wsId > 0) {
             
             $store = mage::getModel('core/store')->getCollection();
@@ -367,6 +367,19 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
         }
 
         return $country;
+    }
+    
+    public function getMediaAccessUrl() {
+        return MAge::getStoreConfig('web/unsecure/wp_url') . "media/";
+    }
+    
+    public function getPrivacyUrl() {
+        
+        $urlBase = Mage::getStoreConfig('autelcorto/autelpage/privacy_url');
+        
+        $url = Mage::helper('cms')->getBlockTemplateProcessor()->filter($urlBase);
+        
+        return $url;
     }
 }
 ?>
