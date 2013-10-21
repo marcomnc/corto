@@ -42,14 +42,39 @@ Social.FBConnect.prototype = {
                             var result = transport.responseText.evalJSON()
                             if (result[0]) {
                                 window.location = result[1];
-                            } else {$(eId).src = ''+iOri} 
+                            } else {$(eId).src = ''+iOri;} 
                         }
                     })
              })
-          } else {$(eId).src = ''+iOri} 
-        }, {scope: 'email,user_birthday'})
+          } else {$(eId).src = ''+iOri;} 
+        }, {scope: 'email,user_birthday'});
     },
     setLoaderUrl: function (imgUrl) {
         this.imgLoaderUrl = imgUrl;
-    }        
+    }          
 }
+
+function fbs_click(urlToShare, pictureToShare, nameToShare, titleToShare, contentToShare) {
+    var href="http://www.facebook.com/dialog/feed?" +
+             //"app_id=433454403372693&amp;"+
+             "app_id=267246793303355&amp;"+
+             "link="+ urlToShare +"&amp;" + 
+             "picture=" + pictureToShare + "&amp;" +
+             "name=" + nameToShare + "&amp;" + 
+             "caption=" + titleToShare + "&amp;" +
+             "description=" + contentToShare + "&amp;" +
+             "redirect_uri=http://www.corto.com/en/window-close";
+     
+    window.open(href,'fb_sharer','toolbar=0,status=0,width=626,height=436');
+    return false;
+}
+
+function tws_click(urlToShare, titleToShare) {
+    window.open('http://twitter.com/intent/tweet?url='+encodeURIComponent(urlToShare) + '&hashtags=cortomoltedo&text=' + encodeURIComponent(titleToShare),'tw_sharer','toolbar=0,status=0,width=626,height=436');
+}
+
+function pin_click(urlToShare, titleToShare, urlImg){
+    window.open('http://pinterest.com/pin/create/button/?url='+encodeURIComponent(urlToShare)+'&media='+encodeURIComponent(urlImg)+'&description='+encodeURIComponent(titleToShare)+'','Pin_sharer','toolbar=0,status=0,width=626,height=436');
+}
+
+

@@ -43,5 +43,7 @@
         <?php endforeach; ?>
     </ul>
 </div>
-<hr class="breadcrumbs-reset">
+<?php if (!$this->getNoReset()): ?>
+    <hr class="breadcrumbs-reset">
+<?php endif;?>
 <?php endif; ?>

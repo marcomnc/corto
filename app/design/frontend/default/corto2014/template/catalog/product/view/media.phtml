@@ -46,49 +46,80 @@
         $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(450).'" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" />';
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
-<?php endif; ?>
-    
-
-    <div class="linkSocial">
-        <ol>
-            <li>
-                <div class="facebook" href="#" onclick="fbs_click('<?php echo $this->getUrl();?>', '<?php echo $this->getLayout()->getBlock('head')->getTitle(); ?>');">
-                    &nbsp;
-                </div>
-            </li>
-            <li>
-                <div class="twitter" href="#" onclick="tws_click('<?php echo $this->getUrl();?>', '<?php echo $this->getLayout()->getBlock('head')->getTitle(); ?>');">
-                    &nbsp;
-                </div>
-            </li>
-            <li>
-                <div class="pintrest" href="#" onclick="pin_click('<?php echo $this->getUrl();?>', '<?php echo $this->getLayout()->getBlock('head')->getTitle(); ?>', '<?php echo Mage::getModel('catalog/product_media_config')->getMediaUrl( $_product->getImage() );?>');">
-                    &nbsp;
-                </div>
-            </li>
-            <?php if (Mage::helper('sendfriend')->isEnabled()): ?>
-            <li>
-                <div class="email-to-friend" onclick="email_click()">
-                    &nbsp;
-                </div>            
-            </li>
-            <?php endif; ?>
-        </ol>
-    </div>
+<?php endif; ?>    
     
 </div>
     
+<div class="linkSocial">
+    <ol>
+        <li>
+            <div class="facebook" href="#">
+                &nbsp;
+            </div>
+        </li>
+        <li>
+            <div class="twitter" href="#">
+                &nbsp;
+            </div>
+        </li>
+        <li>
+            <div class="pintrest">
+                &nbsp;
+            </div>
+        </li>
+        <?php if (Mage::helper('sendfriend')->isEnabled()): ?>
+        <li>
+            <div class="email-to-friend">
+                &nbsp;
+            </div>            
+        </li>
+        <?php endif; ?>
+    </ol>
+</div>
+    
 <script>
-    $j(".email-to-friend").fancybox({
-            autoScale   : true,
-            padding     : "0",
-            margin      : "0",
-            href        : "<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>",
-            showCloseButton : false,          
-            onComplete: function () {
-                $j.fn.fancyTitle("<?php echo $this->__('Email a friend!');?>");
-            }  
+
+    var socialName = "<?php echo urlencode($_helper->productAttribute($_product, $_product->getName(), "name") . ' ' . $_helper->productAttribute($_product, $_product->getShortDescription(), "short_description")); ?>";
+    <?php if($_product->getCStyleFortuneCookie()):?>
+    var socialDescr = "<?php echo urlencode($_helper->productAttribute($_product, $_product->getCStyleFortuneCookie(), "c_style_fortune_cookie"));?>";
+    <?php else: ?>
+    var socialDescr = "<?php echo urlencode($_helper->productAttribute($_product, $_product->getDescription(), "description"));?>";
+    <?php endif; ?>
+
+    $j('document').ready( function() {
+        $j('.linkSocial div').click(function(e) {
+            e.preventDefault();
+            if ($j(this).hasClass('facebook')) {
+                fbs_click('<?php echo $this->helper('core/url')->getCurrentUrl();?>',
+                          '<?php echo $this->helper('catalog/image')->init($_product, "image")->resize(200)?>',
+                          socialName,
+                          '<?php echo $this->getLayout()->getBlock("head")->getTitle(); ?>',
+                          socialDescr);
+            }
+            
+            if ($j(this).hasClass('twitter')) {
+                tws_click('<?php echo $this->helper('core/url')->getCurrentUrl();?>', socialDescr);
+            }
+            
+            if ($j(this).hasClass('pintrest')) {
+                pin_click('<?php echo $this->helper('core/url')->getCurrentUrl();?>', 
+                            socialName, socialDescr)
+            }
+            
+            if ($j(this).hasClass('email-to-friend')) {
+                $j.fancybox({
+                    autoScale   : true,
+                    padding     : "0",
+                    margin      : "0",
+                    href        : "<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>",
+                    showCloseButton : false,          
+                    onComplete: function () {
+                        $j.fn.fancyTitle("<?php echo $this->__('Email a friend!');?>");
+                    }  
+                });
+            }
         });
+    });
 </script>
     
         

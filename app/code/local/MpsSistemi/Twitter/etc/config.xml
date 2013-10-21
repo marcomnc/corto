@@ -59,9 +59,9 @@
     <frontend>
         <layout>
             <updates>
-                <autelsocial>
+                <mpstwitter>
                     <file>mpstwitter.xml</file>
-                </autelsocial>
+                </mpstwitter>
             </updates>
         </layout>  
     </frontend>
