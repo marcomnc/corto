@@ -33,10 +33,18 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
     
     protected $_menu = array();
     
+    protected $_isHome = false;
+    protected $_isShop = false;
+    protected $_isCatalog = false;
+    protected $_cmsPageId = '';
+
     protected function _construct() {
         parent::_construct();
         //$this->setTemplate('veredus/template/widget/product/list.phtml');
-        
+        $this->_isHome = Mage::Helper('autelcorto')->getIsHomePage();
+        $this->_isShop = Mage::Helper('autelcorto')->getIsShopPage();
+        $this->_isCatalog = Mage::helper('autelcorto')->getIsCatalogPage();
+        $this->_cmsPageId = Mage::getSingleton('cms/page')->getIdentifier();
     }
 
     protected function _beforeToHtml() {
@@ -67,7 +75,32 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
      * @return bool
      */
     protected function isSelectMenu($menu) {
-        return false;
+        
+        switch ($menu['type']) {
+            case self::MENU_HOME_LINK:
+                    return $this->_isHome;
+                break;
+            
+            case self::MENU_ESHOP_LINK:
+                return ($this->_isShop || $this->_isCatalog);
+                break;
+            case self::MENU_CMS_LINK:
+                $ids = preg_split("/,/", $menu['identify']);
+                foreach ($ids as $id) {
+                    if ($id != "" && $id == $this->_cmsPageId)
+                        return true;
+                }
+                return false;
+                break;
+            case self::MENU_WP_LINK: 
+                return Mage::registry("_from_wp");
+                break;
+            default:
+                return false;
+                break;
+        }
+        
+        
     }
     
     /**
@@ -106,21 +139,19 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
      * @param type $menu
      */
     public function isToPrint($menu) {
-        $isHome = Mage::Helper('autelcorto')->getIsHomePage();
-        $isShop = Mage::Helper('autelcorto')->getIsShopPage();
-        $isCatalog = Mage::helper('autelcorto')->getIsCatalogPage();
-
-        if ($menu['type'] == self::MENU_HOME_LINK && $isHome)
+        
+        if ($menu['type'] == self::MENU_HOME_LINK && $this->_isHome)
             return false;
         
-        if ($menu['type'] == self::MENU_HOME_LINK && (!$isShop && !$isCatalog)) 
+        if ($menu['type'] == self::MENU_HOME_LINK && (!$this->_isShop && !$this->_isCatalog)) 
             return false;
         
-        if ($menu['type'] == self::MENU_ESHOP_LINK && ($isShop || $isCatalog))
+        if ($menu['type'] == self::MENU_ESHOP_LINK && ($this->_isShop || $this->_isCatalog))
             return false;
         
         return true;
     }
+    
 }
 ?>
 
