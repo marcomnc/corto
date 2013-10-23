@@ -32,7 +32,7 @@
  */
 ?>
 <?php
-    $_productCollection=$this->getLoadedProductCollection();
+    $_productCollection=$this->getLoadedProductCollection();    
     $_helper = $this->helper('catalog/output');
 ?>
 <?php if(!$_productCollection->count()): ?>
@@ -45,7 +45,6 @@
     <?php $_iterator = 0; ?>
     <ol class="products-list" id="products-list">
     <?php foreach ($_productCollection as $_product): ?>
-	<?php 
 	$attribute = $_product->getData('manufacturer');
 	echo("<hr>$attribute<hr>");	
 	?>
@@ -102,7 +101,7 @@
            shuffle($_imageCollection);
            $_columnCount = 3; // Fisso $this->getColumnCount(); 
            $_imgCount = 0;
-           $i=0; foreach ($_productCollection as $_product):    
+           $i=0; foreach ($_productCollection as $_product):                   
                 if ($i++%$_columnCount==0): ?>
 <!--        <ul class="products-grid">-->
         <?php endif ?>            

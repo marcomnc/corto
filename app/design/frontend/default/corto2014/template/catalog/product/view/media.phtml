@@ -80,17 +80,26 @@
 <script>
 
     var socialName = "<?php echo urlencode($_helper->productAttribute($_product, $_product->getName(), "name") . ' ' . $_helper->productAttribute($_product, $_product->getShortDescription(), "short_description")); ?>";
-    <?php if($_product->getCStyleFortuneCookie()):?>
-    var socialDescr = "<?php echo urlencode($_helper->productAttribute($_product, $_product->getCStyleFortuneCookie(), "c_style_fortune_cookie"));?>";
-    <?php else: ?>
-    var socialDescr = "<?php echo urlencode($_helper->productAttribute($_product, $_product->getDescription(), "description"));?>";
-    <?php endif; ?>
+    <?php if($_product->getCStyleFortuneCookie()):
+            $socialDescr = urlencode($_helper->productAttribute($_product, $_product->getCStyleFortuneCookie(), "c_style_fortune_cookie"));
+        else: 
+            $socialDescr = urlencode($_helper->productAttribute($_product, $_product->getDescription(), "description"));
+        endif; 
+        $socialDescrShort = substr($socialDescr, 0, 100);
+        if (strlen($socialDescr)> 100):
+            $socialDescrShort .= "...";
+        endif;
+        ?>
+    var socialUrl = '<?php echo urlencode($this->helper('core/url')->getCurrentUrl());?>';
+    var socialDescr = '<?php echo $socialDescr;?>';
+    var socialDescrShort = '<?php echo $socialDescrShort;?>';
+
 
     $j('document').ready( function() {
         $j('.linkSocial div').click(function(e) {
             e.preventDefault();
             if ($j(this).hasClass('facebook')) {
-                fbs_click('<?php echo $this->helper('core/url')->getCurrentUrl();?>',
+                fbs_click(socialUrl,
                           '<?php echo $this->helper('catalog/image')->init($_product, "image")->resize(200)?>',
                           socialName,
                           '<?php echo $this->getLayout()->getBlock("head")->getTitle(); ?>',
@@ -98,12 +107,12 @@
             }
             
             if ($j(this).hasClass('twitter')) {
-                tws_click('<?php echo $this->helper('core/url')->getCurrentUrl();?>', socialDescr);
+                tws_click(socialUrl, socialDescrShort);
             }
             
             if ($j(this).hasClass('pintrest')) {
-                pin_click('<?php echo $this->helper('core/url')->getCurrentUrl();?>', 
-                            socialName, socialDescr)
+                pin_click('socialUrl', 
+                            socialName + "\n" + socialDescr, '<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(450); ?>');
             }
             
             if ($j(this).hasClass('email-to-friend')) {

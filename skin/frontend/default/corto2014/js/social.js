@@ -70,11 +70,11 @@ function fbs_click(urlToShare, pictureToShare, nameToShare, titleToShare, conten
 }
 
 function tws_click(urlToShare, titleToShare) {
-    window.open('http://twitter.com/intent/tweet?url='+encodeURIComponent(urlToShare) + '&hashtags=cortomoltedo&text=' + encodeURIComponent(titleToShare),'tw_sharer','toolbar=0,status=0,width=626,height=436');
+    window.open('http://twitter.com/intent/tweet?url='+ urlToShare + '&hashtags=cortomoltedo&text=' + titleToShare,'tw_sharer','toolbar=0,status=0,width=626,height=436');
 }
 
 function pin_click(urlToShare, titleToShare, urlImg){
-    window.open('http://pinterest.com/pin/create/button/?url='+encodeURIComponent(urlToShare)+'&media='+encodeURIComponent(urlImg)+'&description='+encodeURIComponent(titleToShare)+'','Pin_sharer','toolbar=0,status=0,width=626,height=436');
+    window.open('http://pinterest.com/pin/create/button/?url='+ urlToShare +'&media='+ urlImg +'&description='+ titleToShare +'','Pin_sharer','toolbar=0,status=0,width=626,height=436');
 }
 
 
