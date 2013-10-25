@@ -10,6 +10,11 @@
     <?php endif;?>
     <?php endforeach; ?>        
 </ul>
-<script type="text/javascript">decorateList('menu-header-list', 'none-recursive')</script>
+<script type="text/javascript">
+    decorateList('menu-header-list', 'none-recursive');
+    jQuery('document').ready(function () {
+        jQuery('#menu-header-list li.is-menu-select a').RainbowLink("", true );
+    });
+</script>
 <?php endif; ?>
 

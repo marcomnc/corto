@@ -2,7 +2,7 @@
     $_product = $this->getProduct();
     if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views <?php if (count($this->getGalleryImages()) >= 5): echo ' max-six'; endif; ?><?php if ($_product->getData('c_style_fortune_cookie') == ''): echo ' no-style'; endif;?>">    
-    <?php foreach ($this->getGalleryImages() as $_image): ?>
+    <?php $i=0; foreach ($this->getGalleryImages() as $_image): ?>
         <div class="<?php if ($i++%2 == 0): echo "f-left"; else: echo "f-right"; endif;?>">
             <a href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(700); ?>" rel="more-views" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(105); ?>" width="105" height="105" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
         </div>
@@ -15,6 +15,10 @@
             autoScale   : true,
             showCloseButton : true
         });        
+        
+        $j("#image").css({"cursor":"pointer"}).click(function() {
+            $j(".more-views div::first-child a").trigger("click");
+        });
     });
 </script>
 <?php endif; ?>

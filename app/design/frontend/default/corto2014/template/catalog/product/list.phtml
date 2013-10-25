@@ -127,7 +127,7 @@
                 </h2>
                 <h3 class="product-short-description">
                 	<a mps-type="async-link" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
-                		<?php echo $this->stripTags(ucfirst(strtolower($_product->getShortDescription()))) ?>
+                		<?php echo $this->stripTags(strtolower($_product->getShortDescription())) ?>
                 	</a>
                 </h3>
                 <?php echo $this->getPriceHtml($_product, true) ?>

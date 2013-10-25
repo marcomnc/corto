@@ -513,13 +513,35 @@ footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align:
 .collection-low { display: block; float: left; }
 .collection-files { margin-top: 10px; }
 .collection-files-title { margin-top: 20px; }
+/* Aggiunte Valerio: */
+.collection-files > li{
+	background: url('images/pdf-48.png') no-repeat top left;
+	padding-left: 50px;
+	height: 50px;
+	line-height: 50px;
+}
+
+#corto-events-clippings {overflow: hidden; }
+.corto-home-clippings-container {overflow: hidden; position: relative }
+.blog article { width: 725px; margin: auto; }
+.corto-home-clippings { width: 2100px; margin: auto }
+.corto-home-clippings .cuttings-item {padding: 0px;}
+.corto-home-clippings .cuttings-item img {width: 100px; height: auto; max-height: 66px;}
+.corto-home-clippings-container .corto-more-cuttings { background: rgba(0,0,0,0.4);
+    transition:             all 200ms ease-in-out;
+    -moz-transition:        all 200ms ease-in-out;
+    -webkit-transition:     all 200ms ease-in-out;
+    -o-transition:          all 200ms ease-in-out;
+    position: absolute; color: #FFF; font-size: 13px; font-weight: bold; padding: 10px; bottom: 0px; right: 0px}
+.corto-home-clippings-container .corto-more-cuttings:hover {background: #000;}
+#corto-events-clippings .event-title {clear: both}
 
 /* ASSETS */
 
 /* SOCIAL LINKS */
 .social-link { height: 16px }
 .social-link .btn-social {float: right; height: 50px; margin: 0 3px 0 0; width: 16px; position: relative; }
-.social-link .social-set { height: 16px }
+.social-link .social-set { height: 16px; cursor: pointer }
 .social-link .facebook .social-set { background: url('images/add_fb.png') no-repeat 0 0 ; }
 .social-link .twitter .social-set { background: url('images/add_twitter.png') no-repeat 0 0 ; }
 .social-link .pintrest .social-set { background: url('images/add_pin.png') no-repeat 0 0 ; }

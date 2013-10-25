@@ -158,7 +158,7 @@ echo "</pre>"?>
 		
 	</header><!-- #branding -->
 
-<div id="main" class="wrapper-page-blog">
+<div id="main" class="wrapper-page-blog">    
 <div class="page">
   <div class="main-container col2-left-layout">  
     <div class="main">

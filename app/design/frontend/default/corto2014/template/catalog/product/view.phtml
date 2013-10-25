@@ -61,7 +61,7 @@ $_materialId = $_product->getData('material');
                         <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?><br>
                     </h1>
                     <span class="short-description">
-                        <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?>
+                        <?php echo $this->stripTags(strtolower($_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'))); ?>
                     </span>
                 </div>
             </div>
@@ -80,7 +80,7 @@ $_materialId = $_product->getData('material');
                             ->toHtml();  ?>
                 <br>
                 <?php if ($_color): ?>                
-                <div class="attribute-data ">            
+                <div class="attribute-data search-attribute search-color">            
                 <?php echo $this->__('Color:');?> &nbsp;
                     <a mps-type="async-link" href="<?php echo Mage::getBaseUrl() ."catalogsearch/advanced/result/?color=$_colorId" ?>">
                         <?php echo $_color;?>
@@ -88,7 +88,7 @@ $_materialId = $_product->getData('material');
                 </div>
                 <?php endif; ?>
                 <?php if ($_material ): ?>
-                <div class="attribute-data">            
+                <div class="attribute-data search-attribute search-material">            
                     <?php echo $this->__('Material:');?> &nbsp;
                     <a mps-type="async-link" href="<?php echo Mage::getBaseUrl() ."catalogsearch/advanced/result/?material=$_materialId" ?>">
                         <?php echo $_material;?>
@@ -124,13 +124,13 @@ $_materialId = $_product->getData('material');
             </div>
             <?php endif;?>
             <?php if( $this->helper('wishlist')->isAllow()):?>
-            <div class="p-black p-box p-button">
+            <div class="p-black p-box p-button p-wishlist">
                 <?php $_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product); ?>
                 <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a>
             </div>
             <?php endif;?>
             
-            <div class="p-turquoise p-box p-button">
+            <div class="p-turquoise p-box p-button p-contacts">
                 <a href="<?php echo $this->getUrl('contacts');?>" 
                        title="<?php echo $this->__("Live Help"); ?>"
                        class="contact-us">
@@ -142,12 +142,15 @@ $_materialId = $_product->getData('material');
                 </a>
             </div>
             
-            <?php if ($_product->getData('c_style_fortune_cookie') == ""): 
+            <div class="p-more-view">
+            <?php 
                 echo $this->getLayout()
                                 ->createBlock('catalog/product_view_media')
                                 ->setTemplate('catalog/product/view/more-views.phtml')
                                 ->toHtml();  
-            endif;?>
+            ?>
+            </div>
+            
         </div>
         
         <div class="product-img-box">
@@ -203,9 +206,8 @@ $_materialId = $_product->getData('material');
                             jQuery('.top-link-cart').headerSwitcher('R');
                             jQuery.fn.layer(false);                            
                                                         
-                            animate(function () {
-                                jQuery(".top-link-cart").trigger("click");
-                            });
+                            jQuery(".top-link-cart").trigger("click");
+
                             //clearInterval(timer);
                             jQuery("#add-to-cart img").css({ "background-color": "white"});
                         },
@@ -276,106 +278,6 @@ if (Mage::getSingleton("customer/session")->getAddProductToCart() == 1):
 <?php endif;?>
       });
 
-var V = {
-    rotate: function(p, degrees) {
-      var radians = degrees * Math.PI / 180,
-        c = Math.cos(radians),
-        s = Math.sin(radians);
-      return [c*p[0] - s*p[1], s*p[0] + c*p[1]];
-    },
-    scale: function(p, n) {
-      return [n*p[0], n*p[1]];
-    },
-    add: function(a, b) {
-      return [a[0]+b[0], a[1]+b[1]];
-    },
-    minus: function(a, b) {
-      return [a[0]-b[0], a[1]-b[1]];
-    }
-  };
-  
-function bezier( params, rotate ) {
-    params.start = jQuery.extend( {angle: 0, length: 0.3333}, params.start );
-    params.end = jQuery.extend( {angle: 0, length: 0.3333}, params.end );
- 
-    this.p1 = [params.start.x, params.start.y];
-    this.p4 = [params.end.x, params.end.y];
- 
-    var v14 = V.minus( this.p4, this.p1 ),
-      v12 = V.scale( v14, params.start.length ),
-      v41 = V.scale( v14, -1 ),
-      v43 = V.scale( v41, params.end.length );
- 
-    v12 = V.rotate( v12, params.start.angle );
-    this.p2 = V.add( this.p1, v12 );
- 
-    v43 = V.rotate(v43, params.end.angle );
-    this.p3 = V.add( this.p4, v43 );
- 
-    this.f1 = function(t) { return (t*t*t); };
-    this.f2 = function(t) { return (3*t*t*(1-t)); };
-    this.f3 = function(t) { return (3*t*(1-t)*(1-t)); };
-    this.f4 = function(t) { return ((1-t)*(1-t)*(1-t)); };
- 
-    /* p from 0 to 1 */
-    this.css = function(p) {
-      var f1 = this.f1(p), f2 = this.f2(p), f3 = this.f3(p), f4=this.f4(p), css = {};
-      if (rotate) {
-        css.prevX = this.x;
-        css.prevY = this.y;
-      }
-      css.x = this.x = ( this.p1[0]*f1 + this.p2[0]*f2 +this.p3[0]*f3 + this.p4[0]*f4 +.5 )|0;
-      css.y = this.y = ( this.p1[1]*f1 + this.p2[1]*f2 +this.p3[1]*f3 + this.p4[1]*f4 +.5 )|0;
-      css.left = css.x + "px";
-      css.top = css.y + "px";
-      return css;
-    };
-  };
-  
-  function animate(callback) {
-
-    jQuery("#cart-animation").show();
-    
-console.log(jQuery('div.add-to-cart').offset());
-console.log(jQuery('a.top-link-cart').offset());
-    var path = {
-      start: {
-        x: 0,
-        y: 0,
-        angle: 190.012,
-        length: 0.1
-      },
-      end: {
-        x: jQuery('a.top-link-cart').offset().left - jQuery('div.add-to-cart').offset().left,
-        y: jQuery('a.top-link-cart').offset().top - jQuery('div.add-to-cart').offset().top,
-        angle: 90.012,
-        length: 0.1
-      }
-    };
-
-    var p = new bezier(path);
-    console.log(p.css(p));
-    jQuery('#cart-animation').css({'position': 'absolute', 'top' : p.p1[0]+'px', 'left' : p.p1[1]});
-    jQuery('#cart-animation').animate({
-        left: p.p2[0]+'px',
-        top : p.p2[1]+'px'
-    }, 500, function() {
-        jQuery('#cart-animation').animate({
-            left: p.p3[0]+'px',
-            top : p.p3[1]+'px'
-        }, 1000, function() {
-            jQuery('#cart-animation').animate({
-                left: p.p4[0]+'px',
-                top : p.p4[1]+'px'
-            }, 500, function() {
-                jQuery("#cart-animation").fadeOut(500);
-                callback();
-            });
-        });
-    });
-
-  };
-
     </script>
     </div>
     
@@ -397,13 +299,6 @@ console.log(jQuery('a.top-link-cart').offset());
         </div>
         <?php endif;?>
     </div>
-    <div class="product-shop f-right">
-        <?php if ($_product->getData('c_style_fortune_cookie') != ""): 
-                echo $this->getLayout()
-                                ->createBlock('catalog/product_view_media')
-                                ->setTemplate('catalog/product/view/more-views.phtml')
-                                ->toHtml();  
-            endif;?>
-    </div>    
+    
 </div>
 

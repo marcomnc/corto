@@ -146,7 +146,7 @@ get_header(); ?>
           return false;
         });
         
-        //Ribindo o scroll perchè lo uso solo in home page
+        //Ribindo o scroll perchï¿½ lo uso solo in home page
         var lastScroll =  $(window).scrollTop();
 	    $(window).scroll(function(e) {
 	        var newScroll =  $(window).scrollTop();

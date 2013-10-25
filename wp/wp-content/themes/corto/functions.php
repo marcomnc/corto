@@ -317,6 +317,103 @@ add_filter( 'attachment_link', 'corto_enhanced_image_navigation' );
 //    return true;
 //}
 
+add_filter('wp_get_attachment_image_attributes', 'corto_get_attachment_image_attributes');
+
+function corto_get_attachment_image_attributes( $attr, $attachment ){
+    
+    if (isset($attr['mps-aync-img-loading']) && $attr['mps-aync-img-loading']) {
+        $ret = array();
+        foreach ($attr as $k => $v) {
+            if ($k == 'mps-aync-img-loading') {
+                continue;
+            }
+            
+            if ($k == 'src') {
+                $ret['mps-aync-img-loading'] = $v;
+                $ret[$k] = get_template_directory_uri() ."/images/attachment-ajax-loader.gif";
+                continue;
+            }
+            
+            if ($k == 'class') {
+                $ret[$k] = "$v mps-aync-img-loading";
+                continue;
+            }
+            
+            $ret[$k] = $v;
+        }
+
+        return $ret;
+
+    }
+    
+    return $attr;
+    
+}
+
+function corto_the_events_header() {
+    
+    $html  ='<div id="corto-events-clippings">';
+    $html .= corto_get_the_clipping_slide();
+    $html .= corto_get_the_events_title();    
+    $html .='</div>';
+    
+    echo $html;
+ 
+}
+
+function corto_get_the_clipping_slide() {
+    $q = array(
+        'post_type'=>'press',        
+        'showposts'=>'20'
+    );
+    
+    $press = new WP_Query($q);
+
+    $html = "";
+    if ($press) {
+        
+        $html .= '<div class="corto-home-clippings-container">';
+        $html .= '<div class="corto-home-clippings">';
+        
+        foreach ($press->posts as $p) {
+
+            $html .= '<div class="cuttings-item">';
+            $html .= '<a href="'. get_site_url() . '/press-cuttings/" class="cuttings-item-link" id="item2"><img src="' . get_field('thumbnail', $p->ID) . '" title="' . $p->post_title . '"></a>';
+            $html .= '</div>';
+        }
+        $html .= "</div>";
+        $html .= '<a href="'. get_site_url() . '/press-cuttings/" class="corto-more-cuttings">' . Mage::Helper('autelcorto')->__('Show more Cuttings') . '</a>';
+        $html .= '<div class="clarer"></div>';
+        $html .= "</div>";
+    }
+    
+    return $html;
+}
+
+function corto_get_the_events_title() {
+    $querydate = date('Y/m/d');
+    $q = array(
+        'post_type'=>'event',
+        'paged'=>1,
+        'showposts'=>'3',
+        'orderby'=>'meta_value',
+        'meta_key'=>'event_date',
+        'meta_value'=>$querydate,
+        'meta_compare'=>'>=',
+        'order'=>'ASC'
+    );
+
+    $events = new WP_Query( $q );
+      
+    $html = "";
+    if ( $events ) {
+        the_post();
+        $html  .='<div class="event-title">' . $events->post->post_title . '</div>';
+    } else {
+        $html  .= '<span>We are currently preparing our upcoming  events, to find out more and to be notified in advance  please <a class="class-popuplogin" href="#">subscribe</a> to our newsletter.</span>';
+    }
+    return $html;
+}
 
 /**
  * This theme was built with PHP, Semantic HTML, CSS, love, and a Corto.

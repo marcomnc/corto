@@ -571,6 +571,22 @@ jQuery(document).ready(function(){
         });
         
         if ($j('#js-news').length > 0) {$j('#js-news').liScroll()};
+        
+        if ($j('.mps-aync-img-loading').length > 0) {
+            $j('.mps-aync-img-loading').each(function() {
+                var elem = $j(this);
+                var image = new Image();
+                
+                image.src = elem.attr('mps-aync-img-loading');
+                image.onload = function() {
+                    elem.attr({'src': image.src});                    
+                };
+                image.onerror = function() {
+                    console.log("ERRORE");
+                    elem.attr({'src': image.src});                    
+                }; 
+            });
+        }
 }); 
 
 (function($) {
