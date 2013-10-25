@@ -93,7 +93,7 @@
 <div class="left-menu large">
     <div class="title color-search">
         <h1>
-            <a mps-type="async-link" href="<?php echo $this->getUrl("autelcorto/search/color/");?>" title="<?php echo $this->__("Search by color");?>" class="search-by-color rainbow-link">
+            <a mps-type="async-link" href="<?php echo $this->getUrl("autelcorto/search/color/");?>" title="<?php echo $this->__("Search by color");?>" class="search-by-color" id="search-by-color">
                 <?php echo $this->__('Search your Color');?>&nbsp;&nbsp;
             </a>            
         </h1>
@@ -131,6 +131,8 @@
 	
     $j("document").ready(function() {
         $j("#menu").crmMenu("<?php echo $myCategory?>",{speed:"slow"});
+       
+        jQuery('#search-by-color').RainbowLink("", true );
     });
 
 </script>
