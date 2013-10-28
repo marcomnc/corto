@@ -1013,9 +1013,9 @@ tr.summary-details-excluded { font-style:italic; }
 .product-view-bottom .product-img-box,
 .product-view .product-img-box {  width:450px; margin: 25px auto 0 auto; }
 .product-view .product-img-box { height: 480px; }
-.product-view .product-img-box .product-image-zoom { position:relative; width:450px; height:450px; overflow:hidden; z-index:9; background-color: #FFF;}
+.product-view .product-img-box .product-image-zoom { position:relative; width:450px; height:450px; overflow:hidden; z-index:9; /*background-color: #FFF;*/}
 .product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0;  }
-.product-view .product-img-box .linkSocial { width: 450px; height: 30px; background-color: #FFF;}
+.product-view .product-img-box .linkSocial { width: 450px; height: 30px; /*background-color: #FFF;*/}
 .product-view .product-img-box .linkSocial ol { float: right }
 .product-view .product-img-box .linkSocial li>div {height: 25px; width: 41px; cursor: pointer;}
 .product-view .product-img-box .linkSocial .facebook { background: transparent url('../images/social/side_ico_facebook.png'); }
@@ -1033,7 +1033,7 @@ tr.summary-details-excluded { font-style:italic; }
 .product-shop .p-more-view { position: relative; margin-top: 20px }
 .product-shop .more-views {position: absolute; top: 0px; right:  0px; width: 220px}
 .product-shop .more-views.no-style.max-six {bottom: -111px; }
-.product-shop .more-views>div {float: right; border: 1px solid #000; width: 105px; height: 105px; margin-top: 5px;}
+.product-shop .more-views>div {float: right; border: 1px solid #ccc; width: 105px; height: 105px; margin-top: 5px;}
 .product-shop .more-views h2 { font-size:13px; font-weight:bold; color:#666; padding:10px 0 16px 0; }
 .product-shop .more-views ul { margin:8px 0 0 -10px }
 .product-shop .more-views li { float:left; border:0; margin:0 0 8px 4px ; }
@@ -1071,7 +1071,7 @@ tr.summary-details-excluded { font-style:italic; }
 .product-view .product-shop a.nobr { clear:both; display:block; }
 .product-view .product-shop .description {padding: 10px 0px;}
 .product-view-bottom { margin-top: 20px; position: relative; min-height: 107px; }
-.product-view-bottom .box-collateral { background-color: #fff; border: 1px solid #000 ; margin:-1px}
+.product-view-bottom .box-collateral { background-color: #fff; border: 1px solid #ccc; margin:-1px}
 .product-view-bottom .products-grid { margin:0; position:relative; }
 .product-view-bottom .products-grid li.item { float:left; padding:0; background: #FFFFFF; margin: 0px 10px 10px 0;}
 .product-view-bottom .products-grid .product-image { display:block; width:80px; height:80px; margin: 5px 10px 5px 5px;}
@@ -1769,7 +1769,7 @@ button.btn-checkout span span,
 .product-essential .p-box.p-color p a { margin-right: 10px }
 .product-view-bottom .p-black,
 .product-essential .p-black { background-color: black; color: white; }
-.product-essential .p-white { background-color: white;  color: black; border: 1px solid #000}
+.product-essential .p-white { background-color: white;  color: black; border: 1px solid #ccc}
 .product-essential .p-turquoise { background-color: #498CA7; color: white; } 
 .product-essential .p-trasparency { background-image: url('../images/menu-bk-70.png'); color: white; font-weight: normal;}
 .product-essential .p-box .contact-us-img {float: right; margin-top: -3px}
@@ -1779,9 +1779,9 @@ button.btn-checkout span span,
 .product-essential .p-box .social-view a { color: #949597; font-size: 13px; font-weight: normal }
 .product-essential .p-box .social-view a div {height: 30px !important; line-height: 10px;}
 .product-essential .p-box .social-view img {height: 53px; width: 41px; }
-.product-essential .p-cart { padding: 0px; border: 1px solid black }
+.product-essential .p-cart { padding: 0px; border: 1px solid #ccc; }
 .product-essential .p-cart a {color: #000;}
-.product-essential .p-cart .add-to {float:left; margin: 18px 0 0 10px; text-transform: none; font-family: Georgia, serif; font-style: italic; font-size: 17px;line-height: 22px}
+.product-essential .p-cart .add-to {float:left; margin: 18px 0 0 10px; text-transform: none; font-family: Georgia, serif; font-style: italic; font-size: 17px;line-height: 22px; font-weight: normal;}
 .product-essential .p-cart .add-to .add-to-shopping {font-style: normal ; font-weight: bold;}
 .product-essential .p-price {position: relative;}
 
@@ -1999,8 +1999,8 @@ button.btn-checkout span span,
 .block-cart.review-order #exchange-rate {margin-top: 0px; float: right; padding: 0px;}
 .block-cart.review-order #exchange-rate>DIV { right: 0px; font-size: 13px; font-style: italic; font-weight: bold; left: auto; bottom:0px}
 
-#exchange-rate {height: 40px;padding-top: 10px;font-weight: normal;}
-#exchange-rate>span:first-child {font-style: italic}
+#exchange-rate {height: 40px;padding-top: 10px;font-weight: normal; text-align: right;}
+#exchange-rate>span:first-child {font-style: italic;}
 #exchange-rate>DIV{position: absolute; bottom:5px; left: 15px;}
 
 .customer-order-totals #exchange-rate>DIV{bottom:0px; right: 0px; left: auto;font-size: 13px; font-style: italic; font-weight: bold;}
