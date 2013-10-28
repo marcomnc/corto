@@ -23,6 +23,8 @@
 
 class Autel_Corto_Block_Cms_Block extends Mage_Cms_Block_Block {
 
+    const ABOUT_MENU_BLOCK = "about-us-menu";
+    
     /**
      * Riscritta cosi leggo il blocco una volta sola....
      * ATTENZIONE!!! Non funzina se il blocco viene inserito come widget standard!!!
@@ -43,6 +45,9 @@ class Autel_Corto_Block_Cms_Block extends Mage_Cms_Block_Block {
                 $html = $processor->filter($block->getContent());
                 $this->addModelTags($block);
 
+                if ($blockId == self::ABOUT_MENU_BLOCK) {
+                    return $this->_trySetMenu($html);
+                }                
                 
                 $customClass = $this->getCustomClass();
                 $customStyle = $this->getCustomStyle();
@@ -56,6 +61,16 @@ class Autel_Corto_Block_Cms_Block extends Mage_Cms_Block_Block {
                 
             }            
         }        
+        return $html;
+    }
+    
+    private function _trySetMenu($html) {
+        $pageId = Mage::getSingleton('cms/page')->getIdentifier();
+        
+        //$reg = "/<li id=\"$pageId\">/';
+        
+        $html = preg_replace("/<li id=\"$pageId\">/", "<li id=\"$pageId\" class=\"selected\">", $html);
+        
         return $html;
     }
 }

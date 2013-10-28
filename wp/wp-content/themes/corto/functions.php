@@ -408,7 +408,8 @@ function corto_get_the_events_title() {
     $html = "";
     if ( $events ) {
         the_post();
-        $html  .='<div class="event-title">' . $events->post->post_title . '</div>';
+        $html  .='<div class="event-title"><a href="' . get_permalink($events->post->ID) . '">';
+        $html  .= $events->post->post_title . '</a></div>';
     } else {
         $html  .= '<span>We are currently preparing our upcoming  events, to find out more and to be notified in advance  please <a class="class-popuplogin" href="#">subscribe</a> to our newsletter.</span>';
     }

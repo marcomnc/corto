@@ -1744,6 +1744,8 @@ button.btn-checkout span span,
 #menu .module .title a:hover {text-decoration: none; color: white} 
 #menu ul {list-style: none !important;padding: 0px 15px; background-image: url('../images/menu-bk-31.png');}
 #menu ul li { padding: 5px 0 }
+#menu ul li.selected a,
+#menu ul li.current-cat a {color: black}
 
 .left-menu {padding: 12px 10px 10px; background-color: #000; margin-bottom: 2px}
 .left-menu.large {padding: 17px 10px 16px}

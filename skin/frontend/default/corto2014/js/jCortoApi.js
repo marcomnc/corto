@@ -38,7 +38,7 @@ var isiPad = navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/);
 var imageHome = new Image();
 var imageHomeLoaded = false;
 
-
+var menuTimer = null;
 
 (function($) {
     $.fn.setBackGroundPage = function() {
@@ -739,7 +739,7 @@ jQuery(document).ready(function(){
 })(jQuery);
 
 (function ($, window, undefined) {  
-    jQuery.fn.RainbowLink = function(cssElem, executeRainbow)
+    jQuery.fn.RainbowLink = function(cssElem, executeRainbow, isMenu)
     {      
     
 	    var RLrate = 15;  // Increase amount(The degree of the transmutation)
@@ -766,8 +766,12 @@ jQuery(document).ready(function(){
                     {
                                     RLact = 1;
                                     elem = $(this);
-                                    RLclrOrg = elem.css(cssElem);
+                                    RLclrOrg = elem.css(cssElem);                                    
                                     RLTimerID = setInterval(function(){ChangeColor();},100);
+                                    if (elem.hasClass('header-menu')) {
+                                        $('#menu-header-list li.is-menu-select a').css(cssElem,RLclrOrg);
+                                        clearInterval(menuTimer); 
+                                    }
                     }
                 });    
 
@@ -776,6 +780,9 @@ jQuery(document).ready(function(){
                     $(this).css(cssElem,RLclrOrg);
                     clearInterval(RLTimerID);
                     RLact = 0;
+                    if (elem.hasClass('header-menu')) {
+                        menuTimer = $('#menu-header-list li.is-menu-select a').RainbowLink("", true, true );
+                    }
             });
         }
         

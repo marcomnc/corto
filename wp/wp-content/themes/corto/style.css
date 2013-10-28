@@ -535,7 +535,12 @@ footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align:
     position: absolute; color: #FFF; font-size: 13px; font-weight: bold; padding: 10px; bottom: 0px; right: 0px}
 .corto-home-clippings-container .corto-more-cuttings:hover {background: #000;}
 #corto-events-clippings .event-title {clear: both}
+#corto-events-clippings .event-title a,
+#corto-events-clippings .event-title a:hover,
+#corto-events-clippings .event-title a:visited { color: #FFF }
 
+#archives-2 h1 {cursor: pointer}
+#archives-2 ul {display:none}
 /* ASSETS */
 
 /* SOCIAL LINKS */

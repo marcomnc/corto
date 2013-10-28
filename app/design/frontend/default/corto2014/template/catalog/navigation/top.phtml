@@ -43,6 +43,7 @@
 //                        ->addIsActiveFilter()
 //                        ->addLevelFilter(Mage::app()->getStore()->getRootCategoryId());
 
+    $currentCategory = Mage::registry('current_category');
     $storeCategory = Mage::getModel("catalog/category_api")->tree(null, Mage::app()->getStore()->getId());    
     if (isset($storeCategory["children"]) &&  sizeof($storeCategory["children"]) > 0):
 ?>
@@ -67,7 +68,7 @@
                      $category = Mage::getModel("catalog/category")->Load($childCategory["category_id"]);
                      if ($category->getIsActive() && $category->getIncludeInMenu()):
             ?>
-                    <li rel ="<?php echo $category->getId();?>">
+                    <li rel ="<?php echo $category->getId();?>" class="<?php if ($currentCategory->getId() == $category->getId()): ?>selected<?php endif; ?>">
                         <a mps-type="async-link" href="<?php echo $category->getUrl();?>" title="<?php echo htmlspecialchars($category->getDescription());?>">
                             <?php echo htmlspecialchars($category->getName());?>
                         </a> 
@@ -76,7 +77,7 @@
                     endif;
                   endforeach;
             ?>
-                    <li rel ="<?php echo $parentCategory["category_id"]?>">
+                    <li rel ="<?php echo $parentCategory["category_id"]?>" class="<?php if ($currentCategory->getId() == $parentCategory["category_id"]): ?>selected<?php endif; ?>">
                         <a mps-type="async-link" href="<?php echo $allUrl;?>" title="<?php echo $this->__("All");?>">
                             <?php echo $this->__("All");?>
                         </a> 

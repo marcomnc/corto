@@ -41,3 +41,19 @@
     <?php dynamic_sidebar( 'sidebar-2' ); ?>
 </div><!-- #tertiary .widget-area -->
 <?php endif; ?>
+
+<script>
+    jQuery('#archives-2 h1').click(function() {
+       elem = jQuery('#archives-2');
+       if (elem.hasClass('open')) {
+           elem.find('ul').slideUp('200', function() {
+                   elem.removeClass('open');
+           });
+       } else {
+           elem.find('ul').slideDown('200', function () {
+                   elem.addClass('open');
+           });
+       }
+    });
+</script>
+
