@@ -587,6 +587,31 @@ jQuery(document).ready(function(){
                 }; 
             });
         }
+        
+
+        if (baseUrl != "")
+            jQuery(("a[href^='mailto:']")).each( function() {
+                var info = {};
+                if ($j(this).attr('mailinfo'))
+                        eval("info = {" + $j(this).attr('mailinfo') + "};");
+                var url = baseUrl + "autelcorto/general/mailto/address/" + encodeURIComponent($j(this).attr('href')) + "/";
+                if (info.object) {
+                    url += "object/" + encodeURIComponent(info.object) + "/";
+                }
+                $j(this).fancybox({
+                        autoScale   : true,
+                        padding     : "0",
+                        margin      : "0",
+                        href        : url,
+                        showCloseButton : false ,
+                        onComplete: function () {
+                            if (info.title) {
+                                $j.fn.fancyTitle(info.title);
+                            }
+                        }
+                    });
+             }); 
+
 }); 
 
 (function($) {

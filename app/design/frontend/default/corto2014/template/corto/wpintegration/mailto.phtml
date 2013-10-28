@@ -1,0 +1,76 @@
+<div class="contactus">
+<form action="<?php echo $this->getBaseUrl(); ?>autelcorto/general/mailtopost/" id="contactForm" method="post">
+    <div class="fieldset">        
+        <ul class="form-list">
+            <li>
+                    <label for="name" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Name') ?></label>
+                    <div class="input-box">
+                        <input name="name" id="name" title="<?php echo Mage::helper('contacts')->__('Name') ?>" value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserName()) ?>" class="input-text required-entry" type="text" />
+                    </div>
+
+            </li>
+            <li>
+	            <label for="email" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Email') ?></label>
+	            <div class="input-box">
+	                <input name="email" id="email" title="<?php echo Mage::helper('contacts')->__('Email') ?>" value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserEmail()) ?>" class="input-text required-entry validate-email" type="text" />
+	            </div>
+            </li>
+            <li>
+                <label for="telephone"><?php echo Mage::helper('contacts')->__('Telephone') ?></label>
+                <div class="input-box">
+                    <input name="telephone" id="telephone" title="<?php echo Mage::helper('contacts')->__('Telephone') ?>" value="" class="input-text" type="text" />
+                </div>
+            </li>
+            <li>
+                <label for="comment" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Comment') ?></label>
+                <div class="input-box">
+                    <textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>" class="required-entry input-text" cols="3" rows="3"></textarea>
+                </div>
+            </li>
+            <li>
+            	<div class="input-box">
+            		<div style="width: 90%">
+	            		<div style="float:right">
+	            			<a href="#" onclick="$j.fancybox.close(); return false;"><?php echo $this->__('Cancel');?></a> <?php echo $this->__('or');?> 
+		            		<button type="button" style="display:inline" title="<?php echo Mage::helper('contacts')->__('Send') ?>" 
+						class="button"
+						onClick="contactForm.submit(this);"><span><span><?php echo Mage::helper('contacts')->__('Send') ?></span></span></button>
+            			</div>
+            		</div>
+            	</div>
+            </li>
+        </ul>
+    </div>
+
+</form>
+</div>
+
+<script type="text/javascript">
+	var contactForm = new VarienForm('contactForm', true);
+
+	contactForm.submit = function(url) {
+		if (this.validator.validate()) {
+			new Ajax.Request(this.form.action, {
+				method: 'POST', 
+  				parameters: {
+                                        to : '<?php echo $this->getMailTo();?>',
+                                        object: '<?php echo $this->getObject();?>',
+					name: $('name').getValue(), 
+					email: $('email').getValue(),
+					telephone: $('telephone').getValue(),
+					comment: $F('comment') 
+				},
+				onSuccess: function(response) {
+				  // Handle the response content...
+			  	},
+				onComplete: function() {
+					$j.fancybox.close();
+					alert("<?php echo $this->__("Your request has been sent");?>");
+				}
+			});
+		}
+		return false;
+	}.bind(contactForm);
+
+</script>
+

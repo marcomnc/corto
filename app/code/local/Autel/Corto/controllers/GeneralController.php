@@ -152,6 +152,58 @@ class Autel_Corto_GeneralController extends Mage_Core_Controller_Front_Action
      }
         
      
+    public function mailtoAction() {
+         $block = $this->getLayout()->createBlock("autelcorto/wpintegration")->setTemplate('corto/wpintegration/mailto.phtml');
+
+         $mailTo = urldecode($this->getRequest()->getParam('address'));
+         $mailTo = preg_split("/:/", $mailTo);
+
+         $object = urldecode ($this->getRequest()->getParam('object').'');
+
+         if (!isset($mailTo[1])) {
+                header($_SERVER['SERVER_PROTOCOL'] . ' 500 Invalid Mail Address', true, 500);
+                die();
+         }
+
+         $this->getResponse()->setBody($block->setMailTo($mailTo[1])->setObject($object)->toHtmlPopUp());
+     }
+     
+     public function mailtopostAction() {
+         
+         $ret = array("status" => "OK", "message" => $this->__("Your request is submitted!"));
+         
+         $params = $this->getRequest()->getPost();
+
+         if (!isset($params['email']) || $params['email'] == "" ) {
+             $ret = array("status" => "KO", "message" => $this->__("Please specify your email address!"));
+         } else {
+             $text = "";
+             if (isset($params['name'])) {
+                 $text .= "Name:  " . $params['name'] ."\n";
+             }
+             
+             $text .= "e-mail:  " . $params['email'] ."\n";
+             
+             if (isset($params['telephone'])) {
+                 $text .= "Telephone:  " . $params['telephone'] ."\n";
+             }
+             
+             if (isset($params['comment'])) {
+                 $text .= "Message:  " . $params['comment'] ."\n";
+             }             
+
+            $mailto = $params['to'];             
+	    $object = 'Richiesta Informazione';
+            if (isset($params['object'])){
+                $object = $params['object'];
+            }
+            if (!mail($mailto,$object,$text,'From: no-reply@corto.com')) {
+                $ret = array("status" => "KO", "message" => $this->__("There was an error in your request!"));
+            }
+         }
+                          
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($ret));
+     }
 }
 
 ?>
