@@ -19,6 +19,7 @@
                     </autel_corto_observer>
                 </observers>
             </checkout_cart_add_product_complete>    
+<!-- Gestito tramite estensione           
             <controller_front_init_routers>
                 <observers>
                     <autel_corto_observer>
@@ -27,7 +28,7 @@
                         <method>pre_dispatch</method>
                     </autel_corto_observer>
                 </observers>
-            </controller_front_init_routers>
+            </controller_front_init_routers>-->
 <!-- Evento prima della creazione dell'ordine 
             <checkout_type_onepage_save_order>
                 <observers>
