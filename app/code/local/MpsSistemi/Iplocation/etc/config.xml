@@ -39,15 +39,16 @@
             <mpslocation_mysql4>
                 <class>MpsSistemi_Iplocation_Model_Mysql4</class>
                 <entities>
+<!-- Non uso le tabelle std, ma quelle di corto -->                    
                     <zone>
-                        <table>mps_location_zone</table>
+                        <table>autel_corto_zone</table>
                     </zone>
                     <zonelabel>
-                        <table>mps_location_zone_label</table>
+                        <table>autel_corto_zone_label</table>
                     </zonelabel>   
                     <zonegroup>
-                        <table>mps_location_zone_group</table>
-                    </zonegroup>                               
+                        <table>autel_corto_zone_group</table>
+                    </zonegroup>           
                 </entities>
             </mpslocation_mysql4>
         </models>

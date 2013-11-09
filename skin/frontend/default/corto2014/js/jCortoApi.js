@@ -180,23 +180,6 @@ var menuTimer = null;
     }
 }) (jQuery, this);
 
-(function($,window,undefined){
-    $.fn.selectCountry = function (params) {
-        var settings = $.extend({}, {'url': '', 'countryCode': '', "home": "0", "urlref" : '', 'enableEsc': false }, params);
-        if (settings.url != "") {
-            var url = settings.url;
-            if (settings.countryCode != "") {
-                url+='countryCode/'+settings.countryCode+'/';
-            }
-            url+='home/'+settings.home+'/urlref/'+settings.urlref+'/'
-            $j.fancybox({autoScale   : true,
-                         showCloseButton : false,
-                         href        : url,
-                         modal       : !settings.enableEsc,
-                         titleShow   : false});
-        }
-    }
-})(jQuery, this);
 
 (function($,window,undefined){
     jQuery.fn.crmMenu = function(current,params) {

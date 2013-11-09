@@ -1,9 +1,6 @@
-WARNING  DEPRECATE
-
 <?php 
-return;
 $currentZoneId = "";
-if ($this->getCurrent() instanceof Autel_Corto_Model_Zone):
+if ($this->getCurrent() instanceof MpsSistemi_Iplocation_Model_Zone):
     $currentZoneId = $this->getCurrent()->getId();
 endif;
 $isHome = $this->getRequest()->getParam('home');
@@ -29,7 +26,7 @@ endif;
         $oldGruop = "";
         $open = false;
         $countryList = $this->getCountryList();        
-        foreach ($countryList as $country_id => $country):
+        foreach (Mage::Helper('mpslocation')->getAllZoneSelect() as $country_id => $country):
             $country_name = $country['description'];
             $group_name =  $country['group'];
             if ($i == 0 || $group_name != $oldGruop):    
@@ -47,7 +44,7 @@ endif;
             <?php $open = true; if($first): $first = false; endif;?>
 <?php        endif; ?>
             <li class="<?php echo ($country_id == $currentZoneId)?'current':'';?> <?php echo $group_name;?>" rel="<?php echo $i;?>">
-                <a href="<?php echo $this->getUrl('autelcorto/location/set/', array('zone'=>$country_id, "home" => $isHome, 'countrycode' => $this->getCountryCode(),'urlref' => $this->getReferrer().''));?>"class="country-row">
+                <a href="<?php echo $this->getUrl('mpslocation/location/set/', array('zone'=>$country_id, "home" => $isHome, 'countrycode' => $this->getCountryCode(),'urlref' => $this->getReferrer().''));?>"class="country-row">
                     <?php echo $country_name ?>
                 </a>
             </li>
@@ -66,7 +63,7 @@ endif;
         <p><?php echo $this->__('You are surfing from:');?>&nbsp;<strong><?php echo Mage::getModel('directory/country')->Load($this->getCountryCode())->getName();?></strong></p>
         <p><?php echo $this->__('Do you want the goods be delivered to ');?>&nbsp;<strong><?php echo Mage::getModel('directory/country')->Load($this->getCountryCode())->getName();?></strong></p>
         <a class="continue-with-country active-link" 
-           href="<?php echo $this->getUrl('autelcorto/location/set/', array('zone'=>$currentZoneId, "home" => $isHome, 'countrycode' => $this->getCountryCode(), 'urlref' => $this->getReferrer().''));?>"
+           href="<?php echo $this->getUrl('mpslocation/location/set/', array('zone'=>$currentZoneId, "home" => $isHome, 'countrycode' => $this->getCountryCode(), 'urlref' => $this->getReferrer().''));?>"
            title="<?php echo $this->__('Continue');?>">
            <?php echo $this->__('Continue with this country...')?>
         </a>

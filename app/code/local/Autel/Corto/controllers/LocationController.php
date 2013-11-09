@@ -4,6 +4,7 @@
  * Description of LocationController
  *
  * @author marcoma
+ * DEPRECATO!!!!!
  */
 class Autel_Corto_LocationController extends Mage_Core_Controller_Front_Action
 {

@@ -79,19 +79,3 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/custom/corto.css');?>" media="all" />
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('js/custom/corto.js');?>" media="all" />
-
-<?php 
-$_myStore = Mage::Registry(Autel_Corto_Model_Core_Dispatch::REGISTER_NAME);
-
-if ($_myStore->getAction() != Autel_Corto_Model_Core_Dispatch::ACTION_NO_ACTIONO):
-    //uso la stessa funzione al login. se Passo di qa non passo di la...        
-?>    
-<script>
-    $j(document).ready(function() {
-        $j.fn.selectCountry({'url': '<?php echo $this->getUrl("autelcorto/location/select", array("action" => $_myStore->getAction())); ?>',
-                             'countryCode': '',
-                             'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
-                             'urlref': "<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>"});
-    });      
-</script>
-<?php endif;   ?>

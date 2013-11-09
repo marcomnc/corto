@@ -33,7 +33,7 @@
 ?>
 
 <?php
-$cookie = Autel_Corto_Model_Core_Dispatch::RegistryCountry();
+$cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
 $enableStore = "";
 foreach ($cookie->getEnabledStore() as $enStoreCode) {
     $enableStore .= $enStoreCode . ",";
@@ -45,7 +45,7 @@ if ($enableStore != "") {
 <ul class="links store-language">
     <li class="first">
         <a href="#" id="shipping-selector" title="<?php echo $this->__('Select your Shipping Country');?>"
-           onclick="$j.fn.selectCountry({'url': '<?php echo $this->getUrl("autelcorto/location/select"); ?>',
+           onclick="$j.fn.selectCountry({'url': '<?php echo $this->getUrl("mpslocation/location/select"); ?>',
                                                  'countryCode': '<?php echo $cookie->getdata('country_code')?>',
                                                  'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
                                                  'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
