@@ -427,7 +427,9 @@ footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align:
 
 .single .breadcrumbs { float:left; width: auto; }
 .single .entry-header { padding: 0 15px; }
+.breadcrumbs {background-color: #000}
 .breadcrumbs .last { font-weight:bold; }
+.breadcrumbs li a {margin-right: 5px}
 
 /* MEDIA */
 
@@ -522,7 +524,7 @@ footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align:
 }
 
 #corto-events-clippings {overflow: hidden; }
-.corto-home-clippings-container {overflow: hidden; position: relative }
+.corto-home-clippings-container {overflow: hidden; position: relative; margin: 0 0 25px 0 }
 .blog article { width: 725px; margin: auto; }
 .corto-home-clippings { width: 2100px; margin: auto }
 .corto-home-clippings .cuttings-item {padding: 0px;}
@@ -534,13 +536,26 @@ footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align:
     -o-transition:          all 200ms ease-in-out;
     position: absolute; color: #FFF; font-size: 13px; font-weight: bold; padding: 10px; bottom: 0px; right: 0px}
 .corto-home-clippings-container .corto-more-cuttings:hover {background: #000;}
+
+.corto-home-clippings-title,
+#corto-events-clippings .event-title { background: black; font-weight: bold; text-transform: uppercase; color: white; padding: 5px; margin: 0 0 5px 0; text-align: center; }
+.corto-home-clippings-title,
 #corto-events-clippings .event-title {clear: both}
+.corto-home-clippings-title a,
 #corto-events-clippings .event-title a,
+.corto-home-clippings-title a:hover,
 #corto-events-clippings .event-title a:hover,
+.corto-home-clippings-title a:visited,
 #corto-events-clippings .event-title a:visited { color: #FFF }
+
+#corto-events-clippings .event-banner {margin: 0 0 15px 0}
+#corto-events-clippings .event-banner img {width: 100% }
 
 #archives-2 h1 {cursor: pointer}
 #archives-2 ul {display:none}
+
+
+
 /* ASSETS */
 
 /* SOCIAL LINKS */

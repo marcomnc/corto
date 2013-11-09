@@ -353,8 +353,8 @@ function corto_get_attachment_image_attributes( $attr, $attachment ){
 function corto_the_events_header() {
     
     $html  ='<div id="corto-events-clippings">';
-    $html .= corto_get_the_clipping_slide();
     $html .= corto_get_the_events_title();    
+    $html .= corto_get_the_clipping_slide();
     $html .='</div>';
     
     echo $html;
@@ -371,7 +371,7 @@ function corto_get_the_clipping_slide() {
 
     $html = "";
     if ($press) {
-        
+        $html  .='<div class="corto-home-clippings-title"><a href="'. get_site_url() . '/press-cuttings/">' . Mage::Helper('autelcorto')->__('Press Clippings') . '</a></div>';
         $html .= '<div class="corto-home-clippings-container">';
         $html .= '<div class="corto-home-clippings">';
         
@@ -408,10 +408,13 @@ function corto_get_the_events_title() {
     $html = "";
     if ( $events ) {
         the_post();
-        $html  .='<div class="event-title"><a href="' . get_permalink($events->post->ID) . '">';
-        $html  .= $events->post->post_title . '</a></div>';
+        $html  .='<div class="event-title"><a href="'. get_site_url() . '/events/">' . Mage::Helper('autelcorto')->__('Private previous') . '</a></div>';
+        $html  .= '<div class="event-banner">';
+        $html  .= '<a href="'. get_site_url() . '/events/">';
+        $html  .= '<img src="' . get_field('image_'.$events->post_count .'_column', $events->post->ID ) . '"/></a></div>';
     } else {
-        $html  .= '<span>We are currently preparing our upcoming  events, to find out more and to be notified in advance  please <a class="class-popuplogin" href="#">subscribe</a> to our newsletter.</span>';
+        $html  .= '<span>'. Mage::Helper('autelcorto')->__('We are currently preparing our upcoming  events, to find out more and to be notified in advance  please <a class="class-popuplogin" href="#">subscribe</a> to our newsletter.') .'</span>';
+        $html  .= '<div class="event-banner"></div>';
     }
     return $html;
 }

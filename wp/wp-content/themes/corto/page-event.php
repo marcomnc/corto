@@ -12,15 +12,15 @@ get_header(); ?>
 <div id="primary">
   <div id="content" role="main">
     
-    <div id="secondary" class="widget-area col-left sidebar" role="complementary">
-      <div id="menu">
-        <div class="container">
-            <aside class="widget module">
-                <h1 class="widget-title"><a href="#">Events</a></h1>
-            </aside>
-        </div><!-- .container -->
-      </div><!-- #menu -->
-    </div><!-- #secondary .widget-area -->
+        <header class="page-header">
+            <div class="breadcrumbs">
+                <ul>
+                    <li><a href="<?php echo get_site_url(); ?>"><?php echo Mage::Helper('autelcorto')->__('News & Events');?></a><span>|</span></li>
+                    <li class="last">Events</li>
+                </ul>                
+            </div>
+        </header><!-- .container -->
+      
     <div class="clear"></div>
 
 <?php

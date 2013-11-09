@@ -30,17 +30,16 @@ get_header(); ?>
     </div><!-- #content -->
 </div><!-- #primary -->
 
-<div id="secondary" class="widget-area col-left sidebar" role="complementary">
-          
-  <div id="menu">
-    <div class="container">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <ul>
+                <li><a href="<?php echo get_site_url(); ?>"><?php echo Mage::Helper('autelcorto')->__('News & Events');?></a><span>|</span></li>
+                <li class="last">Press cuttings</li>
+            </ul>                
+        </div>
+    </header><!-- .container -->
 
-        <aside class="widget module">
-            <h1 class="widget-title"><a href="#">Press cuttings</a></h1>
-        </aside>
-       
-    </div><!-- .container -->
-  </div><!-- #menu -->
+  
 </div><!-- #secondary .widget-area -->
 
  <?php corto_content_nav( 'nav-above' ); ?>
@@ -226,8 +225,11 @@ get_header(); ?>
       
     </div>
     
-    <?php endif; ?>
+    <?php endif; ?>    
   </div><!-- .cuttings-inner -->
+  <div class ="page nav-above-bottom">
+    <?php corto_content_nav( 'nav-above' ); ?>
+  </div>
 
 <?php /* Chiusura alternativa del layout fuori dal footer */ ?>
 <?php /* FINE Chiusura alternativa del layout fuori dal footer */ ?></div><!-- .cuttings-wrapper -->
