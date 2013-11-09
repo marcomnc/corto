@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *
+ * @category    
+ * @package     
+ * @copyright   Copyright (c) 2013 Mps Sistemi (http://www.mps-sistemi.it)
+ * @author      MPS Sistemi S.a.s - Marco Mancinelli <marco.mancinelli@mps-sistemi.it>
+ *
+ */
+-->
+
+<config>       
+    <sections>
+        <mpslocation_options translate="label" module="mpslocation">
+            <label>Geolocalizzazione</label>
+            <tab>mpssettings</tab>
+            <sort_order>500</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <store_zone>
+                    <label>Parametri gestione localizzazione zone</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>          
+                    <fields>
+                        <infodb_key>
+                            <label>Chiave per servizio di geolocalizzazione</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Chiave API per la geolocalizzazione tramite il servizio <strong>Info DB</strong>.<br>Ulteriori info in <a href="http://www.ipinfodb.com/index.php">www.ipinfodb.com</a>]]></comment>                        
+                        </infodb_key>          
+                        <allow_billing_country>
+                            <label>Limita i paesi per l'indirizzo di fatturazione</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Se attivo non permette di selezionare un paese di fatturazione che non rientra nella zona corrente.</comment>
+                        </allow_billing_country>
+                    </fields>
+                </store_zone>
+                <location_template>
+                    <label>Parametri per la gestione del template</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>          
+                    <show_in_website>1</show_in_website>
+                    <fields>
+                        <show_in_case_warning>
+                            <label>Tipo di maessaggio da visualizzare in caso di warning</label>
+                                <frontend_type>select</frontend_type>
+                                <source_model>mpslocation/adminhtml_system_config_source_viewtype</source_model>
+                                <sort_order>10</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>0</show_in_store>
+                                <comment>La situazione di warning si genera quando c'è una discrepanza tra il cookie impostato (o il paese geolocalizzato) e l'indirizzo selezionato</comment>                        
+                        </show_in_case_warning>
+                        <show_in_case_error>
+                            <label>Tipo di maessaggio da visualizzare in caso di errore</label>
+                                <frontend_type>select</frontend_type>
+                                <source_model>mpslocation/adminhtml_system_config_source_viewtype</source_model>
+                                <sort_order>20</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>0</show_in_store>
+                                <comment>La situazione di errore si genera quando non ci sono oockie impostate e la geolocalizzazione fallisce</comment>                        
+                        </show_in_case_error>
+                        <warning_template>
+                            <label>Template per la visaualizzazione del warning</label>
+                                <frontend_type>text</frontend_type>                               
+                                <sort_order>15</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>0</show_in_store>
+                                <comment>E' il tempalte da visualizzare come warning se non specificato viene preso quello di default</comment>
+                        </warning_template>
+                        <error_template>
+                            <label>Template per la visaualizzazione dell'errore</label>
+                                <frontend_type>text</frontend_type>                               
+                                <sort_order>25</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>0</show_in_store>
+                                <comment>E' il tempalte da visualizzare in caso di errore. Normalmnente dovrebbe dare la possibilità di scegliere i paesi se non specificato viene preso quello di default</comment>
+                        </error_template>
+                    </fields>                
+                </location_template>
+            </groups>            
+        </mpslocation_options>
+    </sections>
+</config>

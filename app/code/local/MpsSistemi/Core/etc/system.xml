@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *
+ * @category    
+ * @package     
+ * @copyright   Copyright (c) 2013 Mps Sistemi (http://www.mps-sistemi.it)
+ * @author      MPS Sistemi S.a.s - Marco Mancinelli <marco.mancinelli@mps-sistemi.it>
+ *
+ */
+-->
+
+<config>
+    <tabs>
+        <mpssettings translate="label" module="mpslocation">
+            <label>Mps Sistemi Settings</label>
+            <sort_order>999</sort_order>
+        </mpssettings>
+    </tabs> 
+    <sections>
+        <mpscore_options translate="label" module="mpscore">
+            <label>Configurazioni di base</label>
+            <tab>mpssettings</tab>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <groups>
+                <skin_config>
+                    <label>Configurazioni di base da applicare allo skin</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>          
+                    <fields>
+                        <include_jquery>
+                            <label>Includere JQUERY</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment>Indica se jquery deve essere incluso. Se è già incluso nel thema di base o in altre estensioni mettere no.</comment>
+                        </include_jquery>
+                        <include_jquery_fancybox>
+                            <label>Includere Fancy Box 1.3.4</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment>Indica se Fancy Box deve essere incluso. Se è già incluso nel thema di base o in altre estensioni mettere no.</comment>
+                        </include_jquery_fancybox>
+                        <define_jquery_redirect>
+                            <label>Definire $j</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment>Indica se $j deve essere definito. Se è già definitio nel thema di base o in altre estensioni mettere no.</comment>
+                        </define_jquery_redirect>                            
+                    </fields> 
+                </skin_config>                   
+            </groups>            
+        </mpscore_options>
+    </sections>  
+</config>

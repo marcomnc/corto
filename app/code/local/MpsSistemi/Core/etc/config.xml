@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MpsSistemi_Core>
+            <version>0.1.0</version>
+        </MpsSistemi_Core>
+    </modules>
+    <global>
+
+        <blocks>
+            <mpscore>
+                <class>MpsSistemi_Core_Block</class>
+            </mpscore>
+            <page>
+                <rewrite>
+                    <!-- Per l'inclusione condizionata -->
+                    <html_head>MpsSistemi_Core_Block_Page_Head</html_head>
+                </rewrite>
+            </page>
+        </blocks>
+        <helpers>
+            <mpscore>
+                <class>MpsSistemi_Core_Helper</class>
+            </mpscore>            
+        </helpers>        
+        <models>    
+            <mpscore> 
+                <class>MpsSistemi_Core_Model</class>                
+            </mpscore>
+        </models>     
+        
+<!-- Template per la gestione dei popup
+    http://www.magentocommerce.com/wiki/4_-_themes_and_template_customization/0_-_theming_in_magento/adding_cms_layout_templates
+-->        
+        <page>
+            <layouts>
+                <simple_popup translate="label">
+                    <label>(Mps Core) Simple Popup</label>
+                    <template>mps/page/popup-simple.phtml</template>   
+                    <layout_handle>page_simple_popup</layout_handle>                 
+                </simple_popup>          
+                <popup_mpslayout translate="label">
+                    <label>(Mps Core) Popup con Layout</label>
+                    <template>mps/page/popup-mps.phtml</template>                    
+                    <layout_handle>page_popup_mps</layout_handle>                 
+                </popup_mpslayout>          
+            </layouts>
+        </page>
+       
+    </global> 
+    
+    <frontend>
+        <layout>
+            <updates>
+                <mpscore>
+                    <file>mps/mpscore.xml</file>
+                </mpscore>
+            </updates>
+        </layout>
+    </frontend>
+    
+    <adminhtml>
+        <layout>
+            <updates>
+                <mpscore>
+                    <file>mps/mpscore.xml</file>
+                </mpscore>
+            </updates>
+        </layout>
+        
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mpscore_options>
+                                            <title>Mps Sistemi Core Settings</title>
+                                        </mpscore_options>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+		    </children>
+                </admin>
+            </resources>
+        </acl>
+        
+    </adminhtml>
+    
+</config>

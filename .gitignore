@@ -168,6 +168,7 @@ shell/indexer.php
 shell/log.php
 skin/adminhtml/default/default/*
 !skin/adminhtml/default/default/custom.css
+!skin/adminhtml/default/default/mps/*
 skin/adminhtml/default/enterprise
 skin/frontend/base/
 skin/frontend/default/blank/

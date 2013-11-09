@@ -1,0 +1,8 @@
+#mpslocation_alert { width: 100%;  background: orange }
+#mpslocation_alert .container { width: 954px; margin: auto;}
+#mpslocation_alert .container>div {padding: 5px;}
+
+#mpslocation_alert .container>div>span,
+#mpslocation_alert .container>div>p {margin: 0px 10px}
+
+.mpslocation_form_content {width: 850px; background: #fff; padding: 10px}
