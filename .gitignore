@@ -68,7 +68,12 @@ app/design/adminhtml/default/default/template/xmlconnect/
 app/design/adminhtml/default/find/
 app/design/frontend/base/
 app/design/frontend/default/blank/
-app/design/frontend/default/default/
+app/design/frontend/default/default/etc/
+app/design/frontend/default/default/layout/*
+!app/design/frontend/default/default/layout/mps/
+app/design/frontend/default/default/locale/
+app/design/frontend/default/default/template/*
+!app/design/frontend/default/default/template/mps/
 app/design/frontend/default/iphone/
 app/design/frontend/default/modern/
 app/design/frontend/enterprise/default

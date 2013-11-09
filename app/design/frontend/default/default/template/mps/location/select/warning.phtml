@@ -1,0 +1,32 @@
+<?php 
+
+$_myStore = Mage::Registry(MpsSistemi_Iplocation_Model_Core_Dispatch::REGISTER_NAME);
+
+$countryName = $_myStore->getCountryName() . "";
+if ($countryName == ""):    
+    $countryName = Mage::getModel('directory/country')->loadByCode(Mage::getStoreConfig('general/country/default'))->getName();
+endif;
+
+$lan = Mage::app()->getStore()->getName();
+
+?>    
+
+<div id="mpslocation_alert" class="mps-t-height">
+    <div class="container" style="display:none">
+        <div class="mps_23 a-left f-left">
+            <span class="mps_alert_message f-left">
+                <?php echo $this->__("We have set your delivery country to %s and your language to %s", $countryName, $lan ); ?>
+            </span> 
+            <p class="mps_alert_message"> | <a href="<?php echo $this->getUrl("mpslocation/location/select", array("action" => $_myStore->getAction())); ?>" class="mps_link mpslocation-change-country"><?php echo $this->__("Change country");?></a></p>
+        </div>
+        <div id="rs_alert_close_container" class="mps_13 last a-center f-right">
+            <a id="rs_alert_close_link" href="#"><?php echo $this->__('Close X');?></a>
+        </div>
+    </div>
+</div>
+
+<script>
+    $j(document).ready(function() {
+        $j("#mpslocation_alert").locationWarning(<?php if (Mage::Helper("mpscore")->getIsHomePage()): echo "1"; else :echo "0"; endif; ?>);
+    });      
+</script>

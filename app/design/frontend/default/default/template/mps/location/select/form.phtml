@@ -1,0 +1,59 @@
+<?php 
+$currentZoneId = "";
+if ($this->getCurrent() instanceof MpsSistemi_Iplocation_Model_Zone):
+    $currentZoneId = $this->getCurrent()->getId();
+endif;
+$isHome = $this->getRequest()->getParam('home');
+if (is_null($isHome)):
+    $isHome = "0";
+endif;
+?>
+
+<div id="mpslocationContent" class="mpslocation_form_content">
+    <div class="cf" id="wrapper_rs">
+	<div id="mpslocation_header">
+            <h1 id="mpslocation_welcome_message"><?php echo $this->__('Welcome to');?> <span id="brand_label"><?php echo Mage::getStoreConfig('general/store_information/name');?></span></h1>
+            <h2 id="mpslocation_shipping_message"><?php echo $this->__('We ship to over 100 countries');?></h2>
+	</div>
+	<div id="mpslocation_region_container">
+		<label><?php echo $this->__('Please choose your shipping destination:');?></label><br>
+		<select id="mpslocation_region_selector">
+                    <?php foreach (Mage::Helper('mpslocation')->getAllZoneSelect() as $country_id => $country): ?>
+                    <option value="<?php echo $country_id;?>" <?php if ($country_id == $this->getCountryId()):?> selected="selcted"<?php endif;?>>
+                        <?php echo $country['description']; ?>
+                    </option>
+                    <?php endforeach;?>
+                </select>		
+                <button class="button" id="mpslocation_btn_go" class="mpslocation_btn_go"> 
+                    <span>
+                        <span>
+                            Go
+                        </span>
+                    </span> 
+                </button>
+	</div>
+		
+	<div id="mpslocation_footer">
+		<span id="mpslocation_change_message">
+                    <?php echo $this->__('Please note - your bag will be emptied when you change your shipping destination and you will have to select again.');?>
+                </span>
+		<h3 id="mpslocation_happy_message"><?php echo $this->__('Happy Shopping!');?></h3>
+	</div>
+    </div>
+</div>
+
+<script>
+
+    $j('#mpslocation_btn_go').click(function () {        
+        var href = "<?php echo $this->getUrl('mpslocation/location/set/');?>";
+        href += "zone/" + $j('#mpslocation_region_selector :selected').val() +"/";
+        href += "home/<?php echo $isHome;?>/";
+        <?php if ($this->getReferrer()): ?>
+            href += "urlref/<?php echo $this->getReferrer();?>/";
+        <?php endif; ?>
+ 
+        $j.fn.setCountryCookie(href);
+        
+    });
+    
+</script>

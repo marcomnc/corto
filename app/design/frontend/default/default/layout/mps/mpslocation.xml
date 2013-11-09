@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- Autore Marco Mancinelli
+-->
+<layout version="0.1.0">
+    <!-- Default su tutte le pagine -->
+    <default>
+        <reference name="head">
+            <action method="addJs"><script>mps/location/location.js</script></action>
+            <action method="addItem"><type>js_css</type><name>mps/location/location.css</name></action>
+        </reference>
+        <reference name="after_body_start">
+            <block type="mpslocation/select" name="location.warnings" as="location.warning" />
+        </reference>        
+    </default>
+        
+</layout>

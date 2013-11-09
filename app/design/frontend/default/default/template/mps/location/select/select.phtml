@@ -1,0 +1,11 @@
+<?php $_myStore = Mage::Registry(MpsSistemi_Iplocation_Model_Core_Dispatch::REGISTER_NAME); ?>
+
+<script>
+    $j(document).ready(function() {
+        $j.fn.selectCountry({'url': '<?php echo $this->getUrl("mpslocation/location/select", array("action" => $_myStore->getAction())); ?>',
+                             'countryCode': '',
+                             'home': '<?php if (Mage::Helper("mpscore")->getIsHomePage()): echo "1"; else :echo "0"; endif; ?>',
+                             'urlref': "<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>",
+                             'enableEsc': true});
+    });      
+</script>

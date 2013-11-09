@@ -1,0 +1,11 @@
+<?php
+// Verfiico se devo creare il noconflict per jQuery
+if (Mage::getStoreConfig('mpscore_options/skin_config/include_jquery')): ?>
+<script>
+  if (typeof($j) == 'undefined') {
+      $j = jQuery.noConflict();
+  }  
+</script>
+<?php
+endif;
+?>

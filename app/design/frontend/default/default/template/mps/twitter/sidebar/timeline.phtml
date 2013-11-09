@@ -1,0 +1,44 @@
+<?php 
+
+function reply($repl) {
+    $retHtml = "";
+    if (isset($repl[0])) {
+        $retHtml = "<a href=\"$repl[0]\" target=\"_blank\">$repl[0]</a>";
+    }
+    return $retHtml ;
+}
+
+$tweets = $this->getTimeLine();
+echo sizeof($tweets);
+if (sizeof($tweets) > 0):
+?>
+
+<div class="twitter-outer">
+    <div class="twitter-inner">
+        <div class="twitter-content" id="twitter-content" style="display: block;">
+            <h3><?php echo $this->__('TWEET BITS'); ?></h3>
+            <ul class="twitter_update_list">
+            <?php for ($i = 0; $i < sizeof($tweets); $i++): ?>
+                <li>
+                    <div>
+                        <div class="twitt-body">
+                            <?php 
+                            
+                            echo preg_replace_callback("/((https?|s?ftp|ssh)\:\/\/[^\"\s\<\>]*[^.,;'\">\:\s\<\>\)\]\!])/", "reply", $tweets[$i]['text']);; 
+                            ?> 
+                        </div> 
+                        <a class="twitt-link" target="_blank" 
+                           href="http://twitter.com/<?php echo$this->getUserName(); ?>/statuses/<?php echo $tweets[$i]['id_str'];?>">
+                            <?php echo $this->getRelativeTime($tweets[$i]['created_at']);?>
+                        </a>
+                    </div>
+                </li>    
+            <?php endfor; ?>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<?php endif;?>
