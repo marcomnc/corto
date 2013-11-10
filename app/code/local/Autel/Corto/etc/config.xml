@@ -19,6 +19,15 @@
                     </autel_corto_observer>
                 </observers>
             </checkout_cart_add_product_complete>    
+            <cms_page_render>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Observer</class>
+                        <method>cms_page_render</method>
+                    </autel_corto_observer>
+                </observers>
+            </cms_page_render>
 <!-- Gestito tramite estensione           
             <controller_front_init_routers>
                 <observers>

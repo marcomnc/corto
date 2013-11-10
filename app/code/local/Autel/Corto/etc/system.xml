@@ -97,12 +97,21 @@
                         <privacy_url>
                             <label>Link pagina privacy</label>
                             <frontend_type>text</frontend_type>                            
-                            <sort_order>999</sort_order>
+                            <sort_order>555</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment>Possono essere utilizzate le variabili CMS di Magento</comment>
                         </privacy_url>
+                        <custom_layout_ajax_page>
+                            <label>Link pagina privacy</label>
+                            <frontend_type>textarea</frontend_type>                            
+                            <sort_order>999</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Istruzioni di layout che vengono applicate ad una pagine se chimata con il parametro is_ajax</comment>
+                        </custom_layout_ajax_page>
                     </fields>
                 </autelpage>
                 <autelcatalog translate="label">

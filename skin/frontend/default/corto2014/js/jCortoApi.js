@@ -69,6 +69,22 @@ var menuTimer = null;
         });
     });
     
+    $(document).ready(function() { 
+        //Link asyncroni
+        $('a.mps-popup-link').each( function() {
+            if (typeof($.fn.fancybox) != 'undefined') {
+                
+                if ($(this).attr('href') != '' && $(this).attr('href') != '#') {
+
+                    $(this).fancybox({autoScale   : true,
+                                    showCloseButton : false,
+                                    href        : $(this).attr('href') + '?is_ajax=1',
+                                    titleShow   : false}); 
+                    }
+            }
+        });
+    });
+    
     $.fn.AsyncRedirect = function(url) {
         if (typeof(url) != 'undefined' && url != '') {
             $.fn.layer(true, {waiting: Translator.translate('waitingImage'), bindEsc:false})

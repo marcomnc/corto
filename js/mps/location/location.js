@@ -43,6 +43,10 @@
         $(this).height(30);
         $(this).find('.container').show();
         $(this).find('#rs_alert_close_link').click(function() {
+            // Imposto il cookie
+            event.preventDefault();
+            event.stopPropagation();
+            $.ajax({url: $(this).attr('href')});
             $this.height(0);
             $this.find('div').css({'display': 'none'});
         });

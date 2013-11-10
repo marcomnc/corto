@@ -124,22 +124,17 @@ $_materialId = $_product->getData('material');
             </div>
             <?php endif;?>
             <?php if( $this->helper('wishlist')->isAllow()):?>
-            <div class="p-black p-box p-button p-wishlist">
+            <div class="p-black p-box p-button p-wishlist p-trasparency">
                 <?php $_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product); ?>
                 <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a>
             </div>
             <?php endif;?>
             
-            <div class="p-turquoise p-box p-button p-contacts">
-                <a href="<?php echo $this->getUrl('contacts');?>" 
-                       title="<?php echo $this->__("Live Help"); ?>"
-                       class="contact-us">
-                    <?php echo $this->__('Need Help?');?>
-                </a>
-                <a href="<?php echo $this->getUrl('contacts');?>" title="<?php echo $this->__("Live Help"); ?>" class="contact-us contact-us-img">
-                    <img src="<?php echo $this->getSkinUrl("images/ico_help_min.png");?>" alt="<?php echo $this->__("Live Help"); ?>"
-                                 title="<?php echo $this->__("Live Help"); ?>"/>
-                </a>
+            <div class="p-box view-contatcts">
+                <?php $block = $this->getLayout()->createBlock('cms/block')->setBlockId('contacts-view-product')->toHtml() . '';
+                if ($block != ''):
+                    echo $block;
+                endif;?>
             </div>
             
             <div class="p-more-view">

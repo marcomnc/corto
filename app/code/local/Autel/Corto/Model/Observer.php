@@ -270,5 +270,30 @@ class Autel_Corto_Model_Observer {
 
 
     }
+    
+    public function cms_page_render($observer) {
+    
+        $action = $observer->getControllerAction();
+        $page = $observer->getPage();
+       
+        
+        $getParams = $action->getRequest()->getParams();
+        $postParams = $action->getRequest()->getPost();
+        
+        $isajax = (isset($getParams['is_ajax']) || isset($postParams['is_ajax'])) ? true : false;
+        
+        if ($isajax) {
+            $page->unsCustomLayoutUpdateXml();
+            $page->unsLayoutUpdateXml();
+
+
+            if(($customLayout = Mage::getStoreConfig('autelcorto/autelpage/custom_layout_ajax_page')) != '') {
+                $page->setLayoutUpdateXml($customLayout);
+            }
+        }
+        
+        $observer->setPage($page);
+        return ($observer);
+    }
 }
 ?>

@@ -104,6 +104,20 @@ class MpsSistemi_Iplocation_LocationController extends Mage_Core_Controller_Fron
                 
     }
     
+    /**
+     * Forzo il cookie a no action accettando le impostazioni selezionate
+     */
+    public function setnoAction() {
+        $cookie = Mage::Registry(MpsSistemi_Iplocation_Model_Core_Dispatch::REGISTER_NAME);
+        
+        $cookie->setData('no_request', true);
+        
+        $cookie->setAction(MpsSistemi_Iplocation_Model_Core_Dispatch::ACTION_NO_ACTIONO); 
+        
+         MpsSistemi_Iplocation_Model_Core_Dispatch::setCookie($cookie); 
+         
+         $this->getResponse()->setBody();
+    }
 }
 
 ?>

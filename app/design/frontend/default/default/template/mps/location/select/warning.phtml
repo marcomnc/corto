@@ -20,7 +20,7 @@ $lan = Mage::app()->getStore()->getName();
             <p class="mps_alert_message"> | <a href="<?php echo $this->getUrl("mpslocation/location/select", array("action" => $_myStore->getAction())); ?>" class="mps_link mpslocation-change-country"><?php echo $this->__("Change country");?></a></p>
         </div>
         <div id="rs_alert_close_container" class="mps_13 last a-center f-right">
-            <a id="rs_alert_close_link" href="#"><?php echo $this->__('Close X');?></a>
+            <a id="rs_alert_close_link" href="<?php echo $this->getUrl('mpslocation/location/setno/');?>"><?php echo $this->__('Close X');?></a>
         </div>
     </div>
 </div>
