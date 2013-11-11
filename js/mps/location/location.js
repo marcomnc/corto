@@ -39,6 +39,10 @@
     
     $.fn.locationWarning = function(isHome) {
         
+        if ($('.cms-home .header-container').length > 0) {
+            $('.cms-home .header-container').css({'top' : '30px'});
+        }
+        
         var $this = $(this);
         $(this).height(30);
         $(this).find('.container').show();
@@ -49,6 +53,9 @@
             $.ajax({url: $(this).attr('href')});
             $this.height(0);
             $this.find('div').css({'display': 'none'});
+            if ($('.cms-home .header-container').length > 0) {
+                $('.cms-home .header-container').css({'top' : '0px'});
+            }
         });
         
         $('#' + $(this).attr('id') + ' .mpslocation-change-country').click( function(event) {

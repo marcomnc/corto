@@ -1,7 +1,7 @@
 <?php
-
+/*
 $installer = $this;
-/* @var $installer Mage_Core_Model_Resource_Setup */
+
 
 $installer->startSetup();
 
@@ -66,5 +66,5 @@ $this->getConnection()->addColumn($this->getTable('mpslocation/zone'), 'store_id
               "COMMENT" => 'Lista store associati alla zona (per identificare lingue disponibili)'));
 
 $installer->endSetup();
-
+*/
 ?>

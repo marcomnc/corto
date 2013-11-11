@@ -6,3 +6,10 @@
 #mpslocation_alert .container>div>p {margin: 0px 10px}
 
 .mpslocation_form_content {width: 850px; background: #fff; padding: 10px}
+
+.cms-home .header-container {
+        transition:             top 500ms ease-in-out;
+        -moz-transition:        top 500ms ease-in-out;
+        -webkit-transition:     top 500ms ease-in-out;
+        -o-transition:          top 500ms ease-in-out;
+    }

@@ -22,7 +22,7 @@
  *
  */
 
-class MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_ViewType {
+class MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_Viewtype {
     
     const WARNING = "WAR";
     const ERROR = "ERR";
