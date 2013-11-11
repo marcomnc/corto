@@ -1066,7 +1066,7 @@ tr.summary-details-excluded { font-style:italic; }
 .product-view .product-shop .rating-links a { text-decoration:none; }
 .product-view .product-shop .rating-links a:hover { text-decoration:underline; }
 .product-view .product-shop .no-rating { padding-bottom:13px; }
-.product-view .product-shop .price-box { padding: 15px 0 3px 0; margin:0 20px 0 0; float: left }
+.product-view .product-shop .price-box { padding: 15px 0 3px 0; margin:0 15px 0 0; float: left }
 .product-view .product-shop .price { }
 .product-view .product-shop .availability { float:left; margin:13px 0 0 0; font-size:13px; }
 .product-view .product-shop .availability span { font-weight:normal; }

@@ -39,17 +39,18 @@ $breadcrumbs->setNoReset(true);
       
        $_prev = "";
        $_next = "";
-       
+
+       $currentCategory=Mage::helper("catalog")->getCategory();
+
        if ($currentCategory==null) :
             foreach ($_product->getCategoryCollection() as $catColl):
                  $currentCategory = $catColl;
                  break;
             endforeach;
         endif;
+
         if ($currentCategory==null):
-            $currentCategory = Mage::app()->getStore()->getRootCategoryId();
-        else:
-            $currentCategory = $currentCategory->getId();
+            $currentCategory = Mage::app()->getStore()->getRootCategory();
         endif;
 
        $_CACHE_KEY = "PREVIOUS_NEXT_PRODUCT_" . $currentCategory . "_" . Mage::app()->getStore()->getId();
@@ -60,42 +61,43 @@ $breadcrumbs->setNoReset(true);
        
         Mage::unregister("ajax_cart_product");
         Mage::register('ajax_cart_product',$_product);       
-        $currentCategory=$this->helper("catalog")->getCategory();
 
-        
-        $layerCollection = mage::getModel('catalog/layer')
-                             ->setCurrentCategory($currentCategory)
-                             ->prepareProductCollection(mage::getModel('catalog/product')->getCollection())
-                             ->getProductCollection();
-        $layerCollection->getSelect()
-                             ->where("e.sku > ?", $_product->getSku())
-                             ->order("e.sku")
-                             ->reset(Zend_Db_Select::COLUMNS)
-                             ->columns("e.entity_id")
-                             ->Limit(1,0);  
-        
-        foreach ($layerCollection as $_lay):
-            $_prod = Mage::getModel("catalog/product")->Load($_lay->getId());
-            $_next = Mage::helper('catalog/product')->getProductUrl($_prod);
-        endforeach;
+	$rp = Mage::Registry('product');
+	Mage::unregister('product');
 
-        $layerCollection = mage::getModel('catalog/layer')
-                             ->setCurrentCategory($currentCategory)
-                             ->prepareProductCollection(mage::getModel('catalog/product')->getCollection())
-                             ->getProductCollection();
-        $layerCollection->getSelect()
-                             ->where("e.sku < ?", $_product->getSku())
-                             ->order("e.sku desc")
-                             ->reset(Zend_Db_Select::COLUMNS)
-                             ->columns("e.entity_id")
-                             ->Limit(1,0);  
-        
-        foreach ($layerCollection as $_lay):
-            $_prod = Mage::getModel("catalog/product")->Load($_lay->getId());
-            $_prev = Mage::helper('catalog/product')->getProductUrl($_prod);
-        endforeach;
-            $PrevNext[$_product->getId()] = array('prev' => $_prev, 'next' => $_next);
-            $cache->save(serialize($PrevNext), $_CACHE_KEY, array($_CACHE_KEY));
+	$block = $this->getLayout()->createBlock('catalog/product_list');
+        $block->setdata('category_id', $currentCategory->getId());
+	
+
+	$block->prepareSortableFieldsByCategory($currentCategory);
+
+	$layer = $block->getLoadedProductCollection();
+
+	$find = 0;
+
+	foreach ($layer as $_prod):
+
+	    if ($find == 1):
+		$_next = $_prod->getProductUrl();
+		break;
+	    endif;
+
+	    if ($_prod->getId() == $_product->getId()):
+		$find = 1;
+	    else:
+		$_prev = $_prod->getProductUrl();
+	    endif; 
+	endforeach;
+
+	if ($find == 0):
+	    $_next = '';
+	    $_prev = '';
+	endif;
+
+	Mage::Register('product', $rp);
+
+        $PrevNext[$_product->getId()] = array('prev' => $_prev, 'next' => $_next);
+        $cache->save(serialize($PrevNext), $_CACHE_KEY, array($_CACHE_KEY));
         
        } else {
            $_prev = $PrevNext[$_product->getId()]['prev'];
