@@ -8,6 +8,14 @@
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
             <action method="setHeaderTitle" translate="title" module="contacts"><title>Impulse Buy</title></action>
+            <action method="setData">
+                <key>show_background</key>
+                <value>1</value>
+            </action>
+            <action method="setData">
+                <key>custom_background_folder</key>
+                <value>layout/sfondi-impulse/</value>
+            </action> 
         </reference>
         <reference name="content">
             <block type="core/template" name="cortoImpulseBuy" template="corto/impulsebuy.phtml"/>

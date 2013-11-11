@@ -1050,6 +1050,8 @@ tr.summary-details-excluded { font-style:italic; }
 .product-image-popup .image { display:block; margin:10px 0; }
 .product-image-popup .image-label {}
 
+.product-view .free-shipping { float: right; font-size: 10px; margin-top: 15px;}
+
 /* Product Shop */
 .product-view .product-collateral,
 .product-view-bottom .product-collateral,
@@ -1064,7 +1066,7 @@ tr.summary-details-excluded { font-style:italic; }
 .product-view .product-shop .rating-links a { text-decoration:none; }
 .product-view .product-shop .rating-links a:hover { text-decoration:underline; }
 .product-view .product-shop .no-rating { padding-bottom:13px; }
-.product-view .product-shop .price-box { padding: 15px 0 3px 0; margin:0 20px 0 0; }
+.product-view .product-shop .price-box { padding: 15px 0 3px 0; margin:0 20px 0 0; float: left }
 .product-view .product-shop .price { }
 .product-view .product-shop .availability { float:left; margin:13px 0 0 0; font-size:13px; }
 .product-view .product-shop .availability span { font-weight:normal; }
@@ -1927,7 +1929,12 @@ button.btn-checkout span span,
 .impulsebuy label { padding: 8px 0; display: block; font-family: 'Oswald', sans-serif; font-size: 26px; text-transform: uppercase; }
 .impulsebuy h1 { display: block; font-family: 'Oswald', sans-serif; font-size: 56px; text-transform: uppercase; font-weight: normal; padding-bottom: 20px; }
 .impulsebuy input { font-size: 26px; border: 1px solid #AAA; padding: 2px; width: 400px; }
-.impulsebuy button { margin-top: 20px; }
+.impulsebuy button { margin: 20px auto; background: transparent url('../images/impulse_buy_go.png') 0 0 no-repeat; width: 118px; height: 110px; padding-top: 8px}
+.impulsebuy button:hover { background-position-y: -110px }
+.impulsebuy button span, 
+.impulsebuy button span span {background-color: transparent; color: #FFF; font-size: 18px; font-weight: bold;}
+.impulsebuy button:hover span span,
+.impulsebuy button span span:hover {color:#000!important}
 .impulse-badge { display: block; position: absolute; right: 0; top: 0; }
 
 .product-detail-body { width: 190px; height: 360px;}
@@ -2016,6 +2023,7 @@ button.btn-checkout span span,
 .block-cart.review-order #exchange-rate>DIV { right: 0px; font-size: 13px; font-style: italic; font-weight: bold; left: auto; bottom:0px}
 
 #exchange-rate {height: 40px;padding-top: 10px;font-weight: normal; text-align: right;}
+.product-view #exchange-rate {text-align: left}
 #exchange-rate>span:first-child {font-style: italic;}
 #exchange-rate>DIV{position: absolute; bottom:5px; left: 15px;}
 

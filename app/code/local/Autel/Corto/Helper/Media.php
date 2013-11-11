@@ -172,7 +172,11 @@ class Autel_Corto_Helper_Media extends Autel_Corto_Helper_Data {
 
         $style= "";
         if ($block instanceof Mage_Page_Block_Html && $block->getData('show_background')) {
-            $imgList = Mage::Helper("autelcorto/media")->getListImage("layout/sfondi/catalog");
+            $folder = "layout/sfondi/catalog";
+            if ($block->hasData('custom_background_folder')) {
+                $folder = $block->getData('custom_background_folder');
+            }
+            $imgList = Mage::Helper("autelcorto/media")->getListImage($folder);
             if (is_array($imgList) && sizeof($imgList)) {
                 shuffle($imgList);
                 $style  = "background-size: cover;background-position:right bottom;";

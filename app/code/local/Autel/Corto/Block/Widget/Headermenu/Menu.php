@@ -37,6 +37,8 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
     protected $_isShop = false;
     protected $_isCatalog = false;
     protected $_cmsPageId = '';
+    protected $_isSearch = false;
+    protected $_isImpulse = false;
 
     protected function _construct() {
         parent::_construct();
@@ -45,6 +47,15 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
         $this->_isShop = Mage::Helper('autelcorto')->getIsShopPage();
         $this->_isCatalog = Mage::helper('autelcorto')->getIsCatalogPage();
         $this->_cmsPageId = Mage::getSingleton('cms/page')->getIdentifier();
+        
+        $controller = Mage::app()->getFrontController()->getRequest()->getControllerName();
+        $module = Mage::app()->getFrontController()->getRequest()->getModuleName();
+        $action = Mage::app()->getFrontController()->getRequest()->getActionName();
+       
+        $this->_isSearch = "$module/$controller/$action" == "autelcorto/search/color";
+        $this->_isImpulse = "$module/$controller/" == "autelcorto/impulse/";
+            
+        
     }
 
     protected function _beforeToHtml() {
@@ -140,14 +151,28 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
      */
     public function isToPrint($menu) {
         
-        if ($menu['type'] == self::MENU_HOME_LINK && $this->_isHome)
+        if ($this->_isSearch || $this->_isImpulse) {
+            if ($menu['type'] == self::MENU_HOME_LINK )
+                return true;
+            
+            if ($menu['type'] == self::MENU_ESHOP_LINK)
+                return false;
+        }
+        
+        
+        if ($menu['type'] == self::MENU_HOME_LINK && $this->_isHome)            
             return false;
+        
+        if ($menu['type'] == self::MENU_HOME_LINK && $this->_isSearch )
+            return true;
         
         if ($menu['type'] == self::MENU_HOME_LINK && (!$this->_isShop && !$this->_isCatalog)) 
             return false;
         
         if ($menu['type'] == self::MENU_ESHOP_LINK && ($this->_isShop || $this->_isCatalog))
             return false;
+        
+        
         
         return true;
     }

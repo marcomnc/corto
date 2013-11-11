@@ -6,7 +6,7 @@ $breadcrumbs->addCrumb('impulsebuy', array('label'=>$this->__("Impulse Buy"), 't
 echo $this->getLayout()->getBlock('breadcrumbs')->toHtml();
 
 ?>
-
+<?php if (!$this->hasProduct()): ?>
 <img class="impulse-badge" src="<?php echo $this->getSkinUrl('images/impulse_badge.png'); ?>" />
 
 <form class="impulsebuy" action="<?php echo $this->getUrl('autelcorto/impulse/impulse')?>" method="post">
@@ -26,6 +26,7 @@ echo $this->getLayout()->getBlock('breadcrumbs')->toHtml();
 <input type="text" name="livewithout"></input>
 </div>
 
-<button type="submit" class="button btn-checkout"><span><span><?php echo $this->__("Submit");?></span></span></button>
+<button type="submit" class="button btn-impulse-buy"><span><span><?php echo $this->__("Go");?></span></span></button>
 </form>
+<?php endif; ?>
 </div><!-- position: relative -->

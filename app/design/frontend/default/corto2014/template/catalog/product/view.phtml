@@ -39,17 +39,8 @@ $breadcrumbs->setNoReset(true);
       
        $_prev = "";
        $_next = "";
-
-       $_CACHE_KEY = "PREVIOUS_NEXT_PRODUCT_" . Mage::app()->getStore()->getId();
-       $cache = Mage::app()->getCache();
-       $PrevNext = unserialize( $cache->load($_CACHE_KEY));
        
-       if (is_null($PrevNext) || !is_array($PrevNext) || !isset($PrevNext[$_product->getId()])) {
-       
-        Mage::unregister("ajax_cart_product");
-        Mage::register('ajax_cart_product',$_product);       
-        $currentCategory=$this->helper("catalog")->getCategory();
-        if ($currentCategory==null) :
+       if ($currentCategory==null) :
             foreach ($_product->getCategoryCollection() as $catColl):
                  $currentCategory = $catColl;
                  break;
@@ -60,6 +51,18 @@ $breadcrumbs->setNoReset(true);
         else:
             $currentCategory = $currentCategory->getId();
         endif;
+
+       $_CACHE_KEY = "PREVIOUS_NEXT_PRODUCT_" . $currentCategory . "_" . Mage::app()->getStore()->getId();
+       $cache = Mage::app()->getCache();
+       $PrevNext = unserialize( $cache->load($_CACHE_KEY));
+       
+       if (is_null($PrevNext) || !is_array($PrevNext) || !isset($PrevNext[$_product->getId()])) {
+       
+        Mage::unregister("ajax_cart_product");
+        Mage::register('ajax_cart_product',$_product);       
+        $currentCategory=$this->helper("catalog")->getCategory();
+
+        
         $layerCollection = mage::getModel('catalog/layer')
                              ->setCurrentCategory($currentCategory)
                              ->prepareProductCollection(mage::getModel('catalog/product')->getCollection())
@@ -183,6 +186,8 @@ $_materialId = $_product->getData('material');
                             ->createBlock('catalog/product_view')
                             ->setTemplate('catalog/product/view/price_clone.phtml')
                             ->toHtml();  ?>
+                <span class="free-shipping"><?php echo $this->__('Free Shipping');?></span>
+                <div class="clearer"></div>
                 <?php echo $this->getLayout()
                                 ->createBlock('core/template')
                                 ->setTemplate('corto/directory/exchange.rate.phtml')
