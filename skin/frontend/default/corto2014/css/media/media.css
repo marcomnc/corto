@@ -14,7 +14,15 @@
     .col1-layout .col-main,
     .col2-left-layout .col-main,
     .col2-right-layout .col-main { width: 1380px!important }
-    	
+    .product-view .product-img-box .product-image-zoom,
+    .product-view .product-img-box .product-image-zoom img { width: 900px!important; height: 900px!important; }
+    .product-view .product-img-box .linkSocial, 
+    .product-view-bottom .product-img-box, 
+    .product-view .product-img-box {  width:900px!important }
+    .product-view .product-collateral {display: block!important; margin-top: 30px}
+    .product-view-bottom .product-collateral {display: none!important}
+    .catalog-product-view .breadcrumbs { margin-left: 20px!important}
+    .catalog-product-view .breadcrumbs>ul {max-width: 800px!important}
 }
 
 /* Desktop - design for a width of 1440px

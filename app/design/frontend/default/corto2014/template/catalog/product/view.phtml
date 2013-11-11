@@ -34,6 +34,78 @@ $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
 $breadcrumbs->setNoReset(true);
 ?>
 <?php $_helper = $this->helper('catalog/output'); ?>
+
+<?php $_product = $this->getProduct(); 
+      
+       $_prev = "";
+       $_next = "";
+
+       $_CACHE_KEY = "PREVIOUS_NEXT_PRODUCT_" . Mage::app()->getStore()->getId();
+       $cache = Mage::app()->getCache();
+       $PrevNext = unserialize( $cache->load($_CACHE_KEY));
+       
+       if (is_null($PrevNext) || !is_array($PrevNext) || !isset($PrevNext[$_product->getId()])) {
+       
+        Mage::unregister("ajax_cart_product");
+        Mage::register('ajax_cart_product',$_product);       
+        $currentCategory=$this->helper("catalog")->getCategory();
+        if ($currentCategory==null) :
+            foreach ($_product->getCategoryCollection() as $catColl):
+                 $currentCategory = $catColl;
+                 break;
+            endforeach;
+        endif;
+        if ($currentCategory==null):
+            $currentCategory = Mage::app()->getStore()->getRootCategoryId();
+        else:
+            $currentCategory = $currentCategory->getId();
+        endif;
+        $layerCollection = mage::getModel('catalog/layer')
+                             ->setCurrentCategory($currentCategory)
+                             ->prepareProductCollection(mage::getModel('catalog/product')->getCollection())
+                             ->getProductCollection();
+        $layerCollection->getSelect()
+                             ->where("e.sku > ?", $_product->getSku())
+                             ->order("e.sku")
+                             ->reset(Zend_Db_Select::COLUMNS)
+                             ->columns("e.entity_id")
+                             ->Limit(1,0);  
+        
+        foreach ($layerCollection as $_lay):
+            $_prod = Mage::getModel("catalog/product")->Load($_lay->getId());
+            $_next = Mage::helper('catalog/product')->getProductUrl($_prod);
+        endforeach;
+
+        $layerCollection = mage::getModel('catalog/layer')
+                             ->setCurrentCategory($currentCategory)
+                             ->prepareProductCollection(mage::getModel('catalog/product')->getCollection())
+                             ->getProductCollection();
+        $layerCollection->getSelect()
+                             ->where("e.sku < ?", $_product->getSku())
+                             ->order("e.sku desc")
+                             ->reset(Zend_Db_Select::COLUMNS)
+                             ->columns("e.entity_id")
+                             ->Limit(1,0);  
+        
+        foreach ($layerCollection as $_lay):
+            $_prod = Mage::getModel("catalog/product")->Load($_lay->getId());
+            $_prev = Mage::helper('catalog/product')->getProductUrl($_prod);
+        endforeach;
+            $PrevNext[$_product->getId()] = array('prev' => $_prev, 'next' => $_next);
+            $cache->save(serialize($PrevNext), $_CACHE_KEY, array($_CACHE_KEY));
+        
+       } else {
+           $_prev = $PrevNext[$_product->getId()]['prev'];
+           $_next = $PrevNext[$_product->getId()]['next'];
+       }
+       
+       if ($_prev != '' || $_next != ''):
+        $breadcrumbs->setProductLinks(true)->setProductPrev($_prev)->setProductNext($_next);
+       endif;
+       
+       ?>
+
+
 <?php $_product = $this->getProduct();  ?>
 <?php $_color = $_product->getAttributeText('color'); ?>
 <?php $_material = $_product->getAttributeText('material'); ?>
@@ -98,11 +170,10 @@ $_materialId = $_product->getData('material');
                 <?php endif; ?>
             </div>
             
+            <div class="product-collateral">        
+                <?php echo $this->getChildHtml('upsell_products');  ?>
+            </div>
             
-            <?php //definire eventuale controllo per prodotto configurabile
-                   // if ($_product->getTypeId() != Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE):
-                   //endif;
-            ?>
 
         </div>
 
@@ -148,6 +219,7 @@ $_materialId = $_product->getData('material');
             
         </div>
         
+        <?php echo $breadcrumbs->toHtml(); ?>
         <div class="product-img-box">
             <?php 
 //foreach ( $this->_children as $k => $v) {
@@ -156,7 +228,6 @@ $_materialId = $_product->getData('material');
 //    
 //}
 //die();
-            echo $breadcrumbs->toHtml();
             echo $this->getChildHtml('media');?>
         </div>
         
@@ -260,9 +331,13 @@ $_materialId = $_product->getData('material');
         
         jQuery("document").ready(function() {
         //Calcolo altezza ...
-        $j('.product-view .product-img-box').height($j('.product-view .product-img-box').height() + $j('.product-view .product-img-box .breadcrumbs').outerHeight(true) );
-        jQuery(".product-detail-body").height($j('.product-view .product-img-box').outerHeight()  - $j('.p-product-name').outerHeight() - $j('.product-detail').outerHeight()-4);
-        jQuery(".product-detail-body").jScrollPane();
+            $j('.product-view .product-img-box').height($j('.product-view .product-img-box').height() + $j('.product-view .product-img-box .breadcrumbs').outerHeight(true) );
+            jQuery(".product-detail-body").height($j('.product-view .product-img-box').outerHeight()  - $j('.p-product-name').outerHeight() - $j('.product-detail').outerHeight()-4);
+            jQuery(".product-detail-body").jScrollPane();
+            $j('.breadcrumms-product-view').css({'height': $j('.breadcrumbs').outerHeight()});
+            var mt = ($j('.breadcrumbs').outerHeight()-20) /2;
+            if (mt > 0)
+                $j('.breadcrumms-product-view li').css({'margin-top': mt+'px'});
         });
 
         
