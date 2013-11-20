@@ -1925,16 +1925,17 @@ button.btn-checkout span span,
 /* IMPULSE BUY */
 .impulsebuy-title { font-family: 'Cookie', cursive; }
 .impulsebuy-title h1 a {text-transform: none!important; font-size: 29px!important }
-.impulsebuy { display: block; padding-top: 90px; }
-.impulsebuy label { padding: 8px 0; display: block; font-family: 'Oswald', sans-serif; font-size: 26px; text-transform: uppercase; }
-.impulsebuy h1 { display: block; font-family: 'Oswald', sans-serif; font-size: 56px; text-transform: uppercase; font-weight: normal; padding-bottom: 20px; }
-.impulsebuy input { font-size: 26px; border: 1px solid #AAA; padding: 2px; width: 400px; }
-.impulsebuy button { margin: 20px auto; background: transparent url('../images/impulse_buy_go.png') 0 0 no-repeat; width: 118px; height: 110px; padding-top: 8px}
-.impulsebuy button:hover { background-position-y: -110px }
-.impulsebuy button span, 
-.impulsebuy button span span {background-color: transparent; color: #FFF; font-size: 18px; font-weight: bold;}
-.impulsebuy button:hover span span,
-.impulsebuy button span span:hover {color:#000!important}
+.impulsebuy  {}
+.form-impulsebuy { display: block; padding-top: 90px; }
+.form-impulsebuy label { padding: 8px 0; display: block; font-family: 'Oswald', sans-serif; font-size: 26px; text-transform: uppercase; }
+.form-impulsebuy h1 { display: block; font-family: 'Oswald', sans-serif; font-size: 56px; text-transform: uppercase; font-weight: normal; padding-bottom: 20px; }
+.form-impulsebuy input { font-size: 26px; border: 1px solid #AAA; padding: 2px; width: 400px; }
+.form-impulsebuy button { margin: 20px auto; background: transparent url('../images/impulse_buy_go.png') 0 0 no-repeat; width: 118px; height: 110px; padding-top: 8px}
+.form-impulsebuy button:hover { background-position-y: -110px }
+.form-impulsebuy button span, 
+.form-impulsebuy button span span {background-color: transparent; color: #FFF; font-size: 18px; font-weight: bold;}
+.form-impulsebuy button:hover span span,
+.form-impulsebuy button span span:hover {color:#000!important}
 .impulse-badge { display: block; position: absolute; right: 0; top: 0; }
 
 .product-detail-body { width: 190px; height: 360px;}
@@ -2023,7 +2024,6 @@ button.btn-checkout span span,
 .block-cart.review-order #exchange-rate>DIV { right: 0px; font-size: 13px; font-style: italic; font-weight: bold; left: auto; bottom:0px}
 
 #exchange-rate {height: 40px;padding-top: 10px;font-weight: normal; text-align: right;}
-.product-view #exchange-rate {text-align: left}
 #exchange-rate>span:first-child {font-style: italic;}
 #exchange-rate>DIV{position: absolute; bottom:5px; left: 15px;}
 
@@ -2043,3 +2043,4 @@ button.btn-checkout span span,
 .color-search .container .label {background: black url('../images/ico_corto_star.png') 0 8px no-repeat ; position: absolute; bottom: 0; left: 0;
                                 width: 100%; height: 30px;}
 .color-search .container .label a {width: 100%; color: white; font-size: 13px; font-weight: bold; position: absolute; padding: 8px 0 0 50px;}
+#mpslocation_alert { position: fixed; z-index: 10000;  }

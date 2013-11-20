@@ -42,6 +42,7 @@ $breadcrumbs->setNoReset(true);
 
        $currentCategory=Mage::helper("catalog")->getCategory();
 
+
        if ($currentCategory==null) :
             foreach ($_product->getCategoryCollection() as $catColl):
                  $currentCategory = $catColl;
@@ -49,9 +50,7 @@ $breadcrumbs->setNoReset(true);
             endforeach;
         endif;
 
-        if ($currentCategory==null):
-            $currentCategory = Mage::app()->getStore()->getRootCategory();
-        endif;
+	if (!is_null($currentCategory)) :
 
        $_CACHE_KEY = "PREVIOUS_NEXT_PRODUCT_" . $currentCategory . "_" . Mage::app()->getStore()->getId();
        $cache = Mage::app()->getCache();
@@ -66,6 +65,7 @@ $breadcrumbs->setNoReset(true);
 	Mage::unregister('product');
 
 	$block = $this->getLayout()->createBlock('catalog/product_list');
+
         $block->setdata('category_id', $currentCategory->getId());
 	
 
@@ -108,6 +108,7 @@ $breadcrumbs->setNoReset(true);
         $breadcrumbs->setProductLinks(true)->setProductPrev($_prev)->setProductNext($_next);
        endif;
        
+	endif;       
        ?>
 
 

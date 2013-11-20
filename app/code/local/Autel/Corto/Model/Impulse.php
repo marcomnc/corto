@@ -29,9 +29,9 @@ class Autel_Corto_Model_Impulse extends Mage_Core_Model_Abstract
                 $prod = Mage::getModel("catalog/product")
                         ->setStoreId(Mage::app()->getStore()->getId())
                         ->Load($product->GetId());
-//                $cart->addProduct($prod,1);
-//                $cart->save();
-//                Mage::getSingleton("checkout/session")->setCartWasUpdated(true);
+                $cart->addProduct($prod,1);
+                $cart->save();
+                Mage::getSingleton("checkout/session")->setCartWasUpdated(true);
                 $ret = $prod;
                 break;
             }

@@ -48,6 +48,7 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
         $this->_isCatalog = Mage::helper('autelcorto')->getIsCatalogPage();
         $this->_cmsPageId = Mage::getSingleton('cms/page')->getIdentifier();
         
+        
         $controller = Mage::app()->getFrontController()->getRequest()->getControllerName();
         $module = Mage::app()->getFrontController()->getRequest()->getModuleName();
         $action = Mage::app()->getFrontController()->getRequest()->getActionName();
@@ -171,8 +172,6 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
         
         if ($menu['type'] == self::MENU_ESHOP_LINK && ($this->_isShop || $this->_isCatalog))
             return false;
-        
-        
         
         return true;
     }

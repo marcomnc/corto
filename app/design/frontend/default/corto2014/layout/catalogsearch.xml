@@ -135,6 +135,9 @@ Advanced search results
                     <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
                     <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
                 </block>
+		<action method="setListOrders"/>
+                <action method="setListModes"/>
+                <action method="setListCollection"/>
             </block>
         </reference>
     </catalogsearch_advanced_result>

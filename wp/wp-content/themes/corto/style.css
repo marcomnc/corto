@@ -142,6 +142,8 @@ Use it to make something cool, have fun, and share what you've learned with othe
 #content #nav-above {
 	/*display: none;*/
 }
+
+
 .paged #content #nav-above,
 .single #content #nav-above {
 	display: block;
@@ -554,7 +556,7 @@ footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align:
 #archives-2 h1 {cursor: pointer}
 #archives-2 ul {display:none}
 
-
+.page.nav-above-bottom { margin-top: 15px }
 
 /* ASSETS */
 

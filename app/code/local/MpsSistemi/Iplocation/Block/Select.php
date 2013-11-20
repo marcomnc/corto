@@ -44,13 +44,13 @@ class MpsSistemi_Iplocation_Block_Select extends Mage_Core_Block_Template {
             case MpsSistemi_Iplocation_Model_Core_Dispatch::ACTION_WARNING:
 
                 switch ($this->_inCaseOfWarning) {
-                    case MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_ViewType::WARNING:
+                    case MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_Viewtype::WARNING:
 
                         $this->setTemplate(($warningTemplate) ? $warningTemplate : $this->_warningTemplate);
 
                         break;
     
-                    case MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_ViewType::ERROR:
+                    case MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_Viewtype::ERROR:
 
                         $this->setTemplate(($selectTemplate) ? $selectTemplate : $this->_selectTemplate);
 
@@ -65,13 +65,13 @@ class MpsSistemi_Iplocation_Block_Select extends Mage_Core_Block_Template {
             case MpsSistemi_Iplocation_Model_Core_Dispatch::ACTION_SELECT:
 
                 switch ($this->_inCaseOfError) {
-                    case MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_ViewType::WARNING:
+                    case MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_Viewtype::WARNING:
 
                         $this->setTemplate(($warningTemplate) ? $warningTemplate : $this->_warningTemplate);
 
                         break;
     
-                    case MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_ViewType::ERROR:
+                    case MpsSistemi_Iplocation_Model_Adminhtml_System_Config_Source_Viewtype::ERROR:
 
                         $this->setTemplate(($selectTemplate) ? $selectTemplate : $this->_selectTemplate);
 

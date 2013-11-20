@@ -227,9 +227,11 @@ get_header(); ?>
     
     <?php endif; ?>    
   </div><!-- .cuttings-inner -->
+
   <div class ="page nav-above-bottom">
     <?php corto_content_nav( 'nav-above' ); ?>
   </div>
+
 
 <?php /* Chiusura alternativa del layout fuori dal footer */ ?>
 <?php /* FINE Chiusura alternativa del layout fuori dal footer */ ?></div><!-- .cuttings-wrapper -->
