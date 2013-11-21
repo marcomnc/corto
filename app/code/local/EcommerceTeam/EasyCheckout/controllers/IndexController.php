@@ -157,7 +157,9 @@ class EcommerceTeam_EasyCheckout_IndexController
         $billingAddressId   = $this->getRequest()->getPost('billing_address_id');
         $ignoreErrors       = (bool) !$this->getRequest()->getPost('is_final');
         $checkoutMethod     = $this->_initializeCheckoutMethod();
-
+//print_r($billingAddressData);
+//print_r("Id: " .$billingAddressId);
+//die();
         $billingAddressResult = $this->_checkoutModel->saveBillingAddress(
             $billingAddressData,
             $billingAddressId

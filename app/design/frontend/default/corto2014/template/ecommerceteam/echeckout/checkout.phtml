@@ -13,6 +13,13 @@
 $helper   = Mage::helper('ecommerceteam_easycheckout/easy');
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = $this->getCustomer();
+
+$cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry(); 
+$zone = Mage::getModel('mpslocation/zone')->Load($cookie['zone_id'], 'zone_code');
+$shippingList = Mage::Helper('mpslocation')->getCountryFromZone($zone);
+$currentShippingCountry = Mage::getSingleton('ecommerceteam_easycheckout/type_easy')->getQuote()->getShippingAddress()->getCountryId().'';
+
+
 ?>
 <script type="text/javascript">
     //<![CDATA[
@@ -27,51 +34,87 @@ $customer = $this->getCustomer();
 
 <?php if (EcommerceTeam_EasyCheckout_Helper_Easy::POSITION_MODE_CART != $helper->getCheckoutMode()):?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<?php endif;?>
+<?php endif;?>  
 
 <div class="easycheckout-onepage-wrap easycheckout-1column" id="easycheckout-form-wrap">
     <div id="load-info-overlay">&nbsp;</div>
     <?php echo $this->getCmsBlockHtml();?>
 
     <?php if (!$customer->getId()):?>
-    <p><a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false"><?php echo $this->__('Already registered? Click here to login.');?></a></p>
-    <?php endif;?>
+    <ul class="infos-menus">
+        <li class="current"><a href="#new-user"><?php echo $this->__('New User');?></a></li>
+        <li><a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false"><?php echo $this->__('Registered');?></a></li>
+        <li>
+            <div class="or-fb-connect"> <?php echo $this->__('or');?> </div>
+            <?php $block = $this->getLayout()->createBlock('autelsocial/fbconnect')                                                  
+                                                  ->setTemplate('autel/social/mini.connect.phtml');
+                  $block->setRefferType(false);
+                  echo $block->toHtml(); ?>
+        </li>
+        <li class="clear"></li>
+    </ul>
+
+    <?php endif;?>    
+    <div class="clear"></div>
+    <p class="required">* <?php echo $this->__('Required Fields') ?></p>
+    <div class="checkout-shipping-area-select">
+        <ul>
+            <li class="your-shipping-area">
+                <div class="message"><?php echo $this->__("Your shipping area:");?></div>
+                <div class="shipping-area"><?php echo $zone->getDescription(); ?></div>
+                <div class="change-country">
+                    <a href="#" class="mps_link mpslocation-change-country"
+                       onclick="$j.fn.selectCountry({'url': '<?php echo $this->getUrl("mpslocation/location/select"); ?>',
+                                                 'countryCode': '<?php echo $cookie->getdata('country_code')?>',
+                                                 'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
+                                                 'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
+                                                 'enableEsc': true});return false;">
+                        <?php echo $this->__('Change country');?>
+                    </a>
+                </div>
+            </li>
+            <li class="your-shipping-country">
+                <div class="field">
+                    <label for="select-shipping-country"><em>*</em><?php echo $this->__('Country');?></label>
+                    <select name="select-shipping-country" name="select-shipping-country" class="validate-select">
+                        <?php foreach ($shippingList as $k => $v): ?>
+                        <?php if ($currentShippingCountry == ''):
+                                    $currentShippingCountry = $k;
+                                    Mage::getSingleton('ecommerceteam_easycheckout/type_easy')->getQuote()->getShippingAddress()->setCountryId($k);
+                              endif;?>
+                        <option value="<?php echo $k;?>" <?php if ($currentShippingCountry == $k):?>selected="selected"<?php endif; ?>><?php echo $v;?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
 
     <form action="" method="post" id="easycheckout-form">
-
+        <?php if ($helper->canShip()):?>
+        <?php echo $this->getChildHtml('shipping_method');?>
+        <?php endif;?>
         <?php echo $this->getChildHtml('billing_address');?>
 
         <?php if ($helper->canShip() && $helper->differentShippingEnabled()):?>
             <?php echo $this->getChildHtml('shipping_address');?>
         <?php endif;?>
 
+        
+        <?php echo $this->getReviewBlock();?>
+        
+        
         <table id="easycheckout-shipping-payment-step">
             <tbody>
             <tr>
-                <?php if ($helper->canShip()):?>
-                <td class="shipping-method" id="shipping-method-wrapper"><?php echo $this->getChildHtml('shipping_method');?></td>
-                <td class="methods-separator">&nbsp;</td>
-                <?php endif;?>
                 <td class="payment-method" id="payment-method-wrapper"><?php echo $this->getChildHtml('payment_method');?></td>
-            </tr>
-            </tbody>
-        </table>
-
-        <?php echo $this->getReviewBlock();?>
-
-        <?php if ($helper->couponEnabled()):?>
-        <div id="easycheckout-coupon" class="easy-step">
-            <?php echo $this->getChildHtml('echeckout_coupon');?>
-        </div>
-        <?php endif;?>
-
-        <div class="agreements">
-            <?php echo $this->getChildHtml('agreements') ?>
-        </div>
-
-        <div class="button-set place-order-buttons">
+                <?php if ($helper->couponEnabled()):?>
+                 <td class="methods-separator">&nbsp;</td>
+                <td class="shipping-method" id="shipping-method-wrapper">
+                    <?php echo $this->getChildHtml('echeckout_coupon');?>
+                    <div class="button-set place-order-buttons">
             <?php if ($helper->showSubscribe()):?>
-            <p><label><input type="checkbox" name="subscribe" value="1"/> <?php echo $this->__('Subscribe to newsletter');?></label></p>
+            <div class="subscribe-btn-wrapper"><label><input type="checkbox" name="subscribe" value="1"/> <?php echo $this->__('Subscribe to newsletter');?></label></div>
             <?php endif;?>
 
             <div class="submit-btn-wrapper">
@@ -81,6 +124,18 @@ $customer = $this->getCustomer();
 
             <?php echo $this->getTotalsBlock();?>
         </div>
+                </td>               
+                <?php endif;?>                
+            </tr>
+            </tbody>
+        </table>
+
+        
+        <div class="agreements">
+            <?php echo $this->getChildHtml('agreements') ?>
+        </div>
+
+        
     </form>
 </div>
 

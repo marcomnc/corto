@@ -7,8 +7,7 @@
  * @version:    2.0.2
  */
 
-#easycheckout-form-wrap .easy-step {
-    border:1px solid #AAA;
+#easycheckout-form-wrap .easy-step {    
     background: #fff;
 }
 
@@ -72,7 +71,6 @@
 
 }
 #easycheckout-shipping-payment-step td {
-border:1px solid #AAA;
     background: #fff;
 }
 #easycheckout-form-wrap .discount-form {

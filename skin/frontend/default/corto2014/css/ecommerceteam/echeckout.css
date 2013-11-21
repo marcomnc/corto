@@ -10,6 +10,11 @@
 .easycheckout-onepage-wrap {
     /* position:relative; */
 }
+
+.easycheckout-onepage-wrap p.required{
+    text-align: left;
+}
+
 #load-info-overlay {
     position:absolute;
     background:url('../../images/ecommerceteam/loadinfo.gif') 50% 50% no-repeat #fff;
@@ -67,7 +72,6 @@
 }
 #easycheckout-shipping-payment-step {
     width:100%;
-    margin-bottom:10px;
     position:relative;
 }
 #easycheckout-shipping-payment-step td.methods-separator {
@@ -297,6 +301,9 @@
     margin-right:5px;
     overflow:hidden;
 }
+.discount-form .button-set{
+    float:right;
+}
 #easycheckout-form-wrap .discount-form {
     overflow:hidden;
 }
@@ -328,6 +335,9 @@
     float:right;
     overflow: hidden;
 }
+#easycheckout-form-wrap.easycheckout-1column .place-order-buttons .subscribe-btn-wrapper {
+    margin-bottom: 15px
+}
 #easycheckout-form-wrap.easycheckout-3columns .place-order-buttons .checkout-totals-table {
     margin-bottom: 10px;;
     clear:both;
@@ -352,3 +362,30 @@
     top:10px;
     visibility: hidden;
 }
+
+
+ul.infos-menus li {float: left;}
+ul.infos-menus a {
+    font-family: CORTOMinionPro, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px!important;
+    display: block;
+    color:#000; padding: 3px 15px;
+    background:#e8e8e9;
+    margin-right: 5px;
+    text-decoration: none;   
+    border: 1px solid #000;
+    background-color: #FFF
+}
+ul.infos-menus li.current a {    
+    font-weight: bold;
+    color: #FFF;
+    border: 1px solid #000;
+    background-color: #000
+}
+
+#easycheckout-shippingmethod-available dl dt {display: none}
+#easycheckout-shippingmethod-available dl dd label .price {display: none}
+
+.checkout-shipping-area-select li { clear: both;}
+.checkout-shipping-area-select li>div {margin:10px 0}
+.checkout-shipping-area-select .your-shipping-area>div {float: left; margin-right: 20px}
