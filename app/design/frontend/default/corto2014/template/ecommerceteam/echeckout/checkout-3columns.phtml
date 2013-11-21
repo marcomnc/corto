@@ -1,0 +1,120 @@
+<?php
+/**
+ * Easy Checkout - Magento Extension
+ *
+ * @package:    EasyCheckout
+ * @category:   EcommerceTeam
+ * @copyright:  Copyright 2013 EcommerceTeam Inc. (http://www.ecommerce-team.com)
+ * @version:    2.0.2
+ */
+
+/** @var $this EcommerceTeam_EasyCheckout_Block_Checkout */
+/** @var $helper EcommerceTeam_EasyCheckout_Helper_Easy */
+$helper   = Mage::helper('ecommerceteam_easycheckout/easy');
+/** @var $customer Mage_Customer_Model_Customer */
+$customer = $this->getCustomer();
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    var countryRegions      = <?php echo $this->helper('directory')->getRegionJson(); ?>;
+    var checkoutCouponUrl   = '<?php echo $this->getUrl('*/onepage/ajax', array('action'=>'coupon'));?>';
+
+    <?php if (!$customer->getId()):?>
+    var loginFormHtml = '<?php echo addslashes(str_replace("\n", "", $this->getChildHtml('login_form')))?>';
+        <?php endif;?>
+    //]]>
+</script>
+<?php if (EcommerceTeam_EasyCheckout_Helper_Easy::POSITION_MODE_CART != $helper->getCheckoutMode()):?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php endif;?>
+
+<div class="easycheckout-onepage-wrap easycheckout-3columns" id="easycheckout-form-wrap">
+    <div id="load-info-overlay">&nbsp;</div>
+    <?php echo $this->getCmsBlockHtml();?>
+    <?php if(!$this->getCustomer()->getId()):?>
+    <p><a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false"><?php echo $this->__('Already registered? Click here to login.');?></a></p>
+    <?php endif;?>
+
+   <form action="" method="post" id="easycheckout-form">
+
+        <div class="easycheckout-left-column">
+            <?php echo $this->getChildHtml('billing_address');?>
+            <?php if ($helper->canShip() && $helper->differentShippingEnabled()):?>
+                <?php echo $this->getChildHtml('shipping_address');?>
+            <?php endif;?>
+        </div>
+
+        <div class="easycheckout-right-column">
+            <table id="easycheckout-shipping-payment-step">
+                <tbody>
+                <tr>
+                    <?php if ($helper->canShip()):?>
+                    <td class="shipping-method" id="shipping-method-wrapper"><?php echo $this->getChildHtml('shipping_method');?></td>
+                    <td class="methods-separator">&nbsp;</td>
+                    <?php endif;?>
+                    <td class="payment-method" id="payment-method-wrapper"><?php echo $this->getChildHtml('payment_method');?></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <?php echo $this->getReviewBlock();?>
+
+            <?php if($helper->couponEnabled()):?>
+            <div id="easycheckout-coupon" class="easy-step">
+                <?php echo $this->getChildHtml('echeckout_coupon');?>
+            </div>
+            <?php endif;?>
+
+            <div class="agreements">
+                <?php echo $this->getChildHtml('agreements') ?>
+            </div>
+
+            <div class="button-set place-order-buttons">
+                <?php if($helper->showSubscribe()):?>
+                <div class="subscribe-newsletter"><label><input type="checkbox" name="subscribe" value="1"/> <?php echo $this->__('Subscribe to newsletter');?></label></div>
+                <?php endif;?>
+
+                <?php echo $this->getTotalsBlock();?>
+
+                <div class="submit-btn-wrapper">
+                    <div><button id="submit-btn" type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout"><span><span><?php echo $this->__('Place Order') ?></span></span></button></div>
+                    <span id="checkout-loadinfo" class="loadinfo">&nbsp;</span>
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var checkout = new EasyCheckout(
+        {
+            "mode": "<?php echo $this->getMode();?>",
+            "formId":"easycheckout-form",
+            "saveAddressUrl":"<?php echo $this->getUrl('*/*/saveAddress');?>",
+            "saveShippingMethodUrl":"<?php echo $this->getUrl('*/*/saveShippingMethod');?>",
+            "savePaymentMethodUrl":"<?php echo $this->getUrl('*/*/savePaymentMethod');?>",
+            "saveCouponCodeUrl":"<?php echo $this->getUrl('*/*/saveCouponCode');?>",
+            "saveOrderUrl":"<?php echo $this->getUrl('*/*/saveOrder');?>",
+            "successUrl":"<?php echo $this->getUrl('*/*/success');?>",
+            "agreementsMessage": "<?php echo $helper->__("Please agree to all the terms and conditions before placing the order.");?>",
+            "responseFailureMsg":"<?php echo addslashes($helper->__("Warning server has returned error! Code: %code%. Please, contact with site administration."))?>",
+            "unknownServerErrorMsg":"<?php echo addslashes($helper->__("Unknown server error! Please, contact with site administration."))?>",
+            "skin":"<?php echo $this->isModernSkin() ? 'modern' : 'default';?>"
+        }
+    );
+
+    // fix for stupid extensions
+    var accordion = {currentSection:0, openSection:function(){}, container:{readAttribute:function(){}}};
+    checkout.accordion = accordion;
+
+    // Fix for save compatibility with original checkout and some extensions
+    var review = new Review(
+        '<?php echo $this->getUrl('*/onepage/saveOrder') ?>',
+        '<?php echo $this->getUrl('*/onepage/success') ?>',
+        $('checkout-agreements')
+    );
+    //]]>
+</script>

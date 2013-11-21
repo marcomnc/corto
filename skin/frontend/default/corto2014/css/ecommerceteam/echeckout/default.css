@@ -1,0 +1,80 @@
+/**
+ * Easy Checkout - Magento Extension
+ *
+ * @package:     EasyCheckout
+ * @category:    EcommerceTeam
+ * @copyright:   Copyright 2012 EcommerceTeam Inc. (http://www.ecommerce-team.com)
+ * @version:    2.0.2
+ */
+
+#easycheckout-form-wrap .easy-step {
+    border:1px solid #AAA;
+    background: #fff;
+}
+
+#easycheckout-form-wrap p a { color: #000; }
+
+#easycheckout-form { margin-top: 12px; }
+
+#easycheckout-form-wrap .fields .field { float: left; }
+#easycheckout-form-wrap .fields { clear: left; margin-bottom: 12px; }
+
+
+#easycheckout-shipping-payment-step td.shipping-method,
+#easycheckout-shipping-payment-step td.payment-method {
+    background:#fff;
+}
+#easycheckout-form-wrap .easy-step h2 {
+    color:#000;
+    font-size:14px;
+    line-height: 14px;
+    font-weight:600;
+    text-transform:uppercase;
+    margin:0 0 12px 0;
+}
+#easycheckout-form-wrap .easy-step h2 span {
+    color:#000;
+    font-weight:100;
+    text-transform:none;
+}
+
+#easycheckout-form-wrap label { font: 400 12px/12px "Open Sans", sans-serif; }
+
+#easycheckout-form-wrap .address-form-list .input-box input.input-text {
+
+}
+#easycheckout-form-wrap .address-form-list .input-box input.readonly {
+    color:#969696;
+}
+
+#easycheckout-form-wrap .address-form-list .input-box select {
+}
+#easycheckout-form-wrap .address-form-list .input-box .validation-failed {
+    border:1px solid #EB340A  !important;
+    background:url('../../../images/ecommerceteam/inputbg-error.gif') 0 0 no-repeat #fff !important;
+}
+#easycheckout-form-wrap #checkout-review-table thead th {
+
+}
+#easycheckout-form-wrap #checkout-review-table tfoot tr {
+
+}
+#easycheckout-form-wrap #checkout-review-table tfoot tr.first td {
+
+}
+#easycheckout-form-wrap #checkout-review-table .even {
+
+}
+#easycheckout-form-wrap button.btn-checkout-disabled span {
+
+}
+#easycheckout-form-wrap button.btn-checkout-disabled span span {
+
+}
+#easycheckout-shipping-payment-step td {
+border:1px solid #AAA;
+    background: #fff;
+}
+#easycheckout-form-wrap .discount-form {
+    padding: 5px 0;
+}

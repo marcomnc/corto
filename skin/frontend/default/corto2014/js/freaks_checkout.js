@@ -835,11 +835,13 @@ var fiPage = Class.create({
             if (e.prev.content.hasClassName('new-user')
                 && !e.current.content.hasClassName('new-user')
             ) {
-                e.prev.content.show().addClassName('hidden-tab');
-                e.prev.content.next('div.overlay').setStyle({display:'block'});
+                e.prev.content.addClassName('hidden-tab');
+                e.current.content.removeClassName('hidden-tab');
+                //e.prev.content.next('div.overlay').setStyle({display:'block'});
             } else {
                 e.current.content.removeClassName('hidden-tab');
-                e.current.content.next('div.overlay').hide();
+                e.prev.content.addClassName('hidden-tab');
+                //e.current.content.next('div.overlay').hide();
             }
             var c = $(e.prev.content), ul = c.select('ul.messages')[0];
             ul && ul.hide();

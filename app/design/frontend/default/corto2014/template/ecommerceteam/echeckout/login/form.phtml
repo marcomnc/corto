@@ -1,0 +1,35 @@
+<?php
+/**
+ * Easy Checkout - Magento Extension
+ *
+ * @package:    EasyCheckout
+ * @category:   EcommerceTeam
+ * @copyright:  Copyright 2013 EcommerceTeam Inc. (http://www.ecommerce-team.com)
+ * @version:    2.0.2
+ */
+?>
+<div id="elogin-message" class="a-left"></div>
+<ul class="form-list">
+    <li>
+        <label class="required" for="elogin-email"><em>*</em><?php echo $this->__('Email Address');?></label>
+        <div class="input-box"><input type="text" title="<?php echo $this->__('Email Address');?>" class="input-text" id="elogin-email" /></div>
+    </li>
+    <li>
+        <label class="required" for="elogin-password"><em>*</em><?php echo $this->__('Password');?></label>
+        <div class="input-box"><input type="password" title="<?php echo $this->__('Password');?>" class="input-text" id="elogin-password"/></div>
+    </li>
+</ul>
+<div class="actions">
+    <div id="elogin-buttons">
+        <div class="buttons">
+            <button class="button" onclick="TINY.box.hide();return false;"><span><span><?php echo $this->__('Cancel');?></span></span></button>
+            <button style="margin-left:5px;" class="button" onclick="checkout.login($('elogin-email').value, $('elogin-password').value, '<?php echo $this->getUrl('checkout/onepage/login');?>'); return false;"><span><span><?php echo $this->__('Login');?></span></span></button>
+        </div>
+        <div class="links">
+            <a href="<?php echo $this->getUrl('customer/account/forgotpassword')?>"><?php echo $this->__('Forgot Your Password?')?></a>
+        </div>
+    </div>
+    <div id="elogin-loading" style="display:none;">
+        <?php echo addslashes($this->__('loading please wait...'));?>
+    </div>
+</div>

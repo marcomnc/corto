@@ -1,16 +1,60 @@
-<?php $isLoggedIn = $this->isCustomerLoggedIn() ?>
+<?php 
+$cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry(); 
+$zone = Mage::getModel('mpslocation/zone')->Load($cookie['zone_id'], 'zone_code');
+$shippingList = Mage::Helper('mpslocation')->getCountryFromZone($zone);
+$isLoggedIn = $this->isCustomerLoggedIn() 
+
+?>
 <div id="checkout-block" class="<?php echo $this->helper('fi_checkout')->isLocationAsOneField() ? 'join-address' : 'split-address' ?>">
     <ul class="infos-menus">
         <li <?php if (!$isLoggedIn): ?> class="current"<?php endif ?>><a href="#new-user"><?php echo $this->__('New User') ?></a></li>
         <li <?php if ($isLoggedIn): ?> class="current"<?php endif ?>><a href="#<?php echo $isLoggedIn ? 'registered-user' : 'login' ?>"><?php echo $this->__('Registered') ?></a></li>
+        <?php if (!$isLoggedIn): ?>
+        <li>
+            <div class="or-fb-connect"> <?php echo $this->__('or');?> </div>
+            <?php $block = $this->getLayout()->createBlock('autelsocial/fbconnect')                                                  
+                                                  ->setTemplate('autel/social/mini.connect.phtml');
+                  $block->setRefferType(false);
+                  echo $block->toHtml(); ?>
+        </li>
+        <?php endif; ?>
         <li class="clear"></li>
-    </ul>
+    </ul>    
     <div class="clear"></div>
+    <p class="required">* <?php echo $this->__('Required Fields') ?></p>
+    <div class="checkout-shipping-area-select">
+        <ul>
+            <li class="your-shipping-area">
+                <div class="message"><?php echo $this->__("Your shipping area:");?></div>
+                <div class="shipping-area"><?php echo $zone->getDescription(); ?></div>
+                <div class="change-country">
+                    <a href="#" class="mps_link mpslocation-change-country"
+                       onclick="$j.fn.selectCountry({'url': '<?php echo $this->getUrl("mpslocation/location/select"); ?>',
+                                                 'countryCode': '<?php echo $cookie->getdata('country_code')?>',
+                                                 'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
+                                                 'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
+                                                 'enableEsc': true});return false;">
+                        <?php echo $this->__('Change country');?>
+                    </a>
+                </div>
+            </li>
+            <li class="your-shipping-country">
+                <div class="field">
+                    <label for="select-shipping-country"><em>*</em><?php echo $this->__('Country');?></label>
+                    <select name="select-shipping-country" name="select-shipping-country" class="validate-select">
+                        <?php foreach ($shippingList as $k => $v): ?>
+                            <option value="<?php echo $k;?>"><?php echo $v;?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
     <?php if (!$isLoggedIn): ?><div class="tab-cont new-user">
         <?php echo $this->getLoginMessagesBlock()->getGroupedHtml() ?>
         <?php echo $this->getChildHtml('fi_checkout_user_block') ?>
     </div><?php endif ?>
-    <div class="tab-cont login<?php $isLoggedIn && print ' registered-user'?>"<?php if (!$isLoggedIn): ?> style="display:none"<?php endif ?>>
+    <div class="tab-cont login<?php $isLoggedIn && print ' registered-user'?> hidden-tab"<?php if (!$isLoggedIn): ?> style="display:none"<?php endif ?>>
         <?php if ($isLoggedIn): ?>
             <?php echo $this->getLoginMessagesBlock()->getGroupedHtml() ?>
             <?php echo $this->getChild('fi_checkout_user_block')->setFilled(true)->toHtml() ?>
@@ -30,6 +74,5 @@
                 </div>
             </form>
         <?php endif ?>
-    </div>
-    <div class="overlay"></div>
+    </div>    
 </div>

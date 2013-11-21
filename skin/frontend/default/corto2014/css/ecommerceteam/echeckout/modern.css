@@ -1,0 +1,254 @@
+/**
+ * Easy Checkout - Magento Extension
+ *
+ * @package:     EasyCheckout
+ * @category:    EcommerceTeam
+ * @copyright:   Copyright 2012 EcommerceTeam Inc. (http://www.ecommerce-team.com)
+ * @version:    2.0.2
+ */
+
+#easycheckout-form-wrap
+{
+    font-family:Arial, Tahoma, sans-serif;
+    font-size:13px;
+    background:#f4f7fb;
+    padding:15px 20px;
+    border:3px solid #709cc9;
+    border-radius:6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+}
+#easycheckout-form-wrap label {
+    font-weight:normal;
+    color:#213F63;
+    margin-top:2px;
+}
+#easycheckout-form-wrap .input-box
+{
+    width:230px;
+    height:28px;
+    padding:0 6px 0 0;
+    background:url('../../../images/ecommerceteam/easycheckout/modern/input-field-blue.png') 100% -28px no-repeat;
+}
+#easycheckout-form-wrap .input-box .v-fix {
+    padding:0 6px 0 0;
+    background:url('../../../images/ecommerceteam/easycheckout/modern/input-field-blue.png') 100% -28px no-repeat;
+}
+#easycheckout-form-wrap .input-box-focus,
+#easycheckout-form-wrap .input-box-focus .v-fix{
+    background-position:100% -84px;
+}
+#easycheckout-form-wrap .input-box .field-wrapper {
+    /*width:224px;*/
+    height:28px;
+    padding:0 0 0 8px;
+    background:url('../../../images/ecommerceteam/easycheckout/modern/input-field-blue.png') 0 0 no-repeat;
+}
+#easycheckout-form-wrap .input-box-focus .field-wrapper {
+    background-position:0 -56px;
+}
+#easycheckout-form-wrap .input-box-mulltiple {
+    background:none;
+    width: 250px;
+    margin-right:-20px;
+}
+#easycheckout-form-wrap .custom-select,
+#easycheckout-form-wrap .input-box .custom-select{
+    background:url('../../../images/ecommerceteam/easycheckout/modern/select-field-blue.png') 100% -28px no-repeat;
+    padding-right:31px;
+    width:205px !important;
+}
+#easycheckout-form-wrap .custom-select .field-wrapper {
+    background:url('../../../images/ecommerceteam/easycheckout/modern/select-field-blue.png') 0 0 no-repeat;
+}
+#easycheckout-form-wrap .custom-select.input-box-focus .field-wrapper {
+    background-position:0 -56px;
+}
+#easycheckout-form-wrap.easycheckout-3columns .custom-select {
+    width:127px !important;
+}
+#easycheckout-form-wrap .address-form-list .address-select-box.custom-select {
+    width:252px !important;
+}
+#easycheckout-form-wrap.easycheckout-3columns .address-form-list .address-select-box.custom-select select {
+    width: 270px;
+}
+#easycheckout-form-wrap #easycheckout-paymentmethod-available .v-fix {
+    width:80px !important;
+    margin-right:10px;
+}
+#easycheckout-form-wrap .address-form-list .fields .field .input-box,
+#easycheckout-form-wrap .address-form-list .field .input-box{
+    width: 230px;
+}
+
+#easycheckout-form-wrap .input-box input.input-text,
+#easycheckout-form-wrap .input-box select
+{
+    height:20px;
+    margin:4px 0 0;
+    padding:0;
+    border:0;
+    background:none;
+    font-size:14px;
+    color:#213F63;
+    vertical-align:top;
+    line-height:100%;
+}
+.field-wrapper .select-view {
+    color:#213F63;
+}
+#easycheckout-form-wrap .input-box select {
+    opacity:0;
+    filter: alpha(opacity=0);
+}
+#easycheckout-form-wrap .validation-failed {
+    background:none !important;
+    border:0 !important;
+}
+#easycheckout-form-wrap .address-form-list .validation-advice {
+    margin-left: 150px;
+    clear:both;
+    position:relative;
+    top:3px;
+}
+#easycheckout-form-wrap.easycheckout-3columns .easy-step {
+    padding:0;
+}
+#easycheckout-form-wrap.easycheckout-3columns .address-form-list .field .input-box{
+    width:152px;
+}
+#easycheckout-form-wrap.easycheckout-3columns .custom-select .field-wrapper,
+#easycheckout-form-wrap.easycheckout-3columns .address-form-list .field .input-box .field-wrapper{
+    /*width:119px;*/
+    width:auto;
+}
+#easycheckout-form-wrap.easycheckout-3columns .address-form-list .validation-advice {
+    margin-left: 125px;
+}
+#easycheckout-form-wrap .validation-advice {
+    margin-top:2px;
+    margin-bottom:2px;
+}
+#easycheckout-form-wrap.easycheckout-1column .custom-select select {
+    width: 227px;
+}
+#easycheckout-form-wrap.easycheckout-3columns .address-form-list .custom-select select,
+#easycheckout-form-wrap.easycheckout-3columns .custom-select select {
+    width: 147px;
+}
+#easycheckout-form-wrap.easycheckout-1column .input-box-mulltiple .custom-select select {
+    width: 100px;
+}
+#easycheckout-form-wrap.easycheckout-3columns .input-box-mulltiple .custom-select select {
+    width: 100px;
+}
+
+.easy-step h2 {
+    background:url('../../../images/ecommerceteam/easycheckout/modern/step-bullet.png') 0 0 no-repeat;
+    height:30px;
+    padding:3px 0 0 0;
+    margin:0;
+    color:#FF5C0F;
+    font-family:Verdana, sans-serif;
+    font-size:17px;
+}
+.easy-step h2 span.bullet {
+    float:left;
+    width:30px;
+    margin-right:5px;
+    text-align:center;
+    font-weight:bold;
+    color:#fff;
+}
+#easycheckout-coupon input.input-text {
+    width:98%;
+}
+#easycheckout-coupon button span{
+    border:1px solid #F18200;
+    padding:0;
+    height:auto;
+    border-radius:6px;
+}
+#easycheckout-coupon button span span{
+    padding:2px 10px;
+    background:#F18200;
+}
+#easycheckout-form-wrap #checkout-review-table {
+    border:1px solid #b6cce7;
+    border-radius:6px;
+}
+#easycheckout-form-wrap #checkout-review-table thead tr.last th {
+    background:#d4e1f0;
+    border-bottom:1px solid #b6cce7 !important;
+}
+#easycheckout-form-wrap #checkout-review-table thead tr.last th:first-child {
+    border-radius:6px 0 0 0;
+}
+#easycheckout-form-wrap #checkout-review-table thead tr.last th:last-child {
+    border-radius:0 6px 0 0;
+}
+#easycheckout-form-wrap #checkout-review-table tfoot tr {
+    background:none !important;
+}
+#easycheckout-form-wrap #checkout-review-table tfoot tr.first td {
+    border-top:1px solid #b6cce7 !important;
+    background:none;
+}
+#easycheckout-form-wrap #checkout-review-table tfoot tr.last td {
+    padding-top:4px;
+    padding-bottom:4px;
+    background:#FFF9E5;
+    border-top:1px solid #b6cce7;
+    border-radius:0 0 0 6px;
+}
+#easycheckout-form-wrap #checkout-review-table tfoot tr.last td.last {
+    border-radius:0 0 6px 0;
+}
+.shipping-method .sp-methods,
+.payment-method .sp-methods{
+    padding:0   ;
+}
+.shipping-method .sp-methods dt,
+.payment-method .sp-methods dt {
+    margin: 5px 0 0;
+}
+.payment-method .sp-methods .form-list li {
+    margin:0;
+}
+#tinybox {
+    border:6px solid #709CC9;
+    border-radius: 6px;
+}
+#easycheckout-form-wrap .place-order-buttons {
+    border-top:1px dotted #B6CCE7;
+    padding-top:10px;
+}
+#easycheckout-form-wrap .place-order-buttons button.button span {
+    border:1px solid #F18200;
+    background:#F18200;
+    border-radius:6px;
+    font-size:20px;
+    font-weight:normal;
+}
+#easycheckout-form-wrap .place-order-buttons button.button span span {
+    border:0;
+    background:none;
+}
+
+#easycheckout-form-wrap .cvv-what-is-this {
+    position:relative;
+    top:3px;
+    margin:0;
+}
+#easycheckout-form-wrap .sp-methods input.cvv {
+    width:70px !important;
+}
+#advice-required-entry-ccsave_expiration,
+#advice-required-entry-ccsave_expiration_yr {
+    clear:none;
+    float:left;
+}
+#advice-required-entry-ccsave_expiration_yr {
+    margin-right:-100%;
+}

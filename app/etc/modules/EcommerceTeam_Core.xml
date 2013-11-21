@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package:    Core
+ * @category:   EcommerceTeam
+ * @copyright:  Copyright 2012 EcommerceTeam Inc. (http://www.ecommerce-team.com)
+ * @version:    1.0.0
+ */
+-->
+<config>
+    <modules>
+        <EcommerceTeam_Core>
+            <active>true</active>
+            <codePool>local</codePool>
+        </EcommerceTeam_Core>
+        <depends>
+            <Mage_Core />
+        </depends>a
+    </modules>
+</config>

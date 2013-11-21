@@ -78,14 +78,14 @@ $breadcrumbs->setNoReset(true);
 	foreach ($layer as $_prod):
 
 	    if ($find == 1):
-		$_next = $_prod->getProductUrl();
+		$_prev = $_prod->getProductUrl();
 		break;
 	    endif;
 
 	    if ($_prod->getId() == $_product->getId()):
 		$find = 1;
 	    else:
-		$_prev = $_prod->getProductUrl();
+		$_next = $_prod->getProductUrl();
 	    endif; 
 	endforeach;
 

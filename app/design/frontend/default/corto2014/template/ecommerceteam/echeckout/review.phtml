@@ -1,0 +1,27 @@
+<?php
+/**
+ * Easy Checkout - Magento Extension
+ *
+ * @package:    EasyCheckout
+ * @category:   EcommerceTeam
+ * @copyright:  Copyright 2013 EcommerceTeam Inc. (http://www.ecommerce-team.com)
+ * @version:    2.0.2
+ */
+?>
+<div class="easy-step" id="review-wrapper">
+    <h2><?php echo $this->__('Order Review');?></h2>
+    <div class="info" id="easycheckout-review-info">
+        <?php echo $this->getChildHtml('info');?>
+    </div>
+    <?php
+        if(2 == intval(Mage::getStoreConfig('checkout/deliverydatecomment/enabled_comment'))){
+            /** @var $deliveryDateBlock EcommerceTeam_Ddc_Block_Form */
+            $deliveryDateBlock = $this->getLayout()->createBlock('ecommerceteam_ddc/form');
+            if ($deliveryDateBlock) {
+                $deliveryDateBlock->setTemplate('ecommerceteam/ddc/comment.phtml');
+                echo $deliveryDateBlock->toHtml();
+            }
+        }
+    ?>
+    <?php echo $this->getChildHtml('items_after'); ?>
+</div>

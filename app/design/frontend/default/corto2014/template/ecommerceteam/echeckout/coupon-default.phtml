@@ -1,0 +1,26 @@
+<?php
+/**
+ * Easy Checkout - Magento Extension
+ *
+ * @package:    EasyCheckout
+ * @category:   EcommerceTeam
+ * @copyright:  Copyright 2013 EcommerceTeam Inc. (http://www.ecommerce-team.com)
+ * @version:    2.0.2
+ */
+?>
+<div class="discount">
+    <h2><?php echo $this->__('Discount Codes') ?></h2>
+    <div class="discount-form">
+        <label for="coupon-code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label>
+        <input type="hidden" name="remove-coupon" id="remove-coupon" value="0" />
+        <div class="input-box">
+            <input class="input-text" id="coupon-code" name="coupon-code" value="<?php echo $this->htmlEscape($this->getCouponCode()) ?>" />
+        </div>
+        <div class="button-set">
+            <button type="button" title="<?php echo $this->__('Apply Coupon') ?>" class="button" onclick="checkout.saveCouponCode(false); return false;" value="<?php echo $this->__('Apply Coupon') ?>"><span><span><?php echo $this->__('Apply Coupon') ?></span></span></button>
+            <?php if(strlen($this->getCouponCode())): ?>
+                &nbsp; <button type="button" title="<?php echo $this->__('Cancel Coupon') ?>" class="button" onclick="checkout.saveCouponCode(true); return false;" value="<?php echo $this->__('Cancel Coupon') ?>"><span><span><?php echo $this->__('Cancel Coupon') ?></span></span></button>
+            <?php endif;?>
+        </div>
+    </div>
+</div>

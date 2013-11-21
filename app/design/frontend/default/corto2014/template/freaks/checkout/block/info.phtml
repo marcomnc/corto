@@ -3,10 +3,20 @@ $isLoggedIn = $this->getFilled() && $this->isCustomerLoggedIn();
 $prefix     = $isLoggedIn ? 'logged' : 'new';
 $isLocationAsOneField = $this->helper('fi_checkout')->isLocationAsOneField();
 ?>
-<form id="<?php echo $isLoggedIn ? 'registered-user-form' : 'new-user-form' ?>" action="<?php echo $this->helper('fi_checkout')->getPlaceUrl() ?>" method="post" name="user_info">
-    <div class="col2-set">
-        <div class="col-1 user-general">
-            <p class="required">* <?php echo $this->__('Required Fields') ?></p>
+<form id="<?php echo $isLoggedIn ? 'registered-user-form' : 'new-user-form' ?>" class="user_info" action="<?php echo $this->helper('fi_checkout')->getPlaceUrl() ?>" method="post" name="user_info">
+    <div class="fieldset">
+        <div class="col-2">
+            <?php if (!$this->getQuote()->getIsVirtual()): ?>
+            <label class="tab-title"><?php echo $this->__('Shipping Methods') ?>*</label>
+            <div id="shipping-method-load" class="shipping-methods" data-action="<?php echo $this->helper('fi_checkout')->getUpdateUrl() ?>" data-update-sections="<?php echo $this->helper('fi_checkout')->shippingDependentSections() ?>">
+                <?php echo $this->getChildHtml('available_shipping_methods') ?>
+            </div>
+            <div id="shipping-method-additional-load">
+                <?php echo $this->getChildHtml('additional_shipping_methods') ?>
+            </div>
+            <?php endif ?>
+        </div>
+        <div class="col-1 user-general">            
             <div class="field">
                 <label><?php echo $this->__('Name') ?>*</label>
                 <input type="text" class="input-text required-entry<?php echo $isLoggedIn ? ' disabled' : '' ?>" name="user[name]" value="<?php echo $this->htmlEscape($this->getCustomerName()) ?>" <?php if ($isLoggedIn): ?> readonly="readonly"<?php endif ?> />
@@ -32,17 +42,7 @@ $isLocationAsOneField = $this->helper('fi_checkout')->isLocationAsOneField();
                 <?php endif ?>
             <?php endif ?>
         </div>
-        <div class="col-2">
-            <?php if (!$this->getQuote()->getIsVirtual()): ?>
-            <label class="tab-title"><?php echo $this->__('Shipping Methods') ?>*</label>
-            <div id="shipping-method-load" class="shipping-methods" data-action="<?php echo $this->helper('fi_checkout')->getUpdateUrl() ?>" data-update-sections="<?php echo $this->helper('fi_checkout')->shippingDependentSections() ?>">
-                <?php echo $this->getChildHtml('available_shipping_methods') ?>
-            </div>
-            <div id="shipping-method-additional-load">
-                <?php echo $this->getChildHtml('additional_shipping_methods') ?>
-            </div>
-            <?php endif ?>
-        </div>
+        
     </div>
     <div class="col2-set row-bottom">
         <div class="col-1 addresses">

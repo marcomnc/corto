@@ -345,5 +345,21 @@ class MpsSistemi_Iplocation_Helper_Data extends MpsSistemi_Core_Helper_Data {
         }
     }
     
+    public function getCountryFromZone($zone) {
+        $mZone = null;
+        if ($zone instanceof MpsSistemi_Iplocation_Model_Zone) {
+            $mZone = $zone;
+        } else {
+            $mZone = Mage::getModel('mpslocation/zone')->Load($zone, 'zone_code');
+        }
+        
+        $stateList = array();
+        foreach (explode(',', $mZone->getStateList()) as $state) {
+            $stateList[$state] =  Mage::getModel('directory/country')->load($state)->getName();
+        }
+        
+        return $stateList;
+    }
+    
 }
 ?>

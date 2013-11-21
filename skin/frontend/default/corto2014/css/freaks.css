@@ -11,28 +11,25 @@
 #login-popup {right: -100px; top:75px; width: 625px}
 .ajax-loader {display: inline-block; background: url(../images/ajax-loader.gif) no-repeat 0 0; width:16px; height:11px; vertical-align: middle; }
 
-/* Checkout */
-ul.infos-menus {
-    border-bottom: 5px solid #0076A9
-}
 ul.infos-menus li {
-    float:left;
+    float:left;    
 }
 ul.infos-menus a {
+    font-family: CORTOMinionPro, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px!important;
     display: block;
-    font-size: 13px;
-    color:#000; padding: 6px 15px;
+    color:#000; padding: 1px 15px;
     background:#e8e8e9;
     margin-right: 5px;
-    text-decoration: none;
-    -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px;
-    -webkit-box-shadow: 0 0 6px #ccc;
-    -moz-box-shadow: 0 0 6px #ccc;
-    box-shadow: 0 0 6px #ccc;
+    text-decoration: none;   
+    border: 1px solid #000;
+    background-color: #FFF
 }
-ul.infos-menus li.current a {
-    background: #fff;
-    color: #0076A9;
+ul.infos-menus li.current a {    
+    font-weight: bold;
+    color: #FFF;
+    border: 1px solid #000;
+    background-color: #000
 }
 
 #checkout-block {
@@ -151,9 +148,7 @@ input.fake-title.input-loading {
 
 
 #checkout-block .hidden-tab {
-    position:absolute !important;
-    top:40px; left:0;
-    zoom:1;
+    height: 0px
 }
 
 #checkout-block .overlay {

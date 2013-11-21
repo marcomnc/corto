@@ -1,0 +1,93 @@
+<?php
+/**
+ * Easy Checkout - Magento Extension
+ *
+ * @package:    EasyCheckout
+ * @category:   EcommerceTeam
+ * @copyright:  Copyright 2013 EcommerceTeam Inc. (http://www.ecommerce-team.com)
+ * @version:    2.0.2
+ */
+
+/** @var $this EcommerceTeam_EasyCheckout_Block_Onepage_Billing */
+/** @var $helper EcommerceTeam_EasyCheckout_Helper_Easy */
+$helper               = $this->_getHelper();
+$allowedGuestCheckout = $helper->isAllowedGuestCheckout();
+$checkoutMethod       = $helper->getCheckoutModel()->getCheckoutMethod();
+?>
+<div class="easy-step billing-address"
+     id="billing-address-wrapper">
+    <h2><?php echo $this->__('Billing Address')?>:</h2>
+    <ul class="form-list address-form-list">
+        <?php if ($this->customerHasAddresses()): ?>
+        <li>
+            <label style="text-align:left;width:auto;float:none;" for="billing-address-select"><?php echo $this->__('Select a billing address from your address book.') ?></label>
+            <div class="input-box address-select-box">
+                <?php echo $this->getAddressesHtmlSelect('billing') ?>
+            </div>
+        </li>
+        <?php endif; ?>
+        <li id="billing-new-address-form"
+            <?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif; ?> >
+            <fieldset>
+                <?php echo $this->getChildHtml('address');?>
+                <?php if(!$this->isCustomerLoggedIn()): ?>
+                    <ul>
+                    <?php if(!$this->isCustomerLoggedIn()):?>
+
+                        <?php if($allowedGuestCheckout):?>
+                        <li class="control <?php if(!$this->isThreeColsMode()):?>fields<?php endif;?>">
+                            <div class="field">
+                                <label for="customer_account_create"><?php echo $this->__('Create Account');?></label>
+                                <input class="radio" id="customer_account_create" onclick="if(this.checked){$('register-customer-password').style.display='block';}else{$('register-customer-password').style.display='none';}" type="checkbox" <?php if($checkoutMethod == 'register'):?>checked="checked"<?php endif;?> name="create_account" value="1"  />
+                            </div>
+                        </li>
+                        <?php endif;?>
+
+                        <li <?php if(!$this->isThreeColsMode()):?>class="fields"<?php endif;?> id="register-customer-password" <?php if($allowedGuestCheckout && $checkoutMethod != 'register'):?>style="display:none;"<?php endif;?>>
+                            <div class="field">
+                                <label for="billing_customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                                <div class="input-box">
+                                    <input type="password" name="billing[password]" id="billing_customer_password" title="<?php echo $this->__('Password') ?>" class="input-text required-entry validate-password" />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="billing_confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+                                <div class="input-box">
+                                    <input type="password" name="billing[confirmation]" title="<?php echo $this->__('Confirm Password') ?>" id="billing_confirm_password" class="input-text required-entry validate-cpassword" />
+                                </div>
+                            </div>
+                        </li>
+                    <?php endif; ?>
+                    </ul>
+                <?php endif; ?>
+            </fieldset>
+        </li>
+        <?php
+
+        if($this->isThreeColsMode()){
+            /** @var $shippingBlock EcommerceTeam_EasyCheckout_Block_Onepage_Shipping */
+            $shippingBlock = $this->getLayout()->getBlock('checkout.onepage.address.shipping');
+            if ($shippingBlock->canShow()) {?>
+            <li >
+                 <label style="width:auto" for="billing_use_for_shipping_yes">
+                     <input class="radio"
+                            type="checkbox"
+                            name="billing[use_for_shipping]"
+                            id="billing_use_for_shipping_yes"
+                            value="1"
+                            <?php if($shippingBlock->someAsBilling()):?>
+                            checked="checked"
+                            <?php endif;?>
+                            class="radio" autocomplete="off" />
+                     <span><?php echo $this->__('Ship to the same address');?></span>
+                 </label>
+            </li>
+        <?php }
+        }?>
+    </ul>
+    <script type="text/javascript">
+    //<![CDATA[
+        var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions, undefined, 'billing:postcode');
+    //]]>
+    </script>
+</div>
