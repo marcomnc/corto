@@ -22,13 +22,14 @@
 <div class="actions">
     <div id="elogin-buttons">
         <div class="buttons">
-            <button class="button" onclick="TINY.box.hide();return false;"><span><span><?php echo $this->__('Cancel');?></span></span></button>
-            <button style="margin-left:5px;" class="button" onclick="checkout.login($('elogin-email').value, $('elogin-password').value, '<?php echo $this->getUrl('checkout/onepage/login');?>'); return false;"><span><span><?php echo $this->__('Login');?></span></span></button>
+            <button class="button close" onclick="TINY.box.hide();return false;"><span><span><?php echo $this->__('Cancel');?></span></span></button>
+            <button class="button submit" onclick="checkout.login($('elogin-email').value, $('elogin-password').value, '<?php echo $this->getUrl('checkout/onepage/login');?>'); return false;"><span><span><?php echo $this->__('Login');?></span></span></button>
         </div>
+        <div class="clearer"></div>
         <div class="links">
             <a href="<?php echo $this->getUrl('customer/account/forgotpassword')?>"><?php echo $this->__('Forgot Your Password?')?></a>
         </div>
-    </div>
+    </div>    
     <div id="elogin-loading" style="display:none;">
         <?php echo addslashes($this->__('loading please wait...'));?>
     </div>

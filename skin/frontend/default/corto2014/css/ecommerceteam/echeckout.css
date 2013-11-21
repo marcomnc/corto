@@ -247,6 +247,19 @@
     margin-top:10px;
 }
 
+#elogin-buttons button.button {
+    float: right;
+    border: 1px solid #000;    
+}
+
+#elogin-buttons button.close {
+    float: left;      
+}
+#elogin-buttons button.close span {
+    background: #FFF;
+    color: #000;
+}
+
 #coupon_code {
     width:295px;
 }
