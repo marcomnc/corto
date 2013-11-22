@@ -63,7 +63,8 @@ class MpsSistemi_Iplocation_LocationController extends Mage_Core_Controller_Fron
             $myStore =  Mage::Helper('mpslocation')->getStoreFromZone($zone);
             $cookie->setData('store', $myStore->getCode());
             $cookie->setData('website_id', $myStore->getWebsiteId());
-            $cookie->setData('zone_id', $zone);
+            $zoneLoc = Mage::getModel('mpslocation/zone')->Load($zone);
+            $cookie->setData('zone_id', $zoneLoc->getZoneCode());
             
             $enabledStore = array();
             foreach (Mage::Helper('mpslocation')->getStoreEnabledForZone($zone) as $enStore) {

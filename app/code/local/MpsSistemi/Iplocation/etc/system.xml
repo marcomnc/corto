@@ -56,7 +56,8 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Se attivo non permette di selezionare un paese di fatturazione che non rientra nella zona corrente.</comment>
+                            <comment><![CDATA[Se attivo non permette di selezionare un paese di fatturazione che non rientra nella zona corrente.<br>
+                                        Se il flag viene modificato è necessario effettuare il refresh delle zone ed azzerare la cache.]]></comment>
                         </allow_billing_country>
                     </fields>
                 </store_zone>

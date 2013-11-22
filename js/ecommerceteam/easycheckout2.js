@@ -111,7 +111,8 @@ var EasyCheckout = Class.create(
                 'shipping:city',
                 'shipping:region',
                 'shipping:region_id',
-                'shipping:postcode'
+                'shipping:postcode',
+                'shipping-select:country_id'
             );
 
             for (var i = 0; i < elements.length; i++) {
@@ -119,6 +120,8 @@ var EasyCheckout = Class.create(
                     Event.observe(elements[i], 'change', this.addressChangedEvent.bind(this));
                 }
             }
+            
+            //Event.Observer('select-shipping-country', 'change', '')
 
             var useBillingAddressForShipping = $('billing_use_for_shipping_yes');
             if (useBillingAddressForShipping) {
@@ -224,10 +227,10 @@ var EasyCheckout = Class.create(
         },
         // Called before submit data to server
         beforeSendRequest: function(userFunction, params) {
-            //this.showLoading();
+            this.showLoading();
             $('submit-btn').disabled = true;
             $('submit-btn').addClassName('disabled');
-            $('checkout-loadinfo').setStyle({visibility:'visible'});
+            //$('checkout-loadinfo').setStyle({visibility:'visible'});
             this.saveState();
             this.dispatchEvent('beforeSendRequest', params);
             if (userFunction) {
@@ -241,12 +244,12 @@ var EasyCheckout = Class.create(
                 return location.href = response['redirect_url'];
             }
             if (!this.inProccess) {
-                //this.hideLoading();
+                this.hideLoading();
                 this.overlay.hide();
                 this.updateHtmlBlocks(response);
                 $('submit-btn').disabled = false;
                 $('submit-btn').removeClassName('disabled');
-                $('checkout-loadinfo').setStyle({visibility:'hidden'});
+                //$('checkout-loadinfo').setStyle({visibility:'hidden'});
             } else {
                 this.overlay.reload();
             }
@@ -485,7 +488,14 @@ var EasyCheckout = Class.create(
                 this.dispatchEvent('couponUpdated');
             }
         },
-        addressChangedEvent: function() {
+        addressChangedEvent: function(event) {
+            try {
+                var element = Event.element(event);
+                if (element == $('shipping-select:country_id')) {
+                    //Aggiorno l'indirizzo si spedizione
+                    $('shipping:country_id').value=$F('shipping-select:country_id');                
+                }
+            } catch (e) {}
             this.saveAddress({"ignore_errors":1});
         },
         shippingChangedEvent: function() {
@@ -566,17 +576,25 @@ var EasyCheckout = Class.create(
             this.reloadCustomSelect();
         },
         showLoading: function() {
-            if (null == this.loadingBlock) {
-                this.loadingBlock = document.createElement('div');
-                this.loadingBlock.setAttribute('id', 'easycheckout-loading-info');
-                this.loadingBlock.setAttribute('class', 'easycheckout-loading-info');
-                this.loadingBlock.innerHTML = "<span>" + this.options.loadingMsg + "</span>";
-                document.body.appendChild(this.loadingBlock);
+            try {
+                $j.fn.layer(true, {bindEsc:false, waiting: true});
+            } catch (e) {
+                if (null == this.loadingBlock) {
+                    this.loadingBlock = document.createElement('div');
+                    this.loadingBlock.setAttribute('id', 'easycheckout-loading-info');
+                    this.loadingBlock.setAttribute('class', 'easycheckout-loading-info');
+                    this.loadingBlock.innerHTML = "<span>" + this.options.loadingMsg + "</span>";
+                    document.body.appendChild(this.loadingBlock);
+                }
+                this.loadingBlock.style.display = "block";
             }
-            this.loadingBlock.style.display = "block";
         },
         hideLoading: function() {
-            this.loadingBlock.style.display = "none";
+            try {
+                $j.fn.layer(false);
+            } catch (e) {
+                this.loadingBlock.style.display = "none";
+            }
         },
         login: function (e, p, url)
         {

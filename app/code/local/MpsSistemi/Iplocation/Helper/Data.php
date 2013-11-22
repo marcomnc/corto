@@ -238,7 +238,7 @@ class MpsSistemi_Iplocation_Helper_Data extends MpsSistemi_Core_Helper_Data {
             
             if (!$allowBillingCountry) {
                 //Imposto abilitati tutti i paesi e blocco le spedizioni
-                $allowCountry = implode(Mage::getModel('directory/country')->getResourceCollection()->toArray());
+                $allowCountry = implode($this->getAllCountryIds(),',');                
                 $config->saveConfig('general/country/allow', $allowCountry, 'websites', $k);
                 
                 foreach ( Mage::app()->getWebsite($k)->getConfig('carriers') as $code => $cconfig) {
@@ -359,6 +359,42 @@ class MpsSistemi_Iplocation_Helper_Data extends MpsSistemi_Core_Helper_Data {
         }
         
         return $stateList;
+    }
+    
+    public function getAllCountryIds() {
+        $countryId = array();
+        foreach (Mage::getModel('directory/country')->getCollection() as $country) {
+            $countryId[] = $country->getId();
+        }
+        
+        return $countryId;
+                
+    }
+    
+    public function getCountryNameFromCookie($cookie = null){
+        if (is_null($cookie)) {
+            $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
+        }
+        
+        if ($cookie->hasCountryName() && $cookie->getCountryName() != "") {
+            //Se c'è lo prendo dal cookie
+            return $cookie->getCountryName();
+        }
+        
+        $countryStore = Mage::getStoreConfig('general/country/default');
+        
+        if ($cookie->hasZoneId() && $cookie->getZoneId() != "") {
+            //Controllo se lo store associato alla zona (quello attuale) a un pasese di default compreso nei paesi della zone
+            $zone = Mage::getModel('mpslocation/zone')->Load($cookie->getZoneId(), 'zone_code');
+            if (strpos(','.$countryStore.',', ','.  strtoupper($zone->getStateList()).',') === false) {                
+                //butto sul primo paese della zona
+                $c = explode(",", $zone->getStateList());
+                $countryStore = $c[0];
+            }
+        }                
+        
+        $country = Mage::getModel('directory/country')->Load($countryStore);
+        return $country->getName();
     }
     
 }

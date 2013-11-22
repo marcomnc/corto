@@ -76,3 +76,10 @@
 #easycheckout-form-wrap .discount-form {
     padding: 5px 0;
 }
+
+#shipping-address-wrapper {
+    transition:             all 500ms ease-in-out;
+    -moz-transition:        all 500ms ease-in-out;
+    -webkit-transition:     all 500ms ease-in-out;
+    -o-transition:          all 500ms ease-in-out;
+}

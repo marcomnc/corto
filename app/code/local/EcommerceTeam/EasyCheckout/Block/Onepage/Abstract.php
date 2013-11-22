@@ -77,22 +77,43 @@ class EcommerceTeam_EasyCheckout_Block_Onepage_Abstract
      * @param string $type
      * @return string
      */
-    public function getAddressesHtmlSelect($type)
+    public function getAddressesHtmlSelect($type, $currentCuntryId = null)
     {
+        $countryList = array();
+        $countries = $this->getCountryOptions();
+        foreach ($countries as $country) {
+            if ($country['value'] != '')
+                $countryList[$country['value']] = '';
+        }
         if ($this->isCustomerLoggedIn()) {
             $options = array();
             foreach ($this->getCustomer()->getAddresses() as $address) {
+                
+                if ($type == "shipping" && !isset($countryList[$address->getCountryId()])) {
+                    continue;
+                } 
                 $options[] = array(
                     'value'=>$address->getId(),
                     'label'=>$address->format('oneline')
                 );
+                
+                if ($type == "shipping" && !is_null($currentCuntryId) && $currentCuntryId == $address->getCountryId()) {
+                    $addressId = $address->getId();
+                }
             }
-
-            $addressId = $this->getAddress()->getCustomerAddressId();
+            
+            if ($type == "shipping" && sizeof($options) == 0) {
+                return '';
+            }
+            //Propongo sempre il primary per semplicità....
+            //$addressId = $this->getAddress()->getCustomerAddressId();
 
             if (empty($addressId)) {
                 if ('shipping' == $type) {
-                    $address = $this->getCustomer()->getPrimaryShippingAddress();
+                    //l'ho impostato sopra.....
+                    if (!isset($addressId)) {
+                        $addressId = $options[0]['value'];
+                    }
                 } else {
                     $address = $this->getCustomer()->getPrimaryBillingAddress();
                 }

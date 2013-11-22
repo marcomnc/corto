@@ -64,11 +64,14 @@ class Autel_Corto_Helper_Currency extends Autel_Corto_Helper_Data {
     }
     
     public function getCustomCurrencyToView() {
-        
+
         $code = Mage::getSingleton('catalog/session')->getCustomCurrencyToView() . '';
         
         if ($code == '') {
             $code = Mage::getModel('core/cookie')->get("currency-selector");
+            if ($code == '') {
+                $code = Mage::app()->getStore()->getDefaultCurrencyCode();
+            }
             Mage::getSingleton('catalog/session')->setCustomCurrencyToView($code);
         }
         

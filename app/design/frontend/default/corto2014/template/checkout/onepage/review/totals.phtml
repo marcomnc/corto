@@ -27,11 +27,12 @@
 /**
  * @see Mage_Checkout_Block_Cart_Totals
  */
+
 ?>
 <?php if ($this->getTotals()): ?>
 <tfoot>
     <?php $_colspan = $this->helper('tax')->displayCartBothPrices() ? 5 : 3; ?>
-    <?php echo $this->renderTotals(null, $_colspan); ?>
+    <?php //echo $this->renderTotals(null, $_colspan); ?>
     <?php echo $this->renderTotals('footer', $_colspan); ?>
     <?php if ($this->needDisplayBaseGrandtotal()):?>
     <tr>
@@ -43,5 +44,24 @@
         </td>
     </tr>
     <?php endif?>
+    <tr>
+        <td colspan="<?php echo $_colspan+1;?>">
+            <div style="position: relative; float: right; width: 100%" class="clearer block-cart review-order">
+                <?php   foreach($this->getTotals() as $_tot):
+                            if ($_tot->getCode() == 'grand_total'):
+                                echo $this->getLayout()
+                                        ->createBlock('core/template')
+                                        ->setPrintDataFrom('checkout')
+                                        ->setTotal($_tot->getValue()) 
+                                        ->setTemplate('corto/directory/exchange.rate.phtml')
+                                        ->toHtml();
+                            endif;
+                        endforeach;  ?>
+            </div>            
+            <div style="float: right; text-align: right; margin-top: 10px;">                
+                <?php echo $this->__("This is the price of your order comprehensive of shipping costs and all duties. Your order will be delivered to your doorstep");?>                
+            </div>  
+        </td>
+    </tr>
 </tfoot>
 <?php endif; ?>

@@ -147,7 +147,14 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                 <rewrite>
                     <block>Autel_Corto_Block_Cms_Block</block>
                 </rewrite>
-            </cms>            
+            </cms>  
+            <checkout>
+                <rewrite>
+                    <onepage_shipping>Autel_Corto_Block_Checkout_Onepage_Shipping</onepage_shipping>
+                    <!--<onepage_abstract>Autel_Corto_Block_Checkout_Onepage_Abstract</onepage_abstract>
+                    Attenzione a classe astratta è sotto mage/local -->
+                </rewrite>
+            </checkout>                
         </blocks>
         <helpers>
             <autelcorto>
@@ -200,7 +207,7 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                 <rewrite>
                     <quote_address>Autel_Corto_Model_Sales_Quote_Address</quote_address>
                 </rewrite>
-            </sales>
+            </sales>            
         </models>
         <resources>
             <autelcorto_setup>

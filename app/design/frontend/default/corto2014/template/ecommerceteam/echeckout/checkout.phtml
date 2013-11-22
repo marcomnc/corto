@@ -15,10 +15,10 @@ $helper   = Mage::helper('ecommerceteam_easycheckout/easy');
 $customer = $this->getCustomer();
 
 $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry(); 
+$checkoutModel = Mage::getSingleton('ecommerceteam_easycheckout/type_easy');
 $zone = Mage::getModel('mpslocation/zone')->Load($cookie['zone_id'], 'zone_code');
 $shippingList = Mage::Helper('mpslocation')->getCountryFromZone($zone);
-$currentShippingCountry = Mage::getSingleton('ecommerceteam_easycheckout/type_easy')->getQuote()->getShippingAddress()->getCountryId().'';
-
+$currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getCountryId().'';
 
 ?>
 <script type="text/javascript">
@@ -64,7 +64,7 @@ $currentShippingCountry = Mage::getSingleton('ecommerceteam_easycheckout/type_ea
                 <div class="shipping-area"><?php echo $zone->getDescription(); ?></div>
                 <div class="change-country">
                     <a href="#" class="mps_link mpslocation-change-country"
-                       onclick="$j.fn.selectCountry({'url': '<?php echo $this->getUrl("mpslocation/location/select"); ?>',
+                       onclick="$j.fn.selectCountry({'url': '<?php echo $this->getBaseUrl() . "mpslocation/location/select/"; ?>',
                                                  'countryCode': '<?php echo $cookie->getdata('country_code')?>',
                                                  'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
                                                  'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
@@ -75,16 +75,19 @@ $currentShippingCountry = Mage::getSingleton('ecommerceteam_easycheckout/type_ea
             </li>
             <li class="your-shipping-country">
                 <div class="field">
-                    <label for="select-shipping-country"><em>*</em><?php echo $this->__('Country');?></label>
-                    <select name="select-shipping-country" name="select-shipping-country" class="validate-select">
-                        <?php foreach ($shippingList as $k => $v): ?>
-                        <?php if ($currentShippingCountry == ''):
-                                    $currentShippingCountry = $k;
-                                    Mage::getSingleton('ecommerceteam_easycheckout/type_easy')->getQuote()->getShippingAddress()->setCountryId($k);
-                              endif;?>
-                        <option value="<?php echo $k;?>" <?php if ($currentShippingCountry == $k):?>selected="selected"<?php endif; ?>><?php echo $v;?></option>
-                        <?php endforeach; ?>
-                    </select>
+
+                        <?php foreach ($shippingList as $k => $v): 
+                                if ($currentShippingCountry == ''):
+                                    $currentShippingCountry = $k;      
+                                    $checkoutModel->saveBillingAddress(new Varien_Object(array('country_id' => $k)),null);
+                                    $checkoutModel->saveShippingAddress(new Varien_Object(array('country_id' => $k)),null);
+                                endif;
+                              endforeach; ?>                    
+                    
+                    <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                    <div class="input-box">
+                        <?php  echo $this->getLayout()->createBlock('checkout/onepage_shipping')->getCountryHtmlSelect('shipping-select') ?>
+                    </div>                    
                 </div>
             </li>
         </ul>
@@ -92,7 +95,9 @@ $currentShippingCountry = Mage::getSingleton('ecommerceteam_easycheckout/type_ea
 
     <form action="" method="post" id="easycheckout-form">
         <?php if ($helper->canShip()):?>
-        <?php echo $this->getChildHtml('shipping_method');?>
+        <?php   $blockSipping = $this->getChild('shipping_method');
+                $blockSipping->setData('current_shipping_country', $currentShippingCountry);
+                echo $blockSipping->toHtml();?>
         <?php endif;?>
         <?php echo $this->getChildHtml('billing_address');?>
 

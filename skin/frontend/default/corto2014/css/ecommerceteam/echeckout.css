@@ -402,3 +402,6 @@ ul.infos-menus li.current a {
 .checkout-shipping-area-select li { clear: both;}
 .checkout-shipping-area-select li>div {margin:10px 0}
 .checkout-shipping-area-select .your-shipping-area>div {float: left; margin-right: 20px}
+
+#easycheckout-review-info td .product-item-image {width: 125px; float: left;}
+#easycheckout-review-info td .product-item { float: left;}

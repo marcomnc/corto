@@ -684,7 +684,8 @@ tr.summary-details-excluded { font-style:italic; }
 
 /* Block: Currency Switcher */
 .block-currency {bottom: 5px;margin: 0;padding: 0;position: absolute;right: 15px;border:0px}
-.block-cart.review-order .block-currency {top:-18px; left:0px; right: auto;}
+.block-cart.review-order .block-currency {bottom: 25px; right: 0;}
+.block-cart.review-order #exchange-rate>span:first-child { display: none }
 .customer-order-totals .block-currency {top:0px; right: 0px; min-width: 100px}
 .block-currency div { text-align: center;  margin-left: 5px; float: right; cursor: pointer   }
 .block-currency div a:hover {color: #6D6E71}

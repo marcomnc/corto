@@ -51,9 +51,7 @@ if ($enableStore != "") {
                                                  'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
                                                  'enableEsc': true});return false;">
             <?php echo $this->__("Shipping Country");?>
-            <?php if ($cookie->hasCountryName() && $cookie->getCountryName() != ""): ?>
-            &nbsp;(&nbsp;<?php echo $cookie->getCountryName() ?>&nbsp;)
-            <?php endif; ?>
+            &nbsp;(&nbsp;<?php echo Mage::Helper('mpslocation')->getCountryNameFromCookie($cookie); ?>&nbsp;)           
         </a>
     </li>
     <li class="last">

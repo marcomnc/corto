@@ -37,6 +37,8 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     protected $_countryCollection;
     protected $_regionCollection;
     protected $_addressesCollection;
+    
+    protected $_prefix = ''; // Vale shipping in fase di shipping
 
     /**
      * Get logged in customer
@@ -184,25 +186,64 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         return $select->getHtml();
     }
 
+    /**
+     * Override per la gestione delle zone di spedizione
+     * le classi di base di shipping hanno dichiarata la variable prefix
+     * @return type
+     */
     public function getCountryOptions()
     {
+        
+        $allowBillingCountry = Mage::app()->getWebsite()->getConfig('mpslocation_options/store_zone/allow_billing_country');
         $options    = false;
-        $useCache   = Mage::app()->useCache('config');
-        if ($useCache) {
-            $cacheId    = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
-            $cacheTags  = array('config');
-            if ($optionsCache = Mage::app()->loadCache($cacheId)) {
-                $options = unserialize($optionsCache);
-            }
-        }
+        if (!$allowBillingCountry && $this->_prefix == "shipping") {
 
-        if ($options == false) {
-            $options = $this->getCountryCollection()->toOptionArray();
+            $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
+            if ($cookie->hasZoneId() && $cookie->getZoneId() != '') {                        
+            
+                $useCache   = false; //Mage::app()->useCache('config');
+                if ($useCache) {
+                    $cacheId    = 'DIRECTORY_COUNTRY_SELECT_ZONE_' . $cookie->getZoneId() . '_SHIPPING';
+                    $cacheTags  = array('config');
+                    if ($optionsCache = Mage::app()->loadCache($cacheId)) {
+                        $options = unserialize($optionsCache);
+                    }
+                }
+                if ($options == false) {
+                    foreach ($this->getCountryCollection()->toOptionArray() as $country) {
+
+                        $zone = Mage::getModel('mpslocation/zone')->Load($cookie->getZoneId(), 'zone_code');
+
+                        if (strpos(','.$zone->getStateList() .',', ','.  strtoupper($country['value']).',') !== false) {
+                            $options[] =  $country;
+                        }
+
+                    }
+                    if ($useCache) {
+                        Mage::app()->saveCache(serialize($options), $cacheId, $cacheTags);
+                    }
+                }
+            }
+            
+        } else {
             if ($useCache) {
-                Mage::app()->saveCache(serialize($options), $cacheId, $cacheTags);
+                $cacheId    = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+                $cacheTags  = array('config');
+                if ($optionsCache = Mage::app()->loadCache($cacheId)) {
+                    $options = unserialize($optionsCache);
+                }
+            }
+
+            if ($options == false) {
+                $options = $this->getCountryCollection()->toOptionArray();
+                if ($useCache) {
+                    Mage::app()->saveCache(serialize($options), $cacheId, $cacheTags);
+                }
             }
         }
+        
         return $options;
+        
     }
 
     /**
