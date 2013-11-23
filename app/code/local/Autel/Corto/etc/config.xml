@@ -18,7 +18,17 @@
                         <method>cart_add_product_complete</method>
                     </autel_corto_observer>
                 </observers>
-            </checkout_cart_add_product_complete>    
+            </checkout_cart_add_product_complete>  
+<!-- Evento in fase di aggiunta prodotto sul carrello. Faccio subito calcolare un indirizzo utile per avere i metodi di spedizione -->
+            <checkout_cart_save_after>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Observer</class>
+                        <method>cart_save_after</method>
+                    </autel_corto_observer>
+                </observers>
+            </checkout_cart_save_after>      
             <cms_page_render>
                 <observers>
                     <autel_corto_observer>

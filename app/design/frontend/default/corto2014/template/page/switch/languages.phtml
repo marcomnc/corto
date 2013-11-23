@@ -51,7 +51,10 @@ if ($enableStore != "") {
                                                  'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
                                                  'enableEsc': true});return false;">
             <?php echo $this->__("Shipping Country");?>
-            &nbsp;(&nbsp;<?php echo Mage::Helper('mpslocation')->getCountryNameFromCookie($cookie); ?>&nbsp;)           
+            <?php $_zone = Mage::helper('mpslocation')->getCurrentZone();            
+                  if ($_zone !== false): ?>
+            &nbsp;(&nbsp;<?php echo $_zone->getStoreLabel() ?>&nbsp;)           
+            <?php endif;?>
         </a>
     </li>
     <li class="last">

@@ -295,5 +295,112 @@ class Autel_Corto_Model_Observer {
         $observer->setPage($page);
         return ($observer);
     }
+    
+    /**
+     * Faccio subito creare un indirizzo di spedizione (se non ce ne è uno predefinito per avere i metodi di spedizione gia popalati
+     */
+    public function cart_save_after($observer) {
+        
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        
+        //SE non ho quote mi preparo per ripartire
+        if ($quote->getAllItems() == 0) {
+            $quote->setLocaleProcessed(false);
+            return $observer;
+        }
+        
+        // l'elaborazione la faccio solo la prima volta che aggiungo un prodotto
+        if ($quote->getLocaleProcessed()) {
+            return $observer;
+        }
+
+        if (is_null($observer)) {
+            $cart = Mage::getSingleton('checkout/cart');
+        } else {
+            $cart = $observer->getCart();
+        }
+        $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
+
+        if ($cookie->hasZoneId() && $cookie->getZoneId() != '') {
+            
+            $enableCounrty = Mage::Helper('mpslocation')->getCountryFromZone($cookie->getZoneId());
+
+            $country = $cookie->getData('country_code').'';
+            if ($country == '') {
+                if (isset($enableCounrty[Mage::getStoreConfig('general/country/default')])) {
+                    $country = Mage::getStoreConfig('general/country/default');
+                } else {
+                    $country = $enableCounrty[0];
+                }
+            }
+            
+            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+                $customer = Mage::getSingleton('customer/session')->getCustomer();
+
+                $defaultBillingAddress = $customer->getDefaultBillingAddress();
+                $defaultShippingAddress = $customer->getDefaultShippingAddress();
+                               
+                //Assegno l'indirizzo di fatturazione e di spedizione di default se presenti
+                if ($defaultBillingAddress) {
+                    $quote->getBillingAddress()->setCustomerId($customer->getId())->importCustomerAddress($defaultBillingAddress);
+                }
+                if ($defaultShippingAddress) {
+                    $quote->getShippingAddress()->setCustomerId($customer->getId())->importCustomerAddress($defaultShippingAddress);                
+                }
+                
+            }
+            
+            //Se ho un indirizzo che non rientra nelle country abilitate lo azzero e ne creo uno nuovo
+            if ($quote->getShippingAddress()->hasCountryId() && $quote->getShippingAddress()->getCountryId() != '' &&
+                !isset($enableCounrty[$quote->getShippingAddress()->hasCountryId()])) {
+                $quote->getShippingAddress()->setCustomerId(null)->importCustomerAddress(new Mage_Customer_Model_Address());
+            } 
+            
+            // Se ho azzerato l'indirizzo lo riassegno con la country ricavata....
+            if (($quote->getShippingAddress()->getCountryId() == "") && $country != "") {
+
+                $quote->getShippingAddress()
+                      ->setCountryId( $country )
+                      ->setCity("")
+                      ->setPostcode("")
+                      ->setRegionId("")
+                      ->setRegion("");                      
+            }
+            
+            if (!$this->_isEqualAddress($quote->getBillingAddress(), $quote->getShippingAddress())) {
+                $quote->getShippingAddress()->setSameAsBilling(0);
+            }
+            
+            //Forzo sempre il ricalcolo dell spedizioni.
+            $quote->getShippingAddress()->setCollectShippingRates(true) //Forzo di ricalcolare la collection delle spedizioni
+                  ->collectShippingRates();
+
+            $quote->save();
+
+
+            if (!is_null($observer)) {
+                $observer->setCart($cart);
+            }
+                        
+            $quote->setLocaleProcessed(true);
+        } else {
+            //Non va bene!!!
+        }
+        
+        return $observer;
+    }
+
+    public function _isEqualAddress($billing, $shipping) {
+        
+        $checkField = array('firstname', 'lastname', 'city', 'region', 'postcode', 'country_id', 'telephone', 'region_id', 'street');
+        
+        foreach ($checkField as $field) {
+            if ($billing->getData($field) !=  $shipping->getData($field)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }
 ?>

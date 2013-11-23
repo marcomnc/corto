@@ -24,6 +24,7 @@
 
 class  MpsSistemi_Iplocation_Model_Zone extends Mage_Core_Model_Abstract
 {
+    protected $_labels = null;
     
     protected function _construct()
     {        
@@ -43,23 +44,18 @@ class  MpsSistemi_Iplocation_Model_Zone extends Mage_Core_Model_Abstract
         return $this->_getData('store_labels');
     }
     
-    public function getStoreLabel($returnDescription=false) {
+    public function getStoreLabel($returnDescription=true) {
         $storeId = Mage::app()->getStore()->getId();
-        if ($this->hasStoreLabels()) {
-            $labels = $this->_getData('store_labels');
-            if (isset($labels[$storeId])) {
-                return $labels[$storeId];
-            } elseif ($labels[0]) {
-                return $labels[0];
-            } elseif ($returnDescription) {
-                return $this->getData('description');
-            } else {
-                return false;
-            }
-        } elseif (!isset($this->_labels[$storeId])) {
-            $this->_labels[$storeId] = $this->_getResource()->getStoreLabel($this->getId(), $storeId);
+        $labels = $this->getStoreLabels();
+
+        $label = "";
+        
+        if (!isset($labels[$storeId]) && $returnDescription) {
+
+            $label = $this->getDescription();
         }
-        return $this->_labels[$storeId];        
+            
+        return $label;        
     }
    
     protected function _beforeSave() {

@@ -66,6 +66,21 @@
                 <block type="checkout/cart_coupon"  name="echeckout_coupon" as="echeckout_coupon" template="ecommerceteam/echeckout/coupon.phtml"/>
                 <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="ecommerceteam/echeckout/agreements.phtml"/>
 
+                <block name="echeckout_cart" as="echeckout_cart" type="checkout/cart">
+                    <action method="setCartTemplate"><value>checkout/cart.phtml</value></action>
+                    <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
+                    <action method="chooseTemplate"/>
+                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
+
+                    <block type="page/html_wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
+                        <label>Shopping Cart Form Before</label>
+                    </block>                    
+                </block>
+                
+                <!--<block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>-->
+                <block type="ecommerceteam_easycheckout/onepage_totals" name="checkout.totals" as="totals" template="ecommerceteam/echeckout/totals.phtml"/>
             </block>
         </reference>
     </ecommerceteam_easycheckout>
@@ -151,6 +166,8 @@
                 <block type="checkout/cart_coupon"  name="echeckout_coupon" as="echeckout_coupon" template="ecommerceteam/echeckout/coupon.phtml"/>
                 <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="ecommerceteam/echeckout/agreements.phtml"/>
 
+                
+                
             </block>
         </reference>
     </ecommerceteam_checkout_cart_index>

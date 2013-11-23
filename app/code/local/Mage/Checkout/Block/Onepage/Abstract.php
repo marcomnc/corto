@@ -196,12 +196,12 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         
         $allowBillingCountry = Mage::app()->getWebsite()->getConfig('mpslocation_options/store_zone/allow_billing_country');
         $options    = false;
+        $useCache   = Mage::app()->useCache('config');
         if (!$allowBillingCountry && $this->_prefix == "shipping") {
 
             $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
             if ($cookie->hasZoneId() && $cookie->getZoneId() != '') {                        
             
-                $useCache   = false; //Mage::app()->useCache('config');
                 if ($useCache) {
                     $cacheId    = 'DIRECTORY_COUNTRY_SELECT_ZONE_' . $cookie->getZoneId() . '_SHIPPING';
                     $cacheTags  = array('config');

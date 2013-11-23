@@ -52,7 +52,7 @@ $breadcrumbs->setNoReset(true);
 
 	if (!is_null($currentCategory)) :
 
-       $_CACHE_KEY = "PREVIOUS_NEXT_PRODUCT_" . $currentCategory . "_" . Mage::app()->getStore()->getId();
+       $_CACHE_KEY = "PREVIOUS_NEXT_PRODUCT_" . $currentCategory->getId() . "_" . Mage::app()->getStore()->getId();
        $cache = Mage::app()->getCache();
        $PrevNext = unserialize( $cache->load($_CACHE_KEY));
        

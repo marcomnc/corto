@@ -46,8 +46,8 @@ class MpsSistemi_Iplocation_Helper_Data extends MpsSistemi_Core_Helper_Data {
                         ->getByGroup()
                         ->sort();
             $select->getSelect()                   
-                   ->where("CONCAT(  ',', state_list,  ',' ) LIKE  '%," . $country->getCountryId() .",%'")
-                   ->order();
+                   ->where("CONCAT(  ',', state_list,  ',' ) LIKE  '%," . $country->getCountryId() .",%'");
+                   //->order();
             foreach ($select as $z) {
                 $zone = $z->getZoneCode();
                 break;
@@ -361,6 +361,11 @@ class MpsSistemi_Iplocation_Helper_Data extends MpsSistemi_Core_Helper_Data {
         return $stateList;
     }
     
+    /**
+     * Recupera l'elenco delle country sotto forma di array.
+     * @param type $zone
+     * @return type
+     */
     public function getAllCountryIds() {
         $countryId = array();
         foreach (Mage::getModel('directory/country')->getCollection() as $country) {
@@ -371,17 +376,17 @@ class MpsSistemi_Iplocation_Helper_Data extends MpsSistemi_Core_Helper_Data {
                 
     }
     
-    public function getCountryNameFromCookie($cookie = null){
+    public function getCountryFromCookie($cookie = null) {
         if (is_null($cookie)) {
             $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
         }
         
+        $countryStore = Mage::getStoreConfig('general/country/default');
+        
         if ($cookie->hasCountryName() && $cookie->getCountryName() != "") {
             //Se c'è lo prendo dal cookie
-            return $cookie->getCountryName();
+            $countryStore = $cookie->getCountryCode();
         }
-        
-        $countryStore = Mage::getStoreConfig('general/country/default');
         
         if ($cookie->hasZoneId() && $cookie->getZoneId() != "") {
             //Controllo se lo store associato alla zona (quello attuale) a un pasese di default compreso nei paesi della zone
@@ -392,10 +397,24 @@ class MpsSistemi_Iplocation_Helper_Data extends MpsSistemi_Core_Helper_Data {
                 $countryStore = $c[0];
             }
         }                
-        
         $country = Mage::getModel('directory/country')->Load($countryStore);
-        return $country->getName();
+        return $country;
     }
     
+    public function getCountryNameFromCookie($cookie = null){
+        
+        return $this->getCountryFromCookie($cookie)->getName();
+    }
+
+    public function getCurrentZone() {
+        $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
+        $zone = false;
+        
+        if ($cookie->hasZoneId() && $cookie->getZoneId() != "") {
+            $zone = Mage::getModel('mpslocation/zone')->Load($cookie->getZoneId(), 'zone_code');
+        }
+        
+        return $zone;
+    }
 }
 ?>

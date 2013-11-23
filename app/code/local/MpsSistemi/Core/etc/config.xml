@@ -34,6 +34,7 @@
 -->        
         <page>
             <layouts>
+<!-- presenti nel config di corto
                 <simple_popup translate="label">
                     <label>(Mps Core) Simple Popup</label>
                     <template>mps/page/popup-simple.phtml</template>   
@@ -43,7 +44,7 @@
                     <label>(Mps Core) Popup con Layout</label>
                     <template>mps/page/popup-mps.phtml</template>                    
                     <layout_handle>page_popup_mps</layout_handle>                 
-                </popup_mpslayout>          
+                </popup_mpslayout>          -->
             </layouts>
         </page>
        
