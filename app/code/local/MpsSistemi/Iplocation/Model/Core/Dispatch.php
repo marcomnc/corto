@@ -29,7 +29,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
     const ACTION_WARNING        = 'AW';
     const ACTION_SELECT         = 'AS';
     
-    const COOKIE_VERSION        = '2.0';
+    const COOKIE_VERSION        = '2.1';
 
     public function pre_dispatch($observer) {
 
@@ -44,7 +44,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
             $cookie->unsetData();
             self::setCookie($cookie);
         }
-        
+
         if ((!$cookie->hasData() || !$cookie->hasData('version') || $cookie->getData('version') != self::COOKIE_VERSION) ||
             (isset($front['___ip_test']) && $front['___ip_test'] != "")) { 
             //Tento la geolocalizzazione e creo il cookie di base
@@ -55,13 +55,13 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                 $cookie->setData('country_code', $country->getCountryId());
                 $cookie->setData('country_name', $country->getName());
                 //Info store default del ws selezionato      
-                $myStore = Mage::helper('mpslocation')->getStoreFromState($country->getCountryId());
+                $zone = Mage::Helper('mpslocation')->getZoneFromCountry($country);
+                $myStore = Mage::helper('mpslocation')->getStoreFromZone($zone);
                 if (!is_null($myStore)) {
                     $cookie->setData('store', $myStore->getCode());
                     $cookie->setData('website_id', $myStore->getWebsiteId());
                     $cookie->setData('action', self::ACTION_NO_ACTIONO);
                     
-                    $zone = Mage::Helper('mpslocation')->getZoneFromCountry($country);
                     $cookie->setData('zone_id', $zone);
                     $enabledStore = array();
                     foreach (Mage::Helper('mpslocation')->getStoreEnabledForZone($zone) as $enStore) {
