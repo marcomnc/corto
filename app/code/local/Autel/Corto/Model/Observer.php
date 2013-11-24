@@ -330,7 +330,7 @@ class Autel_Corto_Model_Observer {
                 if (isset($enableCounrty[Mage::getStoreConfig('general/country/default')])) {
                     $country = Mage::getStoreConfig('general/country/default');
                 } else {
-                    $country = $enableCounrty[0];
+                    $country = key($enableCounrty);
                 }
             }
             
@@ -358,8 +358,17 @@ class Autel_Corto_Model_Observer {
             
             // Se ho azzerato l'indirizzo lo riassegno con la country ricavata....
             if (($quote->getShippingAddress()->getCountryId() == "") && $country != "") {
-
                 $quote->getShippingAddress()
+                      ->setCountryId( $country )
+                      ->setCity("")
+                      ->setPostcode("")
+                      ->setRegionId("")
+                      ->setRegion("");                      
+            }
+            
+            //Faccio la stessa cosa con il billing address
+            if (($quote->getBillingAddress()->getCountryId() == "") && $country != "") {
+                $quote->getBillingAddress()
                       ->setCountryId( $country )
                       ->setCity("")
                       ->setPostcode("")
