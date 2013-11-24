@@ -37,7 +37,9 @@
     text-transform:none;
 }
 
-#easycheckout-form-wrap label { font: 400 12px/12px "Open Sans", sans-serif; }
+#easycheckout-form-wrap label {  }
+#easycheckout-form-wrap .your-shipping-country label { float: left}
+#easycheckout-form-wrap .your-shipping-country .input-box { float: left; margin-left: 10px}
 
 #easycheckout-form-wrap .address-form-list .input-box input.input-text {
 

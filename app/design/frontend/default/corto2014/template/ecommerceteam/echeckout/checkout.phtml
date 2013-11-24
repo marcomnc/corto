@@ -36,30 +36,31 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php endif;?>  
 
+<div class="page-title">
+    <h1><?php echo $this->__('Checkout') ?></h1>        
+</div>
+
+<?php if (!$customer->getId()):?>
+<ul class="infos-menus">
+    <li class="current"><a href="#new-user"><?php echo $this->__('New User');?></a></li>
+    <li><a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false"><?php echo $this->__('Registered');?></a></li>
+    <li>
+        <div class="or-fb-connect"> <?php echo $this->__('or');?> </div>
+        <?php $block = $this->getLayout()->createBlock('autelsocial/fbconnect')                                                  
+                                              ->setTemplate('autel/social/mini.connect.phtml');
+              $block->setRefferType(false);
+              echo $block->toHtml(); ?>
+    </li>
+    <li class="clear"></li>
+</ul>
+
+<?php endif;?>    
+
 <div class="easycheckout-onepage-wrap easycheckout-1column" id="easycheckout-form-wrap">
-    
-    <div class="page-title">
-        <h1><?php echo $this->__('Checkout') ?></h1>        
-    </div>
     
     <div id="load-info-overlay">&nbsp;</div>
     <?php echo $this->getCmsBlockHtml();?>
 
-    <?php if (!$customer->getId()):?>
-    <ul class="infos-menus">
-        <li class="current"><a href="#new-user"><?php echo $this->__('New User');?></a></li>
-        <li><a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false"><?php echo $this->__('Registered');?></a></li>
-        <li>
-            <div class="or-fb-connect"> <?php echo $this->__('or');?> </div>
-            <?php $block = $this->getLayout()->createBlock('autelsocial/fbconnect')                                                  
-                                                  ->setTemplate('autel/social/mini.connect.phtml');
-                  $block->setRefferType(false);
-                  echo $block->toHtml(); ?>
-        </li>
-        <li class="clear"></li>
-    </ul>
-
-    <?php endif;?>    
     <div class="clear"></div>
     <p class="required">* <?php echo $this->__('Required Fields') ?></p>
     <div class="checkout-shipping-area-select">
@@ -84,14 +85,14 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
                         <?php foreach ($shippingList as $k => $v): 
                                 if ($currentShippingCountry == '' && $k == $cookie->getCountryId()):
                                     $currentShippingCountry = $k;      
-                                    $checkoutModel->saveBillingAddress(new Varien_Object(array('country_id' => $k)),null);
-                                    $checkoutModel->saveShippingAddress(new Varien_Object(array('country_id' => $k)),null);
+                                    //$checkoutModel->saveBillingAddress(new Varien_Object(array('country_id' => $k)),null);
+                                    //$checkoutModel->saveShippingAddress(new Varien_Object(array('country_id' => $k)),null);
                                 endif;
                               endforeach; ?>                    
                     
                     <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
                     <div class="input-box">
-                        <?php  echo $this->getLayout()->createBlock('checkout/onepage_shipping')->getCountryHtmlSelect('shipping-select') ?>
+                        <?php  echo $this->getLayout()->createBlock('checkout/onepage_shipping')->getCountryHtmlSelect('shipping-select', $currentShippingCountry) ?>
                     </div>                    
                 </div>
             </li>

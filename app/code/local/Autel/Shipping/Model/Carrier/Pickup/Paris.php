@@ -6,7 +6,7 @@
  * @author Marco Mancinelli
  */
 class Autel_Shipping_Model_Carrier_Pickup_Paris
-    extends Mage_Shipping_Model_Carrier_Abstract
+    extends Autel_Shipping_Model_Carrier_Pickup_Abstract
     implements Mage_Shipping_Model_Carrier_Interface
 {
 
