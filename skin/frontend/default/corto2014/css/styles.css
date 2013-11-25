@@ -1964,7 +1964,7 @@ button.btn-checkout span span,
 .pop-up-login .p-right button.button {background-color:#fff; border: 1px solid #000}
 .pop-up-login .p-right button.button span {background-color:#fff;}
 .pop-up-login .p-right button.button span span { background-color:#fff; color: #000 }
-.or-fb-connect { float:left; margin: 8px 8px 0 5px; }
+.or-fb-connect { float:left; margin: 0px 8px 0 5px; }
 .fbconnect {float: left;}
 .jsp-light-cart {width: 285px}  
 .jsp-light-cart.jsp-enable {height: 285px}

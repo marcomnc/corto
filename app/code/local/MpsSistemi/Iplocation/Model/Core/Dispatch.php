@@ -129,6 +129,25 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                        break;
                     }
                     
+                    if ($newPathInfo == "") {
+                        //Provo a cercare se è un prodotto
+                        $urlRewrite = Mage::GetModel('core/url_rewrite')->getCollection();
+                        $urlRewrite->getSelect()
+                               ->Join(array('rewrite' => Mage::getSingleton('core/resource')->getTableName('core/url_rewrite')),
+                                      'main_table.product_id = rewrite.product_id')
+                               ->where("main_table.product_id is not null")
+                               ->where("main_table.request_path in ( '$requestInfo', '$requestInfo/', '" . substr($requestInfo, 1) . "', '" . substr($requestInfo, 1) . "/')" )
+                               ->where("main_table.store_id in (0, " . Mage::app()->getStore()->getId() . ")")
+                               ->where("rewrite.store_id = ? ",  $store->getId())
+                               ->reset(Zend_Db_Select::COLUMNS)
+                               ->columns(array('rewrite.request_path as path'));
+                        $newPathInfo = "";
+                        foreach ($urlRewrite as $ur) {
+                           $newPathInfo = $ur->getPath();
+                           break;
+                        }
+                    }
+                    
                     if ($newPathInfo == "" ) {
                         //Non ho trovato un rewite valido, verifico se è un router standard
                         $modules = preg_split("/\//", $requestInfo);

@@ -507,6 +507,18 @@ var EasyCheckout = Class.create(
                     //Aggiorno l'indirizzo si spedizione
                     $('shipping:country_id').value=$F('shipping-select:country_id');                
                 }
+                if (element == $('shipping-select:country_id') || element == $('shipping:country_id')) {
+                    if ($('shipping:country_id').value != 'IT') {
+                        $$('#company, #vat').each(function(el) {
+                            $(el).value = '';
+                            Element.hide($(el).id);
+                        });
+                    } else {
+                        $$('#company, #vat').each(function(idx,el) {                            
+                            Element.show($(el).id);
+                        });
+                    }
+                 }
             } catch (e) {}
             this.saveAddress({"ignore_errors":1});
         },

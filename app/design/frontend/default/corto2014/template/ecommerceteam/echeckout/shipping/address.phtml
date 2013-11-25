@@ -24,24 +24,32 @@
         </div>
     </li>
     <li class="fields">
-        <div class="field">
-            <label for="shipping:street1" class="required"><em>*</em><?php echo $this->__('Street line') ?> 1</label>
+        <div class="wide street">
+            <label for="shipping:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
             <div class="input-box">
-                <input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="shipping:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="input-text required-entry" />
+                <input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="billing:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="input-text required-entry" />
+            </div>
+        </div>
+    </li>        
+    <li class="fields">
+        <div class="field">
+            <label for="shipping:postcode" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+            <div class="input-box">
+                <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?php echo $this->htmlEscape($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international required-entry" />
             </div>
         </div>
         <div class="field">
-            <label for="shipping:street1"><?php echo $this->__('Street line') ?> 2</label>
+            <label for="shipping:city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
             <div class="input-box">
-                <input type="text" title="<?php echo $this->__('Street Address %s', 2) ?>" name="shipping[street][]" id="shipping:street2" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(2)) ?>" class="input-text" />
+                <input type="text" title="<?php echo $this->__('City') ?>" name="shipping[city]" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>" class="input-text required-entry" id="shipping:city" />
             </div>
         </div>
     </li>
     <li class="fields">
         <div class="field">
-            <label for="shipping:city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+            <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
             <div class="input-box">
-                <input type="text" title="<?php echo $this->__('City') ?>" name="shipping[city]" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>" class="input-text required-entry" id="shipping:city" />
+                <?php echo $this->getCountryHtmlSelect('shipping') ?>
             </div>
         </div>
         <div class="field">
@@ -61,20 +69,6 @@
     </li>
     <li class="fields">
         <div class="field">
-            <label for="shipping:postcode" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
-            <div class="input-box">
-                <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?php echo $this->htmlEscape($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international required-entry" />
-            </div>
-        </div>
-        <div class="field">
-            <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
-            <div class="input-box">
-                <?php echo $this->getCountryHtmlSelect('shipping') ?>
-            </div>
-        </div>
-    </li>
-    <li class="fields">
-        <div class="field">
             <label for="shipping:telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
             <div class="input-box">
                 <input type="text" name="shipping[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry" id="shipping:telephone" />
@@ -86,15 +80,5 @@
                 <input type="text" name="shipping[fax]" value="<?php echo $this->htmlEscape($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="shipping:fax" />
             </div>
         </div>
-    </li>
-
-    <li class="fields">
-        <div class="field">
-            <label for="shipping:company"><?php echo $this->__('Company') ?></label>
-            <div class="input-box">
-                <input type="text" id="shipping:company" name="shipping[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" />
-            </div>
-        </div>
-        
-    </li>
+    </li>    
 </ul>

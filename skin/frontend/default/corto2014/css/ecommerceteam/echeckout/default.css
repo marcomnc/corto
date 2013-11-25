@@ -25,17 +25,17 @@
 }
 #easycheckout-form-wrap .easy-step h2 {
     color:#000;
-    font-size:14px;
-    line-height: 14px;
-    font-weight:600;
+    font-size:13px;
+    line-height: 13px;
+    font-weight:bold;
     text-transform:uppercase;
     margin:0 0 12px 0;
 }
-#easycheckout-form-wrap .easy-step h2 span {
-    color:#000;
-    font-weight:100;
-    text-transform:none;
+#easycheckout-form-wrap #easycheckout-shipping-payment-step h2 {
+    background-color: #FFF;    
 }
+#easycheckout-shipping-payment-step h2 span { color: #FFF; background-color: #000; padding: 0px 10px; }
+
 
 #easycheckout-form-wrap label {  }
 #easycheckout-form-wrap .your-shipping-country label { float: left}
@@ -76,7 +76,8 @@
     background: #fff;
 }
 #easycheckout-form-wrap .discount-form {
-    padding: 5px 0;
+    padding: 5px 15px;
+    min-width: 245px;
 }
 
 #shipping-address-wrapper {

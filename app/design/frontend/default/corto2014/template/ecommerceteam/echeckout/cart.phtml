@@ -32,6 +32,9 @@
  */
 ?>
 <div class="cart" id="cart-container">
+    <div class="page-title section cart">
+        <h1><?php echo $this->__('Shopping Bag') ?></h1>        
+    </div>
     <?php if(!$this->hasError()): ?>
     <ul class="checkout-types">
     <?php foreach ($this->getMethods('top_methods') as $method): ?>

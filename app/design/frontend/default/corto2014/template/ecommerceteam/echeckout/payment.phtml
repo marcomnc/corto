@@ -8,7 +8,9 @@
  * @version:    2.0.2
  */
 ?>
+<h2><span><?php echo $this->__('Payment method');?><span></h2>
 <div class="easy-step" id="easycheckout-paymentmethod">
+    
     <div class="tool-tip" id="payment-tool-tip" style="display:none;">
         <div class="btn-close">
             <a href="#" id="payment-tool-tip-close" title="<?php echo $this->__('Close') ?>"><?php echo $this->__('Close') ?></a>
@@ -18,7 +20,6 @@
         </div>
     </div>
     
-    <h2><?php echo $this->__('Payment method');?></h2>
     <script type="text/javascript">
     //<![CDATA[
         var payment = new paymentForm('easycheckout-form');

@@ -44,12 +44,14 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
 
     <?php if (!$customer->getId()):?>
     <ul class="infos-menus">
-        <li class="current"><a href="#new-user"><?php echo $this->__('New User');?></a></li>
-        <li><a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false"><?php echo $this->__('Registered');?></a></li>
-        <li>
+        <li class="new-users current"><a href="#new-user"><?php echo $this->__('New User');?></a></li>
+        <li class="registered-users">
+            <a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false">
+                <?php echo $this->__('Registered');?></a></li>
+        <li class="facebook-users">
             <div class="or-fb-connect"> <?php echo $this->__('or');?> </div>
             <?php $block = $this->getLayout()->createBlock('autelsocial/fbconnect')                                                  
-                                                  ->setTemplate('autel/social/mini.connect.phtml');
+                                                  ->setTemplate('autel/social/mini.connect.text.phtml');
                   $block->setRefferType(false);
                   echo $block->toHtml(); ?>
         </li>
@@ -73,7 +75,7 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
                         <div class="message"><?php echo $this->__("Your shipping area:");?></div>
                         <div class="shipping-area"><?php echo $zone->getDescription(); ?></div>
                         <div class="change-country">
-                            <a href="#" class="mps_link mpslocation-change-country"
+                            <a href="#" class="mps_link change-country-selector"
                                onclick="$j.fn.selectCountry({'url': '<?php echo $this->getBaseUrl() . "mpslocation/location/select/"; ?>',
                                                          'countryCode': '<?php echo $cookie->getdata('country_code')?>',
                                                          'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
@@ -127,28 +129,28 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
             <tr>
                 <td class="payment-method" id="payment-method-wrapper"><?php echo $this->getChildHtml('payment_method');?></td>
                 <?php if ($helper->couponEnabled()):?>
-                 <td class="methods-separator">&nbsp;</td>
-                <td class="shipping-method" id="shipping-method-wrapper">
+                <td class="methods-separator">&nbsp;</td>
+                <td class="checkout-coupon" id="coupon-wrapper">
                     <?php echo $this->getChildHtml('echeckout_coupon');?>
-                    <div class="button-set place-order-buttons">
-            <?php if ($helper->showSubscribe()):?>
-            <div class="subscribe-btn-wrapper"><label><input type="checkbox" name="subscribe" value="1"/> <?php echo $this->__('Subscribe to newsletter');?></label></div>
-            <?php endif;?>
-
-            <div class="submit-btn-wrapper">
-                <div><button id="submit-btn" type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout"><span><span><?php echo $this->__('Place Order') ?></span></span></button></div>
-                <span id="checkout-loadinfo" class="loadinfo">&nbsp;</span>
-            </div>
-
-            <?php //echo $this->getTotalsBlock();?>
-            <?php echo $this->getChildHtml('totals');?>
-        </div>
-                </td>               
-                <?php endif;?>                
+                </td>                
+                <?php endif;?>                                                         
+                           
             </tr>
             </tbody>
         </table>
 
+        <?php echo $this->getChildHtml('totals');?>
+        <div class="clearer"></div>
+        <div class="button-set place-order-buttons">
+            <?php if ($helper->showSubscribe()):?>
+            <div class="subscribe-btn-wrapper"><label><input type="checkbox" name="subscribe" value="1"/> <?php echo $this->__('Subscribe to newsletter');?></label></div>
+            <?php endif;?>
+                
+            <div class="submit-btn-wrapper">
+                <div><button id="submit-btn" type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout"><span><span><?php echo $this->__('Place Order') ?></span></span></button></div>
+                <span id="checkout-loadinfo" class="loadinfo">&nbsp;</span>
+            </div>
+        </div>
         
         <div class="agreements">
             <?php echo $this->getChildHtml('agreements') ?>

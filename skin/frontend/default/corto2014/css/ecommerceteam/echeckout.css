@@ -68,9 +68,12 @@
     padding:5px 15px;
 
 }
-#easycheckout-shipping-payment-step {
+#easycheckout-shipping-payment-step {width: 65%; float: left}
+
+#easycheckout-shipping-payment-step td {
     width:100%;
     position:relative;
+    border: 1px solid #ccc
 }
 #easycheckout-shipping-payment-step td.methods-separator {
     width:10px;
@@ -313,7 +316,6 @@
     overflow:hidden;
 }
 .discount-form .button-set{
-    float:right;
 }
 #easycheckout-form-wrap .discount-form {
     overflow:hidden;
@@ -377,24 +379,21 @@
     visibility: hidden;
 }
 
-
+ul.infos-menus {height: 30px; border-bottom: 1px solid; margin-bottom: 15px;}
 ul.infos-menus li {float: left;}
 ul.infos-menus a {
     font-family: CORTOMinionPro, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px!important;
     display: block;
-    color:#000; padding: 3px 15px;
-    background:#e8e8e9;
+    color:#000; 
+    padding: 0px 25px;
     margin-right: 5px;
     text-decoration: none;   
-    border: 1px solid #000;
-    background-color: #FFF
+    background: transparent url('../../images/Arrow_RIGHT_BLACK.png') no-repeat;
 }
 ul.infos-menus li.current a {    
     font-weight: bold;
-    color: #FFF;
-    border: 1px solid #000;
-    background-color: #000
+    
 }
 
 #easycheckout-shippingmethod-available dl dt {display: none}
@@ -411,3 +410,7 @@ ul.infos-menus li.current a {
 #easycheckout-form #easycheckout-shippingmethod {width: 45%; float: right; clear: none!important}
 #easycheckout-form-wrap .form-list .street .input-box {width: 100%}
 #easycheckout-form-wrap .form-list .street {margin-right: 3%}
+#easycheckout-form-wrap #cart-container .btn-update {float: right}
+#easycheckout-form-wrap #cart-container .page-title {background-color: #FFF; border-top: 1px solid}
+#checkout-totals {float: right}
+.grndttl {float: right!important}

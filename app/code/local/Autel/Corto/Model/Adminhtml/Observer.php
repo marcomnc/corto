@@ -45,7 +45,7 @@ class Autel_Corto_Model_Adminhtml_Observer {
                     $model->delete();
                 }
             } else {
-                
+                 $_fileName = "";
                 if (isset($_FILES['filename']['name'][$value]) && $_FILES['filename']['name'][$value] != "") {
                     try {
                         $_fileName = "";
@@ -78,7 +78,7 @@ class Autel_Corto_Model_Adminhtml_Observer {
                     $model->setData('option_id', $value);
                 }
                 $model->setData('attribute_id', $data['attribute_id']);
-                if (isset($_fileName)) 
+                if ($_fileName != "") 
                     $model->setData('img_url', $_fileName);
                 $model->setData('color_hex', isset($data['color_hex'][$value]) ? $data['color_hex'][$value]: '');             
                 $model->Save();

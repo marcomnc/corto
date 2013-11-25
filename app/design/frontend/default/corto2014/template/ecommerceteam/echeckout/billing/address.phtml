@@ -7,6 +7,9 @@
  * @copyright:  Copyright 2013 EcommerceTeam Inc. (http://www.ecommerce-team.com)
  * @version:    2.0.2
  */
+
+$currentShippingCountry = Mage::getSingleton('ecommerceteam_easycheckout/type_easy')->getQuote()->getShippingAddress()->getCountryId().'';
+
 ?>
 <ul>
     <li class="fields">
@@ -47,14 +50,14 @@
         </div>                
     </li>
     <li class="fields">
-        <div class="field company" id="company">
+        <div class="field company" id="company" style="<?php echo ($currentShippingCountry == "IT")? '' : 'display: none';?>">
             <label for="billing:company"><?php echo $this->__('Company') ?></label>
             <div class="input-box">
                 <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" />
             </div>
         </div>
         <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
-        <div class="field vat" id="vat">
+        <div class="field vat" id="vat" style="<?php echo ($currentShippingCountry == "IT")? '' : 'display: none';?>">
             <?php echo $_taxvat->setTaxvat($this->getQuote()->getCustomerTaxvat())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
         </div>
     </li>    

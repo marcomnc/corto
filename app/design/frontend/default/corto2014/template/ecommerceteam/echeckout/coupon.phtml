@@ -9,10 +9,11 @@
  */
 ?>
 <div class="discount">
+    <h2><span><?php echo $this->__('Promo code');?><span></h2>
     <div class="discount-form">
         <input type="hidden" name="remove-coupon" id="remove-coupon" value="0" />
         <div class="field">
-            <label for="coupon-code"><?php echo $this->__('Discount code') ?>:</label>
+            <label for="coupon-code"><?php echo $this->__('Enter your coupon code if you have one') ?>:</label>
             <div class="input-box">
                 <div class="field-wrapper">
                     <input class="input-text" id="coupon-code" name="coupon-code" value="<?php echo $this->htmlEscape($this->getCouponCode()) ?>" />
