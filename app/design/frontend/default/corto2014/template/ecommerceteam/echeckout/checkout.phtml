@@ -36,75 +36,80 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php endif;?>  
 
-<div class="page-title">
-    <h1><?php echo $this->__('Checkout') ?></h1>        
-</div>
-
-<?php if (!$customer->getId()):?>
-<ul class="infos-menus">
-    <li class="current"><a href="#new-user"><?php echo $this->__('New User');?></a></li>
-    <li><a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false"><?php echo $this->__('Registered');?></a></li>
-    <li>
-        <div class="or-fb-connect"> <?php echo $this->__('or');?> </div>
-        <?php $block = $this->getLayout()->createBlock('autelsocial/fbconnect')                                                  
-                                              ->setTemplate('autel/social/mini.connect.phtml');
-              $block->setRefferType(false);
-              echo $block->toHtml(); ?>
-    </li>
-    <li class="clear"></li>
-</ul>
-
-<?php endif;?>    
-
 <div class="easycheckout-onepage-wrap easycheckout-1column" id="easycheckout-form-wrap">
-    
+
+    <div class="page-title">
+        <h1><?php echo $this->__('Checkout') ?></h1>        
+    </div>
+
+    <?php if (!$customer->getId()):?>
+    <ul class="infos-menus">
+        <li class="current"><a href="#new-user"><?php echo $this->__('New User');?></a></li>
+        <li><a href="<?php echo $this->getUrl('customer/account/login');?>" onclick="TINY.box.show(loginFormHtml,0,260,0,0);return false"><?php echo $this->__('Registered');?></a></li>
+        <li>
+            <div class="or-fb-connect"> <?php echo $this->__('or');?> </div>
+            <?php $block = $this->getLayout()->createBlock('autelsocial/fbconnect')                                                  
+                                                  ->setTemplate('autel/social/mini.connect.phtml');
+                  $block->setRefferType(false);
+                  echo $block->toHtml(); ?>
+        </li>
+        <li class="clear"></li>
+    </ul>
+
+    <?php endif;?>    
+
     <div id="load-info-overlay">&nbsp;</div>
     <?php echo $this->getCmsBlockHtml();?>
 
     <div class="clear"></div>
     <p class="required">* <?php echo $this->__('Required Fields') ?></p>
-    <div class="checkout-shipping-area-select">
-        <ul>
-            <li class="your-shipping-area">
-                <div class="message"><?php echo $this->__("Your shipping area:");?></div>
-                <div class="shipping-area"><?php echo $zone->getDescription(); ?></div>
-                <div class="change-country">
-                    <a href="#" class="mps_link mpslocation-change-country"
-                       onclick="$j.fn.selectCountry({'url': '<?php echo $this->getBaseUrl() . "mpslocation/location/select/"; ?>',
-                                                 'countryCode': '<?php echo $cookie->getdata('country_code')?>',
-                                                 'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
-                                                 'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
-                                                 'enableEsc': true});return false;">
-                        <?php echo $this->__('Change country');?>
-                    </a>
-                </div>
-            </li>
-            <li class="your-shipping-country">
-                <div class="field">
 
-                        <?php foreach ($shippingList as $k => $v): 
-                                if ($currentShippingCountry == '' && $k == $cookie->getCountryId()):
-                                    $currentShippingCountry = $k;      
-                                    //$checkoutModel->saveBillingAddress(new Varien_Object(array('country_id' => $k)),null);
-                                    //$checkoutModel->saveShippingAddress(new Varien_Object(array('country_id' => $k)),null);
-                                endif;
-                              endforeach; ?>                    
-                    
-                    <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
-                    <div class="input-box">
-                        <?php  echo $this->getLayout()->createBlock('checkout/onepage_shipping')->getCountryHtmlSelect('shipping-select', $currentShippingCountry) ?>
-                    </div>                    
-                </div>
-            </li>
-        </ul>
-    </div>
 
     <form action="" method="post" id="easycheckout-form">
-        <?php if ($helper->canShip()):?>
+        
+            <div class="checkout-shipping-area-select">
+                <ul>
+                    <li class="your-shipping-area">
+                        <div class="message"><?php echo $this->__("Your shipping area:");?></div>
+                        <div class="shipping-area"><?php echo $zone->getDescription(); ?></div>
+                        <div class="change-country">
+                            <a href="#" class="mps_link mpslocation-change-country"
+                               onclick="$j.fn.selectCountry({'url': '<?php echo $this->getBaseUrl() . "mpslocation/location/select/"; ?>',
+                                                         'countryCode': '<?php echo $cookie->getdata('country_code')?>',
+                                                         'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
+                                                         'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
+                                                         'enableEsc': true});return false;">
+                                <?php echo $this->__('Change country');?>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="your-shipping-country">
+                        <div class="field">
+
+                                <?php foreach ($shippingList as $k => $v): 
+                                        if ($currentShippingCountry == '' && $k == $cookie->getCountryId()):
+                                            $currentShippingCountry = $k;      
+                                            //$checkoutModel->saveBillingAddress(new Varien_Object(array('country_id' => $k)),null);
+                                            //$checkoutModel->saveShippingAddress(new Varien_Object(array('country_id' => $k)),null);
+                                        endif;
+                                      endforeach; ?>                    
+
+                            <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                            <div class="input-box">
+                                <?php  echo $this->getLayout()->createBlock('checkout/onepage_shipping')->getCountryHtmlSelect('shipping-select', $currentShippingCountry) ?>
+                            </div>                    
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        
+        
+        <?php if ($helper->canShip()):?>   
         <?php   $blockSipping = $this->getChild('shipping_method');
                 $blockSipping->setData('current_shipping_country', $currentShippingCountry);
                 echo $blockSipping->toHtml();?>
         <?php endif;?>
+        <div class="clearer"></div>
         <?php echo $this->getChildHtml('billing_address');?>
 
         <?php if ($helper->canShip() && $helper->differentShippingEnabled()):?>
@@ -164,6 +169,7 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
             "saveShippingMethodUrl":"<?php echo $this->getUrl('*/*/saveShippingMethod');?>",
             "savePaymentMethodUrl":"<?php echo $this->getUrl('*/*/savePaymentMethod');?>",
             "saveCouponCodeUrl":"<?php echo $this->getUrl('*/*/saveCouponCode');?>",
+            "reloadCartUrl": "<?php echo $this->getBaseUrl() . 'checkout/cart/updatePost/'; ?>",
             "saveOrderUrl":"<?php echo $this->getUrl('*/*/saveOrder');?>",
             "successUrl":"<?php echo $this->getUrl('*/*/success');?>",
             "agreementsMessage": "<?php echo $helper->__("Please agree to all the terms and conditions before placing the order.");?>",

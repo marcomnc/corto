@@ -130,13 +130,13 @@ ul,ol         { list-style:none; }
 .cms-home .main-container { padding:0; }
 .main {  }
 
-.cms-home .std,
+/*.cms-home .std,
 .cms-home .std div {
     transition:             all 500ms ease-in-out;
     -moz-transition:        all 500ms ease-in-out;
     -webkit-transition:     all 500ms ease-in-out;
     -o-transition:          all 500ms ease-in-out;
-}
+}*/
 
 .cms-home .footer-block-bottom {position: fixed; bottom: 0px; left: 0px;}
 

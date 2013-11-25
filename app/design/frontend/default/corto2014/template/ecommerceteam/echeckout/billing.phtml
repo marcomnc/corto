@@ -26,8 +26,7 @@ $checkoutMethod       = $helper->getCheckoutModel()->getCheckoutMethod();
             </div>
         </li>
         <?php endif; ?>
-        <li id="billing-new-address-form"
-            <?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif; ?> >
+        <li id="billing-new-address-form">
             <fieldset>
                 <?php echo $this->getChildHtml('address');?>
                 <?php if(!$this->isCustomerLoggedIn()): ?>

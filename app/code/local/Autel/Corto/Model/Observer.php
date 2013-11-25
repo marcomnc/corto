@@ -302,15 +302,15 @@ class Autel_Corto_Model_Observer {
     public function cart_save_after($observer) {
         
         $quote = Mage::getSingleton('checkout/session')->getQuote();
-        
+    
         //SE non ho quote mi preparo per ripartire
-        if ($quote->getAllItems() == 0) {
-            $quote->setLocaleProcessed(false);
+        if (count($quote->getAllItems()) == 0) {
+            Mage::getSingleton('checkout/session')->setLocaleProcessed(false);
             return $observer;
         }
-        
+
         // l'elaborazione la faccio solo la prima volta che aggiungo un prodotto
-        if ($quote->getLocaleProcessed()) {
+        if (Mage::getSingleton('checkout/session')->getLocaleProcessed()) {
             return $observer;
         }
 
@@ -391,7 +391,7 @@ class Autel_Corto_Model_Observer {
                 $observer->setCart($cart);
             }
                         
-            $quote->setLocaleProcessed(true);
+            Mage::getSingleton('checkout/session')->setLocaleProcessed(true);
         } else {
             //Non va bene!!!
         }

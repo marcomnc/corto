@@ -9,20 +9,7 @@
  */
 
 /** @var $this EcommerceTeam_EasyCheckout_Block_Onepage_Shipping */
-if($this->canShow()): 
-    $checkoutModel = Mage::getSingleton('ecommerceteam_easycheckout/type_easy');
-    $forceNewAddress = false;
-    if ($this->customerHasAddresses()):
-        //Gli passo anche la country che ho impostato sopra in modo che cerco di prendere un indirizzo buono per la country
-        $addressLists = $this->getAddressesHtmlSelect('shipping', $this->getData('current_shipping_country'));
-        if ($addressLists == ''):            
-            //Se non ho indirizzi buoni ne forzo uno con la country di default
-            $forceNewAddress = true;        
-            $checkoutModel->saveShippingAddress(new Varien_Object(array('country_id' => $this->getData('current_shipping_country'))),null);
-        endif;
-    endif;
-        
-?>
+if($this->canShow()): ?>
 <div class="easy-step shipping-address"
     <?php if($this->isThreeColsMode()):?>id="shipping-address-wrapper" <?php endif;?>
     <?php if($this->isThreeColsMode() && $this->someAsBilling()):?> style="display:none;" <?php endif;?>>
@@ -30,22 +17,29 @@ if($this->canShow()):
     <h2><?php echo $this->__('Shipping Address')?>:
         <?php if(!$this->isThreeColsMode()):?>
         <label>
-            <input type="checkbox" name="billing[use_for_shipping]" id="billing_use_for_shipping_yes" value="1" <?php if($this->someAsBilling() && !$forceNewAddress):?> checked="checked" <?php endif;?> class="radio" />
+            <input type="checkbox" name="billing[use_for_shipping]" id="billing_use_for_shipping_yes" value="1" <?php if($this->someAsBilling()):?> checked="checked" <?php endif;?> class="radio" />
             <span><?php echo $this->__('Same as Billing Address');?></span>
         </label>
         <?php endif;?>
     </h2>
 
-    <ul <?php if(!$this->isThreeColsMode()):?>id="shipping-address-wrapper" <?php if($this->someAsBilling() && !$forceNewAddress):?> style="display:none;" <?php endif;?> <?php endif;?> class="form-list address-form-list" >
-        <?php if ($this->customerHasAddresses() && !$forceNewAddress): ?>
+    <ul <?php if(!$this->isThreeColsMode()):?>id="shipping-address-wrapper" <?php if($this->someAsBilling()):?> style="display:none;" <?php endif;?> <?php endif;?> class="form-list address-form-list" >
+        <?php if ($this->customerHasAddresses()): ?>
            <li class="wide">
                <label style="text-align:left;width:auto;float:none;" for="shipping-address-select"><?php echo $this->__('Select a shipping address from your address book.') ?></label>
                <div class="input-box address-select-box">
-                   <?php echo $addressLists; ?>
+                   <?php echo $this->getAddressesHtmlSelect('shipping') ?>
+               </div>
+           </li>
+        <?php else: ?>
+           <li class="wide">
+               <label style="text-align:left;width:auto;float:none;" for="shipping-address-select"><?php echo $this->__('Select a shipping address from your address book.') ?></label>
+               <div class="input-box address-select-box">
+                   <!-- mettere la selezione per creare/uguale --->
                </div>
            </li>
         <?php endif ?>
-        <li id="shipping-new-address-form"<?php if ($this->customerHasAddresses() && !$forceNewAddress): ?> style="display:none;"<?php endif ?>>
+        <li id="shipping-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif ?>>
             <fieldset>
                 <?php echo $this->getChildHtml('address');?>
             </fieldset>

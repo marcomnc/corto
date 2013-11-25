@@ -50,8 +50,6 @@
 }
 #easycheckout-form-wrap .address-form-list label {
     display:inline;
-    float:left;
-    width:130px;
     text-align:right;
     margin-right:15px;
 }
@@ -339,6 +337,9 @@
 .col-main .cart-collaterals {
     display:none;
 }
+
+#easycheckout-form-wrap.easycheckout-1column { width: 900px; margin: auto}
+
 #easycheckout-form-wrap.easycheckout-1column .place-order-buttons .checkout-totals-table {
     clear:left;
     float:right;
@@ -405,3 +406,8 @@ ul.infos-menus li.current a {
 
 #easycheckout-review-info td .product-item-image {width: 125px; float: left;}
 #easycheckout-review-info td .product-item { float: left;}
+
+#easycheckout-form .checkout-shipping-area-select {width: 45%; float: left}
+#easycheckout-form #easycheckout-shippingmethod {width: 45%; float: right; clear: none!important}
+#easycheckout-form-wrap .form-list .street .input-box {width: 100%}
+#easycheckout-form-wrap .form-list .street {margin-right: 3%}

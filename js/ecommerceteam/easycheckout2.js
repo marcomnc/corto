@@ -20,8 +20,9 @@ var EasyCheckout = Class.create(
             "shippingMethodsUpdated": [],
             "paymentMethodsUpdated":  [],
             "reviewUpdated": [],
-            "couponUpdated": []
-        },
+            "couponUpdated": [],
+            "cartUpdated": []
+    },
         form: null,
         loadingBlock: null,
         data: null,
@@ -42,7 +43,8 @@ var EasyCheckout = Class.create(
                 "successUrl":   "",
                 "saveCouponCodeUrl": "",
                 "loadingMsg": "Loading data, please wait...",
-                "skin": "default"
+                "skin": "default",
+                "reloadCartUrl": ""
             };
             this.data    = {};
             this.options = Object.extend(defaults, (options || {}));
@@ -414,6 +416,12 @@ var EasyCheckout = Class.create(
             var q = this.buildQueryString($$('#coupon-code, #remove-coupon'));
             this.submitCouponCode(q);
         },
+        //Ricarico il carrello
+        reloadCart: function() {
+            var q = this.buildQueryString($$('.qty'));            
+            this.showLoading();
+            window.location =this.options.reloadCartUrl + "?"+ q;
+        },
         // Place order action
         saveOrder: function(params) {
 
@@ -486,6 +494,10 @@ var EasyCheckout = Class.create(
             if ('undefined' !== typeof blocksHtml['coupon_html']) {
                 $('easycheckout-coupon').update(blocksHtml['coupon_html']);
                 this.dispatchEvent('couponUpdated');
+            }            
+            if ('undefined' !== typeof blocksHtml['cart_html']) {
+                $('cart-container').update(blocksHtml['cart_html']);
+                this.dispatchEvent('cartUpdate');
             }
         },
         addressChangedEvent: function(event) {
