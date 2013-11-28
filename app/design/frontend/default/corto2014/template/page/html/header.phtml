@@ -39,6 +39,8 @@
     <input id="dbg" width="700"/>
 </div>-->
 <?php $_isHomePage = Mage::Helper("autelcorto")->getIsHomePage();?>
+<?php echo $this->getChildHtml('store_language') ?>
+<?php echo $this->getLayout()->createBlock("checkout/cart_sidebar")->setTemplate("checkout/cart/light.phtml")->toHtml()?>
 <div class="header-container">    
 <?php if ($_isHomePage): ?>
     <div id="news-home">        
@@ -79,11 +81,10 @@ else:
         <div class="head_row1 row">
             <div class="top-links row-links">     
                 <div class="left">
-                    <?php echo $this->getChildHtml('store_language') ?>
+                    <?php echo $this->getChildHtml('store_language_link') ?>
                 </div>
                 <div class="right">                    
-                    <?php echo $this->getChildHtml('topLinks') ?>                    
-                    <?php echo $this->getLayout()->createBlock("checkout/cart_sidebar")->setTemplate("checkout/cart/light.phtml")->toHtml()?>
+                    <?php echo $this->getChildHtml('topLinks') ?>                                        
                 </div>
             </div>
         </div>

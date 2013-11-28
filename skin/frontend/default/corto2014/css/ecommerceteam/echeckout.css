@@ -414,3 +414,4 @@ ul.infos-menus li.current a {
 #easycheckout-form-wrap #cart-container .page-title {background-color: #FFF; border-top: 1px solid}
 #checkout-totals {float: right}
 .grndttl {float: right!important}
+.easycheckout-onepage-wrap .fbconnect { cursor: pointer }

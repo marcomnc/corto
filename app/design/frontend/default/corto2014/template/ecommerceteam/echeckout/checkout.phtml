@@ -86,7 +86,7 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
                         </div>
                     </li>
                     <li class="your-shipping-country">
-                        <div class="field">
+                        <div class="field form-list">
 
                                 <?php foreach ($shippingList as $k => $v): 
                                         if ($currentShippingCountry == '' && $k == $cookie->getCountryId()):
@@ -96,7 +96,7 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
                                         endif;
                                       endforeach; ?>                    
 
-                            <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                            <label for="shipping:country_id" class="required"><?php echo $this->__('Country') ?><em>*</em></label>
                             <div class="input-box">
                                 <?php  echo $this->getLayout()->createBlock('checkout/onepage_shipping')->getCountryHtmlSelect('shipping-select', $currentShippingCountry) ?>
                             </div>                    

@@ -167,7 +167,7 @@ var menuTimer = null;
                 if ($(".header").css("position")=="absolute") {
                     topOffset=-1*( $popUp.outerHeight()+10);
                 }
-    		$.fn.layer(true, {zInd: (parseInt($popUp.css("z-index"))-10)||20001, 
+    		$.fn.layer(true, {zInd: (parseInt($popUp.css("z-index"))-1)||20001, 
                                   exOnHide: function (){$($popUp.selector).slideUp("fast");}});   
                 switch (al) {
                     case "L":

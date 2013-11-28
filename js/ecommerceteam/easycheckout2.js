@@ -514,7 +514,7 @@ var EasyCheckout = Class.create(
                             Element.hide($(el).id);
                         });
                     } else {
-                        $$('#company, #vat').each(function(idx,el) {                            
+                        $$('#company, #vat').each(function(el) {                            
                             Element.show($(el).id);
                         });
                     }

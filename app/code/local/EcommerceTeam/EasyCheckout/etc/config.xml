@@ -29,6 +29,12 @@
                     <session>EcommerceTeam_EasyCheckout_Model_Session</session>
                 </rewrite>
             </checkout>
+            <sales>
+                <!-- Rewrite necessario per lo spostamento tra carrelli (vedi anche EcommerceTeam_EasyCheckout_Model_Session) -->
+                <rewrite>
+                    <quote>EcommerceTeam_EasyCheckout_Model_Sales_Quote</quote>
+                </rewrite>
+            </sales>
         </models>
         <resources>
             <ecommerceteam_echeckout_setup>
