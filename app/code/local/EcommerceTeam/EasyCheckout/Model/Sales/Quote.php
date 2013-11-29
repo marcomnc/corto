@@ -32,11 +32,16 @@ class EcommerceTeam_EasyCheckout_Model_Sales_Quote extends Mage_Sales_Model_Quot
      * Override della funzione base per ricalcolare il carello nel caso lo store della quota non corrisponda a quello della sessione
      */
     protected function _afterLoad() {
+        $recollect = false;
         if ($this->getStoreId() != Mage::app()->getStore()->getId()) {
             $this->setStore(Mage::app()->getStore());
-MAge::log('recollect');
             $this->setData('trigger_recollect',1);
+            $recollect = true;
         }
         parent::_afterLoad();
+        
+        if ($recollect) {
+            Mage::dispatchEvent('checkout_cart_save_after', array('force' => true));
+        }
     }
 }

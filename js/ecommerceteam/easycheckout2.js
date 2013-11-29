@@ -144,9 +144,38 @@ var EasyCheckout = Class.create(
             var shippingBlock = $('easycheckout-shippingmethod');
             if (shippingBlock) {
                 Event.observe(shippingBlock, 'click', function(event){
+                    var element = Event.element(event);
+                    
                     if(event.target.nodeName == 'INPUT'){
+                        if (element.readAttribute('rel') != null && element.readAttribute('rel') != '' ) {                        
+                            $j.fn.layer(true, {bindEsc:false, waiting: true});
+                            this.observe('afterSendRequest', function() {
+                                new Ajax.Request(
+                                    element.readAttribute('rel'), 
+                                    {
+                                       "onSuccess" : function(response) {                                            
+                                                        window.location.reload();
+                                                    },
+                                       "onError"   : function() {
+                                                        alert('General Error');
+
+                                                    },
+                                       "onComplete": function () {
+                                           $j.fn.layer(false);
+                                       }           
+                                    });
+                            });
+                        }
                         this.shippingChangedEvent();
                     }
+                    
+                    
+                    if (element.hasClassName('in-boutique')) {
+                        Element.hide('shipping-address-wrapper');
+                    } else {
+                        Element.show('shipping-address-wrapper');
+                    }
+                    
                 }.bind(this));
             }
             // [END] Shipping method changed

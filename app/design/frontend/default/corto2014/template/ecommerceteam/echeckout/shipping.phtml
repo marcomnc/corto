@@ -9,10 +9,13 @@
  */
 
 /** @var $this EcommerceTeam_EasyCheckout_Block_Onepage_Shipping */
+
+$shipping = $this->getQuote()->getShippingAddress()->getShippingMethod();         
+
 if($this->canShow()): ?>
 <div class="easy-step shipping-address"
-    <?php if($this->isThreeColsMode()):?>id="shipping-address-wrapper" <?php endif;?>
-    <?php if($this->isThreeColsMode() && $this->someAsBilling()):?> style="display:none;" <?php endif;?>>
+    id="shipping-address-wrapper"
+    <?php if($shipping == "autel_pikup_in_milan_boutique" || $shipping == "autel_pikup_in_paris_boutique"):?> style="display:none;" <?php endif;?>>
     
     <h2><?php echo $this->__('Shipping Address')?>:
         <?php if(!$this->isThreeColsMode()):?>

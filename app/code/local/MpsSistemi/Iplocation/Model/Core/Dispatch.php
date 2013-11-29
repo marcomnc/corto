@@ -156,7 +156,12 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                         if (is_array($observer->getFront()->getRouter("standard")->getModuleByFrontName($module))) {
                             //l'url fa capo ad un modulo standard ... provo a cambiare lo store
                             $newPathInfo = $requestInfo;
-                        }                                                
+                        }      
+                                                
+                    }
+                    
+                    if (substr($newPathInfo,0,1) == "/") {
+                        $newPathInfo = substr($newPathInfo,1);
                     }
                     
                     $newUrl = $store->getUrl() . $newPathInfo .  (($newPathInfo != "") ? $additionaParameters : "");

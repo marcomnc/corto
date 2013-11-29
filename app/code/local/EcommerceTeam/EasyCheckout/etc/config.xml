@@ -66,7 +66,7 @@
             <ecommerceteam_echeckout_onepage_index>
                 <from><![CDATA[#^/checkout/onepage(.*)#]]></from>
                 <to>/easycheckout/index$1</to>
-            </ecommerceteam_echeckout_onepage_index>
+            </ecommerceteam_echeckout_onepage_index>            
         </rewrite>
     </global>
     <frontend>

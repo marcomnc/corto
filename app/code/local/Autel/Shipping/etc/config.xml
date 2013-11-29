@@ -81,6 +81,7 @@
                 <postcode>75001</postcode>
                 <country_id>FR</country_id>
                 <telephone>+33(0)149279791</telephone>
+                <enable_change_country>1</enable_change_country>
             </autel_pikup_in_paris>
             <autel_pikup_in_milan>
                 <model>autelshipping/carrier_pickup_milan</model>
@@ -94,6 +95,7 @@
                 <postcode>20121</postcode>
                 <country_id>IT</country_id>
                 <telephone>+39(0)236683713</telephone>
+                <enable_change_country>1</enable_change_country>
             </autel_pikup_in_milan>
         </carriers>
     </default>

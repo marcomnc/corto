@@ -151,59 +151,80 @@ class Autel_Shipping_Model_Carrier_Auteltablerate extends Mage_Shipping_Model_Ca
         $result = Mage::getModel('shipping/rate_result');
         $rate =  Mage::getResourceModel('autelshipping/carrier_auteltablerate')
                     ->setCarrierCode($this->_carrierCode)
-                    ->getRate($request);;
+                    ->getRate($request);
 
         $request->setPackageWeight($oldWeight);
         $request->setPackageQty($oldQty);
 
-        if (!empty($rate) && $rate['price'] >= 0) {
-            $method = Mage::getModel('shipping/rate_result_method');
+// Forzato il ritoprno sempre a 0!
+        
+//        if (!empty($rate) && $rate['price'] >= 0) {
+//            $method = Mage::getModel('shipping/rate_result_method');
+//
+//            $method->setCarrier($this->_code);
+//            $method->setCarrierTitle($this->getConfigData('title'));
+//
+//            $method->setMethod('bestway');
+//            //$_methodDescription
+//            $_methodDescription = "";       
+//
+//            if ($request->getFreeShipping() === true || ($request->getPackageQty() == $freeQty)) {
+//                $shippingPrice = 0;
+//            } else {
+//                $_totalShippingPrice = $rate['price'];
+//                if (!is_null($rate['surcharge']) && $rate['surcharge'] != 0) {
+//                    $_totalShippingPrice += $rate['price'] * $rate['surcharge'] / 100;
+//                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Fuel Surcharge") . ": " . Mage::helper('core')->currency(( $rate['price'] * $rate['surcharge'] / 100),true,false) ;
+//                }
+//                if (!is_null($rate['insurance']) && $rate['insurance'] != 0) {
+//                    $_totalShippingPrice += $rate['price'] * $rate['insurance'] / 100;
+//                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Insurance") . ": " . Mage::helper('core')->currency(( $rate['price'] * $rate['insurance'] / 100),true,false) ;
+//                }
+//                if (!is_null($rate['advance']) && $rate['advance'] != 0) {
+//                    $_totalShippingPrice += $rate['advance'] ;
+//                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Anticipo Documenti Doganali") . ": " . Mage::helper('core')->currency($rate['advance'] ,true,false) ;
+//                }
+//                if (!is_null($rate['cites']) && $rate['cites'] != 0) {
+//                    $_totalShippingPrice += $rate['cites'] ;
+//                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Cites") . ": " . Mage::helper('core')->currency($rate['cites'] ,true,false) ;
+//                }
+//                if (!is_null($rate['cites_custom']) && $rate['cites_custom'] != 0) {
+//                    $_totalShippingPrice += $rate['cites_custom'] ;
+//                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Pratica Cites per Dogana") . ": " . Mage::helper('core')->currency($rate['cites_custom'] ,true,false) ;
+//                }
+//                $shippingPrice = $this->getFinalPriceWithHandlingFee($_totalShippingPrice);
+//            }
+//            
+//            if ($_methodDescription != "") {
+//                $_methodDescription = "\n" . Mage::helper('shipping')->__("Comprensivo di") .  $_methodDescription;
+//            }
+//            $method->setMethodTitle($this->getConfigData('name') );
+//            $method->setMethodDescription($_methodDescription);
+//            
+//            $method->setPrice($shippingPrice);
+//            $method->setCost($rate['cost']);
+//
+//            $result->append($method);         
+//        }
+        
+        $method = Mage::getModel('shipping/rate_result_method');
 
-            $method->setCarrier($this->_code);
-            $method->setCarrierTitle($this->getConfigData('title'));
+        $method->setCarrier($this->_code);
+        $method->setCarrierTitle($this->getConfigData('title'));
 
-            $method->setMethod('bestway');
-            //$_methodDescription
-            $_methodDescription = "";       
+        $method->setMethod('bestway');
+        $shippingPrice = 0;
+        //$_methodDescription
+        $_methodDescription = "";  
+        
+        $method->setMethodTitle($this->getConfigData('name') );
+        $method->setMethodDescription($_methodDescription);
 
-            if ($request->getFreeShipping() === true || ($request->getPackageQty() == $freeQty)) {
-                $shippingPrice = 0;
-            } else {
-                $_totalShippingPrice = $rate['price'];
-                if (!is_null($rate['surcharge']) && $rate['surcharge'] != 0) {
-                    $_totalShippingPrice += $rate['price'] * $rate['surcharge'] / 100;
-                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Fuel Surcharge") . ": " . Mage::helper('core')->currency(( $rate['price'] * $rate['surcharge'] / 100),true,false) ;
-                }
-                if (!is_null($rate['insurance']) && $rate['insurance'] != 0) {
-                    $_totalShippingPrice += $rate['price'] * $rate['insurance'] / 100;
-                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Insurance") . ": " . Mage::helper('core')->currency(( $rate['price'] * $rate['insurance'] / 100),true,false) ;
-                }
-                if (!is_null($rate['advance']) && $rate['advance'] != 0) {
-                    $_totalShippingPrice += $rate['advance'] ;
-                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Anticipo Documenti Doganali") . ": " . Mage::helper('core')->currency($rate['advance'] ,true,false) ;
-                }
-                if (!is_null($rate['cites']) && $rate['cites'] != 0) {
-                    $_totalShippingPrice += $rate['cites'] ;
-                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Cites") . ": " . Mage::helper('core')->currency($rate['cites'] ,true,false) ;
-                }
-                if (!is_null($rate['cites_custom']) && $rate['cites_custom'] != 0) {
-                    $_totalShippingPrice += $rate['cites_custom'] ;
-                    $_methodDescription .= "\n" . Mage::helper('shipping')->__("Pratica Cites per Dogana") . ": " . Mage::helper('core')->currency($rate['cites_custom'] ,true,false) ;
-                }
-                $shippingPrice = $this->getFinalPriceWithHandlingFee($_totalShippingPrice);
-            }
-            
-            if ($_methodDescription != "") {
-                $_methodDescription = "\n" . Mage::helper('shipping')->__("Comprensivo di") .  $_methodDescription;
-            }
-            $method->setMethodTitle($this->getConfigData('name') );
-            $method->setMethodDescription($_methodDescription);
-            
-            $method->setPrice($shippingPrice);
-            $method->setCost($rate['cost']);
+        $method->setPrice($shippingPrice);        
+        $method->setCost(0);
 
-            $result->append($method);         
-        }
+        $result->append($method);     
+
         return $result;
     }
 

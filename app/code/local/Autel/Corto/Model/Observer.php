@@ -302,7 +302,7 @@ class Autel_Corto_Model_Observer {
     public function cart_save_after($observer) {
         
         $quote = Mage::getSingleton('checkout/session')->getQuote();
-    
+
         //SE non ho quote mi preparo per ripartire
         if (count($quote->getAllItems()) == 0) {
             Mage::getSingleton('checkout/session')->setLocaleProcessed(false);
@@ -310,11 +310,11 @@ class Autel_Corto_Model_Observer {
         }
 
         // l'elaborazione la faccio solo la prima volta che aggiungo un prodotto
-        if (Mage::getSingleton('checkout/session')->getLocaleProcessed()) {
+        if (Mage::getSingleton('checkout/session')->getLocaleProcessed() && !$observer->getForce() ) {
             return $observer;
         }
-
-        if (is_null($observer)) {
+        
+        if (is_null($observer) || !$observer->hasCart()) {
             $cart = Mage::getSingleton('checkout/cart');
         } else {
             $cart = $observer->getCart();
@@ -384,10 +384,22 @@ class Autel_Corto_Model_Observer {
             $quote->getShippingAddress()->setCollectShippingRates(true) //Forzo di ricalcolare la collection delle spedizioni
                   ->collectShippingRates();
 
+            // SE sono fuori europa il default e il corriere
+            if ($cookie->getZoneId() != "EU") {
+                $currentShipping = $quote->getShippingAddress()->getShippingMethod();
+
+                if ($currentShipping == 'autel_pikup_in_paris_boutique' ||  $currentShipping == 'autel_pikup_in_paris_boutique') {
+                    $quote->getShippingAddress()->setShippingMethod('autel_tnt_shipping_bestway')
+                          ->collectTotals();
+                }
+            }
+            
             $quote->save();
-
-
+        
+            //Mage::getSingleton('checkout/session')->setQuote(Mage::getModel('sales/quote')->Load($quote->getId()));
+            
             if (!is_null($observer)) {
+                $cart->setQuote(Mage::getModel('sales/quote')->Load($quote->getId()));
                 $observer->setCart($cart);
             }
                         

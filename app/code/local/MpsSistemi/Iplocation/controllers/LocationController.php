@@ -50,7 +50,7 @@ class MpsSistemi_Iplocation_LocationController extends Mage_Core_Controller_Fron
         $cookie = Mage::Registry(MpsSistemi_Iplocation_Model_Core_Dispatch::REGISTER_NAME);
         
         $cookie->setData('no_request', true);
-        
+     
         if ($zone == '' || $zone == 'none') {
             //Voglio continuare senza stato impostato                        
             MpsSistemi_Iplocation_Model_Core_Dispatch::setCookie($cookie, 60*60*24); //x Un giorno
@@ -78,7 +78,6 @@ class MpsSistemi_Iplocation_LocationController extends Mage_Core_Controller_Fron
             }
             
             $cookie->setData('enabled_store', $enabledStore);            
-
             // Imposta anche il register
             MpsSistemi_Iplocation_Model_Core_Dispatch::setCookie($cookie); 
 

@@ -16,6 +16,12 @@ $customer = $this->getCustomer();
 
 $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry(); 
 $checkoutModel = Mage::getSingleton('ecommerceteam_easycheckout/type_easy');
+
+//Forzo la rilettura della quota
+$quote = MAge::getModel('sales/quote')->Load($checkoutModel->getQuote()->getId());
+$checkoutModel->saveShippingMethod($quote->getShippingAddress()->getShippingMethod());
+        
+
 $zone = Mage::getModel('mpslocation/zone')->Load($cookie['zone_id'], 'zone_code');
 $shippingList = Mage::Helper('mpslocation')->getCountryFromZone($zone);
 $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getCountryId().'';

@@ -47,7 +47,7 @@ endif;
             <?php $open = true; if($first): $first = false; endif;?>
 <?php        endif; ?>
             <li class="<?php echo ($country_id == $currentZoneId)?'current':'';?> <?php echo $group_name;?>" rel="<?php echo $i;?>">
-                <a href="<?php echo $this->getUrl('autelcorto/location/set/', array('zone'=>$country_id, "home" => $isHome, 'countrycode' => $this->getCountryCode(),'urlref' => $this->getReferrer().''));?>"class="country-row">
+                <a href="<?php echo $this->getUrl('mpslocation/location/set/', array('zone'=>$country_id, "home" => $isHome, 'countrycode' => $this->getCountryCode(),'urlref' => $this->getReferrer().''));?>"class="country-row">
                     <?php echo $country_name ?>
                 </a>
             </li>

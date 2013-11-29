@@ -42,27 +42,6 @@ if ($enableStore != "") {
     $enableStore = "," . $enableStore;
 }
 ?>
-<ul class="links store-language">
-    <li class="first">
-        <a href="#" id="shipping-selector" title="<?php echo $this->__('Select your Shipping Country');?>"
-           onclick="$j.fn.selectCountry({'url': '<?php echo $this->getUrl("mpslocation/location/select"); ?>',
-                                                 'countryCode': '<?php echo $cookie->getdata('country_code')?>',
-                                                 'home': '<?php if ($this->getRequest()->getPathInfo() == "/"): echo "1"; else :echo "0"; endif; ?>',
-                                                 'urlref': '<?php echo Mage::helper('core')->urlEncode(Mage::helper('core/url')->getCurrentUrl());?>',
-                                                 'enableEsc': true});return false;">
-            <?php echo $this->__("Shipping Country");?>
-            <?php $_zone = Mage::helper('mpslocation')->getCurrentZone();            
-                  if ($_zone !== false): ?>
-            &nbsp;(&nbsp;<?php echo $_zone->getStoreLabel() ?>&nbsp;)           
-            <?php endif;?>
-        </a>
-    </li>
-    <li class="last">
-        <a href="#" class="top-link-account" title="<?php echo $this->__('Select your Languages');?>">
-            <?php echo $this->__("Language");?>
-        </a>
-    </li>    
-</ul>
 
 <div class="form-language" rel="top-link-account" style="display: none">    
     <div id="btn-remove"><a class="btn-remove"></a></div>
