@@ -25,7 +25,7 @@ class Autel_Corto_ImpulseController extends Mage_Core_Controller_Front_Action
         if ((isset($params["destination"]) && $params["destination"].""!= "") || (isset($params["firstlove"]) && $params["firstlove"].""!= "") ||  (isset($params["livewithout"]) && $params["livewithout"].""!= "")) {            
             $p = MAge::getModel("autelcorto/impulse")->ImpulseBuy();
             if ($p !== false) {
-                Mage::getSingleton('checkout/session')->addSuccess(Mage::helper('catalog')->__('Your impulse product is ' . $p->getDescription() ));            
+                //Mage::getSingleton('checkout/session')->addSuccess(Mage::helper('catalog')->__('Your impulse product is ' . $p->getDescription() ));            
                 $this->loadLayout();
                 $this->getLayout()->getBlock("cortoImpulseBuyAdd")->setProduct($p);            
                 $this->renderLayout();     

@@ -1853,7 +1853,7 @@ button.btn-checkout span span,
 .mini-products-list .product-details { margin: 0 10px; max-width: 180px; text-align: left; }
 .mini-products-list .product-name { margin: 0px; color: #fff; text-transform: uppercase; width: 160px}
 .mini-products-list .price { color: #fff}
-.mini-products-list .product-short-description { font-size: 10px;}
+.mini-products-list .product-short-description { font-size: 10px; color: #CCCCCC }
 .block-cart .block-content li {position: relative; min-height: 80px}
 .btn-remove {float: right; cursor: pointer}
 
@@ -1982,7 +1982,7 @@ button.btn-checkout span span,
 .checkout-right .page-title h1 { padding: 2px 15px 2px 10px; }
 .checkout-right .mini-products-list .product-details { margin: 0 0 0 75px; padding: 0px 0px 0px 5px; max-width: none; }
 .checkout-right .mini-products-list .product-details .product-name { font-weight: bold; }
-.checkout-right .mini-products-list .product-details .product-description { color: #CCCCCC }
+
 #address-selector {float: right; margin-right: 3px; position: relative;}
 .pickup-on-boutique ul {padding: 0px 30px;}
 .pickup-on-boutique div {float: left}
