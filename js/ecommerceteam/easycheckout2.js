@@ -44,7 +44,8 @@ var EasyCheckout = Class.create(
                 "saveCouponCodeUrl": "",
                 "loadingMsg": "Loading data, please wait...",
                 "skin": "default",
-                "reloadCartUrl": ""
+                "reloadCartUrl": "",
+                "loadAddress": ""
             };
             this.data    = {};
             this.options = Object.extend(defaults, (options || {}));
@@ -611,7 +612,7 @@ var EasyCheckout = Class.create(
                 });
                 Element.show('billing-new-address-form');
             } else {
-                Element.hide('billing-new-address-form');
+                this.reloadAddress($('billing-address-select').value, 'billing-new-address-form');
             }
             this.reloadCustomSelect();
         },
@@ -624,9 +625,29 @@ var EasyCheckout = Class.create(
                 });
                 Element.show('shipping-new-address-form');
             } else {
-                Element.hide('shipping-new-address-form');
+                this.reloadAddress($('shipping-address-select').value, 'shipping-new-address-form');
             }
             this.reloadCustomSelect();
+        },
+        reloadAddress: function(addressId, formId) {
+            new Ajax.Request(this.options.loadAddress,
+                {
+                    "method": "POST",
+                    "parameters":'id='+addressId,
+                    "onSuccess": function(transport) {
+                        eval("var address = "+ transport.responseText);
+                        $(formId).select('input[type=text], textarea').each(function(e) {
+                            var field = e.id.split(':');
+                            if (typeof(field[1]) !== 'undefined') {
+                                if (field[1] == "street1") {
+                                    e.value = address.street;
+                                } else {
+                                    eval("e.value = address." + field[1]);
+                                }
+                            }
+                        });
+                    }
+                });
         },
         showLoading: function() {
             try {

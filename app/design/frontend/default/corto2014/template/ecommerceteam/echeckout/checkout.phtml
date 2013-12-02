@@ -183,7 +183,8 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
             "agreementsMessage": "<?php echo $helper->__("Please agree to all the terms and conditions before placing the order.");?>",
             "responseFailureMsg":"<?php echo addslashes($helper->__("Warning server has returned error! Code: %code%. Please, contact with site administration."))?>",
             "unknownServerErrorMsg":"<?php echo addslashes($helper->__("Unknown server error! Please, contact with site administration."))?>",
-            "skin":"<?php echo $this->isModernSkin() ? 'modern' : 'default';?>"
+            "skin":"<?php echo $this->isModernSkin() ? 'modern' : 'default';?>",
+            "loadAddress":"<?php echo $this->getUrl('*/*/loadaddress');?>"
         }
     );
 

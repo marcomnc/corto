@@ -691,4 +691,22 @@ class EcommerceTeam_EasyCheckout_IndexController
         }
         return $result;
     }
+    
+    public function loadaddressAction() {
+        
+        $addressId = $this->getRequest()->getPost("id");
+        
+        $address = null;
+        $data = new Varien_Object(array('error'));
+        
+        if ($addressId > 0)
+            $address = Mage::getModel('customer/address')->Load($addressId);
+        
+        if (!is_null($address )) {
+            $data = $address->toJson();
+        }
+        
+        $this->getResponse()->appendBody($data);
+        
+    }
 }

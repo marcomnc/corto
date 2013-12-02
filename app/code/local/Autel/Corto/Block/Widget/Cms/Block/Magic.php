@@ -27,7 +27,7 @@ class Autel_Corto_Block_Widget_Cms_Block_Magic extends Mage_Core_Block_Template
     private $_cacheID = "AUTEL_CORTO";    
     
     protected function _construct() {
-        $this->_cacheId .= "_" . Mage::app()->getStore()->getId();
+        $this->_cacheID .= "_" . Mage::app()->getStore()->getId();
         parent::_construct();
         
     }
