@@ -21,9 +21,10 @@
             </div>
         </div>
         <div class="button-set">
-            <button type="button" title="<?php echo $this->__('Apply Coupon') ?>" class="button" onclick="checkout.saveCouponCode(false); return false;" value="<?php echo $this->__('Apply Coupon') ?>"><span><span><?php echo $this->__('Apply Coupon') ?></span></span></button>
-            <?php if(strlen($this->getCouponCode())): ?>
-                &nbsp; <button type="button" title="<?php echo $this->__('Cancel Coupon') ?>" class="button" onclick="checkout.saveCouponCode(true); return false;" value="<?php echo $this->__('Cancel Coupon') ?>"><span><span><?php echo $this->__('Cancel Coupon') ?></span></span></button>
+            <?php if(strlen($this->getCouponCode()) == 0): ?>
+                <button type="button" title="<?php echo $this->__('Apply Coupon') ?>" class="button" onclick="checkout.saveCouponCode(false); return false;" value="<?php echo $this->__('Apply Coupon') ?>"><span><span><?php echo $this->__('Apply Coupon') ?></span></span></button>
+            <?php else: ?>
+                <button type="button" title="<?php echo $this->__('Cancel Coupon') ?>" class="button" onclick="checkout.saveCouponCode(true); return false;" value="<?php echo $this->__('Cancel Coupon') ?>"><span><span><?php echo $this->__('Cancel Coupon') ?></span></span></button>
             <?php endif;?>
         </div>
     </div>

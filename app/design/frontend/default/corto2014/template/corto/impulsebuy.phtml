@@ -1,4 +1,4 @@
-<div style="position: relative">
+<div style="position: relative">    
 <?php 
 $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
 $breadcrumbs->addCrumb('home', array('label'=>Mage::helper('cms')->__('Home'), 'title'=>Mage::helper('cms')->__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
@@ -9,7 +9,7 @@ echo $this->getLayout()->getBlock('breadcrumbs')->toHtml();
 
 <img class="impulse-badge" src="<?php echo $this->getSkinUrl('images/impulse_badge.png'); ?>" />
 
-<form class="form-impulsebuy" action="<?php echo $this->getUrl('autelcorto/impulse/impulse')?>" method="post">
+<form class="form-impulsebuy select" action="<?php echo $this->getUrl('autelcorto/impulse/impulse')?>" method="post">
 
 <h1><?php echo $this->__("LET'S START!");?></h1>
 
@@ -26,6 +26,6 @@ echo $this->getLayout()->getBlock('breadcrumbs')->toHtml();
 <input type="text" name="livewithout"></input>
 </div>
 
-<button type="submit" class="button btn-checkout"><span><span><?php echo $this->__("Submit");?></span></span></button>
+<button type="submit" class="button btn-checkout"><span><span>&nbsp;</span></span></button>
 </form>
 </div><!-- position: relative -->

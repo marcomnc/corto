@@ -31,7 +31,7 @@ class EcommerceTeam_EasyCheckout_IndexController
      */
     protected function _getResult()
     {
-        return new Varien_Object(array('error' => false, 'message' => array()));
+        return new Varien_Object(array('error' => false, 'message' => array(), 'message_position' => false));
     }
 
     /**
@@ -326,6 +326,10 @@ class EcommerceTeam_EasyCheckout_IndexController
         if (!$quote->getItemsCount()) {
             return;
         }
+        
+        //Messaggi in basso
+        $result->setData('message_position', true);
+        
         $couponCode = $request->getParam('coupon-code');
         if ($request->getParam('remove-coupon') == 1) {
             $couponCode = '';
@@ -366,9 +370,9 @@ class EcommerceTeam_EasyCheckout_IndexController
                 $this->_getBlocksHtml(
                     array(
                         'shipping_method_html',
-                        'review_html',
                         'coupon_html',
                         'payment_method_html',
+                        'totals_html'
                     ))
             );
         } catch (Mage_Core_Exception $e) {
@@ -686,6 +690,11 @@ class EcommerceTeam_EasyCheckout_IndexController
                 $result['review_html'] = $this->_getReviewHtml();
             }
         }
+        
+        if (in_array('totals_html', $blockNames) && !in_array('review_html', $blockNames)) {
+            $result['totals_html'] = $this->_getTotalsHtml();
+        }
+        
         if (in_array('coupon_html', $blockNames)) {
             $result['coupon_html'] = $this->_getCouponHtml();
         }

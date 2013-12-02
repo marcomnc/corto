@@ -129,6 +129,8 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
         
         <?php echo $this->getChildHtml('echeckout_cart'); ?>
         
+        <div id="easycheckout-form-wrap-bottom">
+        </div>
         
         <table id="easycheckout-shipping-payment-step">
             <tbody>
@@ -136,7 +138,7 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
                 <td class="payment-method" id="payment-method-wrapper"><?php echo $this->getChildHtml('payment_method');?></td>
                 <?php if ($helper->couponEnabled()):?>
                 <td class="methods-separator">&nbsp;</td>
-                <td class="checkout-coupon" id="coupon-wrapper">
+                <td class="checkout-coupon" id="easycheckout-coupon">
                     <?php echo $this->getChildHtml('echeckout_coupon');?>
                 </td>                
                 <?php endif;?>                                                         

@@ -1,0 +1,27 @@
+<div style="position: relative">    
+<?php 
+$breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
+$breadcrumbs->addCrumb('home', array('label'=>Mage::helper('cms')->__('Home'), 'title'=>Mage::helper('cms')->__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+$breadcrumbs->addCrumb('impulsebuy', array('label'=>$this->__("Impulse Buy"), 'title'=>$this->__("Impulse By")));
+echo $this->getLayout()->getBlock('breadcrumbs')->toHtml();
+
+$_product = $this->getProduct();
+
+?>
+<form class="form-impulsebuy add" action="<?php echo $this->getUrl('autelcorto/impulse/addtocart')?>" method="post">
+    <div class="impulse-background">
+        <img class="impulse-product-img" src="<?php echo Mage::helper('catalog/image')->init($_product, 'image')->resize(340); ?>"/>
+    
+        <div class="impulse-style-fortune-cookie">
+        <?php if ($_product->getData('c_style_fortune_cookie') != ""): ?>        
+            <h3><?php echo $this->__('Style Fortune Cookie');?></h3>
+            <p><?php  echo Mage::helper('catalog/output')->productAttribute($_product, $_product->getData('c_style_fortune_cookie'), 'c_style_fortune_cookie'); ?></p>
+        <?php endif; ?>
+            </div>
+        <div class="action">
+            <button type="button" onclick="setLocation('<?php echo $this->helper('wishlist')->getAddUrl($_product); ?>')" class="button add-to-wishlist"><span><span><?php echo $this->__("Add to wishlist");?></span></span></button>            
+            <button type="button" onclick="setLocation('<?php echo $this->getBaseUrl() .'autelcorto/impulse/addto/id/' . $_product->getId() .'/';?>')" class="button"><span><span><?php echo $this->__("Add to cart");?></span></span></button>
+        </div>
+    </div>
+</form>
+</div><!-- position: relative -->

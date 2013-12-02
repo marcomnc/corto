@@ -130,10 +130,10 @@ var EasyCheckout = Class.create(
             if (useBillingAddressForShipping) {
                 useBillingAddressForShipping.observe('click', function() {
                     if (this.element.checked) {
-                        $('shipping-address-wrapper').setStyle({"display":"none"});
+                        $('shipping-address-from-wrapper').setStyle({"display":"none"});
                         this.checkout.renderHeaders();
                     } else {
-                        $('shipping-address-wrapper').setStyle({"display":"block"});
+                        $('shipping-address-from-wrapper').setStyle({"display":"block"});
                         this.checkout.renderHeaders();
                     }
                     this.checkout.addressChangedEvent();
@@ -299,24 +299,28 @@ var EasyCheckout = Class.create(
                     "onSuccess": function(transport) {
                         this.inProccess = false;
                         var response = eval('('+(transport.responseText || false)+')');
+                        var messagePos = false;
+                        if ('undefined' !== typeof response.message_position) {
+                            messagePos = response.message_position;
+                        }
                         if (!response || ('undefined' !== typeof response.error && false !== response.error)) {
                             this.clearMessages();
                             if (response.error) {
                                 if ('undefined' !== typeof response.message && response.message.length) {
-                                    this.echoError(response.message);
+                                    this.echoError(response.message, messagePos);
                                 } else if ('undefined' !== typeof response.error_messages && response.error_messages.length)  {
-                                    this.echoError(response.error_messages);
+                                    this.echoError(response.error_messages, messagePos);
                                 } else {
-                                    this.echoError(this.options.unknownServerErrorMsg);
+                                    this.echoError(this.options.unknownServerErrorMsg, messagePos);
                                 }
                             } else {
-                                this.echoError(this.options.unknownServerErrorMsg);
+                                this.echoError(this.options.unknownServerErrorMsg, messagePos);
                             }
                         } else {
+                            this.clearMessages();
                             if ("true" != response.success && "false" != response.success) {
                                 if (response.success && response.success.length) {
-                                    this.clearMessages();
-                                    this.echoSuccess(response.success);
+                                    this.echoSuccess(response.success, messagePos);
                                 }
                             }
                             options['onSuccessRequest'] ? options['onSuccessRequest'](transport, response) : null;
@@ -567,16 +571,20 @@ var EasyCheckout = Class.create(
                 }
             }
         },
-        echoError: function(message) {
-            this.echoMessage(message, "error-msg");
+        echoError: function(message, bottom) {
+            this.echoMessage(message, "error-msg", bottom);
         },
-        echoSuccess: function(message) {
-            this.echoMessage(message, "success-msg");
+        echoSuccess: function(message, bottom) {
+            this.echoMessage(message, "success-msg", bottom);
         },
-        echoMessage: function(message, className) {
+        echoMessage: function(message, className, bottom) {
             var form      = this.form.form;
             var container = form.parentNode;
             var list      = $$('#easycheckout-form-wrap .messages')[0];
+            if (bottom) {
+                form      = $('#easycheckout-form-wrap-bottom');
+                list      = $$('#easycheckout-form-wrap-bottom .messages')[0];
+            }
             var messages  = "";
 
             if (!list) {
@@ -593,12 +601,18 @@ var EasyCheckout = Class.create(
             }
             list.innerHTML = '<li class="' + className + '"><ul>' + messages + '</ul></li>';
             container.insertBefore(list, form);
-            var pos = Position.cumulativeOffset(container);
-            window.scrollTo(0, pos[1]);
+            if (!bottom) {
+                var pos = Position.cumulativeOffset(container);
+                window.scrollTo(0, pos[1]);
+            }
         },
         clearMessages: function()
         {
-            var list = $$('#easycheckout-form-wrap .messages')[0];
+            this.clearInnerMessage('easycheckout-form-wrap');
+            this.clearInnerMessage('easycheckout-form-wrap-bottom');
+        },
+        clearInnerMessage: function (id) {
+            var list = $$('#' + id + ' .messages')[0];
             if (list) {
                 list.parentNode.removeChild(list);
             }
