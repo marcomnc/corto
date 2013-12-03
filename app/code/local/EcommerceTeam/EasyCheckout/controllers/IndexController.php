@@ -170,12 +170,13 @@ class EcommerceTeam_EasyCheckout_IndexController
             $enableCounrty = Mage::Helper('mpslocation')->getCountryFromZone($cookie->getZoneId());
             
             $shippingAsBilling = (!$this->_helper->differentShippingEnabled() || $billingAddressData->getData('use_for_shipping') ? true : false);
-            
+
             if (!isset($enableCounrty[$billingAddressData->getCountryId()])) {
                 $shippingAsBilling = false;
             }
             
             if ($shippingAsBilling) {
+                $billingAddressData->setSameAsBilling(1);
                 $shippingAddressResult = $this->_checkoutModel->saveShippingAddress(
                     $billingAddressData,
                     $billingAddressId
@@ -606,7 +607,7 @@ class EcommerceTeam_EasyCheckout_IndexController
     {
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('core/layout');
-        $layout->getUpdate()->load('checkout_onepage_review');
+        $layout->getUpdate()->load('ecommerceteam_echeckout_review');
         $layout->generateXml();
         $layout->generateBlocks();
         return $layout->getBlock('checkout.onepage.review.info.items.after')->toHtml();

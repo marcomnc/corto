@@ -539,8 +539,10 @@ var EasyCheckout = Class.create(
                 this.dispatchEvent('cartUpdate');
             }
             
-            if ('undefined' !== typeof blocksHtml['shipping_address_html']) {
+            if ('undefined' !== typeof blocksHtml['shipping_address_html']) {                
                 $('shipping-address-wrapper').update(blocksHtml['shipping_address_html']);
+                // Ribindo gli eventi
+                this.bindEvents();
                 this.dispatchEvent('shippingAddressUpdate');
             }
             
@@ -557,13 +559,13 @@ var EasyCheckout = Class.create(
                         $$('#company, #vat').each(function(el) {
                             $(el).value = '';
                             Element.hide($(el).id);
-                            $(el).removeClassName('required-entry');
                         });
+                        $('vat').removeClassName('required-entry');
                     } else {
                         $$('#company, #vat').each(function(el) {                            
                             Element.show($(el).id);
-                            $(el).addClassName('required-entry');
                         });
+                        $('vat').addClassName('required-entry');
                     }
                  }
             } catch (e) {}

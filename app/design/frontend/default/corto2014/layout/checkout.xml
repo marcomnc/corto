@@ -369,7 +369,7 @@ One page checkout shipping methods block
         <remove name="right"/>
         <remove name="left"/>
 
-        <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="checkout/onepage/shipping_method/available.phtml"/>
+        <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="ecommerceteam/echeckout/shipping_method/available.phtml"/>
     </checkout_onepage_shippingmethod>
 
     <checkout_onepage_additional>

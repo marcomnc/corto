@@ -339,9 +339,9 @@ $_materialId = $_product->getData('material');
         
         jQuery("document").ready(function() {
         //Calcolo altezza ...
-            $j('.product-view .product-img-box').height($j('.product-view .product-img-box').height() + $j('.product-view .product-img-box .breadcrumbs').outerHeight(true) );
-            jQuery(".product-detail-body").height($j('.product-view .product-img-box').outerHeight()  - $j('.p-product-name').outerHeight() - $j('.product-detail').outerHeight()-4);
-            jQuery(".product-detail-body").jScrollPane();
+//            $j('.product-view .product-img-box').height($j('.product-view .product-img-box').height() + $j('.product-view .product-img-box .breadcrumbs').outerHeight(true) );
+//            jQuery(".product-detail-body").height($j('.product-view .product-img-box').outerHeight()  - $j('.p-product-name').outerHeight() - $j('.product-detail').outerHeight()-4);
+//            jQuery(".product-detail-body").jScrollPane();
             $j('.breadcrumms-product-view').css({'height': $j('.breadcrumbs').outerHeight()});
             var mt = ($j('.breadcrumbs').outerHeight()-20) /2;
             if (mt > 0)
