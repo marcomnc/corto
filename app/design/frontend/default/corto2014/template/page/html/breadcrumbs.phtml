@@ -46,14 +46,14 @@
 <?php if($this->getProductLinks()): ?>
     <div class="breadcrumms-product-view p-transparency-light">
         <ul>
-            <?php if ($this->getProductPrev()): ?>
-            <li>
-                <a href="<?php echo $this->getProductPrev(); ?>"><img src="<?php echo $this->getSkinUrl('images/Arrow_LEFT.png');?>"/></a>
-            </li>
-            <?php endif?>
             <?php if ($this->getProductNext()): ?>
             <li>
-                <a href="<?php echo $this->getProductNext(); ?>"><img src="<?php echo $this->getSkinUrl('images/Arrow_RIGHT.png');?>"/></a>
+                <a href="<?php echo $this->getProductNext(); ?>"><img src="<?php echo $this->getSkinUrl('images/Arrow_LEFT.png');?>"/></a>
+            </li>
+            <?php endif?>
+            <?php if ($this->getProductPrev()): ?>
+            <li>
+                <a href="<?php echo $this->getProductPrev(); ?>"><img src="<?php echo $this->getSkinUrl('images/Arrow_RIGHT.png');?>"/></a>
             </li>
             <?php endif?>
         </ul>

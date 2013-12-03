@@ -21,7 +21,8 @@ var EasyCheckout = Class.create(
             "paymentMethodsUpdated":  [],
             "reviewUpdated": [],
             "couponUpdated": [],
-            "cartUpdated": []
+            "cartUpdated": [],
+            "shippingAddressUpdate": []
     },
         form: null,
         loadingBlock: null,
@@ -518,8 +519,12 @@ var EasyCheckout = Class.create(
                 this.dispatchEvent('paymentMethodsUpdated');
             }
             if ('undefined' !== typeof blocksHtml['review_html']) {
-                $('easycheckout-review-info').update(blocksHtml['review_html']);
-                this.dispatchEvent('reviewUpdated');
+                try {
+                    $('easycheckout-review-info').update(blocksHtml['review_html']);
+                    this.dispatchEvent('reviewUpdated');
+                } catch (ex) {
+                    
+                }
             }
             if ('undefined' !== typeof blocksHtml['totals_html']) {
                 $('checkout-totals').update(blocksHtml['totals_html']);
@@ -533,6 +538,12 @@ var EasyCheckout = Class.create(
                 $('cart-container').update(blocksHtml['cart_html']);
                 this.dispatchEvent('cartUpdate');
             }
+            
+            if ('undefined' !== typeof blocksHtml['shipping_address_html']) {
+                $('shipping-address-wrapper').update(blocksHtml['shipping_address_html']);
+                this.dispatchEvent('shippingAddressUpdate');
+            }
+            
         },
         addressChangedEvent: function(event) {
             try {
@@ -546,10 +557,12 @@ var EasyCheckout = Class.create(
                         $$('#company, #vat').each(function(el) {
                             $(el).value = '';
                             Element.hide($(el).id);
+                            $(el).removeClassName('required-entry');
                         });
                     } else {
                         $$('#company, #vat').each(function(el) {                            
                             Element.show($(el).id);
+                            $(el).addClassName('required-entry');
                         });
                     }
                  }
@@ -582,7 +595,7 @@ var EasyCheckout = Class.create(
             var container = form.parentNode;
             var list      = $$('#easycheckout-form-wrap .messages')[0];
             if (bottom) {
-                form      = $('#easycheckout-form-wrap-bottom');
+                form      = $('easycheckout-form-wrap-bottom');
                 list      = $$('#easycheckout-form-wrap-bottom .messages')[0];
             }
             var messages  = "";
@@ -599,11 +612,13 @@ var EasyCheckout = Class.create(
             } else {
                 messages += '<li><span>' + message + '</span></li>';
             }
-            list.innerHTML = '<li class="' + className + '"><ul>' + messages + '</ul></li>';
-            container.insertBefore(list, form);
+            list.innerHTML = '<li class="' + className + '"><ul>' + messages + '</ul></li>';            
             if (!bottom) {
+                container.insertBefore(list, form);
                 var pos = Position.cumulativeOffset(container);
                 window.scrollTo(0, pos[1]);
+            } else {
+                form.innerHTML = list.outerHTML;
             }
         },
         clearMessages: function()

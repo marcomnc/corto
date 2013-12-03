@@ -43,9 +43,11 @@ class EcommerceTeam_EasyCheckout_Block_Onepage_Abstract
      * @param string $type
      * @return mixed
      */
-    public function getCountryHtmlSelect($type)
-    {
-        $countryId = $this->getAddress()->getCountryId();
+    public function getCountryHtmlSelect($type, $countryId = null)
+    {        
+        if (is_null($countryId)) {
+            $countryId = $this->getAddress()->getCountryId();
+        }
         if (is_null($countryId)) {
             $countryId = Mage::getStoreConfig('general/country/default');
         }

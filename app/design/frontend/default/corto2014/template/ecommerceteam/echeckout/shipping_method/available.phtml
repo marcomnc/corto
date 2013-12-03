@@ -29,15 +29,12 @@ $rel = 'rel="'.$rel.'"';
                         <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
                         <?php else: ?>
                         <?php                         
-                            if (Mage::getStoreConfig("carriers/$code/enable_change_country") != 1):
+                            if (Mage::getStoreConfig("carriers/$code/is_pikup") != 1):
                                 $rel = "";                                
                             endif; ?>
                         
                         <input name="shipping_method" <?php echo $rel ?> type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> 
-                               class="radio <?php echo (Mage::getStoreConfig("carriers/$code/enable_change_country") == 1) ? 'in-boutique': '';?>"/>
-
-                                
-                        
+                               class="radio <?php echo (Mage::getStoreConfig("carriers/$code/is_pikup") == 1) ? 'in-boutique': '';?>"/>
 
                         <?php endif; ?>
                         <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodTitle() ?>

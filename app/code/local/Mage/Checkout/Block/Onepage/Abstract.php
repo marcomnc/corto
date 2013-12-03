@@ -152,9 +152,12 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         return '';
     }
 
-    public function getCountryHtmlSelect($type)
+    public function getCountryHtmlSelect($type, $countryId = null)
     {
-        $countryId = $this->getAddress()->getCountryId();
+        
+        if (is_null($countryId)) {
+            $countryId = $this->getAddress()->getCountryId();
+        }
         
         if (is_null($countryId)) {
             $countryId = Mage::helper('core')->getDefaultCountry();

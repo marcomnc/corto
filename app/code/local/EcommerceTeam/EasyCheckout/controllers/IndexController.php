@@ -166,7 +166,15 @@ class EcommerceTeam_EasyCheckout_IndexController
         );
 
         if (!$this->_quote->getIsVirtual()) {
+            $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
+            $enableCounrty = Mage::Helper('mpslocation')->getCountryFromZone($cookie->getZoneId());
+            
             $shippingAsBilling = (!$this->_helper->differentShippingEnabled() || $billingAddressData->getData('use_for_shipping') ? true : false);
+            
+            if (!isset($enableCounrty[$billingAddressData->getCountryId()])) {
+                $shippingAsBilling = false;
+            }
+            
             if ($shippingAsBilling) {
                 $shippingAddressResult = $this->_checkoutModel->saveShippingAddress(
                     $billingAddressData,
@@ -175,6 +183,7 @@ class EcommerceTeam_EasyCheckout_IndexController
             } else {
                 $shippingAddressData   = new Varien_Object($this->getRequest()->getPost('shipping'));
                 $shippingAddressId     = $this->getRequest()->getPost('shipping_address_id');
+                $shippingAddressData->setSameAsBilling(0);
                 $shippingAddressResult = $this->_checkoutModel->saveShippingAddress(
                     $shippingAddressData,
                     $shippingAddressId
@@ -220,7 +229,7 @@ class EcommerceTeam_EasyCheckout_IndexController
 
         if (!$this->getRequest()->getParam('is_final')) {
             $result->addData(
-                $this->_getBlocksHtml(array('shipping_method_html', 'payment_method_html', 'review_html'))
+                $this->_getBlocksHtml(array('shipping_method_html', 'payment_method_html', 'review_html', 'shipping_address_html'))
             );
         }
 
@@ -327,9 +336,6 @@ class EcommerceTeam_EasyCheckout_IndexController
             return;
         }
         
-        //Messaggi in basso
-        $result->setData('message_position', true);
-        
         $couponCode = $request->getParam('coupon-code');
         if ($request->getParam('remove-coupon') == 1) {
             $couponCode = '';
@@ -391,6 +397,10 @@ class EcommerceTeam_EasyCheckout_IndexController
                 $result->setData('message', $this->_helper->__($this->_unknownErrorMsg));
             }
         }
+        
+        //Messaggi in basso
+        $result->setData('message_position', true);
+        
         $this->getResponse()->appendBody($result->toJson());
     }
 
@@ -578,6 +588,16 @@ class EcommerceTeam_EasyCheckout_IndexController
         $layout->generateBlocks();
         return $layout->getOutput();
     }
+    
+    protected function _getShippingAddressHtml()
+    {
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('core/layout');
+        $layout->getUpdate()->load('ecommerceteam_echeckout_onepage_shipping_address');
+        $layout->generateXml();
+        $layout->generateBlocks();
+        return $layout->getOutput();
+    }
 
     /**
      * @return string
@@ -698,6 +718,11 @@ class EcommerceTeam_EasyCheckout_IndexController
         if (in_array('coupon_html', $blockNames)) {
             $result['coupon_html'] = $this->_getCouponHtml();
         }
+        
+        if (in_array('shipping_address_html', $blockNames)) {
+            $result['shipping_address_html'] = $this->_getShippingAddressHtml();
+        }
+        
         return $result;
     }
     

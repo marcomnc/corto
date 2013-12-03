@@ -406,13 +406,15 @@ function corto_get_the_events_title() {
     $events = new WP_Query( $q );
       
     $html = "";
-    if ( $events ) {
+
+    if ( sizeof($events->posts) > 0 ) {
         the_post();
-        $html  .='<div class="event-title"><a href="'. get_site_url() . '/events/">' . Mage::Helper('autelcorto')->__('Private previous') . '</a></div>';
+        $html  .='<div class="event-title"><a href="'. get_site_url() . '/events/">' . Mage::Helper('autelcorto')->__('Private previews') . '</a></div>';
         $html  .= '<div class="event-banner">';
         $html  .= '<a href="'. get_site_url() . '/events/">';
         $html  .= '<img src="' . get_field('image_'.$events->post_count .'_column', $events->post->ID ) . '"/></a></div>';
     } else {
+         $html  .='<div class="event-title">' . Mage::Helper('autelcorto')->__('Private previews') . '</div>';
         $html  .= '<span>'. Mage::Helper('autelcorto')->__('We are currently preparing our upcoming  events, to find out more and to be notified in advance  please <a class="class-popuplogin" href="#">subscribe</a> to our newsletter.') .'</span>';
         $html  .= '<div class="event-banner"></div>';
     }

@@ -9,7 +9,7 @@
 
 get_header(); ?>
 
-<div id="primary">
+<div id="primary" class="col-main">     
   <div id="content" role="main">
     
         <header class="page-header">
@@ -92,6 +92,7 @@ get_header(); ?>
         
         
         
+<?php get_sidebar(); ?>
         
         <div class="clear"></div>
 <?php get_footer(); ?>

@@ -94,6 +94,14 @@
         <remove name="right"/>
         <remove name="left"/>
     </ecommerceteam_echeckout_onepage_coupon>
+    
+    <ecommerceteam_echeckout_onepage_shipping_address>
+        <block type="ecommerceteam_echeckout/onepage_shipping" name="root" output="toHtml" template="ecommerceteam/echeckout/shipping.phtml">
+            <block type="ecommerceteam_echeckout/onepage_shipping" name="checkout.onepage.address.shipping.form" as="address" template="ecommerceteam/echeckout/shipping/address.phtml" />
+        </block>
+        <remove name="right"/>
+        <remove name="left"/>
+    </ecommerceteam_echeckout_onepage_shipping_address>
 
     <ecommerceteam_echeckout_review translate="label">
         <label>One Page Checkout Overview</label>
