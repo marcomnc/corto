@@ -46,7 +46,7 @@
         var $this = $(this);
         $(this).height(30);
         $(this).find('.container').show();
-        $(this).find('#rs_alert_close_link').click(function() {
+        $(this).find('#rs_alert_close_link').click(function(event) {
             // Imposto il cookie
             event.preventDefault();
             event.stopPropagation();

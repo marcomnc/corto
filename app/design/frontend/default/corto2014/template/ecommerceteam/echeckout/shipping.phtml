@@ -27,7 +27,7 @@ if($this->canShow()): ?>
     </h2>
 
     <ul <?php if(!$this->isThreeColsMode()):?>id="shipping-address-from-wrapper" <?php if($this->someAsBilling()):?> style="display:none;" <?php endif;?> <?php endif;?> class="form-list address-form-list" >
-        <?php if ($this->customerHasAddresses()): ?>
+        <?php if ($this->customerHasAddresses() && Mage::getSingleton('customer/session')->isLoggedIn()): ?>
            <li class="wide">
                <label style="text-align:left;width:auto;float:none;" for="shipping-address-select"><?php echo $this->__('Select a shipping address from your address book.') ?></label>
                <div class="input-box address-select-box">

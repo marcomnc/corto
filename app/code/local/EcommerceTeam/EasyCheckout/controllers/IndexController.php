@@ -170,13 +170,13 @@ class EcommerceTeam_EasyCheckout_IndexController
             $enableCounrty = Mage::Helper('mpslocation')->getCountryFromZone($cookie->getZoneId());
             
             $shippingAsBilling = (!$this->_helper->differentShippingEnabled() || $billingAddressData->getData('use_for_shipping') ? true : false);
-
+MAge::Log($shippingAsBilling?1:0);
             if (!isset($enableCounrty[$billingAddressData->getCountryId()])) {
                 $shippingAsBilling = false;
             }
-            
+
             if ($shippingAsBilling) {
-                $billingAddressData->setSameAsBilling(1);
+                //$billingAddressData->setSameAsBilling(1);
                 $shippingAddressResult = $this->_checkoutModel->saveShippingAddress(
                     $billingAddressData,
                     $billingAddressId
@@ -184,14 +184,13 @@ class EcommerceTeam_EasyCheckout_IndexController
             } else {
                 $shippingAddressData   = new Varien_Object($this->getRequest()->getPost('shipping'));
                 $shippingAddressId     = $this->getRequest()->getPost('shipping_address_id');
-                $shippingAddressData->setSameAsBilling(0);
+                //$shippingAddressData->setSameAsBilling(0);
                 $shippingAddressResult = $this->_checkoutModel->saveShippingAddress(
                     $shippingAddressData,
                     $shippingAddressId
                 );
             }
         }
-
         if ($this->getRequest()->getParam('is_final')) {
             if (EcommerceTeam_EasyCheckout_Model_Type_Easy::METHOD_REGISTER == $checkoutMethod
                 || EcommerceTeam_EasyCheckout_Model_Type_Easy::METHOD_GUEST == $checkoutMethod
@@ -212,7 +211,7 @@ class EcommerceTeam_EasyCheckout_IndexController
                 }
             }
         }
-		$this->_quote->getShippingAddress()->setCollectShippingRates(true);
+        $this->_quote->getShippingAddress()->setSameAsBilling($shippingAsBilling ? 1 : 0)->setCollectShippingRates(true);
         $this->_checkoutModel->commit();
 
         if (!$ignoreErrors) {

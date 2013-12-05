@@ -42,7 +42,7 @@ class Autel_Corto_Helper_Data extends Mage_Core_Helper_Abstract {
     public function getIsCheckout() {
         $request = Mage::app()->getFrontController()->getRequest();
         // non controllo il modulo causa redirect
-        return ($request->getControllerName() == 'checkout_onepage');
+        return ($request->getModuleName() == 'easycheckout');
     }
      
     /**

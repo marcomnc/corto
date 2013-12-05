@@ -106,16 +106,16 @@ var EasyCheckout = Class.create(
             var elements = $(
                 'billing-address-select',
                 'billing:country_id',
-                'billing:city',
-                'billing:region',
-                'billing:region_id',
-                'billing:postcode',
+                //'billing:city',
+                //'billing:region',
+                //'billing:region_id',
+                //'billing:postcode',
                 'shipping-address-select',
                 'shipping:country_id',
-                'shipping:city',
-                'shipping:region',
-                'shipping:region_id',
-                'shipping:postcode',
+                //'shipping:city',
+                //'shipping:region',
+                //'shipping:region_id',
+                //'shipping:postcode',
                 'shipping-select:country_id'
             );
 

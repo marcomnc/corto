@@ -5,7 +5,13 @@
  * @see Mage_Checkout_Block_Cart_Totals
  * @var $this Mage_Checkout_Block_Cart_Totals
  */
+$block = $this->getLayout()->createBlock('cms/block')->setBlockId('checkout_total_info')->toHtml(). '';
+if ($block):    
 ?>
+<div class="checkout-totals-block">
+    <?php echo $block;?>
+</div>
+<?php endif; ?>
 <div id="checkout-totals">
 <?php if ($this->canApplyMsrp()): ?>
     <div class="cart-msrp-totals"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></div>

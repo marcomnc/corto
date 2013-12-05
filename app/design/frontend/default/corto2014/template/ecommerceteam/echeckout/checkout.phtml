@@ -151,7 +151,7 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
         <div class="clearer"></div>
         <div class="button-set place-order-buttons">
             <?php if ($helper->showSubscribe()):?>
-            <div class="subscribe-btn-wrapper"><label><input type="checkbox" name="subscribe" value="1"/> <?php echo $this->__('Subscribe to newsletter');?></label></div>
+            <div class="subscribe-btn-wrapper"><label><input type="checkbox" name="subscribe" value="1" checked="checked"/> <?php echo $this->__('Subscribe to newsletter');?></label></div>
             <?php endif;?>
                 
             <div class="submit-btn-wrapper">

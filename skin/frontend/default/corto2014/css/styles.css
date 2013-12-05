@@ -1311,6 +1311,10 @@ button.btn-checkout span span,
 .sp-methods input.cvv { width:3em !important; }
 .sp-methods input.radio { float:left }
 
+.sp-methods li.pick {position: relative}
+.sp-methods .pick input.radio { position: absolute; bottom: 40% }
+.sp-methods .pick label {margin-left: 10px}
+
 .sp-methods .checkmo-list li { margin:0 0 5px; }
 .sp-methods .checkmo-list label { width:135px; padding-right:10px; text-align:right; }
 .sp-methods .checkmo-list address { float:left; }

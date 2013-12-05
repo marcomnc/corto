@@ -352,7 +352,7 @@ class Autel_Corto_Model_Observer {
             
             //Se ho un indirizzo che non rientra nelle country abilitate lo azzero e ne creo uno nuovo
             if ($quote->getShippingAddress()->hasCountryId() && $quote->getShippingAddress()->getCountryId() != '' &&
-                !isset($enableCounrty[$quote->getShippingAddress()->hasCountryId()])) {
+                !isset($enableCounrty[$quote->getShippingAddress()->getCountryId()])) {
                 $quote->getShippingAddress()->setCustomerId(null)->importCustomerAddress(new Mage_Customer_Model_Address());
             } 
             
@@ -384,14 +384,12 @@ class Autel_Corto_Model_Observer {
             $quote->getShippingAddress()->setCollectShippingRates(true) //Forzo di ricalcolare la collection delle spedizioni
                   ->collectShippingRates();
 
-            // SE sono fuori europa il default e il corriere
-            if ($cookie->getZoneId() != "EU") {
-                $currentShipping = $quote->getShippingAddress()->getShippingMethod();
-
-                if ($currentShipping == 'autel_pikup_in_paris_boutique' ||  $currentShipping == 'autel_pikup_in_paris_boutique') {
+            // SE sono fuori europa o il metodo di default non è assegnato imposo il corriere
+            $currentShipping = $quote->getShippingAddress()->getShippingMethod();
+            if (($cookie->getZoneId() != "EU" && ($currentShipping == 'autel_pikup_in_paris_boutique' ||  $currentShipping == 'autel_pikup_in_paris_boutique')) ||
+                 $currentShipping == '') {
                     $quote->getShippingAddress()->setShippingMethod('autel_tnt_shipping_bestway')
                           ->collectTotals();
-                }
             }
             
             $quote->save();
@@ -413,10 +411,28 @@ class Autel_Corto_Model_Observer {
 
     public function _isEqualAddress($billing, $shipping) {
         
-        $checkField = array('firstname', 'lastname', 'city', 'region', 'postcode', 'country_id', 'telephone', 'region_id', 'street');
+        $checkField = array('firstname' => '', 
+                            'lastname'  => '', 
+                            'city'      => '', 
+                            'region'    => '', 
+                            'postcode'  => '', 
+                            'country_id'=> 0, 
+                            'telephone' => '', 
+                            'region_id' => 0, 
+                            'street'    => '');
         
-        foreach ($checkField as $field) {
-            if ($billing->getData($field) !=  $shipping->getData($field)) {
+        foreach ($checkField as $field => $nullVal) {
+            $fieldBilling = $billing->getData($field);
+            $fieldShipping = $shipping->getData($field);
+            if ($nullVal === 0) {
+                $fieldBilling += 0;
+                $fieldShipping += 0; 
+            } else {
+                $fieldBilling .= '';
+                $fieldShipping .= ''; 
+            }
+            if ($fieldBilling !=  $fieldShipping) {
+//MAge::Log($billing->getData($field) . " !=  " . $shipping->getData($field));
                 return false;
             }
         }
