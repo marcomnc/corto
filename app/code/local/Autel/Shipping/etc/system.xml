@@ -23,7 +23,7 @@
        </shipping>
     <carriers>
         <groups>
-<!-- Impostazioni corriere DHL tramite flat rate -->            
+<!-- Impostazioni corriere DHL tramite flat rate             
             <autel_dhl_shipping translate="label" module="shipping">
                 <label>DHL EXPRESS WORLDWIDE</label>
                 <frontend_type>text</frontend_type>
@@ -41,10 +41,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
-                        <!--
-                        If the free_shipping_enable flag enable, the system will check free_shipping_subtotal to give free shipping
-                        otherwise will use shopping cart price rule behaviour
-                        -->
                         <free_shipping_enable translate="label">
                             <label>Free shipping with minimum order amount</label>
                             <frontend_type>select</frontend_type>
@@ -158,7 +154,7 @@
                             <show_in_store>0</show_in_store>
                         </import>                        
                     </fields>
-                </autel_dhl_shipping>
+                </autel_dhl_shipping> -->
 <!-- Impostazioni corriere TNT Tramite Flat Rate -->
             <autel_tnt_shipping translate="label" module="shipping">
                 <label>TNT CARRIER WORLDWIDE</label>
@@ -332,6 +328,14 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
                         </showmethod>
+                        <sort_order translate="label">
+                            <label>Sort order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sort_order>
                    </fields>
                 </autel_pikup_in_paris>
                 <autel_pikup_in_milan translate="label" module="shipping">
@@ -371,6 +375,14 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
                         </showmethod>
+                        <sort_order translate="label">
+                            <label>Sort order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sort_order>
                    </fields>
                 </autel_pikup_in_milan>
             </groups>
