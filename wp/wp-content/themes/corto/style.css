@@ -487,9 +487,9 @@ footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align:
 .twitter_update_list li a { color: #666; text-decoration: none; }
 
 /* RELEASES */
-.page-template-page-press-list-php article { clear: both; display: block; background: #E6E7E8; padding: 5px; margin-top: 10px; }
+.page-template-page-press-list-php article { clear: both; display: block; background: #E6E7E8; padding: 5px 20px 5px 5px; margin-top: 10px; }
 .release-image { float: left; width: 200px; }
-.release-list-content { float:right; width: 500px; font-size: 12px; }
+.release-list-content { float:right; width:710px; font-size: 12px; }
 .release-title { float: left; font-weight: bold; text-transform: uppercase; }
 .release-excerpt { padding-top: 10px; float: left; }
 .release-date { float:right; }
@@ -498,9 +498,9 @@ footer.entry-meta { padding: 15px 0; border-bottom: 1px solid black; text-align:
 .release-title a { text-decoration: none; }
 
 /* COLLECTIONS */
-.page-template-page-collection-list-php article { clear: both; display: block; background: black; color: white; padding: 5px; margin-top: 10px; }
+.page-template-page-collection-list-php article { clear: both; display: block; background: black; color: white; padding: 5px 20px 5px 5px; margin-top: 10px; }
 .collection-image { float: left; width: 200px; }
-.collection-list-content { float:right; width: 500px; font-size: 12px; }
+.collection-list-content { float:right; width: 710px; font-size: 12px; }
 .collection-title { float: left; font-weight: bold; text-transform: uppercase; }
 .collection-excerpt { padding-top: 10px; float: left; }
 .collection-date { float:right; }

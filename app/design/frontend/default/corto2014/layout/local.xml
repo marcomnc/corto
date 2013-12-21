@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout> 
+    <default>
+        <reference name="root">
+            <!-- Inserire qui tutti i blocchi statici che volgio utilizzare con WP -->
+            <block type="cms/block" name="media-home" as="media-home">
+                <action method="setData">
+                    <key>block_id</key>
+                    <value>media-home-page</value>
+                </action>
+            </block>
+            <!-- - - - -  -->
+        </reference>
+    </default>
+</layout>

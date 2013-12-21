@@ -26,8 +26,12 @@ $uam = new UserAccessManager();
               </header>
               
               <?php if(is_user_logged_in()): ?>
-              
+<?php
+$layout = jck_mwi::layout();
+$block = $layout->getBlock('media-home')->toHtml().'';
+?>
               <div class="media-logged">
+                  <?php if ($block == "") : ?>  
                   Welcome, you are currenty logged as <span class="bold"><?php $usr = wp_get_current_user(); echo $usr->data->display_name; ?></span>.
                   <br />Choose a section from the left navigation bar and download reserved media.<br />
                   Every image is available in both standard and high resolution format.<br /><br />
@@ -40,6 +44,9 @@ $uam = new UserAccessManager();
                     <input class="btn" type="submit" name="wp-submit" value="LOGOUT" />
                   </form>
                   -->
+                  <?php else: ?>
+                  <?php echo $block; ?>
+                  <?php endif; ?>
               </div>
               
               
