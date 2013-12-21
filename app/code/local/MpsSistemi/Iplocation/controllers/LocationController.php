@@ -122,7 +122,7 @@ class MpsSistemi_Iplocation_LocationController extends Mage_Core_Controller_Fron
         
          MpsSistemi_Iplocation_Model_Core_Dispatch::setCookie($cookie); 
          
-         $this->getResponse()->setBody();
+         $this->getResponse()->setBody(MAge::Helper('core')->jsonEncode($cookie));
     }
 }
 

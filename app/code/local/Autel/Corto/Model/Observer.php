@@ -384,14 +384,14 @@ class Autel_Corto_Model_Observer {
             $quote->getShippingAddress()->setCollectShippingRates(true) //Forzo di ricalcolare la collection delle spedizioni
                   ->collectShippingRates();
 
-            // SE sono fuori europa o il metodo di default non è assegnato imposo il corriere
+            // SE sono fuori europa o il metodo di default non è assegnato imposto il corriere
             $currentShipping = $quote->getShippingAddress()->getShippingMethod();
             if (($cookie->getZoneId() != "EU" && ($currentShipping == 'autel_pikup_in_paris_boutique' ||  $currentShipping == 'autel_pikup_in_paris_boutique')) ||
                  $currentShipping == '') {
-                    $quote->getShippingAddress()->setShippingMethod('autel_tnt_shipping_bestway')
-                          ->collectTotals();
+                    $quote->getShippingAddress()->setShippingMethod('autel_tnt_shipping_bestway');
             }
             
+            $quote->collectTotals();
             $quote->save();
         
             //Mage::getSingleton('checkout/session')->setQuote(Mage::getModel('sales/quote')->Load($quote->getId()));
@@ -440,4 +440,3 @@ class Autel_Corto_Model_Observer {
         return true;
     }
 }
-?>

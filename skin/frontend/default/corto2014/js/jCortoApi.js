@@ -499,6 +499,9 @@ $j(window).bind("scroll", function() {
 (function ($) {
     $.fn.initializePopUpMenu = function () {
         /* Gestione Carrello */    
+        if ($('.top-link-cart').attr('rel')!="" && ($('.top-link-cart').attr('href')==='' || $('.top-link-cart').attr('href')==='')) {
+            $('.top-link-cart').attr('href', $('.top-link-cart').attr('rel'));
+        }
         jQuery('.top-link-cart').headerSwitcher("R");
         /* Gestione Language */
         if (jQuery(".top-link-account").length>0) jQuery(".top-link-account").headerSwitcher("L");

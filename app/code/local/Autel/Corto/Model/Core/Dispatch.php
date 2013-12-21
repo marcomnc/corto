@@ -214,5 +214,3 @@ class Autel_Corto_Model_Core_Dispatch {
      }
 
 }
-
-?>

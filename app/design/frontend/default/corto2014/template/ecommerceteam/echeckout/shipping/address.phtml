@@ -69,9 +69,9 @@
     </li>
     <li class="fields">
         <div class="field">
-            <label for="shipping:telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+            <label for="shipping:telephone"><?php echo $this->__('Telephone') ?></label>
             <div class="input-box">
-                <input type="text" name="shipping[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry" id="shipping:telephone" />
+                <input type="text" name="shipping[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text" id="shipping:telephone" />
             </div>
         </div>
         <div class="field">
