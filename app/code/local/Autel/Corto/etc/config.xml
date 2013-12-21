@@ -207,7 +207,12 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                 <rewrite>
                     <fulltext>Autel_Corto_Model_Catalogsearch_Resource_Fulltext</fulltext>
                 </rewrite>
-            </catalogsearch_resource>      
+            </catalogsearch_resource>    
+            <wishlist_resource>
+                <rewrite>
+                    <item_collection>Autel_Corto_Model_Wishlist_Resource_Item_Collection</item_collection>  
+                </rewrite>
+            </wishlist_resource>
             <cms>
                 <rewrite>
                     <block>Autel_Corto_Model_Cms_Block</block>

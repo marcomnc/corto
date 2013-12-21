@@ -47,13 +47,6 @@
     </default>
 
     <catalogsearch_result_index translate="label">
-        <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
-            <action method="setData">
-                <key>show_background</key>
-                <value>1</value>
-            </action>
-        </reference>
         <label>Quick Search Form</label>
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
@@ -82,7 +75,7 @@
         </reference>
     </catalogsearch_result_index>
     
-    <catalogsearch_advanced_index translate="label">
+    <catalogsearch_advanced_index translate="label">        
         <label>Advanced Search Form</label>
         <!-- Mage_Catalogsearch -->
         <reference name="root">
@@ -106,6 +99,13 @@ Advanced search results
 
     <catalogsearch_advanced_result translate="label">
         <label>Advanced Search Result</label>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setData">
+                <key>show_background</key>
+                <value>1</value>
+            </action>
+        </reference>
         <update handle="page_two_columns_right" />
         <!-- Mage_Catalogsearch -->
         <reference name="root">

@@ -1706,7 +1706,7 @@ button.btn-checkout span span,
 .my-wishlist .product-name { padding-top:13px !important; }
 .my-wishlist textarea { width:90%; }
 .my-wishlist .buttons-set button { margin:0 0 0 10px; }
-.my-wishlist .data-table button { margin:10px 0; height:22px !important; }
+.my-wishlist .data-table button { margin:10px 0; }
 #my-tags-table button { height:29px !important; }
 
 #my-orders-table .last .nobr { white-space:normal; }
