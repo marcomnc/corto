@@ -34,7 +34,7 @@ get_header(); ?>
         <div class="breadcrumbs">
             <ul>
                 <li><a href="<?php echo get_site_url(); ?>"><?php echo Mage::Helper('autelcorto')->__('News & Events');?></a><span>|</span></li>
-                <li class="last">Press cuttings</li>
+                <li class="last">Press Clippings</li>
             </ul>                
         </div>
     </header><!-- .container -->

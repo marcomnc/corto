@@ -703,7 +703,8 @@ var EasyCheckout = Class.create(
         },
         login: function (e, p, url)
         {
-            $('elogin-loading').style.display = 'block';
+            //$('elogin-loading').style.display = 'block';
+            $j.fn.layer(true, {bindEsc:false, waiting: true});
             $('elogin-buttons').style.display = 'none';
             new Ajax.Request(url,
                 {
@@ -713,7 +714,8 @@ var EasyCheckout = Class.create(
                         var response = eval('('+(transport.responseText || false)+')');
                         if(response.error){
                             $('elogin-message').innerHTML = response.message;
-                            $('elogin-loading').style.display = 'none';
+                            //$('elogin-loading').style.display = 'none';
+                            $j.fn.layer(false);
                             $('elogin-buttons').style.display = 'block';
                         }else{
                             location.reload();
