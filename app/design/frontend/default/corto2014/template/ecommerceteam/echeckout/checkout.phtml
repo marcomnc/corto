@@ -26,6 +26,9 @@ $zone = Mage::getModel('mpslocation/zone')->Load($cookie['zone_id'], 'zone_code'
 $shippingList = Mage::Helper('mpslocation')->getCountryFromZone($zone);
 $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getCountryId().'';
 
+$warningChange = $this->getLayout()->CreateBlock('cms/block')->setBlockId('checkout-warning-change-zone')->toHtml() . "";
+$warningChangeSpecZone = $this->getLayout()->CreateBlock('cms/block')->setBlockId('checkout-warning-change-zone-' . $cookie->getZoneId())->toHtml() . "";
+
 ?>
 <script type="text/javascript">
     //<![CDATA[
@@ -108,6 +111,16 @@ $currentShippingCountry = $checkoutModel->getQuote()->getShippingAddress()->getC
                             </div>                    
                         </div>
                     </li>
+                    <?php if ($warningChange != ""):?>
+                    <li class="warning-change-zone">
+                        <?php echo $warningChange; ?>
+                    </li>
+                    <?php endif; ?>
+                    <?php if ($warningChangeSpecZone != ""):?>
+                    <li class="warning-change-specific-zone">
+                        <?php echo $warningChangeSpecZone; ?>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         

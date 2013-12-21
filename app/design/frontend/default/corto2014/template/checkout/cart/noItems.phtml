@@ -23,15 +23,23 @@
  * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+
+$cartIsEmpty = $this->getLayout()->createBlock('cms/block')->setIdBlock('cart-is-empty')->toHtml();
+
 ?>
 <div class="page-title">
     <h1><?php echo $this->__('Shopping Cart is Empty') ?></h1>
 </div>
 <div class="cart-empty">
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>    
+<?php if ($cartIsEmpty != ""): ?>
+    <?php echo $cartIsEmpty;?>
+<?php else: ?>    
 <p style="text-align: center;">
     <img style="display: block; margin-left: auto; margin-right: auto;" 
-         src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'layout/ops-404.gif';?>" /></p>
+         src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'layout/ops-404.gif';?>" />
+</p>
+<?php endif;?>
 <div style="text-align: center;">
 <?php echo $this->getChildHtml('checkout_cart_empty_widget'); ?>
     <p><?php echo $this->__('You have no items in your shopping cart.') ?></p>
