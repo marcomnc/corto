@@ -159,18 +159,11 @@ $warningChangeSpecZone = $this->getLayout()->CreateBlock('cms/block')->setBlockI
             </tr>
             </tbody>
         </table>
-        <?php
-        $block = $this->getLayout()->createBlock('cms/block')->setBlockId('checkout_total_info')->toHtml(). '';
-        if ($block):    
-        ?>
-        <div class="checkout-totals-block">
-            <?php echo $block;?>
-        </div>
-        <?php endif; ?>
+
         <div id="checkout-totals">
         <?php echo $this->getChildHtml('totals');?>
         </div>
-        <div class="clearer"></div>
+
         <div class="button-set place-order-buttons">
             <?php if ($helper->showSubscribe()):?>
             <div class="subscribe-btn-wrapper"><label><input type="checkbox" name="subscribe" value="1" checked="checked"/> <?php echo $this->__('Subscribe to newsletter');?></label></div>
@@ -181,6 +174,15 @@ $warningChangeSpecZone = $this->getLayout()->CreateBlock('cms/block')->setBlockI
                 <span id="checkout-loadinfo" class="loadinfo">&nbsp;</span>
             </div>
         </div>
+<div class="clearer"></div>
+        <?php
+        $block = $this->getLayout()->createBlock('cms/block')->setBlockId('checkout_total_info')->toHtml(). '';
+        if ($block):
+        ?>
+        <div class="checkout-totals-block">
+            <?php echo $block;?>
+        </div>
+        <?php endif; ?>
         
         <div class="agreements">
             <?php echo $this->getChildHtml('agreements') ?>

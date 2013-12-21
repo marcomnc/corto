@@ -80,6 +80,8 @@ Load this update on every page when customer is logged in
                 <position>10</position>
                 <liParams/>
                 <aParams>
+	            <class>my-account-button</class>
+
                     <mps-type>async-link</mps-type>
                 </aParams>
             </action>
