@@ -793,7 +793,7 @@ tr.summary-details-excluded { font-style:italic; }
 .products-grid { margin:0 -10px 14px 0; position:relative; }
 .products-grid.last {  }
 .products-grid>div.item,
-.products-grid li.item { float:left; width:230px; padding:0; height: 295px; background: #FFFFFF; margin: 0px 5px 10px 5px;}
+.products-grid li.item { float:left; width:230px; padding:0; height: auto; background: #FFFFFF; margin: 0px 5px 10px 5px;}
 .products-grid li.last { margin:0 10px; }
 .products-grid li.first { margin:0 10px; }
 .products-grid>div a,
