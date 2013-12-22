@@ -159,12 +159,9 @@ var EasyCheckout = Class.create(
                                                         window.location.reload();
                                                     },
                                        "onError"   : function() {
+                                                        $j.fn.layer(false);
                                                         alert('General Error');
-
-                                                    },
-                                       "onComplete": function () {
-                                           $j.fn.layer(false);
-                                       }           
+                                                    }
                                     });
                             });
                         }
