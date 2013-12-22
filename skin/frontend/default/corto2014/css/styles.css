@@ -2060,3 +2060,5 @@ button.btn-checkout span span,
                                 width: 100%; height: 30px;}
 .color-search .container .label a {width: 100%; color: white; font-size: 13px; font-weight: bold; position: absolute; padding: 8px 0 0 50px;}
 #mpslocation_alert { position: fixed; z-index: 10000;  }
+
+.fancy-popup {margin: 20px}

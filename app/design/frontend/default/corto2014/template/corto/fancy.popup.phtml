@@ -1,0 +1,13 @@
+<?php 
+
+$class = $this->getRequest()->getParam("class");
+$content = $this->getRequest()->getParam('content');
+$isDecode = $this->getRequest()->getParam('isDecode');
+
+if ($isDecode):
+    $content = base64_decode($content);
+endif;
+?>
+<div class="fancy-popup <?php echo $class;?>" >
+    <?php echo $content?>
+</div>

@@ -218,6 +218,12 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                     <block>Autel_Corto_Model_Cms_Block</block>
                 </rewrite>
             </cms>
+            <checkout>
+<!-- Rewrite necessario per gesitre gli errori di inserimento nel carrelo in Ajax -->
+                <rewrite>
+                    <cart>Autel_Corto_Model_Checkout_Cart</cart>
+                </rewrite>
+            </checkout>
         </models>
         <resources>
             <autelcorto_setup>

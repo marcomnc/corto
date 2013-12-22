@@ -263,33 +263,47 @@ $_materialId = $_product->getData('material');
                         dataType: 'json',
                         type : 'post',
                         data: { "ajax":1},
-                        success: function(data){                            
-                            if (jQuery(".light").length>0 && typeof(data.lightCart)!="undefined") jQuery(".light").replaceWith(data.lightCart); 
-                            if(jQuery('.header .links').length>0 && typeof(data.topLink)!="undefined") {
-                            	jQuery('.links').each(function() {
-                            		if (jQuery(this).attr("class").split(" ").length==1) {
-                            			jQuery(this).replaceWith(data.topLink);
-                            			return false;
-                            		}                            		
-                            	})
+                        success: function(data){             
+                            
+                            if (typeof(data.status)!="undefined" && data.status === "KO") { // Error                                
+                                $j.fancybox({
+                                    autoScale   : true,
+                                    padding     : "0",
+                                    margin      : "0",
+                                    showCloseButton : false,     
+                                    href        : '<?php echo $this->getBaseUrl(); ?>autelcorto/general/fancy/class/add-to-cart-message/content/' + data.decode_message + '/isDecode/1/',
+                                    onComplete: function () {
+                                        $j.fn.fancyTitle("<?php echo $this->__('Error during add to shopping bag');?>");
+                                    }  
+                                });
+                            } else {
+                                if (jQuery(".light").length>0 && typeof(data.lightCart)!="undefined") jQuery(".light").replaceWith(data.lightCart); 
+                                if(jQuery('.header .links').length>0 && typeof(data.topLink)!="undefined") {
+                                    jQuery('.links').each(function() {
+                                            if (jQuery(this).attr("class").split(" ").length==1) {
+                                                    jQuery(this).replaceWith(data.topLink);
+                                                    return false;
+                                            }                            		
+                                    });
+                                }
+                                try {
+                                    jQuery.fn.initializeLightCart();
+                                    jQuery.fn.initializePopUpMenu();
+                                } catch(e) {}
+                                jQuery('.top-link-cart').headerSwitcher('R');                          
+
+                                jQuery(".top-link-cart").trigger("click");
+
+                                //clearInterval(timer);
+                                jQuery("#add-to-cart img").css({ "background-color": "white"});
                             }
-                            try {
-                                jQuery.fn.initializeLightCart();
-                                jQuery.fn.initializePopUpMenu();
-                            } catch(e) {}
-                            jQuery('.top-link-cart').headerSwitcher('R');
-                            jQuery.fn.layer(false);                            
-                                                        
-                            jQuery(".top-link-cart").trigger("click");
-
-                            //clearInterval(timer);
-                            jQuery("#add-to-cart img").css({ "background-color": "white"});
                         },
-                        error: function (data) {
-                            jQuery.fn.layer(false);
+                        error: function (data) {                            
                             alert('<?php echo $this->__("We\'re sorry, but at this moment it is not possible to add the product to your Shopping Bag");?>');
-                        }
-
+                        },
+                        complete: function(data) {
+                            jQuery.fn.layer(false);
+                        }  
                     });
                 } catch (e) {
                 }

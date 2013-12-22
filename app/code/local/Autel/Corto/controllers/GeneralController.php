@@ -204,6 +204,13 @@ class Autel_Corto_GeneralController extends Mage_Core_Controller_Front_Action
                           
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($ret));
      }
+     
+     
+     public function fancyAction() {
+        $this->loadLayout();
+        $this->getLayout()->getBlock("show-fancy-popup");            
+        $this->renderLayout();    
+     }
 }
 
 ?>
