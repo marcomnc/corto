@@ -191,7 +191,11 @@ Product view
             <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
-            
+    
+            <!-- FAQ nel dettaglio prodotto -->
+            <action method="addJs"><script>ui/jquery.ui.core.js</script></action>
+            <action method="addJs"><script>ui/jquery.ui.widget.js</script></action>
+            <action method="addJs"><script>ui/jquery.ui.accordion.js</script></action>        
         </reference>
         <reference name="content">
             <action method="unsetChild"><name>breadcrumbs</name></action>

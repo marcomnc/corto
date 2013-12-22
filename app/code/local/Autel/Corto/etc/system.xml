@@ -104,7 +104,7 @@
                             <comment>Possono essere utilizzate le variabili CMS di Magento</comment>
                         </privacy_url>
                         <custom_layout_ajax_page>
-                            <label>Link pagina privacy</label>
+                            <label>Custom Layout ajax Page</label>
                             <frontend_type>textarea</frontend_type>                            
                             <sort_order>999</sort_order>
                             <show_in_default>1</show_in_default>
