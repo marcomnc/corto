@@ -126,7 +126,7 @@ class Autel_Catalog_Helper_Product_Attribute_Media extends Autel_Catalog_Helper_
     private function _dirExistence($dir) {
         if (opendir($dir) === false) {
             if (!mkdir($dir))
-                throw new Exception("Can not open Uploader Directory");            
+                throw new Exception("Can not open Uploader Directory $dir");            
         }
 
     }
@@ -168,18 +168,17 @@ class Autel_Catalog_Helper_Product_Attribute_Media extends Autel_Catalog_Helper_
      */
     private function _getTypeImmage ($ext, $pos) {
         
-        $imgType = self::TYPE_THUMBNAIL;
+        $imgType = array();
         $ext = strtoupper($ext);
         $pos = (int)$pos;
         foreach (unserialize(Mage::getStoreConfig("autelconnector/connector_product_media/image_type_selector")) as $type) {            
             if (array_key_exists(strtoupper($type["img"]), $this->_imgType)) {
                 if ($ext == strtoupper($type["ext"]) && ($pos == $type["progr"] || $type["progr"] == "*" || $type["progr"] < 0)) {
-                    $imgType = $type["img"];
-                    break;
+                    $imgType[] = $type["img"];
+                    continue;
                 }
                 if ($pos == $type["progr"] && ($ext == strtoupper($type["ext"]) || $type["ext"] == "" || $type["ext"] = "*" )) {
-                    $imgType = $type["img"];
-                    break;
+                    $imgType[] = $type["img"];                    
                 }
             }
         }
@@ -224,9 +223,9 @@ class Autel_Catalog_Helper_Product_Attribute_Media extends Autel_Catalog_Helper_
             $productList[] = $id;
             if ($prod->getTypeId() == "configurable") {
                 //Recupero tutti gli articoli collegati
-                foreach (Mage::getModel("catalog/product_type_configurable")->getChildrenIds($id) as $simple) {
-                    $productList[] = $simple;
-                }
+                //foreach (Mage::getModel("catalog/product_type_configurable")->getChildrenIds($id) as $simple) {
+                //    $productList[] = $simple;
+                //}
             } 
         }
         return $productList;        
@@ -359,7 +358,13 @@ class Autel_Catalog_Helper_Product_Attribute_Media extends Autel_Catalog_Helper_
                 $gallery->getBackEnd()->updateImage($product, $file, array("position" => $sku[1]));
                 
                 $this->debug("Setto la tipoliga dell'immagine " .$this->_imgType[$sku[3]] ." -> " . $sku[3]);
-                $product->setData($this->_imgType[$sku[3]],$file);
+                if (is_array($sku[3])) {
+                    foreach ($sku[3] as $_type) {
+                        $product->setData($this->_imgType[$_type],$file);
+                    }
+                } else {
+                    $product->setData($this->_imgType[$sku[3]],$file);
+                }
                 try {
                     $product->save();                
                 } catch (Exception $e) {

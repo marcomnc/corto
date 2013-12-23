@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Autel_Catalog>
-            <version>0.2.0</version>
+            <version>0.2.1</version>
         </Autel_Catalog>
     </modules>
       <depends>
@@ -22,7 +22,19 @@
         <models>    
             <autelcatalog> 
                 <class>Autel_Catalog_Model</class>
+                <resourceModel>autelcatalog_mysql4</resourceModel>
             </autelcatalog>
+            <autelcatalog_mysql4>
+                <class>Autel_Catalog_Model_Mysql4</class>
+                <entities>
+                    <import>
+                        <table>autel_connector_import</table>
+                    </import>
+                    <message>
+                        <table>autel_connector_import_message</table>
+                    </message>
+                </entities>
+            </autelcatalog_mysql4>
             <catalog>
                 <rewrite>
 	             	<product_api>Autel_Catalog_Model_Product_Api</product_api>
@@ -41,6 +53,28 @@
               	</rewrite>                                
             </catalog>
         </models>
+        <resources>
+            <autelcatalog_setup>
+                <setup>
+                    <module>Autel_Catalog</module>
+                    <!--<class>Mage_Core_Model_Resource_Setup</class>-->
+                </setup>                
+                <connection>
+                    <use>core_setup</use>
+                </connection>                
+            </autelcatalog_setup>
+            <autelcatalog_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </autelcatalog_write>
+            <autelcatalog_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </autelcatalog_read>
+        </resources>
+
     </global>
     <frontend> 
         <routers>

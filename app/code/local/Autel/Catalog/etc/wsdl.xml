@@ -118,6 +118,13 @@
     <message name="catalogProductImportResponse">
         <part name="result" type="xsd:int" />
     </message>
+    <message name="catalogProductImportzipRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="input" type="xsd:String"/>
+    </message>
+    <message name="catalogProductImportzipResponse">
+        <part name="result" type="xsd:int" />
+    </message>
     <message name="catalogProductAttributeSetGetCardinalityRequest">
         <part name="sessionId" type="xsd:string"/>
         <part name="id" type="xsd:String"/>
@@ -192,6 +199,11 @@
             <documentation>AUTEL Add or Update Product</documentation>
             <input message="typens:catalogProductImportRequest"/>
             <output message="typens:catalogProductImportResponse"/>
+        </operation>             
+        <operation name="catalogProductImportzipProduct">
+            <documentation>AUTEL Add or Update Product</documentation>
+            <input message="typens:catalogProductImportzipRequest"/>
+            <output message="typens:catalogProductImportzipResponse"/>
         </operation>             
         <operation name="catalogProductAttributeSetGetCardinality">
             <documentation>AUTEL Get Product Cardinality</documentation>
@@ -289,6 +301,17 @@
             </output>
         </operation>
         <operation name="catalogProductImportProduct">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>        
+        <operation name="catalogProductImportzipProduct">
             <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
             <input>
                 <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"

@@ -39,8 +39,9 @@ class Autel_Catalog_Model_Product_Attribute_Media_Api_V2 extends Mage_Catalog_Mo
             unlink($_fileName);
         }
         
+        $imgFlate = gzinflate(base64_decode($base64));
         
-        $img = imagecreatefromstring(base64_decode($base64));
+        $img = imagecreatefromstring(base64_decode($imgFlate));
         if($img != false) {
         switch (strtolower(substr($fileName,-3))) {
             case "png": 

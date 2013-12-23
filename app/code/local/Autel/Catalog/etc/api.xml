@@ -51,6 +51,11 @@
                         <method>import</method>
                         <acl>catalog/product/test</acl>
                     </importProduct>                                        
+                    <importzipProduct translate="title" module="catalog">
+                        <title>ImportZip</title>
+                        <method>importzip</method>
+                        <acl>catalog/product/test</acl>
+                    </importzipProduct>                                        
                 </methods>
                 <faults module="catalog">
                     <store_not_exists>

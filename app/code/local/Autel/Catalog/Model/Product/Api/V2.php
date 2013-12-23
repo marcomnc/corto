@@ -23,7 +23,10 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
     protected $_hlp;
     protected $_catHlp;
     protected $_action;
-
+    
+    private $_entityTypeId = 4;
+    private $_table = array();
+    
 
 
     public function __construct() {
@@ -33,14 +36,40 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
         $this->_forceUpdate = explode(",", Mage::getStoreConfig('autelconnector/connector_product/attribute_force_update', 0)); 
         $this->_hlp = Mage::helper("autelcatalog/product");
         $this->_catHlp = Mage::helper("autelcatalog/product_category");
-        $this->_action = Mage::getModel('catalog/product_action');
+        $this->_action = Mage::getModel('catalog/product_action');        
+        
+        $this->_table['product']     = Mage::getSingleton('core/resource')->getTableName('catalog_product_entity');
+        $this->_table['website']     = Mage::getSingleton('core/resource')->getTableName('catalog_product_website');
+        $this->_table['category']    = Mage::getSingleton('core/resource')->getTableName('catalog_category_product');
+        $this->_table['stock']       = Mage::getSingleton('core/resource')->getTableName('cataloginventory_stock_item');
+        $this->_table['stockstatus'] = Mage::getSingleton('core/resource')->getTableName('cataloginventory_stock_status');
+        
+        $timoutLimit = Mage::getStoreConfig('autelconnector/connector_product/attribute_force_update', 0);
+        
+        if ($timoutLimit == 0) {
+            ignore_user_abort();
+        }
+        set_time_limit(0);
     }
-
+    
+    
     public function test($input){
+//        $this->_hlp->debugImport(Autel_Catalog_Helper_Data::DEBUG_ACTION_START, 10);
+//        $this->_hlp->debugImport(Autel_Catalog_Helper_Data::DEBUG_ACTION_UPDATE, 1);
+//        $this->_hlp->debugImport(Autel_Catalog_Helper_Data::DEBUG_ACTION_UPDATE, 1);
+//        $this->_hlp->debugImport(Autel_Catalog_Helper_Data::DEBUG_ACTION_UPDATE, 1);
+//        $this->_hlp->debugImport(Autel_Catalog_Helper_Data::DEBUG_ACTION_END);
         return 0;
     }
     
+    public function importzip($input) {
+        
+        $str =  base64_decode($input);
 
+        return $this->import (gzinflate($str));
+    }
+    
+    
     /**
      * Importazione prodotti. 
      * API che si occupa dell'importazione dei prodotti. L'API accetta in input una Lista di oggetti
@@ -67,12 +96,12 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
      */
     public function import($input) {
 //        $this->_hlp->debug($input);
-        $this->_hlp->debug(json_decode($input));
+//        $this->_hlp->debug(json_decode($input));
 
         $productList = json_decode($input);
         $linkArray = array();
         $cardArray = array();
-        $this->_hlp->debug("Inizio Creazione Prodotti");
+        $this->_hlp->debugImport(Autel_Catalog_Helper_Data::DEBUG_ACTION_START, sizeof($productList));
         
         //Memorizzo  la modalità degli indici
         $_oriProcessor = array();
@@ -81,16 +110,16 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
             $pProcess->setMode(Mage_Index_Model_Process::MODE_MANUAL)->save();
         }       
 
-        //Creo i prodotti        
-        foreach ($productList as &$product) {
+        //Creo i prodotti                
+        foreach ($productList as &$product) {            
             if ($this->_isDataComplete($product)===true) {                
-                $id = $this->_createProduct($product);
-                if (is_numeric($id)) {
+                $id = $this->_fastCreateProduct($product);
+                if (is_numeric($id) && $id > 0) {
                     $product->Id == $id;
                     if ($product->SkuConfigurable."" != "") {                    
                         $linkArray[$product->SkuConfigurable][] = array('sku' => $product->Sku,
                                                                         'id'  => $id);
-                    }
+                    } 
                     //La cardinalità la trovo solo su prodotti configurabili
                     if (isset($product->Cardinality) && $product->Type=='configurable') {
                         foreach ($product->Cardinality as $cardinal) {
@@ -101,10 +130,13 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
             } else {
                 $product->Error = $this->_isDataComplete($product);
             }
+            $this->_hlp->debugImport(Autel_Catalog_Helper_Data::DEBUG_ACTION_UPDATE);
         }
         
         $this->_hlp->debug("Fine Creazione Prodotti");
         $this->_hlp->debug("Inizio Associazione Prodotti");       
+//$this->_hlp->debug($linkArray);
+//$this->_hlp->debug($cardArray);
         $this->_linkProduct($linkArray, $cardArray);
         $this->_hlp->debug("Fine Associazione Prodotti");
         $this->_hlp->debug("Ricostruzione Indici");
@@ -117,6 +149,7 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
         }
         $this->_hlp->debug("Fine Ricostruzione Indici"); 
         
+        $this->_hlp->debugImport(Autel_Catalog_Helper_Data::DEBUG_ACTION_END);
         return 0;
     }    
     
@@ -141,6 +174,186 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
         return $ret;
     }
     
+    
+    protected function _fastCreateProduct($prod) {
+        
+        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+        
+        $this->_entityTypeId = Mage::getresourceModel('catalog/product')->getTypeId();
+        
+        $product = $this->_dbRead->fetchRow($this->_dbRead->select()
+                                    ->from($this->_table['product'])
+                                    ->where('sku = ?', $prod->Sku)); 
+        
+        $_isConfigurable = ($prod->Type == 'simple' && !is_null($prod->SkuConfigurable) && $prod->SkuConfigurable != "");
+        $_entityId = 0;
+	$_isNew = false;
+        if (!is_array($product)) {
+            $this->_dbWrite->insert($this->_table['product'], 
+                                        array('attribute_set_id' => $prod->AttributeSetId,
+                                              'entity_type_id'   => $this->_entityTypeId,
+                                              'sku'              => $prod->Sku,
+                                              'type_id'          => $prod->Type,
+                                              'has_options'      => ($prod->Type=='configurable') ? 1: 0,
+                                              'required_options' => ($prod->Type=='configurable') ? 1: 0,));
+            $tab = $this->_dbRead->fetchRow("SHOW TABLE STATUS LIKE  '". $this->_table['product'] ."'");
+            $_entityId = $tab['Auto_increment'] - 1;
+    	    $_isNew = true;
+        } else {
+            $_entityId = $product['entity_id'];
+        }
+        
+        $this->_dbWrite->beginTransaction();
+        try {
+            
+            //Visibilità
+            if ($prod->Type == 'simple' && $_isConfigurable) {
+                $this->_updateAttribute ($_entityId, 'visibility', 0, Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+            } else {
+                $this->_updateAttribute ($_entityId, 'visibility', 0, Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH); 
+            }
+
+            $this->_updateAttribute ($_entityId, 'tax_class_id', 0, $this->_getTax());
+            
+            foreach ($prod->Attribute as $attribute) {
+                if ($_isNew || $prod->ForceUpdateAll == 2 ||
+                   ($prod->ForceUpdateAll == 1 && array_search($attribute->AttributeCode, $this->_forceUpdate) === false) ||
+                   (array_search($attribute->AttributeCode, $this->_allUpdate)) !== false){
+                                    
+                    $attrValue = null;
+                
+                    $actRow = $this->_getAttributeRow($attribute->AttributeCode);
+
+                    if ($actRow->getIsUserDefined() && 
+                       ($actRow->getFrontendInput() == "select" || $actRow->getFrontendInput() == "multiselect" )) {
+                            //Cerco il valore tra le opzione 
+                        foreach (explode(",", $attribute->AttributeValue) as $_attVal) {
+                             $_attrValue = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                                            ->setStoreFilter(0)
+                                            ->setAttributeFilter($actRow->getId())
+                                            ->addFieldToFilter(' tdv.value ', $_attVal) 
+                                            ->getFIrstItem()->getId();
+                            if (is_null($_attrValue) || $_attrValue == 0) {
+                                 //Creo l'attributo per lo store
+                            }
+			if (!is_null($attrValue))
+                             $attrValue.=",";
+                         
+			$attrValue.=$_attrValue;
+                     }
+                    } else {
+                        $attrValue = $attribute->AttributeValue;                    
+                    }  
+                    
+                    if ($attribute->AttributeCode == "status" && $_isConfigurable) {
+                        //Per l'attributo status nel caso di un semplice associato al conifugrabile lo metto sempre attibuo
+                        $attrValue = Mage_Catalog_Model_Product_Status::STATUS_ENABLED; 
+                    }
+
+//			$this->_hlp->debug("Agg " .$prod->Sku. ". Agg Attr " . $attribute->AttributeCode);
+                    $this->_updateAttribute ($_entityId, $attribute->AttributeCode, $attribute->StoreId, $attrValue);
+                }
+            }
+            
+            if ($_isNew || $prod->ForceUpdateAll >= 1 || $prod->ForceWebSites) {
+                //Web Site Disassocio e Riassocio
+                $this->_dbWrite->delete($this->_table['website'], array('product_id = ?' => $_entityId));
+                foreach ($this->_hlp->getWebSite($prod->WebSite) as $ws) {
+                    $this->_dbWrite->insert($this->_table['website'], array('product_id' => $_entityId, 'website_id' => $ws));
+                }
+            }
+            
+            //Le categorie le  aggiorno solo se il prodotto non è semplice o non ha il riferimento
+            if ($_isNew && ($prod->Type != 'simple' || !$_isConfigurable)) {
+                    $this->_dbWrite->delete($this->_table['category'], array('product_id = ?' => $_entityId));
+                    foreach ($this->_catHlp->getCategory($prod->Category) as $k=>$v) {                
+			foreach ($v as $cat)
+	                        $this->_dbWrite->insert($this->_table['category'], array('product_id' => $_entityId, 'category_id' => $cat));
+                    }
+            }
+            
+            //Update delle quantità
+            foreach ($prod->Stock as $stock) {
+
+                    $this->_updateQta($_entityId, ((is_null($stock->Qty) || ($prod->Type != 'simple'))?0:$stock->Qty), (is_null($stock->OutOfStock || $stock->OutOfStock == 1)?0:1),$this->_hlp->getWebSite($prod->WebSite));
+            }
+        
+            $this->_dbWrite->commit();
+        } catch (Exception $ex) {
+            $this->_dbWrite->rollBack();
+            Mage::LogException($ex);
+            $this->_hlp->debug("Errore in fase di creazione dell'articolo");
+            $this->_hlp->debug($ex);
+        }
+        
+        return $_entityId;
+
+        
+    }
+    
+    private function _updateQta($entityId, $qta, $status, $webSites) {
+        
+        $sql  = "INSERT INTO " . $this->_table['stock'] . "(product_id, stock_id, qty, is_in_stock) VALUES " ;
+        $sql .= "($entityId, 1, $qta, $status) ";
+        $sql .= " ON DUPLICATE KEY UPDATE qty = $qta, is_in_stock = $status";
+        
+        $this->_dbWrite->query($sql);
+        
+/*        foreach ($webSites as $ws) {
+            $sql  = "INSERT INTO " . $this->_table['stockstatus'] . "(product_id, website_id, stock_id, qty, stock_status) VALUES " ;
+            $sql .= "($entityId, $ws, 1, $qta, $status) ";
+            $sql .= " ON DUPLICATE KEY UPDATE qty = $qta, stock_status = $status";
+        
+            $this->_dbWrite->query($sql);
+        }*/
+        
+        
+    }
+    
+    private function _updateAttribute($entityId, $name, $store, $value) {
+
+        $attr = $this->_getAttributeRow($name);
+
+	if (!$attr->hasAttributeId()) {	
+		$this->_hlp->debug("Attributo non valido $name");
+		return;
+	}
+        $field = array('entity_type_id' => $this->_entityTypeId,
+                       'attribute_id'   => $attr->getAttributeId(),
+                       'entity_id'      => $entityId);
+
+        $tableName = $this->_getTableName($attr->getBackendType());                                    
+
+        if ($store === 0) {
+            //Azzero solo lo store che mi interessa
+	    $deleteWhere = array();
+            foreach ($field as $f => $v) {
+		$deleteArray["$f = ?"] = $v;
+	    }
+	    if (sizeof($deleteWhere) > 0) {
+	        $delteWhere['store_id = ?'] = $store;
+        	$this->_dbWrite->delete($tableName, $delteWhere);
+	    }
+        }
+        
+        $field['store_id'] = $store;
+        $field['value'] = $value;        
+        
+        $sql  = "INSERT INTO $tableName (entity_type_id, attribute_id, entity_id, store_id, value) VALUES " ;
+        $sql .= "(?, ?, ?, ?, ?) ";
+        $sql .= " ON DUPLICATE KEY UPDATE value = ?";
+
+        $this->_dbWrite->query($sql, array_merge(array_values($field), array_values(array("value" => $value))));
+        
+    }
+    
+    private function _getTableName($attrType) {
+        if (!isset($this->_table['productentity'][$attrType])) {
+            $this->_table['productentity'][$attrType] = Mage::getSingleton('core/resource')->getTableName("catalog_product_entity_$attrType");
+        }        
+        return $this->_table['productentity'][$attrType];
+    }
+    
     /**
      * Creazione del prodotto che proviene dal client
      * @param object $prod Prodotto che arriva dal client
@@ -153,9 +366,10 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
         //Leggo i prodotti per store
         $myProduct = $this->_hlp->getProduct4Store($prod->Sku);        
         
-        $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku);
+        $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku . " - Type: " . $prod->Type);
         
         $myProduct[0]->setTypeId($prod->Type);
+	$myProduct[0]->setProductTypeId($prod->Type);
         if ($prod->Type == 'simple' && !is_null($prod->SkuConfigurable) && $prod->SkuConfigurable != "")
             $myProduct[0]->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
         else 
@@ -173,7 +387,7 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
                 
                 $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno Attributo " . $attribute->AttributeCode );
                 $attrValue = null;
-
+                
                 $actRow = $this->_getAttributeRow($attribute->AttributeCode);
                 if ($actRow->getIsUserDefined() && 
                    ($actRow->getFrontendInput() == "select" || $actRow->getFrontendInput() == "multiselect" )) {
@@ -214,11 +428,14 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
         if ($myProduct[-1] == "insert" || $prod->ForceUpdateAll >= 1 || $prod->ForceWebSites) {
             $myProduct[0]->setWebsiteIDs($this->_hlp->getWebSite($prod->WebSite));
         }
-        $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno Category ");
-        //$this->_catHlp = Mage::Helper("autelcatalog/product_category");
-        foreach ($this->_catHlp->getCategory($prod->Category) as $k=>$v) {                
-            $myProduct[$k]->setCategoryIds($v);
-        }
+	//Le categorie le  aggiorno solo se il prodotto non è semplice o non ha il riferimento
+	if ($prod->Type != 'simple' || $prod->SkuConfigurable == "") {
+	        $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno Category ");
+        	//$this->_catHlp = Mage::Helper("autelcatalog/product_category");
+	        foreach ($this->_catHlp->getCategory($prod->Category) as $k=>$v) {                
+        	    $myProduct[$k]->setCategoryIds($v);
+	        }
+	}
 
         $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". Aggiorno Stock ");
         //Aggiorno a priori la quantità
@@ -245,7 +462,7 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
         }
         try {                        
             $myProduct[0]->setTaxClassId($this->_getTax($myProduct[0]->getTaxClassId()));            
-            
+
             $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". tentativo di Salvataggio Store 0 ");
             $myProduct[0]->Save();            
 
@@ -255,6 +472,9 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
 
                 $this->_hlp->debug("Aggiornamento Prodotto " .$prod->Sku. ". tentativo di Salvataggio Store " . $store->getId());
                 
+		//Sistemo gli attributi imporatnti per evitare casini
+		$myProduct[$store->getId()]->setTypeId($myProduct[0]->getTypeId());
+		$myProduct[$store->getId()]->setWeight($myProduct[0]->getWeigth());
 
 		foreach ($prod->Attribute as $attr) {
                     if ($attr->StoreId == 0) {
@@ -304,8 +524,11 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
                     $_card = $this->_getCardinalty(Mage::getModel('catalog/product')->Load($idParent)->getAttributeSetId());
                 } else {
                     foreach ($card[$k] as $c) {
-                        $_card[] = $this->_getAttributeRow($c["attributeCode"])->getId();
-                        throw new Exception("Errore in fase di Associazione Prodotti! Non esite l'attributo " .$c["attributeCode"] . " usato nella cardinalità!");
+                        $_cardAttribute = $this->_getAttributeRow($c["attributeCode"])->getId();
+			if (!$_cardAttribute) {
+	                        throw new Exception("Errore in fase di Associazione Prodotti! Non esite l'attributo " .$c["attributeCode"] . " usato nella cardinalità!");
+			}
+			$_card[] = $_cardAttribute;
                     }
                 }              
                 foreach ($_card as $idAttr) {

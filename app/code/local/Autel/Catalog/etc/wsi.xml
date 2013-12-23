@@ -165,6 +165,21 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>                                                            
+            <xsd:element name="productImportzipRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="input" type="xsd:string" />                        
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="productImportzipResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                                            
             <xsd:element name="GetCardinalityRequestParam">
                 <xsd:complexType>
                     <xsd:sequence>
@@ -249,12 +264,12 @@
     <wsdl:message name="catalogProductAttributeGetattributeIdResponse">
         <wsdl:part name="parameters" element="typens:getattributeIdResponseParam" />
     </wsdl:message>    
-    <wsdl:message name="catalogProductAttributeAddOptionRequest">
+<!--    <wsdl:message name="catalogProductAttributeAddOptionRequest">
         <wsdl:part name="parameters" element="typens:addOptionIdRequestParam" />
     </wsdl:message>
     <wsdl:message name="catalogProductAttributeAddOptionResponse">
         <wsdl:part name="parameters" element="typens:addOptionIdResponseParam" />
-    </wsdl:message>    
+    </wsdl:message>-->    
     <wsdl:message name="catalogProductAttributeAddOptionValueRequest">
         <wsdl:part name="parameters" element="typens:addOptionValueRequestParam" />
     </wsdl:message>
@@ -284,6 +299,12 @@
     </wsdl:message>
     <wsdl:message name="catalogProductImportResponse">
         <wsdl:part name="parameters" element="typens:productImportResponseParam" />
+    </wsdl:message>        
+    <wsdl:message name="catalogProductImportzipRequest">
+        <wsdl:part name="parameters" element="typens:productImportzipRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductImportzipResponse">
+        <wsdl:part name="parameters" element="typens:productImportzipResponseParam" />
     </wsdl:message>        
     <wsdl:message name="catalogProductAttributeSetGetCardinalityRequest">
         <wsdl:part name="parameters" element="typens:GetCardinalityRequestParam" />
@@ -363,6 +384,11 @@
             <wsdl:documentation>Importazione massiva articoli (Riferimento MageConnector.dll)</wsdl:documentation>
             <wsdl:input message="typens:catalogProductImportRequest" />
             <wsdl:output message="typens:catalogProductImportResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductImportzipProduct">
+            <wsdl:documentation>Importazione massiva articoli (Riferimento MageConnector.dll)</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductImportzipRequest" />
+            <wsdl:output message="typens:catalogProductImportzipResponse" />
         </wsdl:operation>
         <wsdl:operation name="catalogProductAttributeSetGetCardinality">
             <wsdl:documentation>AUTEL Recupero le cardinalità</wsdl:documentation>
@@ -448,6 +474,15 @@
             </wsdl:output>
         </wsdl:operation>  
         <wsdl:operation name="catalogProductImportProduct">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>  
+        <wsdl:operation name="catalogProductImportzipProduct">
             <soap:operation soapAction="" />
             <wsdl:input>
                 <soap:body use="literal" />

@@ -32,8 +32,8 @@ class Autel_Catalog_Helper_Product_Category extends Autel_Catalog_Helper_Data
         $tree = Array();
         foreach ($category as $catObj ) {
             if (is_object($catObj)) {
-                $cat = $this->_getCategoryByName($catObj->Category);
-                if ($cat->getId() <= 0) {
+                $cat = $this->_getCategoryByName($catObj->Category, $catObj->Father);
+                if (is_null($cat) || $cat->getId() <= 0) {
                     $myCat = new Mage_Catalog_Model_Category();
                     $myCat->setStoreId($catObj->StoreId)
                           ->setAttributeSetId($myCat->getDefaultAttributeSetId())
@@ -41,7 +41,7 @@ class Autel_Catalog_Helper_Product_Category extends Autel_Catalog_Helper_Data
                           ->setParent($this->_rootCategroy)                                            
                           ->setIncludeInMenu(0)
                           ->setName($catObj->Category)
-                          ->setDescription($catObj->Category)
+                          //->setDescription($catObj->Category) Parametrizzare
                           ->setIsActive(1);
                     $myCat->Save();
                     $cat = Mage::getModel("catalog/category")->getCollection()
@@ -66,10 +66,23 @@ class Autel_Catalog_Helper_Product_Category extends Autel_Catalog_Helper_Data
         return $retValue;
     }
     
-    protected function _getCategoryByName ($name) {
-        return Mage::getModel("catalog/category")->getCollection()
-                            ->AddAttributeToFilter("name", $name)
-                            ->getFirstItem();
+    protected function _getCategoryByName ($name, $father = "") {
+        
+        $cat =  Mage::getModel("catalog/category")->getCollection()
+                            ->AddAttributeToFilter("name", $name);
+
+        
+        if (($father."") == "") {
+            return $cat->getFirstItem();
+        }
+            
+        foreach ($cat as $c) {
+            if ($father == Mage::getModel("catalog/category")->Load($c->getParentId())->getName()) {
+                return $c;
+            }
+        }
+
+        return null;
     }
     
 //    private function _getRootId($storeId = null) {        

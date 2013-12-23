@@ -41,6 +41,15 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </debug_enable>
+                        <session_timeout>
+                            <label>Session Timeout</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Session Timeout. Utile in fase di importazione articoli quando il tempo di elaborazione è maggiore di quello previsto dal WS. Si consiglia come valore 0.</comment>
+                        </session_timeout>
                     </fields>                    
                 </connector>
             </groups>            
