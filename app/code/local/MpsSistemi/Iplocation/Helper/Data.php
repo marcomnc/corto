@@ -391,7 +391,7 @@ class MpsSistemi_Iplocation_Helper_Data extends MpsSistemi_Core_Helper_Data {
         if ($cookie->hasZoneId() && $cookie->getZoneId() != "") {
             //Controllo se lo store associato alla zona (quello attuale) a un pasese di default compreso nei paesi della zone
             $zone = Mage::getModel('mpslocation/zone')->Load($cookie->getZoneId(), 'zone_code');
-            if (strpos(','.$countryStore.',', ','.  strtoupper($zone->getStateList()).',') === false) {                
+            if (strpos(','.  strtoupper($zone->getStateList()).',', ','.$countryStore.',') === false) {                
                 //butto sul primo paese della zona
                 $c = explode(",", $zone->getStateList());
                 $countryStore = $c[0];

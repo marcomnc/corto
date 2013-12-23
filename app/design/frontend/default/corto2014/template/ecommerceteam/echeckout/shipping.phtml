@@ -17,9 +17,10 @@ if($this->canShow()): ?>
     id="shipping-address-wrapper"
     <?php if($shipping == "autel_pikup_in_milan_boutique" || $shipping == "autel_pikup_in_paris_boutique"):?> style="display:none;" <?php endif;?>>
     
-    <h2><?php echo $this->__('Shipping Address')?>:
+    <h2>
+        <?php echo $this->__('Shipping Address')?>:
         <?php if(!$this->isThreeColsMode()):?>
-        <label>
+        <label <?php if (Mage::getSingleton('checkout/session')->getData('not_show_same_as_billing') === true):?>style="display: none"<?php endif;?>>
             <input type="checkbox" name="billing[use_for_shipping]" id="billing_use_for_shipping_yes" value="1" <?php if($this->someAsBilling()):?> checked="checked" <?php endif;?> class="radio" />
             <span><?php echo $this->__('Same as Billing Address');?></span>
         </label>

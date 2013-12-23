@@ -173,6 +173,9 @@ class EcommerceTeam_EasyCheckout_IndexController
 MAge::Log($shippingAsBilling?1:0);
             if (!isset($enableCounrty[$billingAddressData->getCountryId()])) {
                 $shippingAsBilling = false;
+                Mage::getSingleton('checkout/session')->setData('not_show_same_as_billing', true);
+            } else {
+                Mage::getSingleton('checkout/session')->setData('not_show_same_as_billing', false);                        
             }
 
             if ($shippingAsBilling) {
