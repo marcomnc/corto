@@ -44,7 +44,8 @@
 //                        ->addLevelFilter(Mage::app()->getStore()->getRootCategoryId());
 
     $currentCategory = Mage::registry('current_category');
-    $storeCategory = Mage::getModel("catalog/category_api")->tree(null, Mage::app()->getStore()->getId());    
+    $storeCategory = Mage::getModel("catalog/category_api")->tree(null, Mage::app()->getStore()->getId());  
+
     if (isset($storeCategory["children"]) &&  sizeof($storeCategory["children"]) > 0):
 ?>
 <div id="menu">
@@ -52,15 +53,17 @@
 <?php         
         foreach ($storeCategory["children"] as $parentCategory):
             $category = Mage::getModel("catalog/category")->Load($parentCategory["category_id"]);
-            if (isset($parentCategory["children"]) && sizeof($parentCategory["children"]) > 0 && $category->getIsActive() && $category->getIncludeInMenu()):                
-                $allUrl = $category->getUrl();
-                
+            if ($category->getIsActive() && $category->getIncludeInMenu()):                               
+                $allUrl = $category->getUrl();            
+            
 ?>            
-        <div class="module">
+        <div class="module <?php echo strtolower( str_replace(" ", "-", $category->getName()));?>-button<?php if (!is_null($currentCategory) && $currentCategory->getId() == $category->getId()): ?> actived<?php endif; ?>">
             <div class="title">
-                <a href="" title="<?php echo htmlspecialchars($category->getDescription());?>" 
+                <a href="<?php if (!isset($parentCategory["children"]) || sizeof($parentCategory["children"]) == 0): echo $allUrl; endif;?>"
+                   title="<?php echo htmlspecialchars($category->getDescription());?>" 
                    rel="<?php echo $category->getId();?>" sel=""><?php echo htmlspecialchars($category->getName());?></a>
             </div>
+            <?php if (isset($parentCategory["children"]) && sizeof($parentCategory["children"]) > 0): ?>
                 <ul class="item" style="display: none;">
 
             <?php foreach ($parentCategory["children"] as $childCategory):
@@ -82,7 +85,8 @@
                             <?php echo $this->__("All");?>
                         </a> 
                     </li>
-                </ul>            
+                </ul>  
+            <?php endif;?>
         </div>
 <?php            
             endif;
