@@ -30,6 +30,12 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
     const ACTION_SELECT         = 'AS';
     
     const COOKIE_VERSION        = '2.1';
+    
+    protected $_excludePrefix = array();
+    
+    public function __construct() {
+        $this->_excludePrefix[] = 'api';
+    }
 
     public function pre_dispatch($observer) {
 
@@ -37,6 +43,9 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
 	if (Mage::app()->getStore()->getId() == 0)
 		return $observer;
  
+        if ($this->_checkIsApi($observer->getFront()->getRequest())) 
+            return $observer;
+        
         $cookie = self::getCookie();      
         $front = $observer->getFront()->getRequest()->getParams();         
         
@@ -257,6 +266,20 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
         }
         
         return "";
+     }
+     
+     /**
+      * Testo se la richiesta inizia con api, quindi è coinvolto il modulo API
+      * @param type $request
+      */
+     protected function _checkIsApi($request) {
+         
+        $pathPrefix = ltrim($request->getPathInfo(), '/');
+        $urlDelimiterPos = strpos($pathPrefix, '/');
+        if ($urlDelimiterPos) {
+            $pathPrefix = substr($pathPrefix, 0, $urlDelimiterPos);
+        }
+        return in_array($pathPrefix, $this->_excludePrefix);
      }
 
 }
