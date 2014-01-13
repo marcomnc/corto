@@ -89,4 +89,8 @@ $checkoutMethod       = $helper->getCheckoutModel()->getCheckoutMethod();
         var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions, undefined, 'billing:postcode');
     //]]>
     </script>
+
+            <?php if ($helper->showSubscribe()):?>
+            <div class="subscribe-btn-wrapper"><label><input type="checkbox" name="subscribe" value="1" checked="checked"/> <?php echo $this->__('Subscribe to newsletter');?></label></div>
+            <?php endif;?>
 </div>

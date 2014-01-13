@@ -21,7 +21,7 @@
 					<h1 class="widget-title"><a href="<?php echo "$url/collections/"?>">Collections</a></h1>
 				</aside>
                 <aside class="widget module">
-					<h1 class="widget-title"><a href="<?php echo "$url/collections/"?>">Brand assets</a></h1>
+					<h1 class="widget-title"><a href="<?php echo "$url/brand-assets/"?>">Brand assets</a></h1>
 				</aside>
               
             </div><!-- .container -->

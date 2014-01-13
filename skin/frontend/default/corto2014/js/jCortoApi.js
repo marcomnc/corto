@@ -74,12 +74,22 @@ var menuTimer = null;
         $('a.mps-popup-link').each( function() {
             if (typeof($.fn.fancybox) != 'undefined') {
                 
+                var callback = null;
+                if ($(this).hasClass('is-faq')) {
+                    callback = function() {
+			$('.accordion').accordion({collapsible: true});
+                        $(".accordion").accordion("refresh");
+                    };
+                }
+                
                 if ($(this).attr('href') != '' && $(this).attr('href') != '#') {
 
                     $(this).fancybox({autoScale   : true,
                                     showCloseButton : false,
                                     href        : $(this).attr('href') + '?is_ajax=1',
-                                    titleShow   : false}); 
+                                    titleShow   : false,
+                                    onComplete  : callback
+                                }); 
                     }
             }
         });
@@ -181,7 +191,7 @@ var menuTimer = null;
                         break;
                 }
 
-                $popUp.css('top',  $(this).position().top+topOffset);
+                $popUp.css('top',  $(this).position().top+topOffset + $(window).scrollTop());
                 $popUp.css('position', 'absolute');                
                 $popUp.slideDown('fast');
             } else {

@@ -12,10 +12,9 @@ endif;
     <div class="country-select-logo">
         <img alt="Corto Moltedo" src="<?php echo $this->getSkinUrl('images/logo_small_white.png');?> "/>
     </div>
-<?php $blockWarning = $this->getLayout()->createBlock("cms/block")->setBlockId('country-select-warning')->toHtml();
-      if ($blockWarning): ?>
-    <div class="country-select-warning">
-        <?php echo $blockWarning?>
+<?php if ($this->getWarning() == true): ?>
+    <dvi class="country-select-warning">
+        <?php echo $this->getLayout()->createBlock("cms/block")->setBlockId('country-select-warning')->toHtml();?>
     </dvi>
 <?php endif;    ?>
     <div class="country-list" style="visibility: <?php if ($currentZoneId != ""): ?>hidden<?php endif ?>">

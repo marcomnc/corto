@@ -1,0 +1,34 @@
+<?php 
+/**
+ * @category    Payment
+ * @package     MPS_Payment
+ * @author      Marco Mancinelli MPS Sistemi Sas <marco.mancinelli@mps-sistemi.it>
+ * @copyright   MPS Sistemi di Mancinelli Marco & C. Sas 
+ *
+ * create at     24-ago-2012
+ */
+?>
+<?php 
+  $payment = Mage::getStoreConfig('payment');  
+  $params = $payment[$this->getMethodCode()];
+?>
+
+<fieldset class="form-list">
+    <?php $_code=$this->getMethodCode() ?>
+
+    <ul id="payment_form_<?php echo $_code ?>" style="display:none"> 
+    <?php if ($params['bank_logo'] == "" && $params['bank_description'] == ""):?>    
+        <li>
+            <?php echo $this->__('Verrai reindirizzato nel sito della banca per effettuare il pagamento.<br>' ) ?>
+        </li>
+    <?php elseif ($params['bank_logo'] == ""): ?>
+        <li>            
+            <?php echo $params['bank_description'] ?>
+        </li>
+    <?php else:?>        
+        <li>     
+            <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'mps/payment/logo/' . $params['bank_logo'];?>" title="<?php echo $params['title']?>" alt="<?php echo $params['title']?>"/>            
+        </li>
+    <?php endif; ?>
+    </ul>
+</fieldset>

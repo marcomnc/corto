@@ -90,8 +90,6 @@ get_header(); ?>
 </div><!-- #primary -->
 
         
-        
-        
 <?php get_sidebar(); ?>
         
         <div class="clear"></div>

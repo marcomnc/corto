@@ -175,6 +175,14 @@ class Autel_Corto_Block_Widget_Headermenu_Menu extends Mage_Core_Block_Template
         
         return true;
     }
+
+    public function getClass($menu) {
+	$ids = preg_split("/,/", $menu['identify']);
+	if (sizeof($ids) > 0) {
+	    return implode(" " , $menu);
+	}
+	return '';
+    }
     
 }
 ?>

@@ -53,8 +53,13 @@
 <div class="linkSocial">
     <ol>
         <li>
-            <div class="facebook" href="#">
+	    <div class="facebook">
+<!--            <a class="facebook" href="https://www.facebook.com/dialog/feed?app_id=433454403372693&link=<?php echo urlencode($this->helper('core/url')->getCurrentUrl());?>&picture=<?php echo $this->helper('catalog/image')->init($_product, "image")->resize(200)?>&name=<?php echo urlencode($_helper->productAttribute($_product, $_product->getName(), "name") . ' ' .  $_helper->productAttribute($_product, $_product->getShortDescription(), "short_description")); ?>&caption=<?php echo $this->getLayout()->getBlock("head")->getTitle(); ?>&description=<?php urlencode($_helper->productAttribute($_product, $_product->getDescription(), "description")) ?>&redirect_uri=<?php echo urlencode($this->helper('core/url')->getCurrentUrl());?>"
+		onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">
+-->
                 &nbsp;
+<!--            </a>
+-->
             </div>
         </li>
         <li>
@@ -103,7 +108,8 @@
                           '<?php echo $this->helper('catalog/image')->init($_product, "image")->resize(200)?>',
                           socialName,
                           '<?php echo $this->getLayout()->getBlock("head")->getTitle(); ?>',
-                          socialDescr);
+                          socialDescr, 
+			  '<?php echo Mage::getBaseUrl() . "window-close"; ?>');
             }
             
             if ($j(this).hasClass('twitter')) {

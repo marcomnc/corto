@@ -54,16 +54,17 @@ Social.FBConnect.prototype = {
     }          
 }
 
-function fbs_click(urlToShare, pictureToShare, nameToShare, titleToShare, contentToShare) {
-    var href="http://www.facebook.com/dialog/feed?" +
-             //"app_id=433454403372693&amp;"+
-             "app_id=267246793303355&amp;"+
-             "link="+ urlToShare +"&amp;" + 
-             "picture=" + pictureToShare + "&amp;" +
-             "name=" + nameToShare + "&amp;" + 
-             "caption=" + titleToShare + "&amp;" +
-             "description=" + contentToShare + "&amp;" +
-             "redirect_uri=http://www.corto.com/en/window-close";
+function fbs_click(urlToShare, pictureToShare, nameToShare, titleToShare, contentToShare, redirect_uri) {
+    var href="https://www.facebook.com/dialog/feed?" +
+             "app_id=433454403372693&"+
+             "link="+ urlToShare +"&" + 
+             "picture=" + pictureToShare + "&" +
+             "name=" + nameToShare + "&" + 
+             "caption=" + titleToShare + "&" +
+             "description=" + contentToShare + "&" +
+             "redirect_uri=http://www.corto.com/eu/window-close";
+
+//    var href = "http://www.facebook.com/sharer.php?u=" + urlToShare + "&amp;t=" + nameToShare;
      
     window.open(href,'fb_sharer','toolbar=0,status=0,width=626,height=436');
     return false;

@@ -78,6 +78,10 @@
             <div class="col-2 registered-users">
                 <div class="buttons-set">
                     <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
+             <?php $block = $this->getLayout()->createBlock('autelsocial/fbconnect')
+                                                  ->setTemplate('autel/social/mini.connect.text.phtml');
+                  $block->setRefferType(false);
+                  echo $block->toHtml(); ?>
                     <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
                 </div>
             </div>

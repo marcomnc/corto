@@ -102,7 +102,7 @@ ul,ol         { list-style:none; }
 
 /* Layout ================================================================================ */
 .wrapper { padding:37px 0 0; padding-top:0px; width:100%; position: relative; }
-.wrapper-page {background-color: white; padding: 30px 0 0 0 ; position: relative}
+.wrapper-page {background-color: white; padding: 30px 0 10px 0 ; position: relative}
 .cms-home .wrapper-page { padding: 0px}
 .page {}
 .cms-home .page { padding: 0px; background-image: none; width: 100%}
@@ -558,7 +558,8 @@ tr.summary-details-excluded { font-style:italic; }
 .noscript p { margin:0; }
 
 /* Demo Notice */
-.demo-notice { margin: 0; padding: 6px 10px; background: #d75f07; font-size: 12px; line-height: 1.15; text-align: center; color: #fff; top: 0; left: 0; width: 100%; z-index: 1000000; }
+.demo-notice { margin: 0; padding: 6px 0px; background: #d75f07; font-size: 12px; line-height: 1.15; text-align: center; color: #fff; top: 0; left: 0; width: 100%; z-index: 1000000; }
+.cms-home .demo-notice {display:none}
 /* ======================================================================================= */
 
 
@@ -1706,7 +1707,7 @@ button.btn-checkout span span,
 .my-wishlist .product-name { padding-top:13px !important; }
 .my-wishlist textarea { width:90%; }
 .my-wishlist .buttons-set button { margin:0 0 0 10px; }
-.my-wishlist .data-table button { margin:10px 0; }
+.my-wishlist .data-table button { margin:10px 0; height:22px !important; }
 #my-tags-table button { height:29px !important; }
 
 #my-orders-table .last .nobr { white-space:normal; }
@@ -1977,7 +1978,7 @@ button.btn-checkout span span,
 .pop-up-login .p-right button.button span {background-color:#fff;}
 .pop-up-login .p-right button.button span span { background-color:#fff; color: #000 }
 .or-fb-connect { float:left; margin: 0px 8px 0 5px; }
-.fbconnect {float: left;}
+.fbconnect {float: left; cursor: pointer}
 .jsp-light-cart {width: 285px}  
 .jsp-light-cart.jsp-enable {height: 285px}
 .checkout-left {width: 700px; float: left }
@@ -2062,3 +2063,7 @@ button.btn-checkout span span,
 #mpslocation_alert { position: fixed; z-index: 10000;  }
 
 .fancy-popup {margin: 20px}
+
+.customer-account-login .fbconnect {float: right;margin-left:10px; margin-top: 2px}
+.customer-account-login .fbconnect img {display: none }
+.customer-account-login .mini span {background-color: #1F68B3;color: white;padding: 5px 10px; text-transform: uppercase;}

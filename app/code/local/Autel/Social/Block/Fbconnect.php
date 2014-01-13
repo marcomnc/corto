@@ -30,6 +30,9 @@ class Autel_Social_Block_Fbconnect extends Autel_Social_Block_Fbabstract {
     }
 
     public function getFBAjaxConnectUrl () {
+	if ($this->getReferreCustom()!= "") {
+	    return Mage::getUrl('autelsocial/fbconnect') . 'ajaxindex?url='.$this->getReferreCustom();
+	}
         $_url = Mage::getUrl('autelsocial/fbconnect') . 'ajaxindex?url='. Mage::helper('core/url')->urlEncode(Mage::helper('core/url')->getCurrentUrl());
         if ($this->_referrer) {
             $_url = Mage::getUrl('autelsocial/fbconnect') . 'ajaxindex?url='. Mage::helper('core')->urlEncode($_SERVER['HTTP_REFERER']);

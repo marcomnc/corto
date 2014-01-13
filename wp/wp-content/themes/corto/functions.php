@@ -406,7 +406,6 @@ function corto_get_the_events_title() {
     $events = new WP_Query( $q );
       
     $html = "";
-
     if ( sizeof($events->posts) > 0 ) {
         the_post();
         $html  .='<div class="event-title"><a href="'. get_site_url() . '/events/">' . Mage::Helper('autelcorto')->__('Private previews') . '</a></div>';

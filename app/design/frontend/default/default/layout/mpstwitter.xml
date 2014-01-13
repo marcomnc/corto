@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Autore Marco Mancinelli
+     Permette di impostare le varie voci relative a twitter
+-->
+<layout version="0.1.0">
+    <!-- Default su tutte le pagine -->
+    <default>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/mpstwitter.css</name></action>
+        </reference>
+         <reference name="root">
+            <block type="mpstwitter/sidebar_timeline" name="twitter.timeline" as="twitter.timeline">
+            </block>
+        </reference>
+    </default>
+        
+</layout>

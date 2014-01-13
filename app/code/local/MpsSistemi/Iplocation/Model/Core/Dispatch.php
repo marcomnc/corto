@@ -30,24 +30,27 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
     const ACTION_SELECT         = 'AS';
     
     const COOKIE_VERSION        = '2.1';
-    
+
     protected $_excludePrefix = array();
     
     public function __construct() {
         $this->_excludePrefix[] = 'api';
+        $this->_excludePrefix[] = 'downloader';
     }
 
     public function pre_dispatch($observer) {
+
 
         // Sono sull'admin non faccio nessuna considerazione
 	if (Mage::app()->getStore()->getId() == 0)
 		return $observer;
  
-        if ($this->_checkIsApi($observer->getFront()->getRequest())) 
-            return $observer;
-        
         $cookie = self::getCookie();      
         $front = $observer->getFront()->getRequest()->getParams();         
+
+	if ($this->_checkIsApi($observer->getFront()->getRequest())) 
+            return $observer;
+
         
         if (isset($front['___reset_cookie'])) {
             $cookie->unsetData();
@@ -96,10 +99,10 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
 //
 //die();
 //echo "</pre>";
-	//Se non sono su wordpress Ã¨ il mio cookie non corrisponde allo store dell'url e non ho forzato che non devo richiedere
+	//Se non sono su wordpress è il mio cookie non corrisponde allo store dell'url e non ho forzato che non devo richiedere
         if ((Mage::Registry('_from_wp') !== true && !$cookie->getNoRequest()) || $cookie->getWebsiteId() != Mage::app()->getStore()->getWebSiteId()) {
 		
-            //SE ho giÃ  uno store impostato 
+            //SE ho già uno store impostato 
             if ($cookie->getStore() != "") {
 		
 		//il mio store non corrisponde con quello dell'url ti reindirizzo al tuo store
@@ -112,7 +115,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                     }
                     
                     if ($storeFromPath != '' && strpos( $observer->getFront()->getRequest()->get("REQUEST_URI"), "$storeFromPath/") !== 0) {
-                        //La prima parte del percoso non Ã¨ lo store 
+                        //La prima parte del percoso non è lo store 
                         $storeFromPath = "";
                     }
 
@@ -139,7 +142,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                     }
                     
                     if ($newPathInfo == "") {
-                        //Provo a cercare se Ã¨ un prodotto
+                        //Provo a cercare se è un prodotto
                         $urlRewrite = Mage::GetModel('core/url_rewrite')->getCollection();
                         $urlRewrite->getSelect()
                                ->Join(array('rewrite' => Mage::getSingleton('core/resource')->getTableName('core/url_rewrite')),
@@ -158,7 +161,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                     }
                     
                     if ($newPathInfo == "" ) {
-                        //Non ho trovato un rewite valido, verifico se Ã¨ un router standard
+                        //Non ho trovato un rewite valido, verifico se è un router standard
                         $modules = preg_split("/\//", $requestInfo);
                         
                         $module = ($modules[0] == "" && isset($modules[1])) ? $modules[1] : "";
@@ -267,20 +270,34 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
         
         return "";
      }
-     
+
      /**
-      * Testo se la richiesta inizia con api, quindi Ã¨ coinvolto il modulo API
+      * Testo se la richiesta inizia con api, quindi è coinvolto il modulo API
       * @param type $request
       */
      protected function _checkIsApi($request) {
-         
+
         $pathPrefix = ltrim($request->getPathInfo(), '/');
         $urlDelimiterPos = strpos($pathPrefix, '/');
         if ($urlDelimiterPos) {
             $pathPrefix = substr($pathPrefix, 0, $urlDelimiterPos);
         }
-        return in_array($pathPrefix, $this->_excludePrefix);
+	if ( in_array($pathPrefix, $this->_excludePrefix))
+            return true;
+
+	//Verifico se si tratta del downloder
+	$pathPrefix = ltrim($_SERVER['REQUEST_URI'], '/');
+	$urlDelimiterPos = strpos($pathPrefix, '/');
+        if ($urlDelimiterPos) {
+            $pathPrefix = substr($pathPrefix, 0, $urlDelimiterPos);
+        }
+	
+	if ( in_array($pathPrefix, $this->_excludePrefix))
+            return true;
+
+	return false;
      }
+
 
 }
 

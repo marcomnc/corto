@@ -140,6 +140,7 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
         $this->_linkProduct($linkArray, $cardArray);
         $this->_hlp->debug("Fine Associazione Prodotti");
         $this->_hlp->debug("Ricostruzione Indici");
+return 0;        
         foreach ($_oriProcessor as $k=>$v) {
             $pProcess = Mage::getModel('index/process')->Load($k);            
             $pProcess->setMode($v)->save();
@@ -214,12 +215,14 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
             }
 
             $this->_updateAttribute ($_entityId, 'tax_class_id', 0, $this->_getTax());
-            
+                        
+            $Store0Attribute = arraY();
             foreach ($prod->Attribute as $attribute) {
+                
                 if ($_isNew || $prod->ForceUpdateAll == 2 ||
                    ($prod->ForceUpdateAll == 1 && array_search($attribute->AttributeCode, $this->_forceUpdate) === false) ||
                    (array_search($attribute->AttributeCode, $this->_allUpdate)) !== false){
-                                    
+                                                        
                     $attrValue = null;
                 
                     $actRow = $this->_getAttributeRow($attribute->AttributeCode);
@@ -252,6 +255,14 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
 
 //			$this->_hlp->debug("Agg " .$prod->Sku. ". Agg Attr " . $attribute->AttributeCode);
                     $this->_updateAttribute ($_entityId, $attribute->AttributeCode, $attribute->StoreId, $attrValue);
+                    if ($attribute->StoreId === 0) {
+                        $Store0Attribute[] = $attribute->AttributeCode;
+                    } else {
+                        if ( !in_array($attribute->AttributeCode, $Store0Attribute)) {
+                            $this->_updateAttribute ($_entityId, $attribute->AttributeCode, 0, $attrValue, false);
+                            $Store0Attribute[] = $attribute->AttributeCode;
+                        }
+                    }                        
                 }
             }
             
@@ -310,7 +321,7 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
         
     }
     
-    private function _updateAttribute($entityId, $name, $store, $value) {
+    private function _updateAttribute($entityId, $name, $store, $value, $force = true) {
 
         $attr = $this->_getAttributeRow($name);
 
@@ -324,14 +335,14 @@ class Autel_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_
 
         $tableName = $this->_getTableName($attr->getBackendType());                                    
 
-        if ($store === 0) {
-            //Azzero solo lo store che mi interessa
+        if ($store === 0 && $force) {
+            //Se richiedo lo store 0 azzero tutti gli altri
 	    $deleteWhere = array();
             foreach ($field as $f => $v) {
-		$deleteArray["$f = ?"] = $v;
+		$delteWhere["$f = ?"] = $v;
 	    }
 	    if (sizeof($deleteWhere) > 0) {
-	        $delteWhere['store_id = ?'] = $store;
+	        $delteWhere['store_id <> ?'] = $store;
         	$this->_dbWrite->delete($tableName, $delteWhere);
 	    }
         }

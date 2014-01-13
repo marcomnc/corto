@@ -179,7 +179,7 @@ class Autel_Corto_Helper_Media extends Autel_Corto_Helper_Data {
             $imgList = Mage::Helper("autelcorto/media")->getListImage($folder);
             if (is_array($imgList) && sizeof($imgList)) {
                 shuffle($imgList);
-                $style  = "background-size: cover;background-position:right bottom;";
+                $style  = "background-size: cover;background-position:center;";
                 if(preg_match('/(?i)msie [1-8]/',$_SERVER['HTTP_USER_AGENT'])) {
                     $style .= "filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='$imgList[0]',sizingMethod='scale')";
                 } else {

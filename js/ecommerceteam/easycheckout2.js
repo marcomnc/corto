@@ -161,6 +161,7 @@ var EasyCheckout = Class.create(
                                        "onError"   : function() {
                                                         $j.fn.layer(false);
                                                         alert('General Error');
+
                                                     }
                                     });
                             });

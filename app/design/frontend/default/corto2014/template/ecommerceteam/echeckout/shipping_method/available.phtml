@@ -2,8 +2,15 @@
 $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
 
 $rel = "";
+
+
+
+
 if ($cookie->getZoneId() != 'EU'):
     $zone = Mage::getModel('mpslocation/zone')->Load("EU", 'zone_code');
+
+
+
     $rel = $this->getUrl('mpslocation/location/set/', array('zone'=>$zone->getId()));
 endif;
 $rel = 'rel="'.$rel.'"';
@@ -29,7 +36,6 @@ $rel = 'rel="'.$rel.'"';
                         <?php if ($_sole) : ?>
                         <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
                         <?php else: ?>
-                        
                         <input name="shipping_method" <?php if (Mage::getStoreConfig("carriers/$code/is_pikup") == 1): echo $rel; endif; ?> type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> 
                                class="radio <?php echo (Mage::getStoreConfig("carriers/$code/is_pikup") == 1) ? 'in-boutique': '';?>"/>
 

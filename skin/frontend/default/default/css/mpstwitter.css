@@ -1,0 +1,9 @@
+
+/* TWITTER */
+.twitter-outer { background: white url('../images/twitter/twitter_box_top.png') no-repeat; padding-top: 30px; width: 220px; margin-top: 20px; }
+.twitter-inner {  background: white url('../images/twitter/twitter_box_bottom.png') no-repeat left bottom; }
+.twitter-content { padding: 10px; color: black; border-left: 2px solid black; border-right: 2px solid black;}
+.twitter-content h3 { text-align: center; }
+.twitter_update_list li { padding-bottom: 10px; margin-top: 10px; border-bottom: 1px solid #DDD; }
+.twitter_update_list li a { color: #666; text-decoration: none; }
+

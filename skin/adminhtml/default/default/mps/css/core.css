@@ -1,0 +1,55 @@
+/************* Multi Select ***********************/
+ul.custom-multiselect  {
+  width: 278px;
+  height: 208px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  list-style: none;
+  padding: 0;
+  border: 1px solid #CCC;
+}
+.entry-edit .fieldset ul.custom-multiselect li {
+    margin: 0px;
+    border-bottom: 1px solid #ddd   
+}
+ul.custom-multiselect  li label{
+  display: block;
+  padding-left: 26px;
+  color: #000;
+  outline: none;
+  position: relative;
+}
+ul.custom-multiselect  li label:hover{
+  color: #000;
+  background-color: #EEE;
+}
+ul.custom-multiselect  li label.selected{
+  font-weight: bold;
+  background-color: #CCC;
+}
+ul.custom-multiselect  li label .checkbox{
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.custom-multiselect-container .action {
+    margin-top: 5px;
+    width: 280px;
+}
+
+.custom-multiselect-container button.delete,
+.custom-multiselect-container button.save {
+    padding-left: 2px;
+    float: right;
+    margin-left: 5px
+}
+
+.custom-multiselect-container button.delete span,
+.custom-multiselect-container button.save span {
+    padding-left: 15px;
+}
+
+.custom-multiselect-container button {
+    padding: 1px;
+}

@@ -6,9 +6,9 @@
 ?>
 <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()):?>
 <div class="fbconnect">
-    <div class="mini">
+    <div class="mini" id="fb-connect">
         <div id="fb-root"></div>    
-	      <img id="fb-connect" src="<?php echo $this->getSkinUrl('images/Arrow_RIGHT_BLACK.png');?>">
+	      <img src="<?php echo $this->getSkinUrl('images/Arrow_RIGHT_BLACK.png');?>">
               <span><?php echo $this->__('Facebook Login');?></span>
 <script type="text/javascript">
     //<![CDATA[        
