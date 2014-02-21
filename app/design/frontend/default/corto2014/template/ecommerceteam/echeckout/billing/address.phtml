@@ -42,9 +42,9 @@ $currentShippingCountry = Mage::getSingleton('ecommerceteam_easycheckout/type_ea
         </div>
         <?php endif ?>
         <div class="field telephone">
-            <label for="billing:telephone" ><?php echo $this->__('Telephone') ?></label>
+            <label for="billing:telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
             <div class="input-box">
-                <input type="text" name="billing[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text" id="billing:telephone" />
+                <input type="text" name="billing[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry" id="billing:telephone" />
             </div>
         </div>                
     </li>

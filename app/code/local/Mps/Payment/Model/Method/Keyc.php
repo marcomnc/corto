@@ -74,7 +74,7 @@ class Mps_Payment_Model_Method_Keyc extends Mps_Payment_Model_Method_Abstract
                 'url' => Mage::getUrl('mpspaygate/keyc/success'),                
                 'urlpost' => Mage::getUrl('mpspaygate/keyc/transaction'),                
                 'session_id'=> session_id(),
-        	'url_back'=> Mage::getUrl('mpspaygate/payment/cancel'),
+        	'url_back'=> Mage::getUrl('mpspaygate/keyc/cancel'),
         	'languageId'=> $this->getConfigData("language"),        
                 'session_id'=> Mage::getSingleton("core/session")->getSessionId(),
          	'mac'=> $mac

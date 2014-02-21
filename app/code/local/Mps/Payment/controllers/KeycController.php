@@ -63,6 +63,29 @@ class Mps_Payment_KeycController extends Mage_Core_Controller_Front_Action  {
     }
     
     /**
+     * Indirzzo da utilizzare per avvisare l'utente che la transazione NON è andata a 
+     * buon fine.
+     * In questa fase viene cancellato l'ordine (se non è già stato cancellato dalla 
+     * transazione server to server ed indirizzato l'utente alla pagina di fault
+     */
+    public function cancelAction() {
+                        
+        $_params = $this->getRequest()->getParams();
+        $this->_debug("Accetto richiesta CANCEL server to client");
+        $this->_debug($_params);       
+        
+        //TEnto di cancellare ugualmente l'ordine perchè potrei non avere la transazione 
+        //server to server     
+        $this->_debug("Tento di cancellare l'ordine server to server");  
+        $this->_getModel()->setTransactionParams($_params)
+                          ->setTransactionType("client")
+                          ->processServerResponse();
+        Mage::helper('paypal/checkout')->restoreQuote();
+        $this->_redirect('checkout/onepage');
+    }
+    
+    
+    /**
      * Indirizzo da utilizzare per la comunicazione server tu server per chiudere l'ordine
      */
     public function transactionAction() {

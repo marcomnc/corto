@@ -38,8 +38,20 @@
 <html xmlns:og="http://ogp.me/ns/fb" xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>" xmlns:fb="http://www.facebook.com/2008/fbml" >
 <head>
 <?php echo $this->getChildHtml('head') ?>
+<?php 
+try {
+    $descz = "";
+    $cookie = MpsSistemi_Iplocation_Model_Core_Dispatch::RegistryCountry();
+    $zone = Mage::getModel('mpslocation/zone')->Load("EU", 'zone_code');
+    $descz = $zone->getDescription();
+    
+} catch (Exception $ex) {
+    $descz = "no_zone";
+}
+echo "<script> var selected_zone = '$descz' </script>";
+?>
 </head>
-<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<body class="<?php echo $this->getBodyClass()?$this->getBodyClass() :'' ?> <?php echo $descz;?>">
 <?php echo $this->getChildHtml('after_body_start') ?>
 <div class="wrapper">
     <?php echo $this->getChildHtml('global_notices') ?>

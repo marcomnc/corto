@@ -62,12 +62,28 @@
         <?php $_weeeTaxAmountInclTaxes = $_weeeHelper->getAmountInclTaxes($_attributes); ?>
     <?php endif; ?>
 
-    <div class="price-box">
+    <div class="price-box<?php if(!$_product->isSaleable()): ?> sold-out<?php endif; ?>">
     <?php $_price = $_taxHelper->getPrice($_product, $_product->getPrice()) ?>
     <?php $_regularPrice = $_taxHelper->getPrice($_product, $_product->getPrice(), $_simplePricesTax) ?>
     <?php $_finalPrice = $_taxHelper->getPrice($_product, $_product->getFinalPrice()) ?>
     <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_product->getFinalPrice(), true) ?>
     <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
+        
+<?php if(!$_product->isSaleable()): ?>
+
+        <span class="old-price">                
+            <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                <?php echo $_coreHelper->currency($_finalPriceInclTax, true, false) ?>
+            </span>
+        </span>
+        
+        <p class="special-price">
+            <span class="price-label"><?php echo $this->__('Sold Out') ?></span>
+        </p>
+        
+        
+<?php else: ?>
+        
     <?php if ($_finalPrice >= $_price): ?>
         <?php if ($_taxHelper->displayBothPrices()): ?>
             <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
@@ -402,6 +418,8 @@
         </span>
         <?php endif?>
     <?php endif; /* if ($this->getDisplayMinimalPrice() && $_minimalPrice && $_minimalPrice < $_finalPrice): */ ?>
+            
+<?php endif; ?>
     </div>
 
 <?php else: /* if (!$_product->isGrouped()): */ ?>

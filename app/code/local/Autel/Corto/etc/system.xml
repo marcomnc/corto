@@ -190,10 +190,28 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </attribute_color>
+                        <email_sold_out>
+                            <label>Destinatario E-Mail prodotto sold out</label>
+                            <frontend_type>text</frontend_type>                            
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-email</validate>
+                        </email_sold_out>
+                        <title_form_soldout>
+                            <label>Titolo form E-Mail prodotto sold out</label>
+                            <frontend_type>text</frontend_type>                            
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-email</validate>
+                        </title_form_soldout>
                     </fields>                    
                 </autelcatalog>
             </groups> 
-            <groups>
+<!--            <groups>
                 <emailavailability>
                     <label>Corto Moltedo - Email for booking product</label>
                     <sort_order>20</sort_order>
@@ -208,7 +226,7 @@
                         </warehouse_email_template>                        
                     </fields>
                 </emailavailability>
-            </groups>  
+            </groups>  -->
             <groups>
                 <store_zone>
                     <label>Corto Moltedo - Parametri gestione zone</label>

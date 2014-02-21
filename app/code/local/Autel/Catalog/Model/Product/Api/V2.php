@@ -611,5 +611,117 @@ return 0;
             $taxId = Mage::getStoreConfig('autelconnector/connector_product/default_taxclass', 0);
         return $taxId;
     }
+    
+    
+    /************************************** Import Prezzo ****************************************/
+    
+    /**
+     * API per l'aggionrnamento del prezzo
+     * @param ZIP JSON $input
+     * @return type
+     */
+    public function importprice($input) {
+        
+        $str =  base64_decode($input);
+
+        return $this->_importPrice (gzinflate($str));
+    }
+    
+    /**
+     * Aggiornamento del prezzo
+     * @param JSON $input
+     */
+    protected function _importPrice($input) {
+
+        $productList = json_decode($input);
+        
+        
+        try {
+            foreach ($productList as $product) {
+
+                if ($product->Type == 'simple' && !is_null($prod->SkuConfigurable) && $prod->SkuConfigurable != "") {
+                    //Prodotto semplice legato al configurabile non aggiorno il prezzo 
+                    //@Todo Da gestire
+                    continue;
+                } else {
+                    //Prodotto semplice o configurabile, aggiorno l'attributo price
+
+                    $this->_entityTypeId = Mage::getresourceModel('catalog/product')->getTypeId();
+
+                    $prod = $this->_dbRead->fetchRow($this->_dbRead->select()
+                                        ->from($this->_table['product'])
+                                        ->where('sku = ?', $prod->Sku)); 
+                    if (is_array($prod)) {
+                        $_entityId = $prod['entity_id'];
+
+                        $Store0Attribute = false;
+                        foreach ($prod->Attribute as $attribute) {
+                            //Aggiorno l'attributo price 
+                            // @todo gestione dello special e del teir price
+                            if ($attribute->AttributeCode == 'price') {                                
+                                $this->_dbWrite->BeginTransaction();
+                                $this->_updateAttribute ($_entityId, $attribute->AttributeCode, $attribute->StoreId, $attribute->AttributeValue);
+Mage::Log('Ho aggironato il prezzo per ' . $prod->Sku );
+MAge::log( $attribute);
+                                if ($attribute->StoreId === 0 || $Store0Attribute) {
+                                    $Store0Attribute = true;
+                                } else {
+                                    $this->_updateAttribute ($_entityId, $attribute->AttributeCode, 0, $attribute->AttributeValue, false);
+                                    $Store0Attribute = true;
+                                }                        
+                                $this->_dbWrite->commit();
+                            }
+                        }
+                        
+                    }
+
+                }
+            } 
+        } catch (Exception $ex) {
+            $this->_dbWrite->rollBack();
+            Mage::LogException($ex);
+            return false;
+        }
+        
+        //Ricostruisco gli indici relativi al prezzo
+        $pProcess = Mage::getModel('index/process')->Load("catalog_product_price", 'indexer_code');
+        $pProcess->reindexAll();
+        return true;
+    }
+    
+    
+    /**
+     * Retrieve list of products with basic info (id, sku, type, set, name)
+     * In case of configurable product get child's sku list
+     *
+     * @param null|object|array $filters
+     * @param string|int $store
+     * @return array
+     */
+    public function getitems($filters = null, $store = null) {
+    
+        $products = parent::items($filters, $store);        
+        
+        foreach ($products as $idx => $prod) {
+            $products[$idx]['sku_childs'] = array();
+            switch ($prod["type"]) {
+                case "configurable":
+                    $p = Mage::getModel('catalog/product')->Load($prod['product_id']);
+                    $childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProductCollection($p);
+                    foreach ($childProducts as $child) {
+                        $products[$idx]['sku_childs'][] = $child->getSku();
+                    }
+                    break;
+                case "grouped":
+                case "bundle":
+                    //Todo
+                default:
+                    break;
+            }
+        }
+        
+        return $products;
+    }
+    
 }
-?>
+

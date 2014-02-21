@@ -78,6 +78,16 @@
                     </autel_corto_observer>
                 </observers>
             </currency_display_options_forming>
+<!-- Per ordinamento per categoria -->            
+            <catalog_block_product_list_collection>
+                <observers>
+                    <autel_corto_observer>
+                        <type>singleton</type>
+                        <class>Autel_Corto_Model_Observer</class>
+                        <method>product_list_collection</method>
+                    </autel_corto_observer>
+                </observers>
+            </catalog_block_product_list_collection>
 <!-- Memorizzazione Attributi (per gestire le immagini) -->            
             <catalog_entity_attribute_save_after>
                 <observers>
@@ -151,6 +161,8 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                     <cms_block_edit_form>Autel_Corto_Block_Adminhtml_Cms_Block_Edit_Form</cms_block_edit_form>
                     <!-- Rewrite della gestione delle page per la gestione dei blocchi multipli -->
                     <cms_page_edit_tabs>Autel_Corto_Block_Adminhtml_Cms_Page_Edit_Tabs</cms_page_edit_tabs>
+                    <!-- Aggiunto Nr Store -->
+                    <system_store_grid>Autel_Corto_Block_Adminhtml_System_Store_Grid</system_store_grid>
                 </rewrite>
             </adminhtml>
             <cms>
@@ -218,6 +230,12 @@ http://www.magentocommerce.com/wiki/5_-_modules_and_development/0_-_module_devel
                     <block>Autel_Corto_Model_Cms_Block</block>
                 </rewrite>
             </cms>
+            <catalog>
+                <rewrite>
+                    <config>Autel_Corto_Model_Catalog_Config</config>
+                    <category_attribute_source_sortby>Autel_Corto_Model_Catalog_Category_Attribute_Source_Sortby</category_attribute_source_sortby>
+                </rewrite>
+            </catalog>
             <checkout>
 <!-- Rewrite necessario per gesitre gli errori di inserimento nel carrelo in Ajax -->
                 <rewrite>

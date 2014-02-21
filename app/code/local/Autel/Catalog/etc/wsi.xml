@@ -28,6 +28,24 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>-->     
+            <xsd:complexType name="catalogProductEntityAutelArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:catalogProductEntityAutel" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="catalogProductEntityAutel">
+                <xsd:sequence>
+                    <xsd:element name="product_id" type="xsd:string" />
+                    <xsd:element name="sku" type="xsd:string" />
+                    <xsd:element name="name" type="xsd:string" />
+                    <xsd:element name="set" type="xsd:string" />
+                    <xsd:element name="type" type="xsd:string" />
+                    <xsd:element name="category_ids" type="typens:ArrayOfString" />
+                    <xsd:element name="website_ids" type="typens:ArrayOfString" />
+                    <!-- List degli sku figli nel caso di confgurabile -->
+                    <xsd:element name="sku_childs" type="typens:ArrayOfString" />
+                </xsd:sequence>
+            </xsd:complexType>            
             <xsd:complexType name="FTPParams">                
                 <xsd:sequence>
                     <xsd:element name="user" type="xsd:string" />
@@ -180,6 +198,21 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>                                                            
+            <xsd:element name="productImportzipProductPriceRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="input" type="xsd:string" />                        
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>           
+            <xsd:element name="productImportzipProductPriceResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                                            
             <xsd:element name="GetCardinalityRequestParam">
                 <xsd:complexType>
                     <xsd:sequence>
@@ -256,6 +289,22 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>                                                                        
+            <xsd:element name="catalogProductGetListRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="filters" type="typens:filters" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="store" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="catalogProductGetListResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:catalogProductEntityAutelArray" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>                                                                        
         </xsd:schema>
     </wsdl:types>
     <wsdl:message name="catalogProductAttributeGetattributeIdRequest">
@@ -306,6 +355,12 @@
     <wsdl:message name="catalogProductImportzipResponse">
         <wsdl:part name="parameters" element="typens:productImportzipResponseParam" />
     </wsdl:message>        
+    <wsdl:message name="catalogProductImportzipProductPriceRequest">
+        <wsdl:part name="parameters" element="typens:productImportzipProductPriceRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductImportzipProductPriceResponse">
+        <wsdl:part name="parameters" element="typens:productImportzipProductPriceResponseParam" />
+    </wsdl:message>        
     <wsdl:message name="catalogProductAttributeSetGetCardinalityRequest">
         <wsdl:part name="parameters" element="typens:GetCardinalityRequestParam" />
     </wsdl:message>
@@ -336,6 +391,13 @@
     <wsdl:message name="catalogProductAttributeListJSONResponse">
         <wsdl:part name="parameters" element="typens:ListJSONResponseParam" />
     </wsdl:message>
+    <wsdl:message name="catalogProductGetListRequest">
+        <wsdl:part name="parameters" element="typens:catalogProductGetListRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductGetListResponse">
+        <wsdl:part name="parameters" element="typens:catalogProductGetListResponseParam" />
+    </wsdl:message>
+    
 <!-- Message. E' il metodo evedenziato in request e reponse con il pametro     
     <wsdl:message name="storeListRequest">
         <wsdl:part name="parameters" element="typens:storeListRequestParam" />
@@ -390,6 +452,11 @@
             <wsdl:input message="typens:catalogProductImportzipRequest" />
             <wsdl:output message="typens:catalogProductImportzipResponse" />
         </wsdl:operation>
+        <wsdl:operation name="catalogProductImportzipProductPrice">
+            <wsdl:documentation>Importazione massiva articoli (Riferimento MageConnector.dll)</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductImportzipProductPriceRequest" />
+            <wsdl:output message="typens:catalogProductImportzipProductPriceResponse" />
+        </wsdl:operation>
         <wsdl:operation name="catalogProductAttributeSetGetCardinality">
             <wsdl:documentation>AUTEL Recupero le cardinalità</wsdl:documentation>
             <wsdl:input message="typens:catalogProductAttributeSetGetCardinalityRequest" />
@@ -414,7 +481,13 @@
             <wsdl:documentation>AUTEL Recupero la lista degli attributi in formato JSON</wsdl:documentation>
             <wsdl:input message="typens:catalogProductAttributeListJSONRequest" />
             <wsdl:output message="typens:catalogProductAttributeListJSONResponse" />
-        </wsdl:operation>                
+        </wsdl:operation>   
+        <wsdl:operation name="catalogProductGetList">
+            <wsdl:documentation>Retrieve products list by filters</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductGetListRequest" />
+            <wsdl:output message="typens:catalogProductGetListResponse" />
+        </wsdl:operation>
+                     
     </wsdl:portType>
     <wsdl:binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
@@ -491,6 +564,15 @@
                 <soap:body use="literal" />
             </wsdl:output>
         </wsdl:operation>  
+        <wsdl:operation name="catalogProductImportzipProductPrice">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>  
         <wsdl:operation name="catalogProductTestProduct">
             <soap:operation soapAction="" />
             <wsdl:input>
@@ -545,6 +627,15 @@
                 <soap:body use="literal" />
             </wsdl:output>
         </wsdl:operation>  
+        <wsdl:operation name="catalogProductGetList">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>        
     </wsdl:binding>
     <wsdl:service name="{{var wsdl.name}}Service">
         <wsdl:port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">

@@ -52,6 +52,11 @@
                         <product_attribute_media_api_v2>Autel_Catalog_Model_Product_Attribute_Media_Api_V2</product_attribute_media_api_v2>
               	</rewrite>                                
             </catalog>
+            <cataloginventory>
+                <rewrite>
+                    <stock_item_api_v2>Autel_Catalog_Model_Cataloginventory_Stock_Item_Api_V2</stock_item_api_v2>
+                </rewrite>
+            </cataloginventory>
         </models>
         <resources>
             <autelcatalog_setup>

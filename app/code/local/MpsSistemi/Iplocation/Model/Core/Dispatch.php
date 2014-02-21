@@ -36,6 +36,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
     public function __construct() {
         $this->_excludePrefix[] = 'api';
         $this->_excludePrefix[] = 'downloader';
+        $this->_excludePrefix[] = 'mpspaygate';
     }
 
     public function pre_dispatch($observer) {
@@ -99,10 +100,10 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
 //
 //die();
 //echo "</pre>";
-	//Se non sono su wordpress è il mio cookie non corrisponde allo store dell'url e non ho forzato che non devo richiedere
+	//Se non sono su wordpress ï¿½ il mio cookie non corrisponde allo store dell'url e non ho forzato che non devo richiedere
         if ((Mage::Registry('_from_wp') !== true && !$cookie->getNoRequest()) || $cookie->getWebsiteId() != Mage::app()->getStore()->getWebSiteId()) {
 		
-            //SE ho già uno store impostato 
+            //SE ho giï¿½ uno store impostato 
             if ($cookie->getStore() != "") {
 		
 		//il mio store non corrisponde con quello dell'url ti reindirizzo al tuo store
@@ -115,7 +116,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                     }
                     
                     if ($storeFromPath != '' && strpos( $observer->getFront()->getRequest()->get("REQUEST_URI"), "$storeFromPath/") !== 0) {
-                        //La prima parte del percoso non è lo store 
+                        //La prima parte del percoso non ï¿½ lo store 
                         $storeFromPath = "";
                     }
 
@@ -142,7 +143,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                     }
                     
                     if ($newPathInfo == "") {
-                        //Provo a cercare se è un prodotto
+                        //Provo a cercare se ï¿½ un prodotto
                         $urlRewrite = Mage::GetModel('core/url_rewrite')->getCollection();
                         $urlRewrite->getSelect()
                                ->Join(array('rewrite' => Mage::getSingleton('core/resource')->getTableName('core/url_rewrite')),
@@ -161,7 +162,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
                     }
                     
                     if ($newPathInfo == "" ) {
-                        //Non ho trovato un rewite valido, verifico se è un router standard
+                        //Non ho trovato un rewite valido, verifico se ï¿½ un router standard
                         $modules = preg_split("/\//", $requestInfo);
                         
                         $module = ($modules[0] == "" && isset($modules[1])) ? $modules[1] : "";
@@ -256,7 +257,13 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
     }
     
     public static function RegistryCountry() {
-        return Mage::registry(self::REGISTER_NAME);
+        $cookie = Mage::registry(self::REGISTER_NAME);
+                
+        //Situazione che si verfica con la banca.....
+        if (!$cookie) {
+            $cookie = self::getCookie();
+        }
+        return $cookie;
     }
     
     
@@ -272,7 +279,7 @@ class MpsSistemi_Iplocation_Model_Core_Dispatch {
      }
 
      /**
-      * Testo se la richiesta inizia con api, quindi è coinvolto il modulo API
+      * Testo se la richiesta inizia con api, quindi ï¿½ coinvolto il modulo API
       * @param type $request
       */
      protected function _checkIsApi($request) {

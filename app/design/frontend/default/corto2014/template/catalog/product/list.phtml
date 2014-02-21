@@ -33,6 +33,7 @@
 ?>
 <?php
     $_productCollection=$this->getLoadedProductCollection();    
+    $_sortByCategory = ($this->getSortBy() == 'category_sort');
 
     $_helper = $this->helper('catalog/output');
 ?>
@@ -102,10 +103,27 @@
            shuffle($_imageCollection);
            $_columnCount = 3; // Fisso $this->getColumnCount(); 
            $_imgCount = 0;
+           $_cat = null;
            $i=0; foreach ($_productCollection as $_product):                   
-                if ($i++%$_columnCount==0): ?>
-<!--        <ul class="products-grid">-->
-        <?php endif ?>            
+                
+            if ($_sortByCategory && (is_null($_cat) || $_cat->getId() != $_product->getMagCat())):
+                $_cat = Mage::getModel('catalog/category')->Load($_product->getMagCat()); ?>
+        <div class="clearer"></div>
+        <?php 
+        $block = $this->getLayout()->createBlock('cms/block')->setBlockId('category_divider_'. $_cat->getId())->toHtml() . '';
+        if ($block == ''): ?>
+        <div class="category-serparator category-<?php echo $_cat->getName();?>">
+            <div class="catgory-name">
+                <?php echo $_cat->getName();?>
+            </div>
+        </div>
+        <?php else: 
+           echo $block;
+        endif; ?>
+        <div class="clearer"></div>
+            <?php
+            endif;
+            ?>
             <div class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">                				
                 <a mps-type="async-link" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
                     <?php $_imgBack = Mage::Helper("autelcorto/media_gallery")->getCatalogBackImage($_product);
@@ -166,9 +184,7 @@
                    endif; ?>
             </div>
             <?php endif; ?>
-        <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
-<!--        </ul>-->
-        <?php endif ?>
+        
         <?php endforeach;?>
 </div>
         <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>

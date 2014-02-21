@@ -439,4 +439,27 @@ class Autel_Corto_Model_Observer {
         
         return true;
     }
+    
+    /**
+     * Se la categoria pervedere l'ordinamento per categoria rielaboro la collection
+     * aggiungendo l'ordinamento per categoria
+     * @param type $observer
+     */
+    public function product_list_collection ($observer) {
+        $collection = $observer->getCollection();
+        $collection->getSelect()
+                ->joinInner(array('cat' => Mage::getSingleton('core/resource')->getTableName('catalog_category_entity')),
+                            "cat.entity_id = cat_index.category_id","")
+                ->joinLeft(array('catp' => Mage::getSingleton('core/resource')->getTableName('catalog_category_entity')),
+                            "catp.entity_id = (select max(entity_id) from catalog_category_entity a 
+join catalog_category_product_index cat_idx on a.entity_id = cat_idx.category_id
+where a.entity_id <> cat.parent_id and a.entity_id <> cat_index.category_id and cat_idx.product_id = cat_index.product_id and cat_idx.store_id = cat_index.store_id)",
+                            "catp.entity_id as mag_cat")
+                ->order('catp.position', Varien_Db_Select::SQL_ASC)
+                ->order('catp.entity_id', Varien_Db_Select::SQL_DESC)
+                ->order('cat_index.position', "ASC");
+        
+        $observer->setCollection($collection);
+        return $observer;
+    }
 }

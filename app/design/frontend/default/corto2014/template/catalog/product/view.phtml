@@ -201,6 +201,13 @@ $_materialId = $_product->getData('material');
             <div class="p-white p-box p-cart" style="position: relative">
                 <?php echo $this->getChildHtml('addtocart'); ?>
             </div>
+            <?php else: ?>
+            <div class="p-white p-box p-cart sold-out-info" style="position: relative">
+                <?php $blockSoldOut = $this->getLayout()->createBlock('cms/block')->setBlockId('product-add-to-soldout')->toHtml() . '';
+                if ($blockSoldOut != "" ):
+                    echo $blockSoldOut;
+                endif; ?>
+            </div>
             <?php endif;?>
             <?php if( $this->helper('wishlist')->isAllow()):?>
             <div class="p-black p-box p-button p-wishlist p-trasparency">
@@ -361,14 +368,52 @@ $_materialId = $_product->getData('material');
             if (mt > 0)
                 $j('.breadcrumms-product-view li').css({'margin-top': mt+'px'});
         });
-
-        
+       
 <?php 
 if (Mage::getSingleton("customer/session")->getAddProductToCart() == 1): 
             Mage::getSingleton("customer/session")->unsAddProductToCart()?>
         $j(".top-link-cart").trigger("click");
 <?php endif;?>
       });
+      
+(function($) {
+            $.fn.formSendMail = function (params) {
+                var $this = $(this);
+                var href = $this.attr('href');
+                var info = $.extend({},params);
+                
+                if (href.indexOf('mailto') >= 0) {
+                    var url = baseUrl + "autelcorto/general/mailto/address/" + encodeURIComponent(href) + "/";
+                    if (info.object) {
+                        url += "object/" + encodeURIComponent(info.object) + "/";
+                    }
+                    var comment = "";
+                    if (info.comment) {
+                        comment = indo.comment;
+                    }
+                    comment += "\nRichiesta Sold Out per prodotto: <?php echo $_product->getSku();?>";
+                    url += "comment/" + encodeURIComponent(comment) + "/";
+                    
+                    if (info.class) {
+                        url += "class/" + encodeURIComponent(info.class) + "/";
+                    }
+                    
+                    $this.fancybox({
+                        autoScale   : true,
+                        padding     : "0",
+                        margin      : "0",
+                        href        : url,
+                        showCloseButton : false ,
+                        onComplete: function () {
+                            if (info.title) {
+                                $j.fn.fancyTitle(info.title);
+                            }
+                        }
+                    });
+                }                
+            }
+    
+})(jQuery)      
 
     </script>
     </div>

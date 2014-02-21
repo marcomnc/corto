@@ -492,8 +492,8 @@ MAge::Log($shippingAsBilling?1:0);
                         $email = $this->_quote->getBillingAddress()->getEmail();
                     }
                     /** @var $newsletterModel Mage_Newsletter_Model_Subscriber */
-                    $newsletterModel = Mage::getModel('newsletter/subscriber');
-                    $newsletterModel->subscribe($email);
+//                    $newsletterModel = Mage::getModel('newsletter/subscriber');
+//                    $newsletterModel->subscribe($email);
                 }
 
                 $redirectUrl = $this->_checkoutSession->getData('redirect_url');

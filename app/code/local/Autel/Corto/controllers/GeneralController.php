@@ -159,13 +159,20 @@ class Autel_Corto_GeneralController extends Mage_Core_Controller_Front_Action
          $mailTo = preg_split("/:/", $mailTo);
 
          $object = urldecode ($this->getRequest()->getParam('object').'');
+         $comment = urldecode ($this->getRequest()->getParam('comment').'');
+         $class = urldecode ($this->getRequest()->getParam('class').'');
 
          if (!isset($mailTo[1])) {
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Invalid Mail Address', true, 500);
                 die();
          }
 
-         $this->getResponse()->setBody($block->setMailTo($mailTo[1])->setObject($object)->toHtmlPopUp());
+         $this->getResponse()
+              ->setBody($block->setMailTo($mailTo[1])
+                              ->setObject($object)
+                              ->setComment($comment)
+                              ->setClass($class)
+                              ->toHtmlPopUp());
      }
      
      public function mailtopostAction() {

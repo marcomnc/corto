@@ -53,7 +53,7 @@ class TBT_Enhancedgrid_Model_Product_Collection_Category_Decorator extends TBT_E
             "{$alias_prefix}category.attribute_id={$category_name_attribute_id}", 'left' );
         
         $collection->groupByAttribute( 'entity_id' );
-        
+      
         return $this;
     
     }

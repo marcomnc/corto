@@ -28,6 +28,26 @@
                 </all>
             </complexType>
 -->            
+            <complexType name="catalogProductEntityAutelArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogProductEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="catalogProductEntityAutel">
+                <all>
+                    <element name="product_id" type="xsd:string"/>
+                    <element name="sku" type="xsd:string"/>
+                    <element name="name" type="xsd:string"/>
+                    <element name="set" type="xsd:string"/>
+                    <element name="type" type="xsd:string"/>
+                    <element name="category_ids" type="typens:ArrayOfString"/>
+                    <element name="website_ids" type="typens:ArrayOfString"/>
+                    <!-- List degli sku figli nel caso di confgurabile -->
+                    <element name="sku_childs" type="typens:ArrayOfString" />
+                </all>
+            </complexType>
             <complexType name="catalogProductMediaFTPParams">
                 <complexContent>                    
                     <all>
@@ -125,6 +145,13 @@
     <message name="catalogProductImportzipResponse">
         <part name="result" type="xsd:int" />
     </message>
+    <message name="catalogProductImportzipProductPriceRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="input" type="xsd:String"/>
+    </message>
+    <message name="catalogProductImportzipProductPriceResponse">
+        <part name="result" type="xsd:int" />
+    </message>
     <message name="catalogProductAttributeSetGetCardinalityRequest">
         <part name="sessionId" type="xsd:string"/>
         <part name="id" type="xsd:String"/>
@@ -160,6 +187,14 @@
     </message>
     <message name="catalogProductAttributeListJSONResponse">
         <part name="result" type="xsd:string" />
+    </message>
+    <message name="catalogProductGetListRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="filters" type="typens:filters"/>
+        <part name="storeView" type="xsd:string"/>
+    </message>
+    <message name="catalogProductGetListResponse">
+        <part name="storeView" type="catalogProductGetList"/>
     </message>
     <portType name="{{var wsdl.handler}}PortType">
 <!-- dichiarazione degli operation. il nome dell'operation è dato dal nome dell'API
@@ -205,6 +240,11 @@
             <input message="typens:catalogProductImportzipRequest"/>
             <output message="typens:catalogProductImportzipResponse"/>
         </operation>             
+        <operation name="catalogProductimportzipProductPrice">
+            <documentation>AUTEL Add or Update Product</documentation>
+            <input message="typens:catalogProductImportzipProductPriceRequest"/>
+            <output message="typens:catalogProductimportzipProductPriceResponse"/>
+        </operation>                     
         <operation name="catalogProductAttributeSetGetCardinality">
             <documentation>AUTEL Get Product Cardinality</documentation>
             <input message="typens:catalogProductAttributeSetGetCardinalityRequest"/>
@@ -229,7 +269,13 @@
             <documentation>AUTEL Get Attribute List in JSON format</documentation>
             <input message="typens:catalogProductAttributeListJSONRequest"/>
             <output message="typens:catalogProductAttributeListJSONResponse"/>
-        </operation>             
+        </operation>  
+        <operation name="catalogProductGetList">
+            <documentation>Retrieve products list by filters with child in case of configurable</documentation>
+            <input message="typens:catalogProductGetListRequest"/>
+            <output message="typens:catalogProductGetListResponse"/>
+        </operation>
+                   
     </portType>
     <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
 <!-- Dichiarazione del binding dell'operation. Copiare una dichiarazione già fatta -->        
@@ -322,6 +368,17 @@
                            encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>        
+        <operation name="catalogProductImportzipProductPrice">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>        
         <operation name="catalogProductAttributeSetGetCardinality">
             <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
             <input>
@@ -367,6 +424,17 @@
             </output>
         </operation>
         <operation name="catalogProductAttributeListJSON">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="catalogProductGetList">
             <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
             <input>
                 <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
